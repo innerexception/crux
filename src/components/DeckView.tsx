@@ -18,6 +18,9 @@ export default () => {
                     <CardView card={c}/>
                 </div>)}
             </div>
+            <div>
+                {me.deck.cards.length > 0 ? <div style={{backgroundImage: 'url('+cardBack+')'}} onClick={()=>onDrawNext()}/> : <div>--Empty--</div>}
+            </div>
         </div>
     )
 }

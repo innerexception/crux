@@ -140,6 +140,7 @@ export default class MapScene extends Scene {
                             }})
                             onUpdateBoardCreature({...card, tapped: true})
                             this.floatResource(sprite.x, sprite.y, IconIndex.Mana, '#ff0000')
+                            //TODO add exausted icon to card
                         }
                     }
                 }
