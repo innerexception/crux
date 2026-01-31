@@ -1,0 +1,16 @@
+MTG clone, lands on terrain, creatures on board
+Turnbased 
+
+1. Deckbuilder
+
+2. Game Map
+    -Generate mana
+    -Place lands
+    -Place creatures on home row
+    -Play sorceries/enchants
+    -Creatures all move forwards by movement value in their lane
+    -Creatures attack if they hit something in their lane, home row arrival results in player damage or land pillaged
+    -Creatures that have died are removed
+    -Creatures that have reached the home row are reset to their origin
+
+3. Campaign Map

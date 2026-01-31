@@ -1,0 +1,80 @@
+interface PhaserResource {
+    key:string
+    resource: any
+    type: string
+    data?: any
+}
+
+interface ManaCost {
+    kind: import('./enum').Color
+    amount: number
+}
+
+interface Card {
+    id:string
+    ownerId:string
+    kind: import('./enum').CardType
+    tapped:boolean
+    newSummon:boolean
+    tileX:number
+    tileY:number
+}
+
+interface CardMeta {
+    color:import('./enum').Color
+    atk?:number
+    def?:number
+    moves?:number
+    cost?: ManaCost[]
+    kind: import('./enum').Permanents
+    modifier: import('./enum').Modifier
+    ability: {
+        cost: ManaCost[]
+        tap: boolean
+        targets?: import('./enum').Permanents
+        specificTargets?: import('./enum').CardType[]
+        effect?: {
+            //TODO
+        }
+    }
+    sprite: import('./enum').CreatureSpriteIndex
+}
+
+interface Deck {
+    id:string
+    name:string
+    cards: Card[]
+}
+
+interface PlayerState {
+    id:string
+    dir: number
+    hand: Card[]
+    deck: Deck
+    discard: Card[]
+    manaPool: Record<import('./enum').Color,number>
+}
+
+interface MatchState {
+    players: PlayerState[]
+    board:Card[]
+}
+
+interface RState {
+    activeModal: import('./enum').Modal
+    isLoaded:boolean
+    saveFile:SaveFile
+    selectedSaveName: string
+    inspectCardId: string
+    selectedCardId: string
+    currentMatch:MatchState
+    scene: import('./src/components/scenes/MapScene').default
+}
+
+interface SaveFile {
+    myId:string
+    name:string
+    decks:Deck[]
+    currentDeckId: string
+    cards:Card[]
+}
