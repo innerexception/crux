@@ -62,6 +62,25 @@ export const canAfford = (mana:Record<Color,number>, c:Card) => {
     return true
 }
 
+export const payCost = (mana:Record<Color,number>, cost:ManaCost[]) => {
+    cost.filter(c=>c.kind!==Color.None).forEach(c=>{
+        mana[c.kind]-=c.amount
+    })
+    const colorless = cost.find(c=>c.kind===Color.None)
+    if(colorless){
+        let amt = colorless.amount
+        while(amt > 0){
+            Object.keys(mana).forEach(color=>{
+                if(mana[color]>0 && amt > 0){
+                    mana[color]--
+                    amt--
+                } 
+            })
+        }
+    }
+    return mana
+}
+
 export const trySaveFile = async (json:string) => {
     // try{
     //     console.log('invoke save')

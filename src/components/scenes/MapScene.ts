@@ -4,7 +4,7 @@ import { CardType, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, Scene
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
-import { isPassableTile, transitionIn, transitionOut } from "../../common/Utils";
+import { isPassableTile, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { CardData } from "../../common/Cards";
 
 const TILE_DIM=16
