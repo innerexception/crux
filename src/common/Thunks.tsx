@@ -4,6 +4,10 @@ import IntroScene from "../components/scenes/IntroScene"
 import MapScene from "../components/scenes/MapScene"
 import { transitionIn, transitionOut } from "./Utils"
 
+export const onEndTurn = () => {
+    store.getState().scene.endTurn()
+}
+
 export const onUpdateBoardCreature = (cd:Card) => {
     const d = store.getState().currentMatch.board.map(c=>c.id === cd.id ? cd : c)
     onUpdateBoard(d)

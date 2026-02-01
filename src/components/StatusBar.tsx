@@ -3,7 +3,7 @@ import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { IconIndex, Modal } from '../../enum';
 import { Button, CreatureIcon, CssIcon, ProgressBar } from '../common/Shared';
-import { onShowModal } from '../common/Thunks';
+import { onEndTurn, onShowModal } from '../common/Thunks';
 
 export default () => {
 

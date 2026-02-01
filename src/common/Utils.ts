@@ -62,7 +62,8 @@ export const canAfford = (mana:Record<Color,number>, c:Card) => {
     return true
 }
 
-export const payCost = (mana:Record<Color,number>, cost:ManaCost[]) => {
+export const payCost = (mana:Record<Color,number>, cost?:ManaCost[]):Record<Color,number> => {
+    if(!cost) return mana
     cost.filter(c=>c.kind!==Color.None).forEach(c=>{
         mana[c.kind]-=c.amount
     })

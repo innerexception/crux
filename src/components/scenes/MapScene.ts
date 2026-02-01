@@ -61,6 +61,13 @@ export default class MapScene extends Scene {
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
     }
 
+    endTurn = () => {
+        //TODO
+        //1. move creatures
+        //2. resolve combats
+        //3. set next player, reset player resources
+    }
+
     createSelectIcon = () => {
         this.selectIcon = this.add.image(0, 0, 'selected').setDepth(3).setVisible(false)
     }
@@ -100,7 +107,7 @@ export default class MapScene extends Scene {
             else {
                 this.origDragPoint = null;
             }
-            if(this.creaturePreview){
+            if(this.creaturePreview && this.validStartTile(tile)){
                 this.creaturePreview.x = tile.getCenterX()
                 this.creaturePreview.y = tile.getCenterY()
                 return
@@ -122,11 +129,9 @@ export default class MapScene extends Scene {
                     if(state.selectedCardId){
                         const card = me.hand.find(c=>c.id === state.selectedCardId)
                         if(CardData[card.kind].kind === Permanents.Enchantment){
-                            //TODO: apply to creature
                             return this.applyEnchantment(sprite, card)
                         }
                         if(CardData[card.kind].kind === Permanents.Sorcery){
-                            //TODO: apply to creature
                             return this.applySorcery(sprite, card)
                         }
                     }
@@ -144,10 +149,19 @@ export default class MapScene extends Scene {
                         }
                     }
                 }
-                else if(GameObjects.length === 0 && state.selectedCardId)
+                else if(GameObjects.length === 0 && state.selectedCardId && this.validStartTile(tile))
                     this.addCreature(state.selectedCardId, tile.pixelX, tile.pixelY)
             }
         })
+    }
+
+    validStartTile = (t:Tilemaps.Tile) => {
+        const state = store.getState() 
+        const me = state.currentMatch.players.find(p=>p.id === state.saveFile.myId)
+        if(me.dir === -1){
+            return t.y > this.map.height-3
+        }
+        else return t.y < 3
     }
 
     applySorcery = (s:CreatureSprite, card:Card) => {
