@@ -24,6 +24,8 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
             return { ...state, selectedCardId: action.data }
         case UIReducerActions.SET_SCENE:
             return { ...state, scene: action.data }
+        case UIReducerActions.UPDATE_ACTIVE:
+            return { ...state, currentMatch: {...state.currentMatch, activePlayerId: action.data }}
         case UIReducerActions.UPDATE_BOARD:
             return { ...state, currentMatch: {...state.currentMatch, board: action.data }}
         case UIReducerActions.UPDATE_PLAYER:

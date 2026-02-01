@@ -2,9 +2,9 @@ import { Scene, GameObjects, Tilemaps, Time } from "phaser";
 import { store } from "../../..";
 import { CardType, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, SceneNames } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
-import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
+import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
-import { isPassableTile, payCost, transitionIn, transitionOut } from "../../common/Utils";
+import { emptyMana, isPassableTile, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { CardData } from "../../common/Cards";
 
 const TILE_DIM=16
@@ -18,12 +18,12 @@ export default class MapScene extends Scene {
     origDragPoint: Phaser.Math.Vector2
     g:GameObjects.Graphics
     sounds: {[key:string]:Phaser.Sound.BaseSound}
-    creatures: {[key:string]:CreatureSprite}
+    creatures: CreatureSprite[]
     creaturePreview:GameObjects.Image
 
     constructor(config){
         super(config)
-        this.creatures = {}
+        this.creatures = []
         this.sounds = {}
         onSetScene(this)
     }
@@ -49,11 +49,11 @@ export default class MapScene extends Scene {
         let grass = this.map.addTilesetImage('terrain', 'tiles', TILE_DIM,TILE_DIM,1,2)
         LayerStack.forEach(l=>this.map.createLayer(l, grass))
 
-        Object.keys(this.creatures).forEach(e=>this.creatures[e].destroy())
-        this.creatures = {}
+        this.creatures.forEach(e=>e.destroy())
+        this.creatures = []
         mySave.board.forEach(c=>{
             const player = mySave.players.find(p=>p.id === c.ownerId)
-            this.creatures[c.id] = new CreatureSprite(this, this.map.tileToWorldX(c.tileX), this.map.tileToWorldY(c.tileY), CardData[c.kind].sprite, c.id, player.dir)
+            this.creatures.push(new CreatureSprite(this, this.map.tileToWorldX(c.tileX), this.map.tileToWorldY(c.tileY), CardData[c.kind].sprite, c.id, player.dir))
         })
         
         this.cameras.main.setZoom(2)
@@ -61,11 +61,31 @@ export default class MapScene extends Scene {
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
     }
 
-    endTurn = () => {
+    endTurn = async () => {
         //TODO
-        //1. move creatures
-        //2. resolve combats
-        //3. set next player, reset player resources
+        const match = store.getState().currentMatch
+        const currentI = match.players.findIndex(p=>p.id === match.activePlayerId)
+        const current = match.players[currentI]
+        
+        //1. move creatures / resolve combats
+        const mine = this.creatures.filter(c=>match.board.find(cr=>cr.id===c.id && cr.ownerId === current.id))
+        for(let i=0;i<mine.length;i++){
+            await mine[i].tryMoveNext()
+        }
+        //2. set next player
+        const nextI = (currentI+1)%match.players.length
+        const nextPlayer = match.players[nextI]
+        onUpdateActivePlayer(nextPlayer.id)
+
+        //3.reset player resources
+        nextPlayer.manaPool = {...emptyMana}
+        match.board.forEach(c=>{
+            if(c.ownerId === nextPlayer.id){
+                c.tapped = false
+                c.newSummon = false
+                //TODO: add/remove timed effects
+            }
+        })
     }
 
     createSelectIcon = () => {
@@ -179,7 +199,7 @@ export default class MapScene extends Scene {
         const me = state.currentMatch.players.find(p=>p.id === state.saveFile.myId)
         const card = me.hand.find(c=>c.id === cardId)
         const data = CardData[card.kind]
-        this.creatures[card.id] = new CreatureSprite(this, worldX,worldY, data.sprite, card.id, me.dir)
+        this.creatures.push(new CreatureSprite(this, worldX,worldY, data.sprite, card.id, me.dir))
         const t = this.map.getTileAtWorldXY(worldX,worldY,false, undefined, Layers.Earth)
         onUpdateBoard(state.currentMatch.board.concat({...card, tileX:t.x, tileY:t.y}))
         onUpdatePlayer({...me, hand: me.hand.filter(c=>c.id !== cardId), manaPool: payCost(me.manaPool, data.cost)})

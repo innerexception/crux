@@ -56,6 +56,7 @@ interface PlayerState {
 }
 
 interface MatchState {
+    activePlayerId:string
     players: PlayerState[]
     board:Card[]
 }

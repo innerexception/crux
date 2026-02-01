@@ -53,7 +53,8 @@ export default class CreatureSprite extends GameObjects.Image {
     }
 
     destroy(){
-        delete this.scene.creatures[this.id]
+        const i = this.scene.creatures.findIndex(s=>s.id === this.id)
+        this.scene.creatures.splice(i,1)
         super.destroy()
         this.icon?.destroy()
     }

@@ -5,7 +5,7 @@ import { CardData, getAIDeck } from "./Cards"
 import { SAVE_NAMES } from "./UIReducer"
 import{ v4 } from 'uuid'
 
-const emptyMana = {
+export const emptyMana = {
     [Color.Black]:0,
     [Color.Blue]:0,
     [Color.Green]:0,
@@ -17,6 +17,7 @@ const emptyMana = {
 export const getNewMatch = (s:SaveFile, selectedDeck:Deck, ):MatchState => {
     const hand = selectedDeck.cards.splice(0,5)
     return {
+        activePlayerId: s.myId,
         board:[],
         players: [
             {
