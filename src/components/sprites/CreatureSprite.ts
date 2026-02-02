@@ -39,7 +39,7 @@ export default class CreatureSprite extends GameObjects.Image {
             if(this.scene.validEndTile(myTile, owner.dir, true)){
                 const enemy = state.players.find(p=>p.id !== creature.ownerId)
                 onUpdatePlayer({...enemy, hp: enemy.hp-CardData[creature.kind].atk})
-                const startTile = this.scene.map.getTileAt(myTile.x, this.dir === Direction.NORTH ? 2 : this.scene.map.height-2, false, Layers.Earth)
+                const startTile = this.scene.map.getTileAt(myTile.x, this.dir === Direction.NORTH ? this.scene.northCreatures[0].y : this.scene.southCreatures[0].y, false, Layers.Earth)
                 onUpdateBoardCreature({...creature, tileY: startTile.y})
                 return this.setPosition(startTile.pixelX,startTile.pixelY)
             }
