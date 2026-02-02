@@ -1,8 +1,8 @@
 import { GameObjects, Time } from "phaser"
 import { store } from "../../.."
-import { CreatureSpriteIndex, Layers } from "../../../enum"
+import { CreatureSpriteIndex, Direction, Layers } from "../../../enum"
 import { CardData } from "../../common/Cards"
-import { onUpdateBoard, onUpdateBoardCreature } from "../../common/Thunks"
+import { onUpdateBoardCreature } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
 
 export default class CreatureSprite extends GameObjects.Image {
@@ -25,13 +25,23 @@ export default class CreatureSprite extends GameObjects.Image {
         const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
         let next = this.scene.map.getTileAt(myTile.x, myTile.y+this.dir, false, Layers.Earth)
         let creature = store.getState().currentMatch.board.find(c=>c.id === this.id)
+        let owner = store.getState().currentMatch.players.find(p=>p.id === creature.ownerId)
         for(let i=0;i<CardData[creature.kind].moves;i++){
+            //TODO: targets in range, and able to be targeted by us
             const target = store.getState().currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
             if(target){
-                //TODO combat resolution
-
+                await this.fight(target)
+                return
             }
             creature = store.getState().currentMatch.board.find(c=>c.id === this.id)
+            //TODO: if we are on last row, deal player dmg and reset to start of column (if not ephemeral)
+            if(this.scene.validEndTile(myTile, owner.dir)){
+                
+                const startTile = this.scene.map.getTileAt(myTile.x, this.dir === Direction.NORTH ? 2 : this.scene.map.height-2, false, Layers.Earth)
+                onUpdateBoardCreature({...creature, tileY: startTile.y})
+                this.setPosition(startTile.getCenterX(),startTile.getCenterY())
+            }
+
             if(creature)
                 await new Promise((resolve)=>{
                     this.scene.tweens.add({
@@ -50,6 +60,15 @@ export default class CreatureSprite extends GameObjects.Image {
                     })
                 })
         }
+    }
+
+    fight = async (target:Card) => {
+        //TODO: fight it out
+        //If target is land, apply pillage (tap land until end of controller's next turn)
+        //0. modifier effects go off
+        //1. def - atk
+        //2. remove units w <= 0 def to discard
+        //3. death effects
     }
 
     destroy(){

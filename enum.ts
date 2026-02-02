@@ -19,6 +19,10 @@ export enum Modal {
     Deckbuilder='Deckbuilder'
 }
 
+export enum Direction {
+    NORTH=1,SOUTH=-1
+}
+
 export enum SceneNames {
     Loading='loading', Main='main', Intro='intro'
 }

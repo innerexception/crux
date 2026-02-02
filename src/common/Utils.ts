@@ -1,5 +1,5 @@
 import { GameObjects, Geom, Scene } from "phaser"
-import { Color, Layers, Permanents } from "../../enum"
+import { Color, Direction, Layers, Permanents } from "../../enum"
 import MapScene from "../components/scenes/MapScene"
 import { CardData, getAIDeck } from "./Cards"
 import { SAVE_NAMES } from "./UIReducer"
@@ -22,7 +22,7 @@ export const getNewMatch = (s:SaveFile, selectedDeck:Deck, ):MatchState => {
         players: [
             {
                 id:s.myId,
-                dir:-1,
+                dir:Direction.SOUTH,
                 hand,
                 deck: selectedDeck,
                 discard: [],
@@ -33,7 +33,7 @@ export const getNewMatch = (s:SaveFile, selectedDeck:Deck, ):MatchState => {
     }
 }
 
-export const getAIPlayer = (dir:number):PlayerState => {
+export const getAIPlayer = (dir:Direction):PlayerState => {
     const id = v4()
     const deck = getAIDeck(id)
     const hand = deck.splice(0,5)

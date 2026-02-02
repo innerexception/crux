@@ -1,6 +1,6 @@
 import { Scene, GameObjects, Tilemaps, Time } from "phaser";
 import { store } from "../../..";
-import { CardType, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, SceneNames } from "../../../enum";
+import { CardType, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, SceneNames } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
@@ -20,6 +20,7 @@ export default class MapScene extends Scene {
     sounds: {[key:string]:Phaser.Sound.BaseSound}
     creatures: CreatureSprite[]
     creaturePreview:GameObjects.Image
+    myDir:Direction
 
     constructor(config){
         super(config)
@@ -44,6 +45,7 @@ export default class MapScene extends Scene {
     initMap = () => {
         
         const mySave= store.getState().currentMatch
+        this.myDir = mySave.players.find(p=>p.id === store.getState().saveFile.myId).dir
         this.map?.destroy()
         this.map = this.add.tilemap(Maps.Tutorial)
         let grass = this.map.addTilesetImage('terrain', 'tiles', TILE_DIM,TILE_DIM,1,2)
@@ -62,7 +64,6 @@ export default class MapScene extends Scene {
     }
 
     endTurn = async () => {
-        //TODO
         const match = store.getState().currentMatch
         const currentI = match.players.findIndex(p=>p.id === match.activePlayerId)
         const current = match.players[currentI]
@@ -127,7 +128,7 @@ export default class MapScene extends Scene {
             else {
                 this.origDragPoint = null;
             }
-            if(this.creaturePreview && this.validStartTile(tile)){
+            if(this.creaturePreview && this.validStartTile(tile, this.myDir)){
                 this.creaturePreview.x = tile.getCenterX()
                 this.creaturePreview.y = tile.getCenterY()
                 return
@@ -143,8 +144,8 @@ export default class MapScene extends Scene {
             let tile = this.map?.getTileAtWorldXY(this.input.activePointer.worldX, this.input.activePointer.worldY, false, undefined, Layers.Earth)
             if(tile){
                 if(GameObjects.length > 0){
-                    const sprite = GameObjects[0] as CreatureSprite
                     const me = state.currentMatch.players.find(p=>p.id === state.saveFile.myId)
+                    const sprite = GameObjects[0] as CreatureSprite
                     //determine card action
                     if(state.selectedCardId){
                         const card = me.hand.find(c=>c.id === state.selectedCardId)
@@ -169,19 +170,24 @@ export default class MapScene extends Scene {
                         }
                     }
                 }
-                else if(GameObjects.length === 0 && state.selectedCardId && this.validStartTile(tile))
+                else if(GameObjects.length === 0 && state.selectedCardId && this.validStartTile(tile, this.myDir))
                     this.addCreature(state.selectedCardId, tile.pixelX, tile.pixelY)
             }
         })
     }
 
-    validStartTile = (t:Tilemaps.Tile) => {
-        const state = store.getState() 
-        const me = state.currentMatch.players.find(p=>p.id === state.saveFile.myId)
-        if(me.dir === -1){
-            return t.y > this.map.height-3
+    validStartTile = (t:Tilemaps.Tile, dir:Direction) => {
+        if(dir === Direction.SOUTH){
+            return t.y === this.map.height-2
         }
-        else return t.y < 3
+        else return t.y == 2
+    }
+
+    validEndTile = (t:Tilemaps.Tile, dir:Direction) => {
+        if(dir === Direction.NORTH){
+            return t.y === this.map.height-2
+        }
+        else return t.y == 2
     }
 
     applySorcery = (s:CreatureSprite, card:Card) => {
