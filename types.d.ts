@@ -48,6 +48,7 @@ interface Deck {
 
 interface PlayerState {
     id:string
+    hp:number
     dir: import('./enum').Direction
     hand: Card[]
     deck: Deck

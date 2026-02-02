@@ -2,7 +2,7 @@ import { GameObjects, Time } from "phaser"
 import { store } from "../../.."
 import { CreatureSpriteIndex, Direction, Layers } from "../../../enum"
 import { CardData } from "../../common/Cards"
-import { onUpdateBoardCreature } from "../../common/Thunks"
+import { onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
 
 export default class CreatureSprite extends GameObjects.Image {
@@ -24,8 +24,9 @@ export default class CreatureSprite extends GameObjects.Image {
     tryMoveNext = async () => {
         const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
         let next = this.scene.map.getTileAt(myTile.x, myTile.y+this.dir, false, Layers.Earth)
-        let creature = store.getState().currentMatch.board.find(c=>c.id === this.id)
-        let owner = store.getState().currentMatch.players.find(p=>p.id === creature.ownerId)
+        const state = store.getState().currentMatch
+        let creature = state.board.find(c=>c.id === this.id)
+        let owner = state.players.find(p=>p.id === creature.ownerId)
         for(let i=0;i<CardData[creature.kind].moves;i++){
             //TODO: targets in range, and able to be targeted by us
             const target = store.getState().currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
@@ -35,19 +36,20 @@ export default class CreatureSprite extends GameObjects.Image {
             }
             creature = store.getState().currentMatch.board.find(c=>c.id === this.id)
             //TODO: if we are on last row, deal player dmg and reset to start of column (if not ephemeral)
-            if(this.scene.validEndTile(myTile, owner.dir)){
-                
+            if(this.scene.validEndTile(myTile, owner.dir, true)){
+                const enemy = state.players.find(p=>p.id !== creature.ownerId)
+                onUpdatePlayer({...enemy, hp: enemy.hp-CardData[creature.kind].atk})
                 const startTile = this.scene.map.getTileAt(myTile.x, this.dir === Direction.NORTH ? 2 : this.scene.map.height-2, false, Layers.Earth)
                 onUpdateBoardCreature({...creature, tileY: startTile.y})
-                this.setPosition(startTile.getCenterX(),startTile.getCenterY())
+                return this.setPosition(startTile.pixelX,startTile.pixelY)
             }
 
             if(creature)
                 await new Promise((resolve)=>{
                     this.scene.tweens.add({
                         targets: this,    
-                        x: next.getCenterX(),
-                        y: next.getCenterY(),
+                        x: next.pixelX,
+                        y: next.pixelY,
                         ease: 'Stepped',
                         easeParams: [2],
                         duration: 500,

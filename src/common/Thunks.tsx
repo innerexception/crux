@@ -30,10 +30,12 @@ export const onInspectCreature = (c:string) => {
 }
 
 export const onSelectCreature = (c:string, k:CardType) => {
+    const state = store.getState()
     if(k){
-        const state = store.getState()
         state.scene.startPreview(k)
+        state.scene.showCardTargets(true)
     }
+    else state.scene.showCardTargets(false)
     store.dispatch({ type: UIReducerActions.SELECT_CARD, data: c })
 }
 

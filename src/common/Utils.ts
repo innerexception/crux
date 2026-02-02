@@ -22,6 +22,7 @@ export const getNewMatch = (s:SaveFile, selectedDeck:Deck, ):MatchState => {
         players: [
             {
                 id:s.myId,
+                hp:20,
                 dir:Direction.SOUTH,
                 hand,
                 deck: selectedDeck,
@@ -39,6 +40,7 @@ export const getAIPlayer = (dir:Direction):PlayerState => {
     const hand = deck.splice(0,5)
     return {
         id,
+        hp:20,
         dir,
         hand,
         deck: {
@@ -202,3 +204,38 @@ export const shuffle = (array:Array<any>) => {
 
     return Array.from(array);
 }
+
+export const drawRectSegment = (graphics, x, y, w, h, start, end) => {
+    const edges = [
+        { x1: x,     y1: y,     x2: x + w, y2: y     }, // top
+        { x1: x + w, y1: y,     x2: x + w, y2: y + h }, // right
+        { x1: x + w, y1: y + h, x2: x,     y2: y + h }, // bottom
+        { x1: x,     y1: y + h, x2: x,     y2: y     }  // left
+    ];
+
+    let edgeStart = 0;
+
+    for (const e of edges) {
+        const edgeLength = Phaser.Math.Distance.Between(
+            e.x1, e.y1, e.x2, e.y2
+        );
+
+        if (start < edgeStart + edgeLength) {
+            const s = Math.max(0, start - edgeStart);
+            const t = Math.min(edgeLength, end - edgeStart);
+
+            const angle = Math.atan2(e.y2 - e.y1, e.x2 - e.x1);
+
+            graphics.lineBetween(
+                e.x1 + Math.cos(angle) * s,
+                e.y1 + Math.sin(angle) * s,
+                e.x1 + Math.cos(angle) * t,
+                e.y1 + Math.sin(angle) * t
+            );
+        }
+
+        edgeStart += edgeLength;
+        if (edgeStart > end) break;
+    }
+}
+

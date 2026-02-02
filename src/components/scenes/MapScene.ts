@@ -1,13 +1,15 @@
-import { Scene, GameObjects, Tilemaps, Time } from "phaser";
+import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
 import { CardType, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, SceneNames } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
-import { emptyMana, isPassableTile, payCost, transitionIn, transitionOut } from "../../common/Utils";
+import { drawRectSegment, emptyMana, isPassableTile, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { CardData } from "../../common/Cards";
 
 const TILE_DIM=16
+const FIELD_WIDTH=6
+const FIELD_HEIGHT=3
 
 export default class MapScene extends Scene {
 
@@ -21,7 +23,11 @@ export default class MapScene extends Scene {
     creatures: CreatureSprite[]
     creaturePreview:GameObjects.Image
     myDir:Direction
-
+    northLands:Tilemaps.Tile[]
+    northCreatures:Tilemaps.Tile[]
+    southLands:Tilemaps.Tile[]
+    southCreatures:Tilemaps.Tile[]
+    
     constructor(config){
         super(config)
         this.creatures = []
@@ -31,7 +37,7 @@ export default class MapScene extends Scene {
 
     create = () =>
     {
-        this.g = this.add.graphics().setDefaultStyles({ lineStyle: { width:1, color:0xfff }}).setDepth(7)
+        this.g = this.add.graphics().setDefaultStyles({ lineStyle: { width:0.5, color:0xffffff, alpha:1 }}).setDepth(7)
         this.add.tileSprite(0,0,this.cameras.main.displayWidth,this.cameras.main.displayHeight*2, 'bg').setOrigin(0,0).setScale(1)
         this.createSelectIcon()
         this.input.mouse.disableContextMenu()
@@ -51,6 +57,12 @@ export default class MapScene extends Scene {
         let grass = this.map.addTilesetImage('terrain', 'tiles', TILE_DIM,TILE_DIM,1,2)
         LayerStack.forEach(l=>this.map.createLayer(l, grass))
 
+        const midTile = this.map.getTileAt(this.map.width/2, this.map.height/2, false, Layers.Earth)
+        this.northLands = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y-FIELD_HEIGHT, FIELD_WIDTH*2, 1)
+        this.northCreatures = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y-(FIELD_HEIGHT+1), FIELD_WIDTH*2, 1)
+        this.southLands = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y+FIELD_HEIGHT, FIELD_WIDTH*2, 1)
+        this.southCreatures = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y+(FIELD_HEIGHT-1), FIELD_WIDTH*2, 1)
+        
         this.creatures.forEach(e=>e.destroy())
         this.creatures = []
         mySave.board.forEach(c=>{
@@ -63,6 +75,29 @@ export default class MapScene extends Scene {
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
     }
 
+    drawMarchingDashedRect(
+        rect:Geom.Rectangle,
+        offset = 0
+    ) {
+        let {x, y, width, height} = rect
+        width-=2
+        height-=2
+        const dashLength = 5, gapLength = 2
+        const perimeter = 2 * (width + height);
+        const step = dashLength + gapLength;
+    
+        let dist = offset % step;
+        if (dist < 0) dist += step;
+    
+        while (dist < perimeter) {
+            const start = dist;
+            const end = Math.min(dist + dashLength, perimeter);
+    
+            drawRectSegment(this.g, x, y, width, height, start, end);
+            dist += step;
+        }
+    }
+    
     endTurn = async () => {
         const match = store.getState().currentMatch
         const currentI = match.players.findIndex(p=>p.id === match.activePlayerId)
@@ -85,6 +120,45 @@ export default class MapScene extends Scene {
                 c.tapped = false
                 c.newSummon = false
                 //TODO: add/remove timed effects
+            }
+        })
+    }
+
+    showCardTargets = (show:boolean) => {
+        this.g.clear()
+        if(!show) return
+        this.time.addEvent({
+            delay:250,
+            callback: () => {
+                const state = store.getState()
+                const me = state.currentMatch.players.find(p=>p.id === state.saveFile.myId)
+                const card = me.hand.find(c=>c.id === state.selectedCardId)
+                if(CardData[card.kind].kind === Permanents.Land){
+                    if(me.dir === Direction.NORTH){
+                        this.northLands.forEach(t=>{
+                            this.drawMarchingDashedRect(t.getBounds() as Geom.Rectangle)
+                        })
+                    }
+                    else this.southLands.forEach(t=>{
+                        this.drawMarchingDashedRect(t.getBounds() as Geom.Rectangle)
+                    })
+                }
+                else if(CardData[card.kind].kind === Permanents.Creature){
+                    if(me.dir === Direction.NORTH){
+                        this.northCreatures.forEach(t=>{
+                            this.drawMarchingDashedRect(t.getBounds() as Geom.Rectangle)
+                        })
+                    }
+                    else this.southCreatures.forEach(t=>{
+                        this.drawMarchingDashedRect(t.getBounds() as Geom.Rectangle)
+                    })
+                }
+                else if(CardData[card.kind].kind === Permanents.Enchantment){
+                    //TODO: get all creatures tiles and highlight
+                }
+                else if(CardData[card.kind].kind === Permanents.Sorcery){
+                    //TODO: get all creatures & land tiles and highlight
+                }
             }
         })
     }
@@ -128,7 +202,7 @@ export default class MapScene extends Scene {
             else {
                 this.origDragPoint = null;
             }
-            if(this.creaturePreview && this.validStartTile(tile, this.myDir)){
+            if(tile && this.creaturePreview){
                 this.creaturePreview.x = tile.getCenterX()
                 this.creaturePreview.y = tile.getCenterY()
                 return
@@ -143,8 +217,8 @@ export default class MapScene extends Scene {
             const state = store.getState()
             let tile = this.map?.getTileAtWorldXY(this.input.activePointer.worldX, this.input.activePointer.worldY, false, undefined, Layers.Earth)
             if(tile){
+                const me = state.currentMatch.players.find(p=>p.id === state.saveFile.myId)
                 if(GameObjects.length > 0){
-                    const me = state.currentMatch.players.find(p=>p.id === state.saveFile.myId)
                     const sprite = GameObjects[0] as CreatureSprite
                     //determine card action
                     if(state.selectedCardId){
@@ -170,24 +244,36 @@ export default class MapScene extends Scene {
                         }
                     }
                 }
-                else if(GameObjects.length === 0 && state.selectedCardId && this.validStartTile(tile, this.myDir))
-                    this.addCreature(state.selectedCardId, tile.pixelX, tile.pixelY)
+                else if(GameObjects.length === 0 && state.selectedCardId){
+                    const card = me.hand.find(c=>c.id === state.selectedCardId)
+                    if(this.validStartTile(tile, this.myDir, CardData[card.kind].kind === Permanents.Land)){
+                        this.addCreature(state.selectedCardId, tile.pixelX, tile.pixelY)
+                    }
+                }
             }
         })
     }
 
-    validStartTile = (t:Tilemaps.Tile, dir:Direction) => {
+    validStartTile = (t:Tilemaps.Tile, dir:Direction, land:boolean) => {
         if(dir === Direction.SOUTH){
-            return t.y === this.map.height-2
+            if(land) return this.southLands.find(l=>l.x===t.x&&l.y===t.y)
+            return this.southCreatures.find(l=>l.x===t.x&&l.y===t.y)
         }
-        else return t.y == 2
+        else{
+            if(land) this.northLands.find(l=>l.x===t.x&&l.y===t.y)
+            return this.northCreatures.find(l=>l.x===t.x&&l.y===t.y)
+        } 
     }
 
-    validEndTile = (t:Tilemaps.Tile, dir:Direction) => {
+    validEndTile = (t:Tilemaps.Tile, dir:Direction, land:boolean) => {
         if(dir === Direction.NORTH){
-            return t.y === this.map.height-2
+            if(land) return this.southLands.find(l=>l.x===t.x&&l.y===t.y)
+            return this.southCreatures.find(l=>l.x===t.x&&l.y===t.y)
         }
-        else return t.y == 2
+        else{
+            if(land) this.northLands.find(l=>l.x===t.x&&l.y===t.y)
+            return this.northCreatures.find(l=>l.x===t.x&&l.y===t.y)
+        } 
     }
 
     applySorcery = (s:CreatureSprite, card:Card) => {
