@@ -17,8 +17,7 @@ export default () => {
             </div>
             <div style={{display:'flex', flexWrap:'wrap', width:'400px', justifyContent:'flex-end', alignItems:'center'}}>
                 <Button enabled={true} style={{marginRight:'25px'}}  text="End Turn" icon={IconIndex.Quit} handler={()=>onEndTurn()}/>
-                <Button enabled={true} style={{marginRight:'25px'}}  text="Option" icon={IconIndex.Options} handler={()=>onShowModal(Modal.Options)}/>
-                <Button enabled={true} text="Exit" icon={IconIndex.Close} handler={()=>onShowModal(Modal.NewGame)}/>
+                <Button enabled={true} text="Exit" icon={IconIndex.Options} handler={()=>onShowModal(Modal.NewGame)}/>
             </div>
         </div>
     )
