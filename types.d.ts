@@ -34,7 +34,8 @@ interface CardMeta {
         targets?: import('./enum').Permanents
         specificTargets?: import('./enum').CardType[]
         effect?: {
-            //TODO
+            dmg?:number
+            removal?:boolean
         }
     }
     sprite: import('./enum').CreatureSpriteIndex
@@ -54,6 +55,7 @@ interface PlayerState {
     deck: Deck
     discard: Card[]
     manaPool: Record<import('./enum').Color,number>
+    isAI:boolean
 }
 
 interface MatchState {

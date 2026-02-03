@@ -90,7 +90,7 @@ export const ProgressBar = (props:{value:number, max:number, bg:string}) =>
     </div>
 
 export const VerticalProgressBar = (props:{value:number, max:number, bg:string}) => 
-    <div style={{width:'36px', height:'84px', border:'2px solid white', position:'relative'}}>
+    <div style={{width:'36px', height:'100px', border:'2px solid white', position:'relative'}}>
         <div style={{background:props.bg, backgroundSize:'32px', height:Math.round((props.value/props.max)*100)+'%', width:'100%',position:"absolute", bottom:0}}/>
     </div>
 

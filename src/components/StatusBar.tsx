@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 import { IconIndex, Modal } from '../../enum';
 import { Button, CreatureIcon, CssIcon, ProgressBar } from '../common/Shared';
 import { onEndTurn, onShowModal } from '../common/Thunks';
+import { colors } from '../styles/AppStyles';
 
 export default () => {
 
     const me = useSelector((state:RState)=>state.currentMatch.players.find(p=>p.id === state.saveFile.myId))
- 
     return (
         <div style={{width:'100%', height:'32px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
             <div style={{display:'flex'}}>

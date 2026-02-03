@@ -4,7 +4,7 @@ import { CardType, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Perman
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
-import { drawRectSegment, emptyMana, isPassableTile, payCost, transitionIn, transitionOut } from "../../common/Utils";
+import { canAfford, drawRectSegment, emptyMana, isPassableTile, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { CardData } from "../../common/Cards";
 
 const TILE_DIM=16
@@ -63,6 +63,9 @@ export default class MapScene extends Scene {
         this.southLands = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y+FIELD_HEIGHT, FIELD_WIDTH*2, 1)
         this.southCreatures = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y+(FIELD_HEIGHT-1), FIELD_WIDTH*2, 1)
         
+        const g = this.add.graphics().setDefaultStyles({ lineStyle: { width:0.5, color:0xffffff, alpha:1 }}).setDepth(7)
+        g.strokeRect(midTile.pixelX-(FIELD_WIDTH*TILE_DIM), midTile.pixelY-(FIELD_HEIGHT*TILE_DIM), FIELD_WIDTH*2*TILE_DIM, FIELD_HEIGHT*2*TILE_DIM)
+
         this.creatures.forEach(e=>e.destroy())
         this.creatures = []
         mySave.board.forEach(c=>{
@@ -122,6 +125,38 @@ export default class MapScene extends Scene {
                 //TODO: add/remove timed effects
             }
         })
+
+        if(nextPlayer.isAI){
+            this.runAITurn()
+        }
+
+    }
+
+    runAITurn = async () => {
+        const state=store.getState().currentMatch
+        const p = state.players.find(p=>p.id === state.activePlayerId)
+        state.board.filter(c=>CardData[c.kind].kind === Permanents.Land && c.ownerId === p.id && !c.tapped).forEach(l=>{
+            l.tapped=true
+            const color = CardData[l.kind].color
+            p.manaPool[color]+=CardData[l.kind].ability.cost[0].amount
+        })
+        //TODO: basic counter play
+        const enemies = state.board.filter(c=>c.ownerId !== p.id).map(c=>this.creatures.find(s=>s.id === c.id))
+        const creatureSorceries = p.hand.find(c=>
+            canAfford(p.manaPool,c) &&
+            CardData[c.kind].ability.targets === Permanents.Creature && 
+            (CardData[c.kind].ability.effect.dmg || CardData[c.kind].ability.effect.removal))
+        if(creatureSorceries){
+            this.applySorcery(enemies[0], creatureSorceries)
+            p.manaPool = payCost(p.manaPool, CardData[creatureSorceries.kind].cost)
+        }
+        const creature = p.hand.find(c=>CardData[c.kind].kind === Permanents.Creature && canAfford(p.manaPool,c))
+        if(creature){
+            this.addCreature(creature.id, tile.pixelX, tile.pixelY)
+        }
+        //TODO: use creature abilities
+        
+        this.endTurn()
     }
 
     showCardTargets = (show:boolean) => {
@@ -288,7 +323,7 @@ export default class MapScene extends Scene {
         this.creaturePreview.destroy()
         onSelectCreature('',null)
         const state = store.getState()
-        const me = state.currentMatch.players.find(p=>p.id === state.saveFile.myId)
+        const me = state.currentMatch.players.find(p=>p.id === state.currentMatch.activePlayerId)
         const card = me.hand.find(c=>c.id === cardId)
         const data = CardData[card.kind]
         this.creatures.push(new CreatureSprite(this, worldX,worldY, data.sprite, card.id, me.dir))

@@ -27,7 +27,8 @@ export const getNewMatch = (s:SaveFile, selectedDeck:Deck, ):MatchState => {
                 hand,
                 deck: selectedDeck,
                 discard: [],
-                manaPool:{...emptyMana}
+                manaPool:{...emptyMana},
+                isAI: false
             },
             getAIPlayer(1)
         ]
@@ -49,7 +50,8 @@ export const getAIPlayer = (dir:Direction):PlayerState => {
             name: 'ai basic'
         },
         discard: [],
-        manaPool:{...emptyMana}
+        manaPool:{...emptyMana},
+        isAI: true
     }
 }
 

@@ -14,7 +14,7 @@ export const onUpdateBoardCreature = (cd:Card) => {
 }
 
 export const onUpdateActivePlayer = (id:string) => {
-    store.dispatch({ type: UIReducerActions.UPDATE_PLAYER, data: id })
+    store.dispatch({ type: UIReducerActions.UPDATE_ACTIVE, data: id })
 }
 
 export const onUpdateBoard = (c:Card[]) => {

@@ -7,6 +7,7 @@ import StatusBar from './components/StatusBar';
 import Options from './components/Options';
 import DeckView from './components/DeckView';
 import CardView from './components/CardView';
+import Sidebar from './components/Sidebar';
 
 export default () => {
 
@@ -24,6 +25,7 @@ export default () => {
     <div style={{position:'relative', height:'100vh', overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center'}}>
       {state.activeModal && <div style={{position:'absolute', height:'fit-content', width:'800px', left:0,right:0,bottom:0,top:0, margin:'auto', zIndex:1}}>{getModal()}</div>}
       <div style={{position:'relative'}}>
+        {state.activeModal !== Modal.NewGame && state.isLoaded && <Sidebar />}
         {state.activeModal !== Modal.NewGame && state.isLoaded && <StatusBar />}
         <Viewport/>
         {state.activeModal !== Modal.NewGame && state.isLoaded && <DeckView/>}
