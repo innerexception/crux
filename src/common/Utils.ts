@@ -23,14 +23,14 @@ export const getNewMatch = (s:SaveFile, selectedDeck:Deck, ):MatchState => {
             {
                 id:s.myId,
                 hp:20,
-                dir:Direction.SOUTH,
+                dir:Direction.NORTH,
                 hand,
                 deck: selectedDeck,
                 discard: [],
                 manaPool:{...emptyMana},
                 isAI: false
             },
-            getAIPlayer(1)
+            getAIPlayer(Direction.SOUTH)
         ]
     }
 }

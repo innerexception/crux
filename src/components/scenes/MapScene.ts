@@ -58,13 +58,15 @@ export default class MapScene extends Scene {
         LayerStack.forEach(l=>this.map.createLayer(l, grass))
 
         const midTile = this.map.getTileAt(this.map.width/2, this.map.height/2, false, Layers.Earth)
-        this.northLands = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y-FIELD_HEIGHT, FIELD_WIDTH*2, 1)
-        this.northCreatures = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y-(FIELD_HEIGHT+1), FIELD_WIDTH*2, 1)
+        this.northLands = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y-FIELD_HEIGHT-1, FIELD_WIDTH*2, 1)
+        this.northCreatures = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y-(FIELD_HEIGHT), FIELD_WIDTH*2, 1)
         this.southLands = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y+FIELD_HEIGHT, FIELD_WIDTH*2, 1)
         this.southCreatures = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y+(FIELD_HEIGHT-1), FIELD_WIDTH*2, 1)
         
         const g = this.add.graphics().setDefaultStyles({ lineStyle: { width:0.5, color:0xffffff, alpha:1 }}).setDepth(7)
-        g.strokeRect(midTile.pixelX-(FIELD_WIDTH*TILE_DIM), midTile.pixelY-(FIELD_HEIGHT*TILE_DIM), FIELD_WIDTH*2*TILE_DIM, FIELD_HEIGHT*2*TILE_DIM)
+        const rect = new Geom.Rectangle(midTile.pixelX-(FIELD_WIDTH*TILE_DIM), midTile.pixelY-(FIELD_HEIGHT*TILE_DIM), FIELD_WIDTH*2*TILE_DIM, FIELD_HEIGHT*2*TILE_DIM)
+        this.drawMarchingDashedRect(g, rect)
+
 
         this.creatures.forEach(e=>e.destroy())
         this.creatures = []
@@ -79,8 +81,9 @@ export default class MapScene extends Scene {
     }
 
     drawMarchingDashedRect(
+        g:GameObjects.Graphics,
         rect:Geom.Rectangle,
-        offset = 0
+        offset = 0,
     ) {
         let {x, y, width, height} = rect
         width-=2
@@ -96,7 +99,7 @@ export default class MapScene extends Scene {
             const start = dist;
             const end = Math.min(dist + dashLength, perimeter);
     
-            drawRectSegment(this.g, x, y, width, height, start, end);
+            drawRectSegment(g, x, y, width, height, start, end);
             dist += step;
         }
     }
@@ -132,27 +135,45 @@ export default class MapScene extends Scene {
 
     }
 
-    runAITurn = async () => {
-        const state=store.getState().currentMatch
+    playLand = () => {
+        let state=store.getState().currentMatch
         const p = state.players.find(p=>p.id === state.activePlayerId)
         state.board.filter(c=>CardData[c.kind].kind === Permanents.Land && c.ownerId === p.id && !c.tapped).forEach(l=>{
-            l.tapped=true
-            const color = CardData[l.kind].color
-            p.manaPool[color]+=CardData[l.kind].ability.cost[0].amount
+            const meta = CardData[l.kind]
+            p.manaPool[meta.color]=p.manaPool[meta.color]-meta.ability.cost[0].amount
+            l.tapped = true
         })
+        onUpdateBoard(Array.from(state.board))
+        const land = p.hand.find(c=>CardData[c.kind].kind === Permanents.Land)
+        const lTile = p.dir === Direction.NORTH ? 
+            this.northLands.find(t=>!state.board.find(c=>c.tileX === t.x && c.tileY === t.y)):
+            this.southLands.find(t=>!state.board.find(c=>c.tileX === t.x && c.tileY === t.y))
+        if(land && lTile){
+            this.addCard(land.id, lTile.pixelX, lTile.pixelY)
+        }
+    }
+
+    runAITurn = async () => {
+        this.playLand()
+        const state = store.getState().currentMatch
         //TODO: basic counter play
-        const enemies = state.board.filter(c=>c.ownerId !== p.id).map(c=>this.creatures.find(s=>s.id === c.id))
+        const p = state.players.find(p=>p.id === state.activePlayerId)
+        const enemies = state.board.filter(c=>c.ownerId !== p.id && CardData[c.kind].kind === Permanents.Creature).map(c=>this.creatures.find(s=>s.id === c.id))
         const creatureSorceries = p.hand.find(c=>
+            CardData[c.kind].kind === Permanents.Sorcery &&
             canAfford(p.manaPool,c) &&
             CardData[c.kind].ability.targets === Permanents.Creature && 
             (CardData[c.kind].ability.effect.dmg || CardData[c.kind].ability.effect.removal))
         if(creatureSorceries){
             this.applySorcery(enemies[0], creatureSorceries)
             p.manaPool = payCost(p.manaPool, CardData[creatureSorceries.kind].cost)
+            onUpdatePlayer({...p})
         }
         const creature = p.hand.find(c=>CardData[c.kind].kind === Permanents.Creature && canAfford(p.manaPool,c))
         if(creature){
-            this.addCreature(creature.id, tile.pixelX, tile.pixelY)
+            const enemyTile = this.map.getTileAtWorldXY(enemies[0].x, enemies[0].y, false, undefined, Layers.Earth)
+            const spawnTile = this.map.getTileAt(enemyTile.x, p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
+            this.addCard(creature.id, spawnTile.pixelX, spawnTile.pixelY)
         }
         //TODO: use creature abilities
         
@@ -171,21 +192,21 @@ export default class MapScene extends Scene {
                 if(CardData[card.kind].kind === Permanents.Land){
                     if(me.dir === Direction.NORTH){
                         this.northLands.forEach(t=>{
-                            this.drawMarchingDashedRect(t.getBounds() as Geom.Rectangle)
+                            this.drawMarchingDashedRect(this.g, t.getBounds() as Geom.Rectangle)
                         })
                     }
                     else this.southLands.forEach(t=>{
-                        this.drawMarchingDashedRect(t.getBounds() as Geom.Rectangle)
+                        this.drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
                     })
                 }
                 else if(CardData[card.kind].kind === Permanents.Creature){
                     if(me.dir === Direction.NORTH){
                         this.northCreatures.forEach(t=>{
-                            this.drawMarchingDashedRect(t.getBounds() as Geom.Rectangle)
+                            this.drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
                         })
                     }
                     else this.southCreatures.forEach(t=>{
-                        this.drawMarchingDashedRect(t.getBounds() as Geom.Rectangle)
+                        this.drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
                     })
                 }
                 else if(CardData[card.kind].kind === Permanents.Enchantment){
@@ -270,10 +291,7 @@ export default class MapScene extends Scene {
                         const meta = CardData[card.kind]
                         if(meta.kind === Permanents.Land && !card.tapped){
                             //tap and add to pool
-                            onUpdatePlayer({...me, manaPool: {...me.manaPool, 
-                                [meta.color]: me.manaPool[meta.color]-meta.ability.cost[0].amount
-                            }})
-                            onUpdateBoardCreature({...card, tapped: true})
+                            this.tapLand(card, me)
                             this.floatResource(sprite.x, sprite.y, IconIndex.Mana, '#ff0000')
                             //TODO add exausted icon to card
                         }
@@ -282,11 +300,19 @@ export default class MapScene extends Scene {
                 else if(GameObjects.length === 0 && state.selectedCardId){
                     const card = me.hand.find(c=>c.id === state.selectedCardId)
                     if(this.validStartTile(tile, this.myDir, CardData[card.kind].kind === Permanents.Land)){
-                        this.addCreature(state.selectedCardId, tile.pixelX, tile.pixelY)
+                        this.addCard(state.selectedCardId, tile.pixelX, tile.pixelY)
                     }
                 }
             }
         })
+    }
+
+    tapLand = (card:Card, me:PlayerState) => {
+        const meta = CardData[card.kind]
+        onUpdatePlayer({...me, manaPool: {...me.manaPool, 
+            [meta.color]: me.manaPool[meta.color]-meta.ability.cost[0].amount
+        }})
+        onUpdateBoardCreature({...card, tapped: true})
     }
 
     validStartTile = (t:Tilemaps.Tile, dir:Direction, land:boolean) => {
@@ -295,7 +321,7 @@ export default class MapScene extends Scene {
             return this.southCreatures.find(l=>l.x===t.x&&l.y===t.y)
         }
         else{
-            if(land) this.northLands.find(l=>l.x===t.x&&l.y===t.y)
+            if(land) return this.northLands.find(l=>l.x===t.x&&l.y===t.y)
             return this.northCreatures.find(l=>l.x===t.x&&l.y===t.y)
         } 
     }
@@ -306,7 +332,7 @@ export default class MapScene extends Scene {
             return this.southCreatures.find(l=>l.x===t.x&&l.y===t.y)
         }
         else{
-            if(land) this.northLands.find(l=>l.x===t.x&&l.y===t.y)
+            if(land) return this.northLands.find(l=>l.x===t.x&&l.y===t.y)
             return this.northCreatures.find(l=>l.x===t.x&&l.y===t.y)
         } 
     }
@@ -319,7 +345,7 @@ export default class MapScene extends Scene {
         //TODO
     }
 
-    addCreature = (cardId:string, worldX:number,worldY:number) => {
+    addCard = (cardId:string, worldX:number,worldY:number) => {
         this.creaturePreview.destroy()
         onSelectCreature('',null)
         const state = store.getState()
