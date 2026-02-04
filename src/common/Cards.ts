@@ -4,7 +4,7 @@ import{ v4 } from 'uuid'
 export const CardData:Record<CardType, CardMeta> = {
     [CardType.Mountain]: {
         color:Color.Red,
-        modifier: null,
+        attributes: null,
         kind: Permanents.Land,
         ability: {
             tap: true,
@@ -19,7 +19,7 @@ export const CardData:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:1}],
         kind: Permanents.Creature,
         moves: 1,
-        modifier: Modifier.Banding,
+        attributes: [Modifier.Banding],
         ability: null,
         sprite: CreatureSpriteIndex.Grub
     },
@@ -30,7 +30,7 @@ export const CardData:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:3}],
         kind: Permanents.Creature,
         moves: 1,
-        modifier: null,
+        attributes: null,
         ability: {
             cost: [],
             tap: true,
@@ -51,7 +51,8 @@ export const defaultCards = (playerId:string):Card[] => {
             tapped: false,
             newSummon: true,
             tileX:null,
-            tileY:null
+            tileY:null,
+            status:{}
         },
         {
             id: v4(),
@@ -60,7 +61,8 @@ export const defaultCards = (playerId:string):Card[] => {
             tapped: false,
             newSummon: true,
             tileX:null,
-            tileY:null
+            tileY:null,
+            status:{}
         },
         {
             id: v4(),
@@ -69,7 +71,8 @@ export const defaultCards = (playerId:string):Card[] => {
             tapped: false,
             newSummon: true,
             tileX:null,
-            tileY:null
+            tileY:null,
+            status:{}
         }
     ]
 }
@@ -83,7 +86,8 @@ export const goblinHordes = (playerId:string):Card[] => {
             tapped: false,
             newSummon: true,
             tileX:null,
-            tileY:null
+            tileY:null,
+            status:{}
         },
         {
             id: v4(),
@@ -92,7 +96,8 @@ export const goblinHordes = (playerId:string):Card[] => {
             tapped: false,
             newSummon: true,
             tileX:null,
-            tileY:null
+            tileY:null,
+            status:{}
         },
         {
             id: v4(),
@@ -101,7 +106,8 @@ export const goblinHordes = (playerId:string):Card[] => {
             tapped: false,
             newSummon: true,
             tileX:null,
-            tileY:null
+            tileY:null,
+            status:{}
         }
     ]
 }

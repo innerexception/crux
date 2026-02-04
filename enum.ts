@@ -43,6 +43,10 @@ export enum CardType {
     Goblin='Goblin',GoblinKing='Goblin King',Mountain='Mountain'
 }
 
+export enum StatusEffect {
+    Pillaged='Pillaged'
+}
+
 export enum CreatureSpriteIndex {
     Grass=321, Tree=322, Moss=235, Vicevine=238, Mushroom=234, Shroomling=233, Eagle=164, Rat=152, Cyclops=74, Unicorn=147, Soil=339, 
     DeadMatter=368, Snake=150, Grub=252, Catapillar=245, Butterfly=111, TwoHeadedCyclops=73, Zombie=97, Eyeball=104, TROLL=39, SERAPH=32,
@@ -52,7 +56,7 @@ export enum CreatureSpriteIndex {
 
 export enum IconIndex {
     Selected=14, Mana=63, Hunger=79, Summon=98, Options=96, Close=37, Herbivore=15, Carnivore=79, DeadMatter=16, Soil=76,
-    Quit=38,Save=99,Bored=40, Adventurer=53, Smite=65, Monitor=104
+    Quit=38,Save=99,Bored=40, Adventurer=53, Smite=65, Monitor=104, Sword=3
 }
 
 export enum Color {
@@ -60,7 +64,7 @@ export enum Color {
 }
 
 export enum Modifier {
-    Banding=1,ProtectionFromBlack,ProtectionFromWhite,ProtectionFromRed,ProtectionFromGreen,ProtectionFromBlue
+    Banding=1,ProtectionFromBlack,ProtectionFromWhite,ProtectionFromRed,ProtectionFromGreen,ProtectionFromBlue,FirstStrike
 }
 
 export enum Permanents {

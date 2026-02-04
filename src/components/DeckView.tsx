@@ -21,7 +21,7 @@ export default () => {
         <div style={{width:'100%', height:'85px', display:'flex', justifyContent:'space-between'}}>
             <div style={{display:'flex', justifyContent:'flex-start', alignItems:'center'}}>
                 {me.hand.map(c=>
-                <div onClick={()=>onSelectCreature(c.id, c.kind)} style={{border: selectedCardId === c.id ? '1px solid' : 'none', marginRight:'5px', opacity: canAfford(me.manaPool, c) ? 1 : 0.5}}>
+                <div onClick={canAfford(me.manaPool, c) ? ()=>onSelectCreature(c.id, c.kind):null} style={{border: selectedCardId === c.id ? '1px solid' : 'none', marginRight:'5px', opacity: canAfford(me.manaPool, c) ? 1 : 0.5}}>
                     <CardView card={c}/>
                 </div>)}
             </div>

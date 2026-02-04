@@ -156,8 +156,8 @@ export default class MapScene extends Scene {
     runAITurn = async () => {
         this.playLand()
         const state = store.getState().currentMatch
-        //TODO: basic counter play
         const p = state.players.find(p=>p.id === state.activePlayerId)
+        //TODO: choose high priority target to destroy/block
         const enemies = state.board.filter(c=>c.ownerId !== p.id && CardData[c.kind].kind === Permanents.Creature).map(c=>this.creatures.find(s=>s.id === c.id))
         const creatureSorceries = p.hand.find(c=>
             CardData[c.kind].kind === Permanents.Sorcery &&
@@ -175,7 +175,7 @@ export default class MapScene extends Scene {
             const spawnTile = this.map.getTileAt(enemyTile.x, p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
             this.addCard(creature.id, spawnTile.pixelX, spawnTile.pixelY)
         }
-        //TODO: use creature abilities
+        //TODO: use owned creature abilities if possible
         
         this.endTurn()
     }
@@ -362,7 +362,7 @@ export default class MapScene extends Scene {
         this.input.setDefaultCursor('url('+assetUrl+'), pointer');
     }
 
-    floatResource = (x:number, y:number, index:number, color:string, text?:string) => {
+    floatResource = (x:number, y:number, index:IconIndex, color:string, text?:string) => {
         let icon = this.add.image(x, y, 'items', index).setDepth(4)
         let targets = [icon]
         if(text) {

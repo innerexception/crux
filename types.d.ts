@@ -14,6 +14,7 @@ interface Card {
     id:string
     ownerId:string
     kind: import('./enum').CardType
+    status: Partial<Record<import('./enum').StatusEffect,boolean>>
     tapped:boolean
     newSummon:boolean
     tileX:number
@@ -27,7 +28,7 @@ interface CardMeta {
     moves?:number
     cost?: ManaCost[]
     kind: import('./enum').Permanents
-    modifier: import('./enum').Modifier
+    attributes: import('./enum').Modifier[]
     ability: {
         cost: ManaCost[]
         tap: boolean

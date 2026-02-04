@@ -1,6 +1,6 @@
 import { GameObjects, Time } from "phaser"
 import { store } from "../../.."
-import { CreatureSpriteIndex, Direction, Layers } from "../../../enum"
+import { CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier, Permanents, StatusEffect } from "../../../enum"
 import { CardData } from "../../common/Cards"
 import { onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
@@ -35,13 +35,11 @@ export default class CreatureSprite extends GameObjects.Image {
                 return
             }
             creature = store.getState().currentMatch.board.find(c=>c.id === this.id)
-            //TODO: if we are on last row, deal player dmg and reset to start of column (if not ephemeral)
             if(this.scene.validEndTile(myTile, owner.dir, true)){
                 const enemy = state.players.find(p=>p.id !== creature.ownerId)
                 onUpdatePlayer({...enemy, hp: enemy.hp-CardData[creature.kind].atk})
-                const startTile = this.scene.map.getTileAt(myTile.x, this.dir === Direction.NORTH ? this.scene.northCreatures[0].y : this.scene.southCreatures[0].y, false, Layers.Earth)
-                onUpdateBoardCreature({...creature, tileY: startTile.y})
-                return this.setPosition(startTile.pixelX,startTile.pixelY)
+                this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Bored, '0xff0000', '-')
+                return this.reset()
             }
 
             if(creature)
@@ -64,11 +62,38 @@ export default class CreatureSprite extends GameObjects.Image {
         }
     }
 
+    reset () {
+        const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
+        const startTile = this.scene.map.getTileAt(myTile.x, this.dir === Direction.NORTH ? this.scene.northCreatures[0].y : this.scene.southCreatures[0].y, false, Layers.Earth)
+        onUpdateBoardCreature({...store.getState().currentMatch.board.find(c=>c.id === this.id), tileY: startTile.y})
+        this.setPosition(startTile.pixelX,startTile.pixelY)
+    }
+
     fight = async (target:Card) => {
-        //TODO: fight it out
-        //If target is land, apply pillage (tap land until end of controller's next turn)
-        //0. modifier effects go off
+        const defender = CardData[target.kind]
+        let thisCard = store.getState().currentMatch.board.find(c=>c.id === this.id)
+        const attacker = CardData[thisCard.kind]
+        if(defender.kind === Permanents.Land){
+            //If target is land, apply pillage (tap land until end of controller's next turn)
+            this.reset()
+            target.tapped = true
+            target.status.Pillaged=true
+            onUpdateBoardCreature(target)
+            const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
+            return this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Sword, '0xff0000')
+        }
+
         //1. def - atk
+        const defHp = defender.def - attacker.atk
+        const atkHp = attacker.def - defender.atk
+        
+        if(attacker.attributes.includes(Modifier.FirstStrike) && defHp <= 0){
+            return this.tryRemoveCreature(target)
+        }
+        if(defender.attributes.includes(Modifier.FirstStrike) && atkHp <= 0){
+            return this.tryRemoveCreature(thisCard)
+        }
+
         //2. remove units w <= 0 def to discard
         //3. death effects
     }
