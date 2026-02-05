@@ -61,16 +61,23 @@ export enum Color {
 
 export enum Modifier {
     Banding=1,ProtectionFromBlack,ProtectionFromWhite,ProtectionFromRed,ProtectionFromGreen,ProtectionFromBlue,FirstStrike,
-    Flying,OnlyFlying
+    Flying,OnlyFlying,CantBlock, //Can't be put in a lane w/ an opposing creature
+    DesertWalk, //Ghostly in lane that ends in a desert
+    Berserk //Haste
 }
 
 export enum Permanents {
-    Land='Land',Creature='Creature',Enchantment='Enchantment',Any='Any',Sorcery='Sorcery'
+    Land='Land',Creature='Creature',Enchantment='Enchantment',Any='Any',Sorcery='Sorcery',Self='Self',CreaturesYouControl='CreaturesYouControl',
+    CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',CreaturesYourGraveyard='CreaturesYourGraveyard'
 }
 
 export enum CardType {
     Meadow='Meadow',Desert='Desert',Island='Island',City='City',Forest='Forest',
     Sandstorm='Sandstorm',FireCloak='FireCloak',FeatherCloak='FeatherCloak',
     SkyPirates='SkyPirates',HeroicSoldier='HeroicSoldier',Earthquake='Earthquake',
-    PeaceTreaty='PeaceTreaty'
+    PeaceTreaty='PeaceTreaty', FertileSoil='FertileSoil',Hurricane='Hurricane',
+    JunglePanther='JunglePanther',Merfolk='Merfolk',Refreshment='Refreshment',
+    BillyGoat='BillyGoat', ScavengingRats='ScavengingRats',Memoize='Memoize',
+    Brainstorm='Brainstorm', Goblin='Goblin', Necromancy='Necromancy', FierySpear='FierySpear',
+
 }

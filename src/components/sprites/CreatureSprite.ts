@@ -1,7 +1,7 @@
 import { GameObjects, Time } from "phaser"
 import { store } from "../../.."
 import { CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier, Permanents, StatusEffect } from "../../../enum"
-import { getCardData } from "../../common/Cards"
+import { getCardData } from "../../common/CardUtils"
 import { onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
 

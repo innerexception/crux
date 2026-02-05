@@ -29,26 +29,32 @@ interface CardMeta {
     cost?: ManaCost[]
     pumpColor?: import('./enum').Color
     kind: import('./enum').Permanents
-    attributes: import('./enum').Modifier[]
+    attributes?: import('./enum').Modifier[]
     ability: {
-        cost: ManaCost[]
-        tap: boolean
+        cost?: ManaCost[]
+        tap?: boolean
         targets?: import('./enum').Permanents
-        targetsAllPlayers?:boolean
         specificTargets?: import('./enum').CardType[]
-        effect?: {
-            dmg?:number
-            pumpDamage?:boolean
-            removal?:boolean
-            duration: number
-            atkUp?:number
-            defUp?:number
-            draw?:number
-            discard?:number
-            pacifism?:boolean
-        }
+        effect?: CardEffect
     }
     sprite: import('./enum').CreatureSpriteIndex
+}
+
+interface CardEffect {
+    dmg?:number
+    pumpDamage?:boolean
+    removal?:boolean
+    duration?: number
+    atkUp?:number
+    defUp?:number
+    draw?:number
+    drawX?:boolean
+    discard?:number
+    pacifism?:boolean //Creatures you control do not move in their lanes
+    hpPerForest?:boolean //entire board
+    untap?:boolean
+    searchSorceryForTop?:boolean
+    cardToHand?:boolean
 }
 
 interface Deck {

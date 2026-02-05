@@ -6,7 +6,7 @@ import AppStyles from '../styles/AppStyles';
 import{ v4 } from 'uuid'
 import { useSelector } from 'react-redux';
 import Deckbuilder from './Deckbuilder';
-import { defaultCards } from '../common/Cards';
+import { defaultCards } from '../common/CardUtils';
 
 export default () => {
 

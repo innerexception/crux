@@ -1,7 +1,7 @@
 import { GameObjects, Geom, Scene } from "phaser"
 import { Color, Direction, Layers, Permanents } from "../../enum"
 import MapScene from "../components/scenes/MapScene"
-import { getAIDeck, getCardData } from "./Cards"
+import { getAIDeck, getCardData } from "./CardUtils"
 import { SAVE_NAMES } from "./UIReducer"
 import{ v4 } from 'uuid'
 

@@ -5,7 +5,7 @@ import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
 import { canAfford, drawRectSegment, emptyMana, isPassableTile, payCost, transitionIn, transitionOut } from "../../common/Utils";
-import { getCardData } from "../../common/Cards";
+import { getCardData } from "../../common/CardUtils";
 
 const TILE_DIM=16
 const FIELD_WIDTH=6

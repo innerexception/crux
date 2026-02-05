@@ -1,7 +1,7 @@
 import * as React from 'react'
 import AppStyles from '../styles/AppStyles';
 import { Button, CreatureIcon, CssIcon } from '../common/Shared';
-import { getCardData } from '../common/Cards';
+import { getCardData } from '../common/CardUtils';
 
 export default (props:{card:Card}) => {
     

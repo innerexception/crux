@@ -69,8 +69,6 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Enchantment,
         attributes: null,
         ability: {
-            cost: [],
-            tap: false,
             targets: Permanents.Creature,
             effect: {
                 atkUp: 2,
@@ -86,8 +84,6 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Enchantment,
         attributes: [Modifier.Flying],
         ability: {
-            cost: [],
-            tap: false,
             targets: Permanents.Creature,
             effect: {
                 duration: 1,
@@ -101,13 +97,9 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:1}],
         pumpColor: Color.None, //TODO: can add any amount to increase effect
         kind: Permanents.Sorcery,
-        attributes: null,
         ability: {
-            cost: [],
-            tap: false,
             targets: Permanents.Any,
             effect: {
-                duration: 0,
                 pumpDamage: true 
             }
         },
@@ -118,14 +110,9 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:1}],
         pumpColor: Color.None, //TODO: can add any amount to increase effect
         kind: Permanents.Sorcery,
-        attributes: null,
         ability: {
-            cost: [],
-            tap: false,
-            targets: Permanents.Creature,
-            targetsAllPlayers: true,
+            targets: Permanents.CreaturesAndPlayers,
             effect: {
-                duration: 0,
                 pumpDamage: true
             }
         },
@@ -135,11 +122,10 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.White,
         cost: [{kind:Color.White, amount:1}],
         kind: Permanents.Sorcery,
-        attributes: null,
         ability: {
             cost: [],
             tap: false,
-            targets: Permanents.Any,
+            targets: Permanents.CreaturesYouControl,
             effect: {
                 duration: 1,
                 pacifism: true
@@ -154,8 +140,145 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.White, amount:1}],
         kind: Permanents.Creature,
         moves: 1,
-        attributes: null,
         ability: null,
+        sprite: CreatureSpriteIndex.Grub
+    },
+    [CardType.FertileSoil]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Permanents.Self,
+            effect: {
+                hpPerForest: true
+            }
+        },
+        sprite: CreatureSpriteIndex.Grub
+    },
+    [CardType.Hurricane]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:1}],
+        pumpColor: Color.None, //TODO: can add any amount to increase effect
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Permanents.CreaturesAndPlayers,
+            effect: {
+                pumpDamage: true
+            }
+        },
+        sprite: CreatureSpriteIndex.Grub
+    },
+    [CardType.JunglePanther]: {
+        color:Color.Green,
+        atk: 2,
+        def: 1,
+        cost: [{kind:Color.Green, amount:1}],
+        kind: Permanents.Creature,
+        moves: 1,
+        ability: null,
+        attributes: [Modifier.CantBlock],
+        sprite: CreatureSpriteIndex.Grub
+    },
+    [CardType.Merfolk]: {
+        color:Color.Blue,
+        atk: 1,
+        def: 1,
+        cost: [{kind:Color.Blue, amount:1}],
+        kind: Permanents.Creature,
+        moves: 1,
+        ability: null,
+        sprite: CreatureSpriteIndex.Grub
+    },
+    [CardType.Refreshment]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Permanents.CreaturesYouControl,
+            effect: {
+                untap: true
+            }
+        },
+        sprite: CreatureSpriteIndex.Grub
+    },
+    [CardType.BillyGoat]: {
+        color:Color.Red,
+        atk: 1,
+        def: 1,
+        cost: [{kind:Color.Red, amount:1}],
+        kind: Permanents.Creature,
+        moves: 1,
+        ability: null,
+        attributes:[Modifier.DesertWalk],
+        sprite: CreatureSpriteIndex.Grub
+    },
+    [CardType.ScavengingRats]: {
+        color:Color.Black,
+        atk: 1,
+        def: 1,
+        cost: [{kind:Color.Black, amount:1}],
+        kind: Permanents.Creature,
+        moves: 1,
+        ability: null,
+        sprite: CreatureSpriteIndex.Grub
+    },
+    [CardType.Memoize]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            effect:{
+                searchSorceryForTop: true
+            }
+        },
+        sprite: CreatureSpriteIndex.Grub
+    },
+    [CardType.Brainstorm]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1}],
+        pumpColor: Color.None, //TODO: can add any amount to increase effect
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Permanents.Players,
+            effect: {
+                drawX:true
+            }
+        },
+        sprite: CreatureSpriteIndex.Grub
+    },
+    [CardType.Goblin]: {
+        color:Color.Red,
+        atk: 1,
+        def: 1,
+        cost: [{kind:Color.Red, amount:1}],
+        kind: Permanents.Creature,
+        moves: 1,
+        ability: null,
+        attributes:[Modifier.Berserk],
+        sprite: CreatureSpriteIndex.Grub
+    },
+    [CardType.Necromancy]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Permanents.CreaturesYourGraveyard,
+            effect: {
+                cardToHand: true
+            }
+        },
+        sprite: CreatureSpriteIndex.Grub
+    },
+    [CardType.FierySpear]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Permanents.CreaturesAndPlayers,
+            effect: {
+                dmg: 1
+            }
+        },
         sprite: CreatureSpriteIndex.Grub
     },
 }
