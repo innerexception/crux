@@ -39,10 +39,6 @@ export enum Maps {
     Tutorial='tutorial'
 }
 
-export enum CardType {
-    Goblin='Goblin',GoblinKing='Goblin King',Mountain='Mountain'
-}
-
 export enum StatusEffect {
     Pillaged='Pillaged'
 }
@@ -64,9 +60,17 @@ export enum Color {
 }
 
 export enum Modifier {
-    Banding=1,ProtectionFromBlack,ProtectionFromWhite,ProtectionFromRed,ProtectionFromGreen,ProtectionFromBlue,FirstStrike
+    Banding=1,ProtectionFromBlack,ProtectionFromWhite,ProtectionFromRed,ProtectionFromGreen,ProtectionFromBlue,FirstStrike,
+    Flying,OnlyFlying
 }
 
 export enum Permanents {
     Land='Land',Creature='Creature',Enchantment='Enchantment',Any='Any',Sorcery='Sorcery'
+}
+
+export enum CardType {
+    Meadow='Meadow',Desert='Desert',Island='Island',City='City',Forest='Forest',
+    Sandstorm='Sandstorm',FireCloak='FireCloak',FeatherCloak='FeatherCloak',
+    SkyPirates='SkyPirates',HeroicSoldier='HeroicSoldier',Earthquake='Earthquake',
+    PeaceTreaty='PeaceTreaty'
 }

@@ -27,16 +27,25 @@ interface CardMeta {
     def?:number
     moves?:number
     cost?: ManaCost[]
+    pumpColor?: import('./enum').Color
     kind: import('./enum').Permanents
     attributes: import('./enum').Modifier[]
     ability: {
         cost: ManaCost[]
         tap: boolean
         targets?: import('./enum').Permanents
+        targetsAllPlayers?:boolean
         specificTargets?: import('./enum').CardType[]
         effect?: {
             dmg?:number
+            pumpDamage?:boolean
             removal?:boolean
+            duration: number
+            atkUp?:number
+            defUp?:number
+            draw?:number
+            discard?:number
+            pacifism?:boolean
         }
     }
     sprite: import('./enum').CreatureSpriteIndex
