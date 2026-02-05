@@ -1,7 +1,7 @@
 import { GameObjects, Geom, Scene } from "phaser"
 import { Color, Direction, Layers, Permanents } from "../../enum"
 import MapScene from "../components/scenes/MapScene"
-import { CardData, getAIDeck } from "./Cards"
+import { getAIDeck, getCardData } from "./Cards"
 import { SAVE_NAMES } from "./UIReducer"
 import{ v4 } from 'uuid'
 
@@ -56,10 +56,10 @@ export const getAIPlayer = (dir:Direction):PlayerState => {
 }
 
 export const canAfford = (mana:Record<Color,number>, c:Card) => {
-    if(CardData[c.kind].cost){
-        if(CardData[c.kind].cost.find(c=>mana[c.kind] < c.amount)) return false
+    if(getCardData(c.kind).cost){
+        if(getCardData(c.kind).cost.find(c=>mana[c.kind] < c.amount)) return false
         //colorless
-        const colorless = CardData[c.kind].cost.find(c=>c.kind === Color.None)
+        const colorless = getCardData(c.kind).cost.find(c=>c.kind === Color.None)
         if(colorless){
             //TODO, subtract colored first to get remainder
         }

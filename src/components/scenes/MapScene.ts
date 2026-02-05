@@ -5,7 +5,7 @@ import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
 import { canAfford, drawRectSegment, emptyMana, isPassableTile, payCost, transitionIn, transitionOut } from "../../common/Utils";
-import { CardData } from "../../common/Cards";
+import { getCardData } from "../../common/Cards";
 
 const TILE_DIM=16
 const FIELD_WIDTH=6
@@ -72,7 +72,7 @@ export default class MapScene extends Scene {
         this.creatures = []
         mySave.board.forEach(c=>{
             const player = mySave.players.find(p=>p.id === c.ownerId)
-            this.creatures.push(new CreatureSprite(this, this.map.tileToWorldX(c.tileX), this.map.tileToWorldY(c.tileY), CardData[c.kind].sprite, c.id, player.dir))
+            this.creatures.push(new CreatureSprite(this, this.map.tileToWorldX(c.tileX), this.map.tileToWorldY(c.tileY), getCardData(c.kind).sprite, c.id, player.dir))
         })
         
         this.cameras.main.setZoom(2)
@@ -138,13 +138,13 @@ export default class MapScene extends Scene {
     playLand = () => {
         let state=store.getState().currentMatch
         const p = state.players.find(p=>p.id === state.activePlayerId)
-        state.board.filter(c=>CardData[c.kind].kind === Permanents.Land && c.ownerId === p.id && !c.tapped).forEach(l=>{
-            const meta = CardData[l.kind]
+        state.board.filter(c=>getCardData(c.kind).kind === Permanents.Land && c.ownerId === p.id && !c.tapped).forEach(l=>{
+            const meta = getCardData(l.kind)
             p.manaPool[meta.color]=p.manaPool[meta.color]-meta.ability.cost[0].amount
             l.tapped = true
         })
         onUpdateBoard(Array.from(state.board))
-        const land = p.hand.find(c=>CardData[c.kind].kind === Permanents.Land)
+        const land = p.hand.find(c=>getCardData(c.kind).kind === Permanents.Land)
         const lTile = p.dir === Direction.NORTH ? 
             this.northLands.find(t=>!state.board.find(c=>c.tileX === t.x && c.tileY === t.y)):
             this.southLands.find(t=>!state.board.find(c=>c.tileX === t.x && c.tileY === t.y))
@@ -158,18 +158,18 @@ export default class MapScene extends Scene {
         const state = store.getState().currentMatch
         const p = state.players.find(p=>p.id === state.activePlayerId)
         //TODO: choose high priority target to destroy/block
-        const enemies = state.board.filter(c=>c.ownerId !== p.id && CardData[c.kind].kind === Permanents.Creature).map(c=>this.creatures.find(s=>s.id === c.id))
+        const enemies = state.board.filter(c=>c.ownerId !== p.id && getCardData(c.kind).kind === Permanents.Creature).map(c=>this.creatures.find(s=>s.id === c.id))
         const creatureSorceries = p.hand.find(c=>
-            CardData[c.kind].kind === Permanents.Sorcery &&
+            getCardData(c.kind).kind === Permanents.Sorcery &&
             canAfford(p.manaPool,c) &&
-            CardData[c.kind].ability.targets === Permanents.Creature && 
-            (CardData[c.kind].ability.effect.dmg || CardData[c.kind].ability.effect.removal))
+            getCardData(c.kind).ability.targets === Permanents.Creature && 
+            (getCardData(c.kind).ability.effect.dmg || getCardData(c.kind).ability.effect.removal))
         if(creatureSorceries){
             this.applySorcery(enemies[0], creatureSorceries)
-            p.manaPool = payCost(p.manaPool, CardData[creatureSorceries.kind].cost)
+            p.manaPool = payCost(p.manaPool, getCardData(creatureSorceries.kind).cost)
             onUpdatePlayer({...p})
         }
-        const creature = p.hand.find(c=>CardData[c.kind].kind === Permanents.Creature && canAfford(p.manaPool,c))
+        const creature = p.hand.find(c=>getCardData(c.kind).kind === Permanents.Creature && canAfford(p.manaPool,c))
         if(creature){
             const enemyTile = this.map.getTileAtWorldXY(enemies[0].x, enemies[0].y, false, undefined, Layers.Earth)
             const spawnTile = this.map.getTileAt(enemyTile.x, p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
@@ -189,7 +189,7 @@ export default class MapScene extends Scene {
                 const state = store.getState()
                 const me = state.currentMatch.players.find(p=>p.id === state.saveFile.myId)
                 const card = me.hand.find(c=>c.id === state.selectedCardId)
-                if(CardData[card.kind].kind === Permanents.Land){
+                if(getCardData(card.kind).kind === Permanents.Land){
                     if(me.dir === Direction.NORTH){
                         this.northLands.forEach(t=>{
                             this.drawMarchingDashedRect(this.g, t.getBounds() as Geom.Rectangle)
@@ -199,7 +199,7 @@ export default class MapScene extends Scene {
                         this.drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
                     })
                 }
-                else if(CardData[card.kind].kind === Permanents.Creature){
+                else if(getCardData(card.kind).kind === Permanents.Creature){
                     if(me.dir === Direction.NORTH){
                         this.northCreatures.forEach(t=>{
                             this.drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
@@ -209,10 +209,10 @@ export default class MapScene extends Scene {
                         this.drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
                     })
                 }
-                else if(CardData[card.kind].kind === Permanents.Enchantment){
+                else if(getCardData(card.kind).kind === Permanents.Enchantment){
                     //TODO: get all creatures tiles and highlight
                 }
-                else if(CardData[card.kind].kind === Permanents.Sorcery){
+                else if(getCardData(card.kind).kind === Permanents.Sorcery){
                     //TODO: get all creatures & land tiles and highlight
                 }
             }
@@ -224,7 +224,7 @@ export default class MapScene extends Scene {
     }
 
     startPreview = (b:CardType) => {
-        this.creaturePreview = this.add.image(0, 0, 'creatures', CardData[b].sprite).setAlpha(0.5).setDepth(4)
+        this.creaturePreview = this.add.image(0, 0, 'creatures', getCardData(b).sprite).setAlpha(0.5).setDepth(4)
     }
 
     enableInputEvents = () => {
@@ -279,16 +279,16 @@ export default class MapScene extends Scene {
                     //determine card action
                     if(state.selectedCardId){
                         const card = me.hand.find(c=>c.id === state.selectedCardId)
-                        if(CardData[card.kind].kind === Permanents.Enchantment){
+                        if(getCardData(card.kind).kind === Permanents.Enchantment){
                             return this.applyEnchantment(sprite, card)
                         }
-                        if(CardData[card.kind].kind === Permanents.Sorcery){
+                        if(getCardData(card.kind).kind === Permanents.Sorcery){
                             return this.applySorcery(sprite, card)
                         }
                     }
                     else {
                         const card = state.currentMatch.board.find(c=>c.id === sprite.id)
-                        const meta = CardData[card.kind]
+                        const meta = getCardData(card.kind)
                         if(meta.kind === Permanents.Land && !card.tapped){
                             //tap and add to pool
                             this.tapLand(card, me)
@@ -299,7 +299,7 @@ export default class MapScene extends Scene {
                 }
                 else if(GameObjects.length === 0 && state.selectedCardId){
                     const card = me.hand.find(c=>c.id === state.selectedCardId)
-                    if(this.validStartTile(tile, this.myDir, CardData[card.kind].kind === Permanents.Land)){
+                    if(this.validStartTile(tile, this.myDir, getCardData(card.kind).kind === Permanents.Land)){
                         this.addCard(state.selectedCardId, tile.pixelX, tile.pixelY)
                     }
                 }
@@ -308,7 +308,7 @@ export default class MapScene extends Scene {
     }
 
     tapLand = (card:Card, me:PlayerState) => {
-        const meta = CardData[card.kind]
+        const meta = getCardData(card.kind)
         onUpdatePlayer({...me, manaPool: {...me.manaPool, 
             [meta.color]: me.manaPool[meta.color]-meta.ability.cost[0].amount
         }})
@@ -351,7 +351,7 @@ export default class MapScene extends Scene {
         const state = store.getState()
         const me = state.currentMatch.players.find(p=>p.id === state.currentMatch.activePlayerId)
         const card = me.hand.find(c=>c.id === cardId)
-        const data = CardData[card.kind]
+        const data = getCardData(card.kind)
         this.creatures.push(new CreatureSprite(this, worldX,worldY, data.sprite, card.id, me.dir))
         const t = this.map.getTileAtWorldXY(worldX,worldY,false, undefined, Layers.Earth)
         onUpdateBoard(state.currentMatch.board.concat({...card, tileX:t.x, tileY:t.y}))

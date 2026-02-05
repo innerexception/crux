@@ -1,7 +1,7 @@
 import { GameObjects, Time } from "phaser"
 import { store } from "../../.."
 import { CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier, Permanents, StatusEffect } from "../../../enum"
-import { CardData } from "../../common/Cards"
+import { getCardData } from "../../common/Cards"
 import { onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
 
@@ -27,7 +27,7 @@ export default class CreatureSprite extends GameObjects.Image {
         const state = store.getState().currentMatch
         let creature = state.board.find(c=>c.id === this.id)
         let owner = state.players.find(p=>p.id === creature.ownerId)
-        for(let i=0;i<CardData[creature.kind].moves;i++){
+        for(let i=0;i<getCardData(creature.kind).moves;i++){
             //TODO: targets in range, and able to be targeted by us
             const target = store.getState().currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
             if(target){
@@ -37,7 +37,7 @@ export default class CreatureSprite extends GameObjects.Image {
             creature = store.getState().currentMatch.board.find(c=>c.id === this.id)
             if(this.scene.validEndTile(myTile, owner.dir, true)){
                 const enemy = state.players.find(p=>p.id !== creature.ownerId)
-                onUpdatePlayer({...enemy, hp: enemy.hp-CardData[creature.kind].atk})
+                onUpdatePlayer({...enemy, hp: enemy.hp-getCardData(creature.kind).atk})
                 this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Bored, '0xff0000', '-')
                 return this.reset()
             }
@@ -70,9 +70,9 @@ export default class CreatureSprite extends GameObjects.Image {
     }
 
     fight = async (target:Card) => {
-        const defender = CardData[target.kind]
+        const defender = getCardData(target.kind)
         let thisCard = store.getState().currentMatch.board.find(c=>c.id === this.id)
-        const attacker = CardData[thisCard.kind]
+        const attacker = getCardData(thisCard.kind)
         if(defender.kind === Permanents.Land){
             //If target is land, apply pillage (tap land until end of controller's next turn)
             this.reset()

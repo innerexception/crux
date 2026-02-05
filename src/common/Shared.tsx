@@ -4,7 +4,7 @@ import { creatureSheet, iconSheet } from '../assets/Assets'
 import AppStyles from '../styles/AppStyles'
 import Tooltip from 'rc-tooltip'
 import { CardType, IconIndex } from '../../enum'
-import { CardData } from './Cards'
+import { getCardData } from './Cards'
 
 export const TopBar = (text:string|JSX.Element) => 
     <div style={AppStyles.topBar}>
@@ -125,7 +125,7 @@ export const CssIcon = (props:{spriteIndex:IconIndex, noTooltip?:boolean}) => {
 export const CreatureIcon = (props:{kind:CardType, noTooltip?:boolean}) => {
     let backgroundImage = 'url('+creatureSheet+')'
     let sheetWidth = 16
-    const spriteIndex = CardData[props.kind].sprite
+    const spriteIndex = getCardData(props.kind).sprite
 
     return props.noTooltip ? 
         <div style={{
