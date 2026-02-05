@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { onSelectCreature, onShowModal, onUpdatePlayer } from '../common/Thunks';
 import { canAfford } from '../common/Utils';
 import CardView from './CardView';
+import { Button } from '../common/Shared';
+import { Modal } from '../../enum';
 
 export default () => {
 
@@ -26,7 +28,10 @@ export default () => {
                 </div>)}
             </div>
             <div>
-                {me.deck.cards.length > 0 ? <div style={{width:'100px'}} onClick={()=>drawNext()}>Draw</div> : <div>--Empty--</div>}
+                <Button enabled={me.deck.cards.length>0} text="Draw" handler={()=>drawNext()}/>
+            </div>
+            <div>
+                <Button enabled={me.discard.length>0} text="Graveyard" handler={()=>onShowModal(Modal.Graveyard)}/>
             </div>
         </div>
     )

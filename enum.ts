@@ -16,7 +16,7 @@ export enum UIReducerActions {
 
 export enum Modal {
     NewGame='ng',SelectSave='SelectSave',Options='Options',SelectLoad='SelectLoad',
-    Deckbuilder='Deckbuilder'
+    Deckbuilder='Deckbuilder',Graveyard='Graveyard'
 }
 
 export enum Direction {

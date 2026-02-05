@@ -8,6 +8,7 @@ import Options from './components/Options';
 import DeckView from './components/DeckView';
 import CardView from './components/CardView';
 import Sidebar from './components/Sidebar';
+import Graveyard from './components/Graveyard';
 
 export default () => {
 
@@ -17,6 +18,7 @@ export default () => {
     switch(state.activeModal){
       case Modal.NewGame: return <NewGame/>
       case Modal.Options: return <Options/>
+      case Modal.Graveyard: return <Graveyard/>
       default: return <span/>
     }
   }

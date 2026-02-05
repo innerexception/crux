@@ -2,7 +2,7 @@ import { GameObjects, Time } from "phaser"
 import { store } from "../../.."
 import { CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier, Permanents, StatusEffect } from "../../../enum"
 import { CardData } from "../../common/Cards"
-import { onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
+import { onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
 
 export default class CreatureSprite extends GameObjects.Image {
@@ -94,8 +94,21 @@ export default class CreatureSprite extends GameObjects.Image {
             return this.tryRemoveCreature(thisCard)
         }
 
-        //2. remove units w <= 0 def to discard
+        if(defHp <= 0) this.tryRemoveCreature(target)
+        if(atkHp <= 0) this.tryRemoveCreature(thisCard)
+    }
+
+    tryRemoveCreature (card:Card) {
+        //TODO
         //3. death effects
+        //2. remove to discard
+        const spr = this.scene.creatures.find(c=>c.id === card.id)
+        spr.destroy()
+        let board = store.getState().currentMatch.board
+        board.splice(board.findIndex(c=>c.id === card.id), 1)
+        onUpdateBoard(Array.from(board))
+        const p = store.getState().currentMatch.players.find(p=>p.id === card.ownerId)
+        onUpdatePlayer({...p, discard: p.discard.concat(card)})
     }
 
     destroy(){
