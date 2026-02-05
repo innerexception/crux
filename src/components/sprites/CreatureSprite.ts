@@ -13,7 +13,7 @@ export default class CreatureSprite extends GameObjects.Image {
     dir:number
 
     constructor(scene:MapScene, x:number, y:number, texture:CreatureSpriteIndex,id:string,dir:number){
-        super(scene, x, y, 'creatures', texture.toString())
+        super(scene, x, y, 'creatures', texture)
         scene.add.existing(this)
         this.setInteractive()
         this.id = id

@@ -11,11 +11,11 @@ export default () => {
     return (
         <div style={{width:'100px', height:'100%', position:'absolute', top:64,left:-64}}>
             <div style={{display:'flex', marginBottom:'30px'}}>
-                <div style={{width:'25px', wordWrap:'break-word'}}>Player</div>
+                <div style={{width:'10px', marginRight:'10px', wordWrap:'break-word'}}>Player</div>
                 <VerticalProgressBar value={me.hp} max={20} bg={colors.white}/>
             </div>
             <div style={{display:'flex'}}>
-                <div style={{width:'25px', wordWrap:'break-word'}}>CPU</div>
+                <div style={{width:'10px', marginRight:'10px',wordWrap:'break-word'}}>CPU</div>
                 <VerticalProgressBar value={cpu.hp} max={20} bg={colors.white}/>
             </div>
         </div>

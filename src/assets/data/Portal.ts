@@ -1,5 +1,4 @@
 import { CardType, Color, CreatureSpriteIndex, Modifier, Permanents } from "../../../enum";
-import{ v4 } from 'uuid'
 
 export const Portal:Record<CardType, CardMeta> = {
     [CardType.City]: {
@@ -10,7 +9,7 @@ export const Portal:Record<CardType, CardMeta> = {
             tap: true,
             cost:[{ kind: Color.Black, amount: -1}],
         },
-        sprite: CreatureSpriteIndex.DeadMatter
+        sprite: CreatureSpriteIndex.City
     },
     [CardType.Desert]: {
         color:Color.Red,
@@ -20,7 +19,7 @@ export const Portal:Record<CardType, CardMeta> = {
             tap: true,
             cost:[{ kind: Color.Red, amount: -1}],
         },
-        sprite: CreatureSpriteIndex.DeadMatter
+        sprite: CreatureSpriteIndex.Desert
     },
     [CardType.Forest]: {
         color:Color.Green,
@@ -30,7 +29,7 @@ export const Portal:Record<CardType, CardMeta> = {
             tap: true,
             cost:[{ kind: Color.Green, amount: -1}],
         },
-        sprite: CreatureSpriteIndex.DeadMatter
+        sprite: CreatureSpriteIndex.Forest
     },
     [CardType.Island]: {
         color:Color.Blue,
@@ -40,7 +39,7 @@ export const Portal:Record<CardType, CardMeta> = {
             tap: true,
             cost:[{ kind: Color.Blue, amount: -1}],
         },
-        sprite: CreatureSpriteIndex.DeadMatter
+        sprite: CreatureSpriteIndex.Island
     },
     [CardType.Meadow]: {
         color:Color.White,
@@ -50,7 +49,7 @@ export const Portal:Record<CardType, CardMeta> = {
             tap: true,
             cost:[{ kind: Color.White, amount: -1}],
         },
-        sprite: CreatureSpriteIndex.DeadMatter
+        sprite: CreatureSpriteIndex.Meadow
     },
     [CardType.SkyPirates]: {
         color:Color.Blue,
@@ -61,7 +60,7 @@ export const Portal:Record<CardType, CardMeta> = {
         moves: 1,
         attributes: [Modifier.Flying, Modifier.OnlyFlying],
         ability: null,
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.Skypirate
     },
     [CardType.FireCloak]: {
         color:Color.Red,
@@ -156,8 +155,8 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Grub
     },
     [CardType.Hurricane]: {
-        color:Color.Green,
-        cost: [{kind:Color.Green, amount:1}],
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1}],
         pumpColor: Color.None, //TODO: can add any amount to increase effect
         kind: Permanents.Sorcery,
         ability: {

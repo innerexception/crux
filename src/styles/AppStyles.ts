@@ -33,13 +33,15 @@ export default {
         color: colors.white, 
         cursor:'pointer',
         textAlign:'center' as 'center',
+        
     },
     boxShadow: '5px 4px 8px 0px black',
     buttonInner: {
         paddingLeft:'5px', paddingRight:'5px' ,
         color: colors.black, 
         background:colors.grey1,
-        cursor:'pointer'
+        cursor:'pointer',
+        border:'3px inset'
     },
     topBar: {
         background: 'white',

@@ -44,10 +44,16 @@ export enum StatusEffect {
 }
 
 export enum CreatureSpriteIndex {
+    City=369, Desert=339, Forest=322, Island=330, Meadow=331,
     Grass=321, Tree=322, Moss=235, Vicevine=238, Mushroom=234, Shroomling=233, Eagle=164, Rat=152, Cyclops=74, Unicorn=147, Soil=339, 
     DeadMatter=368, Snake=150, Grub=252, Catapillar=245, Butterfly=111, TwoHeadedCyclops=73, Zombie=97, Eyeball=104, TROLL=39, SERAPH=32,
     MEGAWASP=42, BEHOLDER=23, FIRE_ELEMENTAL=9, DEATH_VINE=16, ELDER_DRAGON=3, MAMMOTH=6, Elephant=156, Ratman=62, Protodrake=240,
-    YIGGTREE=14, Mandrake=323, Ape=157,Adventurer1=16,Adventurer2=6,Adventurer3=9,Adventurer4=2
+    YIGGTREE=14, Mandrake=323, Ape=157,Adventurer1=16,Adventurer2=6,Adventurer3=9,Adventurer4=2,Peasant=0,PeasantWoman=1,Drunkard=4,
+    HeavyKnight=6,Ninja,Thief,SpearKnight,Archer,Archer2,Cleric,Cleric2,Wizard,Wizard2,Merchant=18,Merchant2,Nurse,Nurse2,Engineer,Engineer2,
+    King,Queen,Singer1,Singer2,
+    Snakeman=48,Centaur,Orc,AxeOrc,Siren,TreePerson,ElfArcher,ElfArcher2,Gnome,Gnome2,Dwarf,DwarfKing,Goblin, GoblinKing, KobaldKing, Kobald,
+    Ogre,Troll,SkeletonWizard,Shambler,Howler,UpsideDownhead,Mantis, 
+    Skypirate=120
 }
 
 export enum IconIndex {

@@ -4,6 +4,7 @@ import { Portal } from "../assets/data/Portal";
 
 export const getCardData = (c:CardType) => {
     if(Portal[c]) return Portal[c]
+    debugger
     return null
 }
 
@@ -22,7 +23,7 @@ export const defaultCards = (playerId:string):Card[] => {
         {
             id: v4(),
             ownerId: playerId,
-            kind: CardType.GoblinKing,
+            kind: CardType.Goblin,
             tapped: false,
             newSummon: true,
             tileX:null,
@@ -32,7 +33,7 @@ export const defaultCards = (playerId:string):Card[] => {
         {
             id: v4(),
             ownerId: playerId,
-            kind: CardType.Mountain,
+            kind: CardType.Desert,
             tapped: false,
             newSummon: true,
             tileX:null,
@@ -57,7 +58,7 @@ export const goblinHordes = (playerId:string):Card[] => {
         {
             id: v4(),
             ownerId: playerId,
-            kind: CardType.GoblinKing,
+            kind: CardType.Goblin,
             tapped: false,
             newSummon: true,
             tileX:null,
@@ -67,7 +68,7 @@ export const goblinHordes = (playerId:string):Card[] => {
         {
             id: v4(),
             ownerId: playerId,
-            kind: CardType.Mountain,
+            kind: CardType.Desert,
             tapped: false,
             newSummon: true,
             tileX:null,

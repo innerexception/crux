@@ -7,7 +7,7 @@ import CreatureSprite from "../sprites/CreatureSprite";
 import { canAfford, drawRectSegment, emptyMana, isPassableTile, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData } from "../../common/CardUtils";
 
-const TILE_DIM=16
+const TILE_DIM=32
 const FIELD_WIDTH=6
 const FIELD_HEIGHT=3
 
@@ -37,7 +37,7 @@ export default class MapScene extends Scene {
 
     create = () =>
     {
-        this.g = this.add.graphics().setDefaultStyles({ lineStyle: { width:0.5, color:0xffffff, alpha:1 }}).setDepth(7)
+        this.g = this.add.graphics().setDefaultStyles({ lineStyle: { width:1, color:0xffffff, alpha:1 }}).setDepth(7)
         this.add.tileSprite(0,0,this.cameras.main.displayWidth,this.cameras.main.displayHeight*2, 'bg').setOrigin(0,0).setScale(1)
         this.createSelectIcon()
         this.input.mouse.disableContextMenu()
@@ -54,16 +54,16 @@ export default class MapScene extends Scene {
         this.myDir = mySave.players.find(p=>p.id === store.getState().saveFile.myId).dir
         this.map?.destroy()
         this.map = this.add.tilemap(Maps.Tutorial)
-        let grass = this.map.addTilesetImage('terrain', 'tiles', TILE_DIM,TILE_DIM,1,2)
+        let grass = this.map.addTilesetImage('tiles', 'tiles', TILE_DIM,TILE_DIM)
         LayerStack.forEach(l=>this.map.createLayer(l, grass))
 
-        const midTile = this.map.getTileAt(this.map.width/2, this.map.height/2, false, Layers.Earth)
+        const midTile = this.map.getTileAt(Math.round(this.map.width/2), Math.round(this.map.height/2), false, Layers.Earth)
         this.northLands = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y-FIELD_HEIGHT-1, FIELD_WIDTH*2, 1)
         this.northCreatures = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y-(FIELD_HEIGHT), FIELD_WIDTH*2, 1)
         this.southLands = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y+FIELD_HEIGHT, FIELD_WIDTH*2, 1)
         this.southCreatures = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y+(FIELD_HEIGHT-1), FIELD_WIDTH*2, 1)
         
-        const g = this.add.graphics().setDefaultStyles({ lineStyle: { width:0.5, color:0xffffff, alpha:1 }}).setDepth(7)
+        const g = this.add.graphics().setDefaultStyles({ lineStyle: { width:2, color:0xffffff, alpha:0.5 }}).setDepth(7)
         const rect = new Geom.Rectangle(midTile.pixelX-(FIELD_WIDTH*TILE_DIM), midTile.pixelY-(FIELD_HEIGHT*TILE_DIM), FIELD_WIDTH*2*TILE_DIM, FIELD_HEIGHT*2*TILE_DIM)
         this.drawMarchingDashedRect(g, rect)
 
@@ -75,9 +75,8 @@ export default class MapScene extends Scene {
             this.creatures.push(new CreatureSprite(this, this.map.tileToWorldX(c.tileX), this.map.tileToWorldY(c.tileY), getCardData(c.kind).sprite, c.id, player.dir))
         })
         
-        this.cameras.main.setZoom(2)
-        this.cameras.main.setScroll(0,0)
-        this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
+        this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.cameras.main.worldView.height)
+        this.cameras.main.centerToBounds()
     }
 
     drawMarchingDashedRect(
@@ -245,19 +244,19 @@ export default class MapScene extends Scene {
                     this.selectIcon.setVisible(false)
                 }
             }
-            if (this.game.input.activePointer.isDown) {
-                if (this.origDragPoint) {
-                    // move the camera by the amount the mouse has moved since last update
-                    this.cameras.main.scrollX +=
-                        (this.origDragPoint.x - this.game.input.activePointer.position.x);
-                    this.cameras.main.scrollY +=
-                        (this.origDragPoint.y - this.game.input.activePointer.position.y);
-                } // set new drag origin to current position
-                this.origDragPoint = this.game.input.activePointer.position.clone();
-            } 
-            else {
-                this.origDragPoint = null;
-            }
+            // if (this.game.input.activePointer.isDown) {
+            //     if (this.origDragPoint) {
+            //         // move the camera by the amount the mouse has moved since last update
+            //         this.cameras.main.scrollX +=
+            //             (this.origDragPoint.x - this.game.input.activePointer.position.x);
+            //         this.cameras.main.scrollY +=
+            //             (this.origDragPoint.y - this.game.input.activePointer.position.y);
+            //     } // set new drag origin to current position
+            //     this.origDragPoint = this.game.input.activePointer.position.clone();
+            // } 
+            // else {
+            //     this.origDragPoint = null;
+            // }
             if(tile && this.creaturePreview){
                 this.creaturePreview.x = tile.getCenterX()
                 this.creaturePreview.y = tile.getCenterY()
@@ -363,7 +362,7 @@ export default class MapScene extends Scene {
     }
 
     floatResource = (x:number, y:number, index:IconIndex, color:string, text?:string) => {
-        let icon = this.add.image(x, y, 'items', index).setDepth(4)
+        let icon = this.add.image(x, y, 'creatures', index).setDepth(4)
         let targets = [icon]
         if(text) {
             let txt = this.add.text(x+7, y-8, text, {...FONT_DEFAULT, color}).setDepth(4).setStroke('0x000', 2)
