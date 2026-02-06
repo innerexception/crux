@@ -64,6 +64,10 @@ export enum Permanents {
     CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',CreaturesYourGraveyard='CreaturesYourGraveyard',CreaturesOrPlayers='CreaturesOrPlayers'
 }
 
+export const ModifierDesc:Record<Modifier,string> = {
+    
+}
+
 export const PermanentsDesc:Record<Permanents,string> = {
     [Permanents.Any]:'',
     [Permanents.Sorcery]:'',
