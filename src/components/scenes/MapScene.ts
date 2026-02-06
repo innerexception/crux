@@ -380,6 +380,14 @@ export default class MapScene extends Scene {
         })
     }
 
+    flashIcon = (x:number, y:number, index:IconIndex) => {
+        let icon = this.add.image(x, y, 'creatures', index).setDepth(4)
+        this.time.addEvent({
+            delay:1000,
+            callback: ()=>icon.destroy()
+        })
+    }
+
     showErrorText = (message:string, cursor?:string) => {
         const t = this.add.text(this.input.activePointer.worldX+20, this.input.activePointer.worldY, message, FONT_DEFAULT).setStroke('0x000', 2).setDepth(3)
         //if(cursor) this.input.setDefaultCursor(invalidCursor)

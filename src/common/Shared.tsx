@@ -20,9 +20,9 @@ interface ButtonProps {
 export const Button = (props:ButtonProps) => 
     <div style={{...props.style, ...AppStyles.buttonOuter, pointerEvents: props.enabled ? 'all' : 'none'}} 
         onClick={()=>props.handler()}>
-        <div style={{...AppStyles.buttonInner, opacity: props.enabled ? 1 : 0.5}}>
-            {props.icon && <span style={{marginRight:'0.5em'}}><CssIcon spriteIndex={props.icon} noTooltip={true}/></span>}
-            {props.text}
+        <div style={{...AppStyles.buttonInner, opacity: props.enabled ? 1 : 0.5, display:'flex', alignItems:'end'}}>
+            {props.icon && <CssIcon spriteIndex={props.icon} noTooltip={true}/>}
+            <div style={props.icon ? {marginLeft:'0.5em', lineHeight:'16px'}:{}}>{props.text}</div>
         </div>
     </div>
 
@@ -99,25 +99,19 @@ export const CssIcon = (props:{spriteIndex:IconIndex, noTooltip?:boolean}) => {
     let sheetWidth = 24
 
     return props.noTooltip ? <div style={{
-        width:'16px', 
-        height: '16px',
-        marginLeft:'10px', 
-        marginRight:'10px',
+        width:'32px', 
+        height: '32px',
         backgroundImage, 
-        backgroundPosition: -(props.spriteIndex % sheetWidth)*16+'px '+-(Math.floor(props.spriteIndex/sheetWidth))*16+'px', 
+        backgroundPosition: -(props.spriteIndex % sheetWidth)*32+'px '+-(Math.floor(props.spriteIndex/sheetWidth))*32+'px', 
         backgroundRepeat:'no-repeat',
-        transform:'scale(2)',
         display:'inline-block'}}/> : 
         <Tooltip placement='bottom' overlay={<div><h4>{getDescription(props.spriteIndex)}</h4></div>}>
             <div style={{
-                width:'16px', 
-                height: '16px',
-                marginLeft:'10px', 
-                marginRight:'10px',
+                width:'32px', 
+                height: '32px',
                 backgroundImage, 
-                backgroundPosition: -(props.spriteIndex % sheetWidth)*16+'px '+-(Math.floor(props.spriteIndex/sheetWidth))*16+'px', 
+                backgroundPosition: -(props.spriteIndex % sheetWidth)*32+'px '+-(Math.floor(props.spriteIndex/sheetWidth))*32+'px', 
                 backgroundRepeat:'no-repeat',
-                transform:'scale(2)',
                 display:'inline-block'}}/>
         </Tooltip>
 } 
@@ -129,34 +123,26 @@ export const CreatureIcon = (props:{kind:CardType, noTooltip?:boolean}) => {
 
     return props.noTooltip ? 
         <div style={{
-            width:'16px', 
-            height: '16px',
-            marginLeft:'10px', 
-            marginRight:'10px',
+            width:'32px', 
+            height: '32px',
             backgroundImage, 
-            backgroundPosition: -(spriteIndex % sheetWidth)*16+'px '+-(Math.floor(spriteIndex/sheetWidth))*16+'px', 
+            backgroundPosition: -(spriteIndex % sheetWidth)*32+'px '+-(Math.floor(spriteIndex/sheetWidth))*32+'px', 
             backgroundRepeat:'no-repeat',
-            transform:'scale(2)',
             display:'inline-block'}}/>:
         <Tooltip placement='bottom' overlay={<div>{getCreatureDescription(props.kind)}</div>}>
         <div style={{
-            width:'16px', 
-            height: '16px',
-            marginLeft:'10px', 
-            marginRight:'10px',
+            width:'32px', 
+            height: '32px',
             backgroundImage, 
-            backgroundPosition: -(spriteIndex % sheetWidth)*16+'px '+-(Math.floor(spriteIndex/sheetWidth))*16+'px', 
+            backgroundPosition: -(spriteIndex % sheetWidth)*32+'px '+-(Math.floor(spriteIndex/sheetWidth))*32+'px', 
             backgroundRepeat:'no-repeat',
-            transform:'scale(2)',
             display:'inline-block'}}/>
         </Tooltip>
 } 
 
 const getDescription = (index:IconIndex) => {
     switch(index){
-        case IconIndex.Hunger: return <div><CssIcon noTooltip={true} spriteIndex={IconIndex.Hunger}/> Creature cannot find food </div>
         case IconIndex.Mana: return <div><CssIcon noTooltip={true} spriteIndex={IconIndex.Mana}/> Mana, the power of creation </div>
-        case IconIndex.Adventurer: return <div><CssIcon noTooltip={true} spriteIndex={IconIndex.Adventurer}/> Next adventurer arrives </div>
     }
 }
 

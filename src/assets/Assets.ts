@@ -6,7 +6,7 @@ export const FONT_DEFAULT = {
     color:'#fff',
 }
 
-export const iconSheet = require('./img/iconsc.png')
+export const iconSheet = require('./img/dcssFull.png')
 export const creatureSheet = require('./img/dcssFull.png')
 export const defaultCursor = require('./img/default.png')
 

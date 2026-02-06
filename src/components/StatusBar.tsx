@@ -10,8 +10,8 @@ export default () => {
 
     const me = useSelector((state:RState)=>state.currentMatch.players.find(p=>p.id === state.saveFile.myId))
     return (
-        <div style={{width:'100%', height:'38px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-            <div style={{display:'flex'}}>
+        <div style={{width:'100%', height:'48px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+            <div style={{display:'flex', gap:'5px', fontSize:'28px'}}>
                 <CssIcon spriteIndex={IconIndex.Mana}/>
                 {Object.keys(me.manaPool).map(color=><div style={{color}}>{me.manaPool[color]}</div>)}
             </div>

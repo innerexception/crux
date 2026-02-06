@@ -75,7 +75,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 duration: 1
             }
         },
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.FireCloak
     },
     [CardType.FeatherCloak]: {
         color:Color.Blue,
@@ -89,7 +89,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 draw: 1
             }
         },
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.FeatherCloak
     },
     [CardType.Sandstorm]: {
         color:Color.Red,
@@ -102,7 +102,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 pumpDamage: true 
             }
         },
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.Sandstorm
     },
     [CardType.Earthquake]: {
         color:Color.Red,
@@ -115,7 +115,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 pumpDamage: true
             }
         },
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.Earthquake
     },
     [CardType.PeaceTreaty]: {
         color:Color.White,
@@ -130,7 +130,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 pacifism: true
             }
         },
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.PeaceTreaty
     },
     [CardType.HeroicSoldier]: {
         color:Color.White,
@@ -140,7 +140,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         moves: 1,
         ability: null,
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.HeroicSoldier
     },
     [CardType.FertileSoil]: {
         color:Color.Green,
@@ -152,7 +152,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 hpPerForest: true
             }
         },
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.FertileSoil
     },
     [CardType.Hurricane]: {
         color:Color.Blue,
@@ -165,7 +165,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 pumpDamage: true
             }
         },
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.Hurricane
     },
     [CardType.JunglePanther]: {
         color:Color.Green,
@@ -176,7 +176,7 @@ export const Portal:Record<CardType, CardMeta> = {
         moves: 1,
         ability: null,
         attributes: [Modifier.CantBlock],
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.JunglePanther
     },
     [CardType.Merfolk]: {
         color:Color.Blue,
@@ -186,7 +186,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         moves: 1,
         ability: null,
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.Merfolk
     },
     [CardType.Refreshment]: {
         color:Color.Green,
@@ -198,7 +198,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 untap: true
             }
         },
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.Refreshment
     },
     [CardType.BillyGoat]: {
         color:Color.Red,
@@ -209,7 +209,7 @@ export const Portal:Record<CardType, CardMeta> = {
         moves: 1,
         ability: null,
         attributes:[Modifier.DesertWalk],
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.BillyGoat
     },
     [CardType.ScavengingRats]: {
         color:Color.Black,
@@ -219,7 +219,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         moves: 1,
         ability: null,
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.ScavengingRats
     },
     [CardType.Memoize]: {
         color:Color.Blue,
@@ -230,7 +230,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 searchSorceryForTop: true
             }
         },
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.Memoize
     },
     [CardType.Brainstorm]: {
         color:Color.Blue,
@@ -243,7 +243,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 drawX:true
             }
         },
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.Brainstorm
     },
     [CardType.Goblin]: {
         color:Color.Red,
@@ -254,7 +254,7 @@ export const Portal:Record<CardType, CardMeta> = {
         moves: 1,
         ability: null,
         attributes:[Modifier.Berserk],
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.Goblin
     },
     [CardType.Necromancy]: {
         color:Color.Black,
@@ -266,7 +266,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 cardToHand: true
             }
         },
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.Necromancy
     },
     [CardType.FierySpear]: {
         color:Color.Red,
@@ -278,6 +278,6 @@ export const Portal:Record<CardType, CardMeta> = {
                 dmg: 1
             }
         },
-        sprite: CreatureSpriteIndex.Grub
+        sprite: CreatureSpriteIndex.FierySpear
     },
 }

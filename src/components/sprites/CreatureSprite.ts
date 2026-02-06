@@ -38,7 +38,7 @@ export default class CreatureSprite extends GameObjects.Image {
             if(this.scene.validEndTile(myTile, owner.dir, true)){
                 const enemy = state.players.find(p=>p.id !== creature.ownerId)
                 onUpdatePlayer({...enemy, hp: enemy.hp-getCardData(creature.kind).atk})
-                this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Bored, '0xff0000', '-')
+                this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Damage, '0xff0000', '-')
                 return this.reset()
             }
 
@@ -73,13 +73,15 @@ export default class CreatureSprite extends GameObjects.Image {
         const defender = getCardData(target.kind)
         let thisCard = store.getState().currentMatch.board.find(c=>c.id === this.id)
         const attacker = getCardData(thisCard.kind)
+        const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
+            
+        this.scene.flashIcon(myTile.pixelX, myTile.pixelY, IconIndex.Sword)
         if(defender.kind === Permanents.Land){
             //If target is land, apply pillage (tap land until end of controller's next turn)
             this.reset()
             target.tapped = true
             target.status.Pillaged=true
             onUpdateBoardCreature(target)
-            const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
             return this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Sword, '0xff0000')
         }
 

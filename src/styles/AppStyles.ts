@@ -30,14 +30,11 @@ export default {
         padding:'0.5em', background: colors.white, border:'5px outset', borderColor:colors.white, borderBottomLeftRadius:'20px', borderTopRightRadius:'20px', marginBottom:'0.5em', marginTop:'0.5em'
     },
     buttonOuter: {
-        color: colors.white, 
         cursor:'pointer',
-        textAlign:'center' as 'center',
-        
     },
     boxShadow: '5px 4px 8px 0px black',
     buttonInner: {
-        paddingLeft:'5px', paddingRight:'5px' ,
+        padding:'3px',
         color: colors.black, 
         background:colors.grey1,
         cursor:'pointer',
