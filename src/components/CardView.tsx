@@ -28,7 +28,7 @@ export default (props:{card:Card}) => {
 }
     
 export const getCreatureDetail = (dat:CardMeta) => 
-    <div style={{fontSize:'16px'}}>
+    <div style={{fontSize:'16px', borderColor: colors[dat.color]}}>
         <div style={{display:'flex', justifyContent:'space-between'}}>
             <div style={{marginRight:'5px'}}>
                 <div style={{display:'flex', alignItems:'center'}}>
