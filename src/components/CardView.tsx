@@ -1,16 +1,73 @@
 import * as React from 'react'
-import AppStyles from '../styles/AppStyles';
-import { Button, CreatureIcon, CssIcon } from '../common/Shared';
+import AppStyles, { colors } from '../styles/AppStyles';
+import { Button, CssIcon } from '../common/Shared';
 import { getCardData } from '../common/CardUtils';
+import { OtherIcons, IconIndex, Permanents, CreatureSpriteIndex, PermanentsDesc } from '../../enum';
+import Tooltip from 'rc-tooltip';
 
 export default (props:{card:Card}) => {
     
+    const dat = getCardData(props.card.kind)
+
     return (
-        <div style={{width:'200px'}}>
-            <div style={{textAlign:'center', marginBottom:'0.5em'}}>{props.card.kind}</div>
-            <div><CreatureIcon kind={props.card.kind}/></div>
-            {getCardData(props.card.kind).atk && <div>{getCardData(props.card.kind).atk}/{getCardData(props.card.kind).def}</div>}
+        <div style={{width:'200px', height:'80px', border:'2px inset', fontSize:'16px', borderColor: colors[dat.color], padding:'10px', borderRadius:'5px'}}>
+            <Tooltip overlay={getCreatureDetail(dat)}>
+                <div style={{display:'flex', justifyContent:'space-between'}}>
+                    <div style={{marginRight:'5px'}}>
+                        <div>{props.card.kind}</div>
+                        <CssIcon spriteIndex={dat.sprite} noTooltip={true}/>
+                        {dat.atk && <div>{getCardData(props.card.kind).atk}/{getCardData(props.card.kind).def}</div>}
+                    </div>
+                    {renderCost(dat.cost)}
+                </div>
+            </Tooltip>
         </div>
     )
 }
     
+const getCreatureDetail = (dat:CardMeta) => 
+    <div style={{fontSize:'16px'}}>
+        {dat.description && <div>{dat.description}</div>}
+        {dat.attributes && dat.attributes.map(a=><div>{a}</div>)}
+        {dat.ability && <div>
+            <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Tap}/>} {renderCost(dat.ability.cost)}</div>
+            {dat.ability.targets && <div>Affects: {PermanentsDesc[dat.ability.targets]}</div>}
+            <div>{dat.ability.effect && renderEffect(dat.ability.effect)}</div>   
+        </div>}
+        
+    </div>
+
+const renderCost = (mana:ManaCost[]) => {
+    if(mana) return <div style={{display:'flex'}}>
+        {mana.map(c=><div style={{display:'flex'}}><CssIcon spriteIndex={OtherIcons[c.kind]}/>{c.amount > 0 ? c.amount : '+'}</div>)}
+    </div>
+    return <span/>
+}
+    
+
+const renderEffect = (effect:CardEffect) => 
+    <div>
+        {effect.atkUp || effect.defUp &&
+        <div>
+            <div>Target recieves </div>
+            <div style={{display:'flex'}}>
+                {effect.atkUp ? <div>{effect.atkUp > 0 && '+'}{effect.atkUp}</div> : <div>+0</div>}
+                /
+                {effect.defUp ? <div>{effect.defUp > 0 && '+'}{effect.defUp}</div>: <div>+0</div>}
+            </div>
+        </div>
+        }
+        {effect.cardToHand && <div>Return target card to your hand.</div>}
+        {effect.discard && <div>Discard target card from your hand.</div>}
+        {effect.dmg && <div>Deal {effect.dmg} to target.</div>}
+        {effect.draw && <div>Draw a card.</div>}
+        {effect.drawX && <div>Draw X cards.</div>}
+        {effect.duration && <div>For {effect.duration} turns.</div>}
+        {effect.hpPerForest && <div>Gain 1 life for each <CssIcon spriteIndex={CreatureSpriteIndex.Forest}/></div>}
+        {effect.pacifism && <div>Target may not attack.</div>}
+        {effect.pumpDamage && <div>Deal X damage to target.</div>}
+        {effect.removal && <div>Remove target from the game.</div>}
+        {effect.destroy && <div>Put target into controller's graveyard.</div>}
+        {effect.searchSorceryForTop && <div>Search your deck for a sorcery. It will be placed on top of your library.</div>}
+        {effect.untap && <div>Untap target.</div>}
+    </div>

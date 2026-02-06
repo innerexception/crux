@@ -9,38 +9,18 @@ export const getCardData = (c:CardType) => {
 }
 
 export const defaultCards = (playerId:string):Card[] => {
-    return [
-        {
+    return Object.keys(Portal).map((c:CardType)=>{
+        return {
             id: v4(),
             ownerId: playerId,
-            kind: CardType.Goblin,
+            kind: c,
             tapped: false,
             newSummon: true,
             tileX:null,
             tileY:null,
             status:{}
-        },
-        {
-            id: v4(),
-            ownerId: playerId,
-            kind: CardType.Goblin,
-            tapped: false,
-            newSummon: true,
-            tileX:null,
-            tileY:null,
-            status:{}
-        },
-        {
-            id: v4(),
-            ownerId: playerId,
-            kind: CardType.Desert,
-            tapped: false,
-            newSummon: true,
-            tileX:null,
-            tileY:null,
-            status:{}
-        }
-    ]
+        }}
+    )
 }
 
 export const goblinHordes = (playerId:string):Card[] => {
@@ -68,13 +48,63 @@ export const goblinHordes = (playerId:string):Card[] => {
         {
             id: v4(),
             ownerId: playerId,
+            kind: CardType.Goblin,
+            tapped: false,
+            newSummon: true,
+            tileX:null,
+            tileY:null,
+            status:{}
+        },
+        {
+            id: v4(),
+            ownerId: playerId,
+            kind: CardType.Goblin,
+            tapped: false,
+            newSummon: true,
+            tileX:null,
+            tileY:null,
+            status:{}
+        },
+        {
+            id: v4(),
+            ownerId: playerId,
+            kind: CardType.Goblin,
+            tapped: false,
+            newSummon: true,
+            tileX:null,
+            tileY:null,
+            status:{}
+        },
+        {
+            id: v4(),
+            ownerId: playerId,
             kind: CardType.Desert,
             tapped: false,
             newSummon: true,
             tileX:null,
             tileY:null,
             status:{}
-        }
+        },
+        {
+            id: v4(),
+            ownerId: playerId,
+            kind: CardType.Desert,
+            tapped: false,
+            newSummon: true,
+            tileX:null,
+            tileY:null,
+            status:{}
+        },
+        {
+            id: v4(),
+            ownerId: playerId,
+            kind: CardType.Desert,
+            tapped: false,
+            newSummon: true,
+            tileX:null,
+            tileY:null,
+            status:{}
+        },
     ]
 }
 

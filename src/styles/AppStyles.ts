@@ -1,3 +1,5 @@
+import { Color } from "../../enum"
+
 export const colors = {
     white: '#fff',
     black: '#000',

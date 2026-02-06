@@ -3,7 +3,7 @@ import * as React from 'react'
 import { creatureSheet, iconSheet } from '../assets/Assets'
 import AppStyles from '../styles/AppStyles'
 import Tooltip from 'rc-tooltip'
-import { CardType, IconIndex } from '../../enum'
+import { CardType, CreatureSpriteIndex, IconIndex } from '../../enum'
 import { getCardData } from './CardUtils'
 
 export const TopBar = (text:string|JSX.Element) => 
@@ -94,9 +94,9 @@ export const VerticalProgressBar = (props:{value:number, max:number, bg:string})
         <div style={{background:props.bg, backgroundSize:'32px', height:Math.round((props.value/props.max)*100)+'%', width:'100%',position:"absolute", bottom:0}}/>
     </div>
 
-export const CssIcon = (props:{spriteIndex:IconIndex, noTooltip?:boolean}) => {
+export const CssIcon = (props:{spriteIndex:IconIndex|CreatureSpriteIndex, noTooltip?:boolean}) => {
     let backgroundImage = 'url('+iconSheet+')'
-    let sheetWidth = 24
+    let sheetWidth = 64
 
     return props.noTooltip ? <div style={{
         width:'32px', 
@@ -116,40 +116,8 @@ export const CssIcon = (props:{spriteIndex:IconIndex, noTooltip?:boolean}) => {
         </Tooltip>
 } 
         
-export const CreatureIcon = (props:{kind:CardType, noTooltip?:boolean}) => {
-    let backgroundImage = 'url('+creatureSheet+')'
-    let sheetWidth = 16
-    const spriteIndex = getCardData(props.kind).sprite
-
-    return props.noTooltip ? 
-        <div style={{
-            width:'32px', 
-            height: '32px',
-            backgroundImage, 
-            backgroundPosition: -(spriteIndex % sheetWidth)*32+'px '+-(Math.floor(spriteIndex/sheetWidth))*32+'px', 
-            backgroundRepeat:'no-repeat',
-            display:'inline-block'}}/>:
-        <Tooltip placement='bottom' overlay={<div>{getCreatureDescription(props.kind)}</div>}>
-        <div style={{
-            width:'32px', 
-            height: '32px',
-            backgroundImage, 
-            backgroundPosition: -(spriteIndex % sheetWidth)*32+'px '+-(Math.floor(spriteIndex/sheetWidth))*32+'px', 
-            backgroundRepeat:'no-repeat',
-            display:'inline-block'}}/>
-        </Tooltip>
-} 
-
-const getDescription = (index:IconIndex) => {
+const getDescription = (index:IconIndex|CreatureSpriteIndex) => {
     switch(index){
         case IconIndex.Mana: return <div><CssIcon noTooltip={true} spriteIndex={IconIndex.Mana}/> Mana, the power of creation </div>
     }
-}
-
-export const getCreatureDescription = (kind:CardType) => {
-    return <div style={{padding:'5px'}}>
-        <div style={{display:'flex', marginBottom:'5px'}}>
-            <div style={{marginLeft:'5px'}}>{kind}</div>
-        </div>
-    </div>
 }

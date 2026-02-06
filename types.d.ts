@@ -27,6 +27,7 @@ interface CardMeta {
     def?:number
     moves?:number
     cost?: ManaCost[]
+    description?:string
     pumpColor?: import('./enum').Color
     kind: import('./enum').Permanents
     attributes?: import('./enum').Modifier[]
@@ -34,7 +35,6 @@ interface CardMeta {
         cost?: ManaCost[]
         tap?: boolean
         targets?: import('./enum').Permanents
-        specificTargets?: import('./enum').CardType[]
         effect?: CardEffect
     }
     sprite: import('./enum').CreatureSpriteIndex
@@ -44,6 +44,7 @@ interface CardEffect {
     dmg?:number
     pumpDamage?:boolean
     removal?:boolean
+    destroy?:boolean
     duration?: number
     atkUp?:number
     defUp?:number

@@ -2,7 +2,7 @@ import Tooltip from 'rc-tooltip';
 import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { IconIndex, Modal } from '../../enum';
-import { Button, CreatureIcon, CssIcon, ProgressBar } from '../common/Shared';
+import { Button, CssIcon } from '../common/Shared';
 import { onEndTurn, onShowModal } from '../common/Thunks';
 import { colors } from '../styles/AppStyles';
 

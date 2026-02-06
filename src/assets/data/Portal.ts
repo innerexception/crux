@@ -31,7 +31,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Forest
     },
-    [CardType.Island]: {
+    [CardType.Tower]: {
         color:Color.Blue,
         attributes: null,
         kind: Permanents.Land,
@@ -39,9 +39,9 @@ export const Portal:Record<CardType, CardMeta> = {
             tap: true,
             cost:[{ kind: Color.Blue, amount: -1}],
         },
-        sprite: CreatureSpriteIndex.Island
+        sprite: CreatureSpriteIndex.Tower
     },
-    [CardType.Meadow]: {
+    [CardType.Sanctuary]: {
         color:Color.White,
         attributes: null,
         kind: Permanents.Land,
@@ -49,7 +49,7 @@ export const Portal:Record<CardType, CardMeta> = {
             tap: true,
             cost:[{ kind: Color.White, amount: -1}],
         },
-        sprite: CreatureSpriteIndex.Meadow
+        sprite: CreatureSpriteIndex.Sanctuary
     },
     [CardType.SkyPirates]: {
         color:Color.Blue,
@@ -167,7 +167,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Hurricane
     },
-    [CardType.JunglePanther]: {
+    [CardType.ForestJackal]: {
         color:Color.Green,
         atk: 2,
         def: 1,
@@ -176,7 +176,7 @@ export const Portal:Record<CardType, CardMeta> = {
         moves: 1,
         ability: null,
         attributes: [Modifier.CantBlock],
-        sprite: CreatureSpriteIndex.JunglePanther
+        sprite: CreatureSpriteIndex.ForestJackal
     },
     [CardType.Merfolk]: {
         color:Color.Blue,

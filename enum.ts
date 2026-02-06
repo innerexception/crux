@@ -44,18 +44,47 @@ export enum StatusEffect {
 }
 
 export enum CreatureSpriteIndex {
-    City=914, Desert=1075, Forest=369, Island=279, Meadow=218, Skypirate=4869,FireCloak=5392,FeatherCloak=5386,
-    Sandstorm=1505,Earthquake=1900,PeaceTreaty=2138,HeroicSoldier=4893,FertileSoil=2483
-    
+    City=914, Desert=256, Forest=369, Tower=936, Meadow=218, Skypirate=4869,FireCloak=5392,FeatherCloak=5386,
+    Sandstorm=1505,Earthquake=1900,PeaceTreaty=2138,HeroicSoldier=4893,FertileSoil=2483,Hurricane=4377,Goblin=4545,
+    ForestJackal=4102,Merfolk=3956,Refreshment=2218,BillyGoat=4162,ScavengingRats=4089,Memoize=1964,Brainstorm=2028,
+    Necromancy=2095,FierySpear=1997,Sanctuary=385
 }
 
 export enum IconIndex {
     Mana=16, Options=1759, Close=37, Cancel=1734, Ok=1735, Quit=115,Sword=1902,Save=1935,
-    Damage=3302
+    Damage=3302,Tap=841,Red=2742,Blue=2751,Green=2722,Black=2741,White=2743,Gray=2736
 }
 
 export enum Color {
     Red='red',Blue='blue',Green='green',Black='black',White='white',None='gray'
+}
+
+export enum Permanents {
+    Land='Land',Creature='Creature',Enchantment='Enchantment',Any='Any',Sorcery='Sorcery',Self='Self',CreaturesYouControl='CreaturesYouControl',
+    CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',CreaturesYourGraveyard='CreaturesYourGraveyard',CreaturesOrPlayers='CreaturesOrPlayers'
+}
+
+export const PermanentsDesc:Record<Permanents,string> = {
+    [Permanents.Any]:'',
+    [Permanents.Sorcery]:'',
+    [Permanents.Creature]:'Creatures',
+    [Permanents.CreaturesAndPlayers]:'Creatures & Players',
+    [Permanents.CreaturesOrPlayers]:'Creatures or Players',
+    [Permanents.CreaturesYouControl]:'Creatures you control',
+    [Permanents.CreaturesYourGraveyard]:'Creatures in your graveyard',
+    [Permanents.Enchantment]:'Enchantments',
+    [Permanents.Land]:'Lands',
+    [Permanents.Players]:'Any Player',
+    [Permanents.Self]:'You'
+}
+
+export const OtherIcons:Record<Color, IconIndex> = {
+    [Color.Red]:IconIndex.Red,
+    [Color.Blue]:IconIndex.Blue,
+    [Color.Green]:IconIndex.Green,
+    [Color.Black]:IconIndex.Black,
+    [Color.White]:IconIndex.White,
+    [Color.None]:IconIndex.Gray
 }
 
 export enum Modifier {
@@ -65,17 +94,12 @@ export enum Modifier {
     Berserk //Haste
 }
 
-export enum Permanents {
-    Land='Land',Creature='Creature',Enchantment='Enchantment',Any='Any',Sorcery='Sorcery',Self='Self',CreaturesYouControl='CreaturesYouControl',
-    CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',CreaturesYourGraveyard='CreaturesYourGraveyard'
-}
-
 export enum CardType {
-    Meadow='Meadow',Desert='Desert',Island='Island',City='City',Forest='Forest',
+    Sanctuary='Sanctuary',Desert='Desert',Tower='Tower',City='City',Forest='Forest',
     Sandstorm='Sandstorm',FireCloak='FireCloak',FeatherCloak='FeatherCloak',
     SkyPirates='SkyPirates',HeroicSoldier='HeroicSoldier',Earthquake='Earthquake',
     PeaceTreaty='PeaceTreaty', FertileSoil='FertileSoil',Hurricane='Hurricane',
-    JunglePanther='JunglePanther',Merfolk='Merfolk',Refreshment='Refreshment',
+    ForestJackal='JunglePanther',Merfolk='Merfolk',Refreshment='Refreshment',
     BillyGoat='BillyGoat', ScavengingRats='ScavengingRats',Memoize='Memoize',
     Brainstorm='Brainstorm', Goblin='Goblin', Necromancy='Necromancy', FierySpear='FierySpear',
 
