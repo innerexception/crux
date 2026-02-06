@@ -157,7 +157,7 @@ export default class MapScene extends Scene {
         const state = store.getState().currentMatch
         let p = state.players.find(p=>p.id === state.activePlayerId)
         const next = p.deck.cards.shift()
-        p.hand = p.hand.concat(next)
+        if(next) p.hand = p.hand.concat(next)
         //TODO: choose high priority target to destroy/block
         const enemies = state.board.filter(c=>c.ownerId !== p.id && getCardData(c.kind).kind === Permanents.Creature).map(c=>this.creatures.find(s=>s.id === c.id))
         if(enemies.length > 0){
@@ -180,13 +180,23 @@ export default class MapScene extends Scene {
                 this.addCard(creature.id, spawnTile.pixelX, spawnTile.pixelY)
             }
             else {
-                const spawnTile = this.map.getTileAt(getEmptyStartTile(p.dir), p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
+                const spawnTile = this.map.getTileAt(this.getEmptyStartTile(p).x, p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
                 this.addCard(creature.id, spawnTile.pixelX, spawnTile.pixelY)
             }
         }
         //TODO: use owned creature abilities if possible
         
         this.endTurn()
+    }
+
+    getEmptyStartTile (p:PlayerState) {
+        const mine = store.getState().currentMatch.board.filter(c=>c.ownerId === p.id)
+        if(p.dir === Direction.NORTH){
+            return this.northCreatures.find(t=>!mine.find(c=>c.tileX === t.x && c.tileY === t.y))
+        }
+        else {
+            return this.southCreatures.find(t=>!mine.find(c=>c.tileX === t.x && c.tileY === t.y))
+        }
     }
 
     showCardTargets = (show:boolean) => {

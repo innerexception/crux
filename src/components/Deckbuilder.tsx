@@ -34,7 +34,7 @@ export default () => {
                 </div>)}
                 <Button style={{marginLeft:'1em'}} text="Add New Set+" enabled={true} handler={()=>onUpdateSave({...me, decks: me.decks.concat({id:v4(), name:'new set', cards: []})})} />
             </div>
-            <div>{selectedDeck ? 'Editing Set':''}</div>
+            <div style={{marginTop:'1em'}}>{selectedDeck ? 'Editing Set':''}</div>
             {selectedDeck && <div style={{display:'flex', flexWrap:'wrap', height:'200px', overflow:'auto', border:'1px solid', padding:'5px'}}>
                 {selectedDeck.cards.length === 0 && <div style={{width:'100%', textAlign:'center'}}>--No Cards--</div>}
                 {selectedDeck.cards.map(c=><div onClick={()=>removeCardFromDeck(c)}><CardView card={c}/></div>)}
