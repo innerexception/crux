@@ -71,7 +71,7 @@ export const Portal:Record<CardType, CardMeta> = {
             targets: Permanents.Creature,
             effect: {
                 atkUp: 2,
-                dmg: 2,
+                dmg:2,
                 duration: 1
             }
         },

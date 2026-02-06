@@ -113,6 +113,5 @@ export const getAIDeck = (id:string) => {
 }
 
 export const AIDecks = [
-    defaultCards,
-    goblinHordes,
+    goblinHordes
 ]

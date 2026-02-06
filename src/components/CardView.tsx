@@ -2,7 +2,7 @@ import * as React from 'react'
 import AppStyles, { colors } from '../styles/AppStyles';
 import { Button, CssIcon } from '../common/Shared';
 import { getCardData } from '../common/CardUtils';
-import { OtherIcons, IconIndex, Permanents, CreatureSpriteIndex, PermanentsDesc, ModifierDesc } from '../../enum';
+import { OtherIcons, IconIndex, Permanents, CreatureSpriteIndex, PermanentsDesc, ModifierDesc, Color } from '../../enum';
 import Tooltip from 'rc-tooltip';
 
 export default (props:{card:Card}) => {
@@ -10,36 +10,46 @@ export default (props:{card:Card}) => {
     const dat = getCardData(props.card.kind)
 
     return (
-        <div style={{width:'200px', height:'80px', border:'2px inset', fontSize:'16px', borderColor: colors[dat.color], padding:'10px', borderRadius:'5px'}}>
+        <div style={{width:'120px', height:'80px', border:'2px inset', fontSize:'16px', borderColor: colors[dat.color], paddingLeft:'5px', borderRadius:'5px'}}>
             <Tooltip overlay={getCreatureDetail(dat)}>
                 <div style={{display:'flex', justifyContent:'space-between'}}>
                     <div style={{marginRight:'5px'}}>
                         <div>{props.card.kind}</div>
-                        <CssIcon spriteIndex={dat.sprite} noTooltip={true}/>
-                        {dat.atk && <div>{getCardData(props.card.kind).atk}/{getCardData(props.card.kind).def}</div>}
+                        <div style={{display:'flex', alignItems:'center'}}>
+                            <CssIcon spriteIndex={dat.sprite} noTooltip={true}/>
+                            {dat.atk && <div style={{marginLeft:'5px'}}>{dat.atk}/{dat.def}</div>}
+                        </div>
                     </div>
-                    {renderCost(dat.cost)}
                 </div>
             </Tooltip>
+            {renderCost(dat.cost, dat.pumpColor ? true:false)}
         </div>
     )
 }
     
-const getCreatureDetail = (dat:CardMeta) => 
+export const getCreatureDetail = (dat:CardMeta) => 
     <div style={{fontSize:'16px'}}>
+        <div style={{display:'flex', justifyContent:'space-between'}}>
+            <div style={{marginRight:'5px'}}>
+                <div style={{display:'flex', alignItems:'center'}}>
+                    <CssIcon spriteIndex={dat.sprite} noTooltip={true}/>
+                    {dat.atk && <div style={{marginLeft:'5px'}}>{dat.atk}/{dat.def}</div>}
+                </div>
+            </div>
+        </div>
         {dat.description && <div>{dat.description}</div>}
         {dat.attributes && dat.attributes.map(a=><div>{ModifierDesc[a]}</div>)}
         {dat.ability && <div>
-            <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Tap}/>} {renderCost(dat.ability.cost)}</div>
+            <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Tap}/>} {renderCost(dat.ability.cost, dat.ability.effect?.pumpDamage)}</div>
             {dat.ability.targets && <div>Affects: {PermanentsDesc[dat.ability.targets]}</div>}
             <div>{dat.ability.effect && renderEffect(dat.ability.effect)}</div>   
         </div>}
-        
     </div>
 
-const renderCost = (mana:ManaCost[]) => {
+const renderCost = (mana:ManaCost[], x:boolean) => {
     if(mana) return <div style={{display:'flex'}}>
-        {mana.map(c=><div style={{display:'flex'}}><CssIcon spriteIndex={OtherIcons[c.kind]}/>{c.amount > 0 ? c.amount : '+'}</div>)}
+        {mana.map(c=><div style={{display:'flex', alignItems:'center'}}><CssIcon noTooltip={true} spriteIndex={OtherIcons[c.kind]}/>{c.amount > 0 ? c.amount : '+'}</div>)}
+        {x && <div style={{display:'flex', alignItems:'center'}}><CssIcon noTooltip={true} spriteIndex={OtherIcons[Color.None]}/> X</div>}
     </div>
     return <span/>
 }
@@ -47,7 +57,8 @@ const renderCost = (mana:ManaCost[]) => {
 
 const renderEffect = (effect:CardEffect) => 
     <div>
-        {effect.atkUp || effect.defUp &&
+        {effect.duration && <div>For {effect.duration} turns: </div>}
+        {(effect.atkUp || effect.defUp) &&
         <div>
             <div>Target recieves </div>
             <div style={{display:'flex'}}>
@@ -62,7 +73,6 @@ const renderEffect = (effect:CardEffect) =>
         {effect.dmg && <div>Deal {effect.dmg} to target.</div>}
         {effect.draw && <div>Draw a card.</div>}
         {effect.drawX && <div>Draw X cards.</div>}
-        {effect.duration && <div>For {effect.duration} turns.</div>}
         {effect.hpPerForest && <div>Gain 1 life for each <CssIcon spriteIndex={CreatureSpriteIndex.Forest}/></div>}
         {effect.pacifism && <div>Target may not attack.</div>}
         {effect.pumpDamage && <div>Deal X damage to target.</div>}

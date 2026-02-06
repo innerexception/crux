@@ -64,8 +64,26 @@ export enum Permanents {
     CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',CreaturesYourGraveyard='CreaturesYourGraveyard',CreaturesOrPlayers='CreaturesOrPlayers'
 }
 
+export enum Modifier {
+    Banding=1,ProtectionFromBlack,ProtectionFromWhite,ProtectionFromRed,ProtectionFromGreen,ProtectionFromBlue,FirstStrike,
+    Flying,OnlyFlying,CantBlock, //Can't be put in a lane w/ an opposing creature
+    DesertWalk, //Ghostly in lane that ends in a desert
+    Berserk //Haste
+}
+
 export const ModifierDesc:Record<Modifier,string> = {
-    
+    [Modifier.Banding]: 'Banding',
+    [Modifier.Berserk]: 'Berserk',
+    [Modifier.CantBlock]: 'Timid',
+    [Modifier.DesertWalk]: 'Pathfinder - Desert',
+    [Modifier.FirstStrike]: 'Ambush',
+    [Modifier.Flying]: 'Flying',
+    [Modifier.OnlyFlying]: 'Airborn',
+    [Modifier.ProtectionFromBlack]: 'Protection from City',
+    [Modifier.ProtectionFromBlue]: 'Protection from Spirit',
+    [Modifier.ProtectionFromGreen]: 'Protection from Forest',
+    [Modifier.ProtectionFromRed]: 'Protection from Desert',
+    [Modifier.ProtectionFromWhite]: 'Protection from Holy'
 }
 
 export const PermanentsDesc:Record<Permanents,string> = {
@@ -91,12 +109,6 @@ export const OtherIcons:Record<Color, IconIndex> = {
     [Color.None]:IconIndex.Gray
 }
 
-export enum Modifier {
-    Banding=1,ProtectionFromBlack,ProtectionFromWhite,ProtectionFromRed,ProtectionFromGreen,ProtectionFromBlue,FirstStrike,
-    Flying,OnlyFlying,CantBlock, //Can't be put in a lane w/ an opposing creature
-    DesertWalk, //Ghostly in lane that ends in a desert
-    Berserk //Haste
-}
 
 export enum CardType {
     Sanctuary='Sanctuary',Desert='Desert',Tower='Tower',City='City',Forest='Forest',

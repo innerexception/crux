@@ -3,9 +3,11 @@ import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { onSelectCreature, onShowModal, onUpdatePlayer } from '../common/Thunks';
 import { canAfford } from '../common/Utils';
-import CardView from './CardView';
-import { Button } from '../common/Shared';
+import CardView, { getCreatureDetail } from './CardView';
+import { Button, CssIcon } from '../common/Shared';
 import { Modal } from '../../enum';
+import { getCardData } from '../common/CardUtils';
+import { colors } from '../styles/AppStyles';
 
 export default () => {
 
@@ -22,10 +24,7 @@ export default () => {
     return (
         <div style={{width:'100%', height:'85px', display:'flex', justifyContent:'space-between'}}>
             <div style={{display:'flex', justifyContent:'flex-start', alignItems:'center'}}>
-                {me.hand.map(c=>
-                <div onClick={canAfford(me.manaPool, c) ? ()=>onSelectCreature(c.id, c.kind):null} style={{border: selectedCardId === c.id ? '1px solid' : 'none', marginRight:'5px', opacity: canAfford(me.manaPool, c) ? 1 : 0.5}}>
-                    <CardView card={c}/>
-                </div>)}
+                {me.hand.map(c=>CardPreview(me, c, selectedCardId))}
             </div>
             <div>
                 <Button enabled={me.deck.cards.length>0} text="Draw" handler={()=>drawNext()}/>
@@ -35,4 +34,18 @@ export default () => {
             </div>
         </div>
     )
+}
+    
+const CardPreview = (me:PlayerState, c:Card, selectedCardId:string) => {
+    const dat = getCardData(c.kind)
+    return <div onClick={canAfford(me.manaPool, c) ? ()=>onSelectCreature(c.id, c.kind):null} style={{border: selectedCardId === c.id ? '1px solid' : 'none', marginRight:'5px', opacity: canAfford(me.manaPool, c) ? 1 : 0.5}}>
+        <div style={{width:'120px', height:'25px', overflow:'hidden', border:'2px inset', fontSize:'16px', borderColor: colors[dat.color], paddingLeft:'5px', borderRadius:'5px'}}>
+            <Tooltip overlay={getCreatureDetail(dat)}>
+                <div style={{display:'flex', justifyContent:'space-between'}}>
+                    <div>{c.kind}</div>
+                    <div style={{height:'16px'}}><CssIcon spriteIndex={dat.sprite} noTooltip={true}/></div>
+                </div>
+            </Tooltip>
+        </div>
+    </div>
 }

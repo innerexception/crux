@@ -155,24 +155,34 @@ export default class MapScene extends Scene {
     runAITurn = async () => {
         this.playLand()
         const state = store.getState().currentMatch
-        const p = state.players.find(p=>p.id === state.activePlayerId)
+        let p = state.players.find(p=>p.id === state.activePlayerId)
+        const next = p.deck.cards.shift()
+        p.hand = p.hand.concat(next)
         //TODO: choose high priority target to destroy/block
         const enemies = state.board.filter(c=>c.ownerId !== p.id && getCardData(c.kind).kind === Permanents.Creature).map(c=>this.creatures.find(s=>s.id === c.id))
-        const creatureSorceries = p.hand.find(c=>
-            getCardData(c.kind).kind === Permanents.Sorcery &&
-            canAfford(p.manaPool,c) &&
-            getCardData(c.kind).ability.targets === Permanents.Creature && 
-            (getCardData(c.kind).ability.effect.dmg || getCardData(c.kind).ability.effect.removal))
-        if(creatureSorceries){
-            this.applySorcery(enemies[0], creatureSorceries)
-            p.manaPool = payCost(p.manaPool, getCardData(creatureSorceries.kind).cost)
-            onUpdatePlayer({...p})
+        if(enemies.length > 0){
+            const creatureSorceries = p.hand.find(c=>
+                getCardData(c.kind).kind === Permanents.Sorcery &&
+                canAfford(p.manaPool,c) &&
+                getCardData(c.kind).ability.targets === Permanents.Creature && 
+                (getCardData(c.kind).ability.effect.dmg || getCardData(c.kind).ability.effect.removal))
+            if(creatureSorceries){
+                this.applySorcery(enemies[0], creatureSorceries)
+                p.manaPool = payCost(p.manaPool, getCardData(creatureSorceries.kind).cost)
+            }
         }
+        onUpdatePlayer({...p})
         const creature = p.hand.find(c=>getCardData(c.kind).kind === Permanents.Creature && canAfford(p.manaPool,c))
         if(creature){
-            const enemyTile = this.map.getTileAtWorldXY(enemies[0].x, enemies[0].y, false, undefined, Layers.Earth)
-            const spawnTile = this.map.getTileAt(enemyTile.x, p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
-            this.addCard(creature.id, spawnTile.pixelX, spawnTile.pixelY)
+            if(enemies[0]){
+                const enemyTile = this.map.getTileAtWorldXY(enemies[0].x, enemies[0].y, false, undefined, Layers.Earth)
+                const spawnTile = this.map.getTileAt(enemyTile.x, p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
+                this.addCard(creature.id, spawnTile.pixelX, spawnTile.pixelY)
+            }
+            else {
+                const spawnTile = this.map.getTileAt(getEmptyStartTile(p.dir), p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
+                this.addCard(creature.id, spawnTile.pixelX, spawnTile.pixelY)
+            }
         }
         //TODO: use owned creature abilities if possible
         
