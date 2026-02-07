@@ -23,14 +23,12 @@ export default () => {
     }
 
     return (
-        <div style={{width:'100%', height:'85px', display:'flex', justifyContent:'space-between'}}>
-            <div style={{display:'flex', alignItems:'center', flexWrap:'wrap', width:'600px'}}>
+        <div style={{width:'97%', display:'flex', justifyContent:'space-between', position:'absolute', bottom:50, left:10}}>
+            <div style={{display:'flex', alignItems:'center', flexWrap:'wrap'}}>
                 {me.hand.map(c=>CardPreview(me, c, selectedCardId))}
             </div>
             <div>
                 <Button icon={IconIndex.Draw} enabled={me.deck.cards.length>0 && me.drawAllowed > 0} text="Draw" handler={()=>drawNext()}/>
-            </div>
-            <div>
                 <Button icon={IconIndex.Graveyard} enabled={me.discard.length>0} text="Graveyard" handler={()=>onShowModal(Modal.Graveyard)}/>
             </div>
         </div>
@@ -39,7 +37,8 @@ export default () => {
     
 const CardPreview = (me:PlayerState, c:Card, selectedCardId:string) => {
     const dat = getCardData(c.kind)
-    return <div onClick={canAfford(me.manaPool, c) ? ()=>onSelectCreature(c.id, c.kind):null} style={{border: selectedCardId === c.id ? '1px solid' : 'none', marginRight:'5px', opacity: canAfford(me.manaPool, c) ? 1 : 0.5}}>
+    return <div onClick={canAfford(me.manaPool, c) ? ()=>onSelectCreature(c.id, c.kind):null} 
+                style={{backgroundColor:'black',border: selectedCardId === c.id ? '1px solid' : 'none', marginRight:'5px', opacity: canAfford(me.manaPool, c) ? 1 : 0.5}}>
         <div style={{width:'120px', height:'25px', overflow:'hidden', border:'2px inset', fontSize:'16px', borderColor: colors[dat.color], paddingLeft:'5px', borderRadius:'5px'}}>
             <Tooltip overlay={getCreatureDetail(dat)}>
                 <div style={{display:'flex', justifyContent:'space-between'}}>

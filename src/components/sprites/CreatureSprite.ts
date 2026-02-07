@@ -31,7 +31,9 @@ export default class CreatureSprite extends GameObjects.Image {
             //TODO: targets in range, and able to be targeted by us
             const target = store.getState().currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
             if(target){
-                await this.fight(target)
+                if(target.ownerId !== creature.ownerId){
+                    return await this.fight(target)
+                }
                 return
             }
             creature = store.getState().currentMatch.board.find(c=>c.id === this.id)
