@@ -3,9 +3,9 @@ import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { onSelectCreature, onShowModal, onUpdatePlayer } from '../common/Thunks';
 import { canAfford } from '../common/Utils';
-import CardView, { getCreatureDetail } from './CardView';
+import CardView, { getCreatureDetail, renderCost } from './CardView';
 import { Button, CssIcon } from '../common/Shared';
-import { Modal } from '../../enum';
+import { IconIndex, Modal } from '../../enum';
 import { getCardData } from '../common/CardUtils';
 import { colors } from '../styles/AppStyles';
 
@@ -13,9 +13,10 @@ export default () => {
 
     const me = useSelector((state:RState)=>state.currentMatch.players.find(p=>p.id === state.saveFile.myId))
     const selectedCardId = useSelector((state:RState)=>state.selectedCardId)
- 
+    
     const drawNext = () => {
         onUpdatePlayer({...me, 
+            drawAllowed: me.drawAllowed-1,
             hand: me.hand.concat(me.deck.cards.shift()), 
             deck:me.deck
         })
@@ -23,14 +24,14 @@ export default () => {
 
     return (
         <div style={{width:'100%', height:'85px', display:'flex', justifyContent:'space-between'}}>
-            <div style={{display:'flex', justifyContent:'flex-start', alignItems:'center'}}>
+            <div style={{display:'flex', alignItems:'center', flexWrap:'wrap', width:'600px'}}>
                 {me.hand.map(c=>CardPreview(me, c, selectedCardId))}
             </div>
             <div>
-                <Button enabled={me.deck.cards.length>0} text="Draw" handler={()=>drawNext()}/>
+                <Button icon={IconIndex.Draw} enabled={me.deck.cards.length>0 && me.drawAllowed > 0} text="Draw" handler={()=>drawNext()}/>
             </div>
             <div>
-                <Button enabled={me.discard.length>0} text="Graveyard" handler={()=>onShowModal(Modal.Graveyard)}/>
+                <Button icon={IconIndex.Graveyard} enabled={me.discard.length>0} text="Graveyard" handler={()=>onShowModal(Modal.Graveyard)}/>
             </div>
         </div>
     )

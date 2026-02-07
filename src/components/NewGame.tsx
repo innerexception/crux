@@ -29,7 +29,7 @@ export default () => {
     },[])
 
     return (
-        <div style={{...AppStyles.modal, margin:'auto', width:'auto'}}>
+        <div style={{...AppStyles.modal, margin:'auto', width:'auto', border:'none'}}>
             <h3 style={{textAlign:'center', marginBottom:'0.5em'}}>MENAGERIE</h3>
             <Deckbuilder/>
             <div style={{display:'flex', justifyContent:'flex-end'}}>

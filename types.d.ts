@@ -73,6 +73,8 @@ interface PlayerState {
     discard: Card[]
     manaPool: Record<import('./enum').Color,number>
     isAI:boolean
+    hasPlayedLand:boolean
+    drawAllowed:number
 }
 
 interface MatchState {

@@ -52,7 +52,8 @@ export enum CreatureSpriteIndex {
 
 export enum IconIndex {
     Mana=16, Options=1759, Close=37, Cancel=1734, Ok=1735, Quit=115,Sword=1902,Save=1935,
-    Damage=3302,Tap=841,Red=2742,Blue=2751,Green=2722,Black=2741,White=2743,Gray=2736
+    Damage=3302,Tap=841,Red=2742,Blue=2751,Green=2722,Black=2741,White=2743,Gray=2736,
+    Graveyard=45,Draw=86
 }
 
 export enum Color {

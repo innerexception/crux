@@ -26,7 +26,7 @@ export default () => {
     if(!me) return <span/>
 
     return (
-        <div style={{...AppStyles.modal, margin:'auto', width:'auto'}}>
+        <div style={{...AppStyles.modal, margin:'auto', width:'auto', border:'none'}}>
             <div style={{display:'flex'}}>
                 {me.decks.map((d,i)=><div style={{display:'flex', alignItems:'center'}}>
                     <div style={{marginRight:'5px'}}>Set {i}</div>

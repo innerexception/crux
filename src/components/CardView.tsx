@@ -29,6 +29,7 @@ export default (props:{card:Card}) => {
     
 export const getCreatureDetail = (dat:CardMeta) => 
     <div style={{fontSize:'16px', borderColor: colors[dat.color]}}>
+       
         <div style={{display:'flex', justifyContent:'space-between'}}>
             <div style={{marginRight:'5px'}}>
                 <div style={{display:'flex', alignItems:'center'}}>
@@ -44,9 +45,10 @@ export const getCreatureDetail = (dat:CardMeta) =>
             {dat.ability.targets && <div>Affects: {PermanentsDesc[dat.ability.targets]}</div>}
             <div>{dat.ability.effect && renderEffect(dat.ability.effect)}</div>   
         </div>}
+        {renderCost(dat.cost, dat.pumpColor ? true:false)}
     </div>
 
-const renderCost = (mana:ManaCost[], x:boolean) => {
+export const renderCost = (mana:ManaCost[], x:boolean) => {
     if(mana) return <div style={{display:'flex'}}>
         {mana.map(c=><div style={{display:'flex', alignItems:'center'}}><CssIcon noTooltip={true} spriteIndex={OtherIcons[c.kind]}/>{c.amount > 0 ? c.amount : '+'}</div>)}
         {x && <div style={{display:'flex', alignItems:'center'}}><CssIcon noTooltip={true} spriteIndex={OtherIcons[Color.None]}/> X</div>}

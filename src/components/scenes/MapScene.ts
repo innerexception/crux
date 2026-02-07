@@ -119,13 +119,18 @@ export default class MapScene extends Scene {
         onUpdateActivePlayer(nextPlayer.id)
 
         //3.reset player resources
-        nextPlayer.manaPool = {...emptyMana}
         match.board.forEach(c=>{
             if(c.ownerId === nextPlayer.id){
                 c.tapped = false
                 c.newSummon = false
                 //TODO: add/remove timed effects
             }
+        })
+        onUpdateBoard(Array.from(match.board))
+        onUpdatePlayer({...nextPlayer,
+            drawAllowed:1,
+            hasPlayedLand:false,
+            manaPool:{...emptyMana}
         })
 
         if(nextPlayer.isAI){
@@ -318,7 +323,9 @@ export default class MapScene extends Scene {
                 }
                 else if(GameObjects.length === 0 && state.selectedCardId){
                     const card = me.hand.find(c=>c.id === state.selectedCardId)
-                    if(this.validStartTile(tile, this.myDir, getCardData(card.kind).kind === Permanents.Land)){
+                    const d = getCardData(card.kind)
+                    if(d.kind===Permanents.Land && me.hasPlayedLand) return
+                    if(this.validStartTile(tile, this.myDir, d.kind === Permanents.Land)){
                         this.addCard(state.selectedCardId, tile.pixelX, tile.pixelY)
                     }
                 }
@@ -371,10 +378,14 @@ export default class MapScene extends Scene {
         const me = state.currentMatch.players.find(p=>p.id === state.currentMatch.activePlayerId)
         const card = me.hand.find(c=>c.id === cardId)
         const data = getCardData(card.kind)
+        if(data.kind === Permanents.Land) me.hasPlayedLand = true
         this.creatures.push(new CreatureSprite(this, worldX,worldY, data.sprite, card.id, me.dir))
         const t = this.map.getTileAtWorldXY(worldX,worldY,false, undefined, Layers.Earth)
         onUpdateBoard(state.currentMatch.board.concat({...card, tileX:t.x, tileY:t.y}))
-        onUpdatePlayer({...me, hand: me.hand.filter(c=>c.id !== cardId), manaPool: payCost(me.manaPool, data.cost)})
+        onUpdatePlayer({...me, 
+            hand: me.hand.filter(c=>c.id !== cardId), 
+            manaPool: payCost(me.manaPool, data.cost)
+        })
     }
 
     setCursor = (assetUrl:string) => {
