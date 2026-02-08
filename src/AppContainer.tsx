@@ -9,6 +9,7 @@ import DeckView from './components/DeckView';
 import CardView from './components/CardView';
 import Sidebar from './components/Sidebar';
 import Graveyard from './components/Graveyard';
+import CPUDeck from './components/CPUDeck';
 
 export default () => {
 
@@ -29,6 +30,7 @@ export default () => {
       <div style={{position:'relative'}}>
         {state.activeModal !== Modal.NewGame && state.isLoaded && <Sidebar />}
         {state.activeModal !== Modal.NewGame && state.isLoaded && <StatusBar />}
+        {state.activeModal !== Modal.NewGame && state.isLoaded && <CPUDeck/>}
         <Viewport/>
         {state.activeModal !== Modal.NewGame && state.isLoaded && <DeckView/>}
         {state.inspectCardId && <div style={{position:'absolute', bottom:0, right:0}}><CardView card={state.currentMatch.board.find(c=>c.id === state.inspectCardId)}/></div>}
