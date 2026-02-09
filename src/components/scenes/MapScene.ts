@@ -104,7 +104,7 @@ export default class MapScene extends Scene {
     }
     
     endTurn = async () => {
-        const match = store.getState().currentMatch
+        let match = store.getState().currentMatch
         const currentI = match.players.findIndex(p=>p.id === match.activePlayerId)
         const current = match.players[currentI]
         
@@ -119,6 +119,7 @@ export default class MapScene extends Scene {
         onUpdateActivePlayer(nextPlayer.id)
 
         //3.reset player resources
+        match = store.getState().currentMatch
         match.board.forEach(c=>{
             if(c.ownerId === nextPlayer.id){
                 c.tapped = false

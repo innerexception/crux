@@ -23,27 +23,25 @@ export default class CreatureSprite extends GameObjects.Image {
 
     tryMoveNext = async () => {
         const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
-        let next = this.scene.map.getTileAt(myTile.x, myTile.y+this.dir, false, Layers.Earth)
         const state = store.getState().currentMatch
         let creature = state.board.find(c=>c.id === this.id)
         let owner = state.players.find(p=>p.id === creature.ownerId)
         for(let i=0;i<getCardData(creature.kind).moves;i++){
             //TODO: targets in range, and able to be targeted by us
-            const target = store.getState().currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
-            if(target){
-                if(target.ownerId !== creature.ownerId){
-                    return await this.fight(target)
-                }
-                return
-            }
-            creature = store.getState().currentMatch.board.find(c=>c.id === this.id)
-            if(this.scene.validEndTile(myTile, owner.dir, true)){
+            let next = this.scene.map.getTileAt(myTile.x, myTile.y+this.dir, false, Layers.Earth)
+            if(this.scene.validEndTile(next, owner.dir, true)){
                 const enemy = state.players.find(p=>p.id !== creature.ownerId)
                 onUpdatePlayer({...enemy, hp: enemy.hp-getCardData(creature.kind).atk})
                 this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Damage, '0xff0000', '-')
                 return this.reset()
             }
-
+            const target = store.getState().currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
+            if(target){
+                if(target.ownerId !== creature.ownerId){
+                    await this.fight(target)
+                }
+                return
+            }
             if(creature)
                 await new Promise((resolve)=>{
                     this.scene.tweens.add({
