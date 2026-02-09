@@ -113,13 +113,14 @@ export default class MapScene extends Scene {
         for(let i=0;i<mine.length;i++){
             await mine[i].tryMoveNext()
         }
+        match = store.getState().currentMatch
+        
         //2. set next player
         const nextI = (currentI+1)%match.players.length
         const nextPlayer = match.players[nextI]
         onUpdateActivePlayer(nextPlayer.id)
 
         //3.reset player resources
-        match = store.getState().currentMatch
         match.board.forEach(c=>{
             if(c.ownerId === nextPlayer.id){
                 c.tapped = false
