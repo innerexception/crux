@@ -90,7 +90,6 @@ interface RState {
     selectedSaveName: string
     inspectCardId: string
     selectedCardId: string
-    currentMatch:MatchState
     scene: import('./src/components/scenes/MapScene').default
 }
 
@@ -100,4 +99,5 @@ interface SaveFile {
     decks:Deck[]
     currentDeckId: string
     cards:Card[]
+    currentMatch:MatchState
 }

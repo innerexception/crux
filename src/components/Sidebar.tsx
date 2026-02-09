@@ -6,8 +6,8 @@ import { colors } from '../styles/AppStyles';
 
 export default () => {
 
-    const me = useSelector((state:RState)=>state.currentMatch.players.find(p=>p.id === state.saveFile.myId))
-    const cpu = useSelector((state:RState)=>state.currentMatch.players.find(p=>p.id !== state.saveFile.myId))
+    const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId))
+    const cpu = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id !== state.saveFile.myId))
     return (
         <div style={{width:'100px', height:'100%', position:'absolute', top:64,left:-64}}>
             <div style={{display:'flex', marginBottom:'30px'}}>

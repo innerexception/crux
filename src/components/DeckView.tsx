@@ -11,7 +11,7 @@ import { colors } from '../styles/AppStyles';
 
 export default () => {
 
-    const me = useSelector((state:RState)=>state.currentMatch.players.find(p=>p.id === state.saveFile.myId))
+    const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId))
     const selectedCardId = useSelector((state:RState)=>state.selectedCardId)
     
     const drawNext = () => {

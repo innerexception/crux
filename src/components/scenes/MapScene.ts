@@ -50,7 +50,7 @@ export default class MapScene extends Scene {
 
     initMap = () => {
         
-        const mySave= store.getState().currentMatch
+        const mySave= store.getState().saveFile.currentMatch
         this.myDir = mySave.players.find(p=>p.id === store.getState().saveFile.myId).dir
         this.map?.destroy()
         this.map = this.add.tilemap(Maps.Tutorial)
@@ -104,7 +104,7 @@ export default class MapScene extends Scene {
     }
     
     endTurn = async () => {
-        let match = store.getState().currentMatch
+        let match = store.getState().saveFile.currentMatch
         const currentI = match.players.findIndex(p=>p.id === match.activePlayerId)
         const current = match.players[currentI]
         
@@ -113,8 +113,7 @@ export default class MapScene extends Scene {
         for(let i=0;i<mine.length;i++){
             await mine[i].tryMoveNext()
         }
-        match = store.getState().currentMatch
-        
+        match = store.getState().saveFile.currentMatch
         //2. set next player
         const nextI = (currentI+1)%match.players.length
         const nextPlayer = match.players[nextI]
@@ -142,7 +141,7 @@ export default class MapScene extends Scene {
     }
 
     playLand = () => {
-        let state=store.getState().currentMatch
+        let state=store.getState().saveFile.currentMatch
         const p = state.players.find(p=>p.id === state.activePlayerId)
         state.board.filter(c=>getCardData(c.kind).kind === Permanents.Land && c.ownerId === p.id && !c.tapped).forEach(l=>{
             const meta = getCardData(l.kind)
@@ -161,7 +160,7 @@ export default class MapScene extends Scene {
 
     runAITurn = async () => {
         this.playLand()
-        const state = store.getState().currentMatch
+        const state = store.getState().saveFile.currentMatch
         let p = state.players.find(p=>p.id === state.activePlayerId)
         const next = p.deck.cards.shift()
         if(next) p.hand = p.hand.concat(next)
@@ -197,7 +196,7 @@ export default class MapScene extends Scene {
     }
 
     getEmptyStartTile (p:PlayerState) {
-        const mine = store.getState().currentMatch.board.filter(c=>c.ownerId === p.id)
+        const mine = store.getState().saveFile.currentMatch.board.filter(c=>c.ownerId === p.id)
         if(p.dir === Direction.NORTH){
             return this.northCreatures.find(t=>!mine.find(c=>c.tileX === t.x && c.tileY === t.y))
         }
@@ -213,7 +212,7 @@ export default class MapScene extends Scene {
             delay:250,
             callback: () => {
                 const state = store.getState()
-                const me = state.currentMatch.players.find(p=>p.id === state.saveFile.myId)
+                const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
                 const card = me.hand.find(c=>c.id === state.selectedCardId)
                 if(getCardData(card.kind).kind === Permanents.Land){
                     if(me.dir === Direction.NORTH){
@@ -299,7 +298,7 @@ export default class MapScene extends Scene {
             const state = store.getState()
             let tile = this.map?.getTileAtWorldXY(this.input.activePointer.worldX, this.input.activePointer.worldY, false, undefined, Layers.Earth)
             if(tile){
-                const me = state.currentMatch.players.find(p=>p.id === state.saveFile.myId)
+                const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
                 if(GameObjects.length > 0){
                     const sprite = GameObjects[0] as CreatureSprite
                     //determine card action
@@ -313,7 +312,7 @@ export default class MapScene extends Scene {
                         }
                     }
                     else {
-                        const card = state.currentMatch.board.find(c=>c.id === sprite.id)
+                        const card = state.saveFile.currentMatch.board.find(c=>c.id === sprite.id)
                         const meta = getCardData(card.kind)
                         if(meta.kind === Permanents.Land && !card.tapped){
                             //tap and add to pool
@@ -377,13 +376,13 @@ export default class MapScene extends Scene {
         this.creaturePreview.destroy()
         onSelectCreature('',null)
         const state = store.getState()
-        const me = state.currentMatch.players.find(p=>p.id === state.currentMatch.activePlayerId)
+        const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.currentMatch.activePlayerId)
         const card = me.hand.find(c=>c.id === cardId)
         const data = getCardData(card.kind)
         if(data.kind === Permanents.Land) me.hasPlayedLand = true
         this.creatures.push(new CreatureSprite(this, worldX,worldY, data.sprite, card.id, me.dir))
         const t = this.map.getTileAtWorldXY(worldX,worldY,false, undefined, Layers.Earth)
-        onUpdateBoard(state.currentMatch.board.concat({...card, tileX:t.x, tileY:t.y}))
+        onUpdateBoard(state.saveFile.currentMatch.board.concat({...card, tileX:t.x, tileY:t.y}))
         onUpdatePlayer({...me, 
             hand: me.hand.filter(c=>c.id !== cardId), 
             manaPool: payCost(me.manaPool, data.cost)

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 export default () => {
 
-    const me = useSelector((state:RState)=>state.currentMatch.players.find(p=>p.id !== state.saveFile.myId))
+    const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id !== state.saveFile.myId))
 
     return (
         <div style={{width:'97%', display:'flex', justifyContent:'space-between', position:'absolute', top:60, left:10}}>

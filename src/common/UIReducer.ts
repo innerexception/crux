@@ -15,7 +15,7 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
         case UIReducerActions.SHOW_MODAL: 
             return { ...state, activeModal: action.data }
         case UIReducerActions.START_NEW_MATCH:
-            return { ...state, currentMatch: getNewMatch(state.saveFile, state.saveFile.decks.find(d=>d.id === state.saveFile.currentDeckId)), activeModal:null, isLoaded: true }
+            return { ...state, saveFile: {...state.saveFile, currentMatch: getNewMatch(state.saveFile, state.saveFile.decks.find(d=>d.id === state.saveFile.currentDeckId))}, activeModal:null, isLoaded: true }
         case UIReducerActions.SAVE:
             return { ...state, selectedSaveName: action.data, activeModal: null }
         case UIReducerActions.INSPECT_CARD:
@@ -25,11 +25,11 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
         case UIReducerActions.SET_SCENE:
             return { ...state, scene: action.data }
         case UIReducerActions.UPDATE_ACTIVE:
-            return { ...state, currentMatch: {...state.currentMatch, activePlayerId: action.data }}
+            return { ...state, saveFile: {...state.saveFile, currentMatch: {...state.saveFile.currentMatch, activePlayerId: action.data }}}
         case UIReducerActions.UPDATE_BOARD:
-            return { ...state, currentMatch: {...state.currentMatch, board: action.data }}
+            return { ...state, saveFile: {...state.saveFile, currentMatch: {...state.currentMatch, board: action.data }}}
         case UIReducerActions.UPDATE_PLAYER:
-            return { ...state, currentMatch: {...state.currentMatch, players: state.currentMatch.players.map(p=>p.id === action.data.id ? {...action.data} : p)}}
+            return { ...state, saveFile: {...state.saveFile, currentMatch: {...state.currentMatch, players: state.currentMatch.players.map(p=>p.id === action.data.id ? {...action.data} : p)}}}
         default:
             return state
     }

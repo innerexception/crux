@@ -14,7 +14,7 @@ export default () => {
 
     const resetSave = () => {
         const myId=v4()
-        const newSave:SaveFile = {myId,name:'new player',currentDeckId:'',decks:[{id:v4(), name: 'new set', cards:[]}], cards: defaultCards(myId)}
+        const newSave:SaveFile = {myId,name:'new player',currentDeckId:'',decks:[{id:v4(), name: 'new set', cards:[]}], cards: defaultCards(myId), currentMatch:null}
         trySaveFile(JSON.stringify(newSave))
         onUpdateSave(newSave)
     }

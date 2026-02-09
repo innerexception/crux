@@ -9,7 +9,7 @@ export const onEndTurn = () => {
 }
 
 export const onUpdateBoardCreature = (cd:Card) => {
-    const d = store.getState().currentMatch.board.map(c=>c.id === cd.id ? cd : c)
+    const d = store.getState().saveFile.currentMatch.board.map(c=>c.id === cd.id ? cd : c)
     onUpdateBoard(d)
 }
 

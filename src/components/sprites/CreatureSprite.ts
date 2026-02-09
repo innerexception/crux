@@ -23,7 +23,7 @@ export default class CreatureSprite extends GameObjects.Image {
 
     tryMoveNext = async () => {
         const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
-        const state = store.getState().currentMatch
+        const state = store.getState().saveFile.currentMatch
         let creature = state.board.find(c=>c.id === this.id)
         let owner = state.players.find(p=>p.id === creature.ownerId)
         for(let i=0;i<getCardData(creature.kind).moves;i++){
@@ -35,7 +35,7 @@ export default class CreatureSprite extends GameObjects.Image {
                 this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Damage, '0xff0000', '-')
                 return this.reset()
             }
-            const target = store.getState().currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
+            const target = store.getState().saveFile.currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
             if(target){
                 if(target.ownerId !== creature.ownerId){
                     await this.fight(target)
@@ -53,7 +53,7 @@ export default class CreatureSprite extends GameObjects.Image {
                         duration: 500,
                         onComplete: ()=>{
                             let unitTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
-                            const creature = store.getState().currentMatch.board.find(c=>c.id === this.id)
+                            const creature = store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id)
                             onUpdateBoardCreature({...creature, tileX:unitTile.x, tileY:unitTile.y})
                             resolve(1)
                         }
@@ -65,13 +65,13 @@ export default class CreatureSprite extends GameObjects.Image {
     reset () {
         const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
         const startTile = this.scene.map.getTileAt(myTile.x, this.dir === Direction.NORTH ? this.scene.northCreatures[0].y : this.scene.southCreatures[0].y, false, Layers.Earth)
-        onUpdateBoardCreature({...store.getState().currentMatch.board.find(c=>c.id === this.id), tileY: startTile.y})
+        onUpdateBoardCreature({...store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id), tileY: startTile.y})
         this.setPosition(startTile.pixelX,startTile.pixelY)
     }
 
     fight = async (target:Card) => {
         const defender = getCardData(target.kind)
-        let thisCard = store.getState().currentMatch.board.find(c=>c.id === this.id)
+        let thisCard = store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id)
         const attacker = getCardData(thisCard.kind)
         const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
             
@@ -106,10 +106,10 @@ export default class CreatureSprite extends GameObjects.Image {
         //2. remove to discard
         const spr = this.scene.creatures.find(c=>c.id === card.id)
         spr.destroy()
-        let board = store.getState().currentMatch.board
+        let board = store.getState().saveFile.currentMatch.board
         board.splice(board.findIndex(c=>c.id === card.id), 1)
         onUpdateBoard(Array.from(board))
-        const p = store.getState().currentMatch.players.find(p=>p.id === card.ownerId)
+        const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
         onUpdatePlayer({...p, discard: p.discard.concat(card)})
     }
 
