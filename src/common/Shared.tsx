@@ -4,7 +4,6 @@ import { creatureSheet, iconSheet } from '../assets/Assets'
 import AppStyles from '../styles/AppStyles'
 import Tooltip from 'rc-tooltip'
 import { CardType, CreatureSpriteIndex, IconIndex } from '../../enum'
-import { getCardData } from './CardUtils'
 
 export const TopBar = (text:string|JSX.Element) => 
     <div style={AppStyles.topBar}>

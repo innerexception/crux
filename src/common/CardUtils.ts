@@ -1,9 +1,18 @@
-import { CardType, Color, CreatureSpriteIndex, Modifier, Permanents } from "../../enum";
+import { CardType } from "../../enum";
 import{ v4 } from 'uuid'
 import { Portal } from "../assets/data/Portal";
+import { onUpdateBoardCreature, onUpdatePlayer } from "./Thunks";
 
-export const getCardData = (c:CardType) => {
-    if(Portal[c]) return Portal[c]
+export const tapLand = (card:Card, me:PlayerState) => {
+    const meta = getCardData(card)
+    onUpdatePlayer({...me, manaPool: {...me.manaPool, 
+        [meta.color]: me.manaPool[meta.color]-meta.ability.cost[0].amount
+    }})
+    onUpdateBoardCreature({...card, tapped: true})
+}
+
+export const getCardData = (c:Card) => {
+    if(Portal[c.kind]) return Portal[c.kind]
     debugger
     return null
 }
@@ -18,7 +27,7 @@ export const defaultCards = (playerId:string):Card[] => {
             newSummon: true,
             tileX:null,
             tileY:null,
-            status:{}
+            status:[]
         }}
     )
 }
@@ -33,7 +42,7 @@ export const goblinHordes = (playerId:string):Card[] => {
             newSummon: true,
             tileX:null,
             tileY:null,
-            status:{}
+            status:[]
         },
         {
             id: v4(),
@@ -43,7 +52,7 @@ export const goblinHordes = (playerId:string):Card[] => {
             newSummon: true,
             tileX:null,
             tileY:null,
-            status:{}
+            status:[]
         },
         {
             id: v4(),
@@ -53,7 +62,7 @@ export const goblinHordes = (playerId:string):Card[] => {
             newSummon: true,
             tileX:null,
             tileY:null,
-            status:{}
+            status:[]
         },
         {
             id: v4(),
@@ -63,7 +72,7 @@ export const goblinHordes = (playerId:string):Card[] => {
             newSummon: true,
             tileX:null,
             tileY:null,
-            status:{}
+            status:[]
         },
         {
             id: v4(),
@@ -73,7 +82,7 @@ export const goblinHordes = (playerId:string):Card[] => {
             newSummon: true,
             tileX:null,
             tileY:null,
-            status:{}
+            status:[]
         },
         {
             id: v4(),
@@ -83,7 +92,7 @@ export const goblinHordes = (playerId:string):Card[] => {
             newSummon: true,
             tileX:null,
             tileY:null,
-            status:{}
+            status:[]
         },
         {
             id: v4(),
@@ -93,7 +102,7 @@ export const goblinHordes = (playerId:string):Card[] => {
             newSummon: true,
             tileX:null,
             tileY:null,
-            status:{}
+            status:[]
         },
         {
             id: v4(),
@@ -103,7 +112,7 @@ export const goblinHordes = (playerId:string):Card[] => {
             newSummon: true,
             tileX:null,
             tileY:null,
-            status:{}
+            status:[]
         },
     ]
 }

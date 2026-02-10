@@ -66,12 +66,17 @@ export const getAIPlayer = (dir:Direction):PlayerState => {
 }
 
 export const canAfford = (mana:Record<Color,number>, c:Card) => {
-    if(getCardData(c.kind).cost){
-        if(getCardData(c.kind).cost.find(c=>mana[c.kind] < c.amount)) return false
+    const cost = getCardData(c).cost
+    if(cost){
+        if(cost.find(c=>mana[c.kind] < c.amount)) return false
         //colorless
-        const colorless = getCardData(c.kind).cost.find(c=>c.kind === Color.None)
-        if(colorless){
-            //TODO, subtract colored first to get remainder
+        const colorlessCost = cost.find(c=>c.kind === Color.None)
+        if(colorlessCost){
+            //subtract colored first to get remainder
+            const mans = {...mana}
+            cost.filter(c=>c.kind !== Color.None).forEach(c=>mans[c.kind]-=c.amount)
+            const colorless = Object.keys(mans).map((c:Color)=>mans[c]).reduce((sum,next)=>sum+next)
+            return colorless >= colorlessCost.amount
         }
     }
     return true
@@ -136,6 +141,31 @@ export const drawCirclePercent = (x:number, y:number, g:GameObjects.Graphics, pe
     g.strokeEllipse(x, y, 10, 8)
     g.strokeEllipse(x, y, 4, 2)
 }
+
+export const drawMarchingDashedRect = (
+    g:GameObjects.Graphics,
+    rect:Geom.Rectangle,
+    offset = 0,
+) => {
+    let {x, y, width, height} = rect
+    width-=2
+    height-=2
+    const dashLength = 5, gapLength = 2
+    const perimeter = 2 * (width + height);
+    const step = dashLength + gapLength;
+
+    let dist = offset % step;
+    if (dist < 0) dist += step;
+
+    while (dist < perimeter) {
+        const start = dist;
+        const end = Math.min(dist + dashLength, perimeter);
+
+        drawRectSegment(g, x, y, width, height, start, end);
+        dist += step;
+    }
+}
+
 
 const rect_dim = 32
 

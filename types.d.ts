@@ -10,11 +10,17 @@ interface ManaCost {
     amount: number
 }
 
+interface StatusEffect {
+    id:string
+    duration: number
+    status: CardEffect
+}
+
 interface Card {
     id:string
     ownerId:string
     kind: import('./enum').CardType
-    status: Partial<Record<import('./enum').StatusEffect,boolean>>
+    status: StatusEffect[]
     tapped:boolean
     newSummon:boolean
     tileX:number
@@ -42,7 +48,7 @@ interface CardMeta {
 
 interface CardEffect {
     dmg?:number
-    pumpDamage?:boolean
+    dmgX?:boolean
     removal?:boolean
     destroy?:boolean
     duration?: number
@@ -54,8 +60,11 @@ interface CardEffect {
     pacifism?:boolean //Creatures you control do not move in their lanes
     hpPerForest?:boolean //entire board
     untap?:boolean
+    pillaged?:boolean //does not untap
     searchSorceryForTop?:boolean
     cardToHand?:boolean
+    attributes?: import('./enum').Modifier[]
+    sprite: import('./enum').IconIndex
 }
 
 interface Deck {

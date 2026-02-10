@@ -7,7 +7,7 @@ import Tooltip from 'rc-tooltip';
 
 export default (props:{card:Card}) => {
     
-    const dat = getCardData(props.card.kind)
+    const dat = getCardData(props.card)
 
     return (
         <div style={{width:'120px', height:'80px', border:'2px inset', fontSize:'16px', borderColor: colors[dat.color], paddingLeft:'5px', borderRadius:'5px'}}>
@@ -41,7 +41,7 @@ export const getCreatureDetail = (dat:CardMeta) =>
         {dat.description && <div>{dat.description}</div>}
         {dat.attributes && dat.attributes.map(a=><div>{ModifierDesc[a]}</div>)}
         {dat.ability && <div>
-            <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Tap}/>} {renderCost(dat.ability.cost, dat.ability.effect?.pumpDamage)}</div>
+            <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Tap}/>} {renderCost(dat.ability.cost, dat.ability.effect?.dmgX)}</div>
             {dat.ability.targets && <div>Affects: {PermanentsDesc[dat.ability.targets]}</div>}
             <div>{dat.ability.effect && renderEffect(dat.ability.effect)}</div>   
         </div>}
@@ -77,7 +77,7 @@ const renderEffect = (effect:CardEffect) =>
         {effect.drawX && <div>Draw X cards.</div>}
         {effect.hpPerForest && <div>Gain 1 life for each <CssIcon spriteIndex={CreatureSpriteIndex.Forest}/></div>}
         {effect.pacifism && <div>Target may not attack.</div>}
-        {effect.pumpDamage && <div>Deal X damage to target.</div>}
+        {effect.dmgX && <div>Deal X damage to target.</div>}
         {effect.removal && <div>Remove target from the game.</div>}
         {effect.destroy && <div>Put target into controller's graveyard.</div>}
         {effect.searchSorceryForTop && <div>Search your deck for a sorcery. It will be placed on top of your library.</div>}

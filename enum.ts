@@ -16,7 +16,7 @@ export enum UIReducerActions {
 
 export enum Modal {
     NewGame='ng',SelectSave='SelectSave',Options='Options',SelectLoad='SelectLoad',
-    Deckbuilder='Deckbuilder',Graveyard='Graveyard'
+    Deckbuilder='Deckbuilder',Graveyard='Graveyard',AnyGraveyard='AnyGraveyard'
 }
 
 export enum Direction {
@@ -39,10 +39,6 @@ export enum Maps {
     Tutorial='tutorial'
 }
 
-export enum StatusEffect {
-    Pillaged='Pillaged'
-}
-
 export enum CreatureSpriteIndex {
     City=914, Desert=256, Forest=369, Tower=936, Meadow=218, Skypirate=4869,FireCloak=5392,FeatherCloak=5386,
     Sandstorm=1505,Earthquake=1900,PeaceTreaty=2138,HeroicSoldier=4893,FertileSoil=2483,Hurricane=4377,Goblin=4545,
@@ -53,7 +49,7 @@ export enum CreatureSpriteIndex {
 export enum IconIndex {
     Mana=16, Options=1759, Close=37, Cancel=1734, Ok=1735, Quit=115,Sword=1902,Save=1935,
     Damage=3302,Tap=841,Red=2742,Blue=2751,Green=2722,Black=2741,White=2743,Gray=2736,
-    Graveyard=45,Draw=86
+    Graveyard=45,Draw=86,Buff=3521,Debuff=3507
 }
 
 export enum Color {
@@ -62,7 +58,8 @@ export enum Color {
 
 export enum Permanents {
     Land='Land',Creature='Creature',Enchantment='Enchantment',Any='Any',Sorcery='Sorcery',Self='Self',CreaturesYouControl='CreaturesYouControl',
-    CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',CreaturesYourGraveyard='CreaturesYourGraveyard',CreaturesOrPlayers='CreaturesOrPlayers'
+    CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',CreaturesYourGraveyard='CreaturesYourGraveyard',CreaturesOrPlayers='CreaturesOrPlayers',
+    CreaturesAnyGraveyard='CreaturesAnyGraveyard'
 }
 
 export enum Modifier {
@@ -95,6 +92,7 @@ export const PermanentsDesc:Record<Permanents,string> = {
     [Permanents.CreaturesOrPlayers]:'Creatures or Players',
     [Permanents.CreaturesYouControl]:'Creatures you control',
     [Permanents.CreaturesYourGraveyard]:'Creatures in your graveyard',
+    [Permanents.CreaturesAnyGraveyard]:'Creatures in any graveyard',
     [Permanents.Enchantment]:'Enchantments',
     [Permanents.Land]:'Lands',
     [Permanents.Players]:'Any Player',

@@ -1,4 +1,4 @@
-import { CardType, Color, CreatureSpriteIndex, Modifier, Permanents } from "../../../enum";
+import { CardType, Color, CreatureSpriteIndex, IconIndex, Modifier, Permanents } from "../../../enum";
 
 export const Portal:Record<CardType, CardMeta> = {
     [CardType.City]: {
@@ -72,7 +72,8 @@ export const Portal:Record<CardType, CardMeta> = {
             effect: {
                 atkUp: 2,
                 dmg:2,
-                duration: 1
+                duration: 1,
+                sprite: IconIndex.Damage
             }
         },
         sprite: CreatureSpriteIndex.FireCloak
@@ -81,12 +82,13 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Enchantment,
-        attributes: [Modifier.Flying],
         ability: {
             targets: Permanents.Creature,
             effect: {
                 duration: 1,
-                draw: 1
+                draw: 1,
+                attributes: [Modifier.Flying],
+                sprite: IconIndex.Buff
             }
         },
         sprite: CreatureSpriteIndex.FeatherCloak
@@ -99,7 +101,8 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Permanents.Any,
             effect: {
-                pumpDamage: true 
+                dmgX: true,
+                sprite: IconIndex.Damage
             }
         },
         sprite: CreatureSpriteIndex.Sandstorm
@@ -112,7 +115,8 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Permanents.CreaturesAndPlayers,
             effect: {
-                pumpDamage: true
+                dmgX: true,
+                sprite: IconIndex.Damage
             }
         },
         sprite: CreatureSpriteIndex.Earthquake
@@ -127,7 +131,8 @@ export const Portal:Record<CardType, CardMeta> = {
             targets: Permanents.CreaturesYouControl,
             effect: {
                 duration: 1,
-                pacifism: true
+                pacifism: true,
+                sprite: IconIndex.Debuff
             }
         },
         sprite: CreatureSpriteIndex.PeaceTreaty
@@ -149,7 +154,8 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Permanents.Self,
             effect: {
-                hpPerForest: true
+                hpPerForest: true,
+                sprite: IconIndex.Buff
             }
         },
         sprite: CreatureSpriteIndex.FertileSoil
@@ -162,7 +168,8 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Permanents.CreaturesAndPlayers,
             effect: {
-                pumpDamage: true
+                dmgX: true,
+                sprite: IconIndex.Damage
             }
         },
         sprite: CreatureSpriteIndex.Hurricane
@@ -195,7 +202,8 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Permanents.CreaturesYouControl,
             effect: {
-                untap: true
+                untap: true,
+                sprite: IconIndex.Buff
             }
         },
         sprite: CreatureSpriteIndex.Refreshment
@@ -227,7 +235,8 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Sorcery,
         ability: {
             effect:{
-                searchSorceryForTop: true
+                searchSorceryForTop: true,
+                sprite: IconIndex.Buff
             }
         },
         sprite: CreatureSpriteIndex.Memoize
@@ -240,7 +249,8 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Permanents.Players,
             effect: {
-                drawX:true
+                drawX:true,
+                sprite: IconIndex.Buff
             }
         },
         sprite: CreatureSpriteIndex.Brainstorm
@@ -263,7 +273,8 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Permanents.CreaturesYourGraveyard,
             effect: {
-                cardToHand: true
+                cardToHand: true,
+                sprite: IconIndex.Buff
             }
         },
         sprite: CreatureSpriteIndex.Necromancy
@@ -275,7 +286,8 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Permanents.CreaturesAndPlayers,
             effect: {
-                dmg: 1
+                dmg: 1,
+                sprite: IconIndex.Damage
             }
         },
         sprite: CreatureSpriteIndex.FierySpear
