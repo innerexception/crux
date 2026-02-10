@@ -2,7 +2,7 @@ import { store } from "../.."
 import { CardType, Maps, Modal, SceneNames, UIReducerActions } from "../../enum"
 import IntroScene from "../components/scenes/IntroScene"
 import MapScene from "../components/scenes/MapScene"
-import { transitionIn, transitionOut } from "./Utils"
+import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
 
 export const onEndTurn = () => {
     store.getState().scene.endTurn()
@@ -64,8 +64,9 @@ export const onSetScene = (scene:MapScene) => {
     store.dispatch({ type: UIReducerActions.SET_SCENE, data: scene })
 }
 
-export const onStartMatch = () => {
-    store.dispatch({ type: UIReducerActions.START_NEW_MATCH, data:null })
+export const onStartMatch = (s:SaveFile) => {
+    if(!s.currentMatch) s.currentMatch = getNewMatch(s)
+    store.dispatch({ type: UIReducerActions.START_NEW_MATCH, data:s.currentMatch })
     const intro = store.getState().scene.scene.get(SceneNames.Intro) as IntroScene
     transitionOut(intro, SceneNames.Main, ()=>transitionIn(store.getState().scene))
 }
@@ -76,15 +77,8 @@ export const onShowModal = (modal:Modal) => {
 }
 
 export const onSave = (saveName:string) => {
-    // const now = new Date()
-    // const uiState = store.getState()
-    // const mapSave:SaveFile = {
-    //     ...uiState.saveFile,
-    //     creatures: Object.keys(uiState.scene.creatures).map(id=>uiState.scene.creatures[id].creatureState),
-    //     creatureLocations: uiState.scene.creatureLocations,
-    //     date: now.getMonth()+'/'+now.getDate()+'/'+now.getFullYear()+' '+now.getHours()+':'+now.getMinutes()
-    // }
-    // localStorage.setItem(saveName, JSON.stringify(mapSave))
-    // store.dispatch({ type: UIReducerActions.SAVE, data:saveName })
+    const uiState = store.getState().saveFile
+    trySaveFile(JSON.stringify(uiState))
+    onUpdateSave(uiState)
 }
 

@@ -3,8 +3,9 @@ import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { IconIndex, Modal } from '../../enum';
 import { Button, CssIcon } from '../common/Shared';
-import { onEndTurn, onShowModal } from '../common/Thunks';
+import { onEndTurn, onSave, onShowModal } from '../common/Thunks';
 import { colors } from '../styles/AppStyles';
+import { SAVE_NAMES } from '../common/UIReducer';
 
 export default () => {
 
@@ -17,7 +18,7 @@ export default () => {
             </div>
             <div style={{display:'flex', flexWrap:'wrap', width:'400px', justifyContent:'flex-end', alignItems:'center'}}>
                 <Button enabled={true} style={{marginRight:'25px'}}  text="End Turn" icon={IconIndex.Quit} handler={()=>onEndTurn()}/>
-                <Button enabled={true} text="Exit" icon={IconIndex.Options} handler={()=>onShowModal(Modal.NewGame)}/>
+                <Button enabled={true} text="Exit" icon={IconIndex.Options} handler={()=>onSave(SAVE_NAMES[0])}/>
             </div>
         </div>
     )

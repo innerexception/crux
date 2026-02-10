@@ -33,7 +33,7 @@ export default () => {
         {state.activeModal !== Modal.NewGame && state.isLoaded && <CPUDeck/>}
         <Viewport/>
         {state.activeModal !== Modal.NewGame && state.isLoaded && <DeckView/>}
-        {state.inspectCardId && <div style={{position:'absolute', bottom:0, right:0}}><CardView card={state.currentMatch.board.find(c=>c.id === state.inspectCardId)}/></div>}
+        {state.inspectCardId && <div style={{position:'absolute', bottom:0, right:0}}><CardView card={state.saveFile.currentMatch.board.find(c=>c.id === state.inspectCardId)}/></div>}
       </div>
     </div>
   )

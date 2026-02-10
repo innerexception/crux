@@ -373,7 +373,7 @@ export default class MapScene extends Scene {
     }
 
     addCard = (cardId:string, worldX:number,worldY:number) => {
-        this.creaturePreview.destroy()
+        this.creaturePreview?.destroy()
         onSelectCreature('',null)
         const state = store.getState()
         const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.currentMatch.activePlayerId)

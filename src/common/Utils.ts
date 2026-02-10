@@ -14,8 +14,14 @@ export const emptyMana = {
     [Color.None]:0
 }
 
-export const getNewMatch = (s:SaveFile, selectedDeck:Deck, ):MatchState => {
-    const hand = selectedDeck.cards.splice(0,5)
+export const getNewMatch = (s:SaveFile):MatchState => {
+    const theDeck = s.decks.find(d=>d.id === s.currentDeckId)
+    const deck:Deck = {
+        id:v4(),
+        name: theDeck.name,
+        cards: Array.from(theDeck.cards)
+    }
+    const hand = deck.cards.splice(0,5)
     return {
         activePlayerId: s.myId,
         board:[],
@@ -25,7 +31,7 @@ export const getNewMatch = (s:SaveFile, selectedDeck:Deck, ):MatchState => {
                 hp:20,
                 dir:Direction.SOUTH,
                 hand,
-                deck: selectedDeck,
+                deck,
                 discard: [],
                 manaPool:{...emptyMana},
                 isAI: false,
