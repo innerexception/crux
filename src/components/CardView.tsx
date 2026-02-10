@@ -70,7 +70,7 @@ const renderEffect = (effect:CardEffect) =>
             </div>
         </div>
         }
-        {effect.cardToHand && <div>Return target card to your hand.</div>}
+        {effect.cardToHandFromGY && <div>Return target card to your hand.</div>}
         {effect.discard && <div>Discard target card from your hand.</div>}
         {effect.dmg && <div>Deal {effect.dmg} to target.</div>}
         {effect.draw && <div>Draw a card.</div>}

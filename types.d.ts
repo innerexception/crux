@@ -25,6 +25,8 @@ interface Card {
     newSummon:boolean
     tileX:number
     tileY:number
+    atk:number
+    def:number
 }
 
 interface CardMeta {
@@ -62,7 +64,7 @@ interface CardEffect {
     untap?:boolean
     pillaged?:boolean //does not untap
     searchSorceryForTop?:boolean
-    cardToHand?:boolean
+    cardToHandFromGY?:boolean
     attributes?: import('./enum').Modifier[]
     sprite: import('./enum').IconIndex
 }

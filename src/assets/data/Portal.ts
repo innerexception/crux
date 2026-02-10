@@ -273,7 +273,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Permanents.CreaturesYourGraveyard,
             effect: {
-                cardToHand: true,
+                cardToHandFromGY: true,
                 sprite: IconIndex.Buff
             }
         },

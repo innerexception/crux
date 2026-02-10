@@ -388,7 +388,7 @@ export default class MapScene extends Scene {
         if(effect.status.defUp){
 
         }
-        if(effect.status.cardToHand){
+        if(effect.status.cardToHandFromGY){
         
         }
         if(effect.status.destroy){
@@ -429,81 +429,100 @@ export default class MapScene extends Scene {
         }
     }
 
-    applyPlayerEffect(player:PlayerState, effect:CardEffect) {
-        //TODO
-        if(effect.cardToHand){
+    applyPlayerEffect(player:PlayerState, effect:CardEffect, x:number) {
         
+        //TODO
+        if(effect.cardToHandFromGY){
+            onShowModal(Modal.ChooseFromGY)
         }
         if(effect.discard){
-            
+            onShowModal(Modal.ChooseDiscard)
         }
         if(effect.dmg){
-            
+            player.hp-=effect.dmg
         }
         if(effect.dmgX){
-            
+            player.hp-=x
         }
         if(effect.draw){
-            
+            player = {...player, hand: player.hand.concat(player.deck.cards.shift()),deck:player.deck}
         }
         if(effect.drawX){
-            
+            for(let i=0;i<x;i++){
+                player = {...player, hand: player.hand.concat(player.deck.cards.shift()),deck:player.deck}
+            }
         }
         if(effect.hpPerForest){
-            
+            const forests = store.getState().saveFile.currentMatch.board.filter(c=>c.kind === CardType.Forest)
+            player.hp+=forests.length
         }
         if(effect.searchSorceryForTop){
-            
+            onShowModal(Modal.PickNextSorcery)
         }
     }
 
-    applyCreatureEffect(creature:Card, effect:CardEffect) {
+    applyCreatureEffect(creature:Card, effect:CardEffect, x?:number) {
+        const state = store.getState()
+        let me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.currentMatch.activePlayerId)
         //TODO
         if(effect.atkUp){
-
+            creature.atk+=effect.atkUp
         }
         if(effect.defUp){
-
+            creature.def+=effect.defUp
         }
-        if(effect.cardToHand){
-        
+        if(effect.cardToHandFromGY){
+            onShowModal(Modal.ChooseFromGY)
         }
         if(effect.destroy){
-            
+            creature.def = 0
         }
         if(effect.discard){
-            
+            onShowModal(Modal.ChooseDiscard)
         }
         if(effect.dmg){
-            
+            creature.def-=effect.dmg
         }
         if(effect.dmgX){
-            
+            creature.def-=x
         }
         if(effect.draw){
-            
+            me = {...me, hand: me.hand.concat(me.deck.cards.shift()),deck:me.deck}
         }
         if(effect.drawX){
-            
+            for(let i=0;i<x;i++){
+                me = {...me, hand: me.hand.concat(me.deck.cards.shift()),deck:me.deck}
+            }
         }
         if(effect.hpPerForest){
-            
+            const forests = state.saveFile.currentMatch.board.filter(c=>c.kind === CardType.Forest)
+            creature.def+=forests.length
         }
         if(effect.pacifism){
-            
+            creature.tapped = true
         }
         if(effect.removal){
-            
+            this.tryRemoveCreature(creature)
         }
         if(effect.searchSorceryForTop){
-            
+            onShowModal(Modal.PickNextSorcery)
         }
         if(effect.untap){
-            
+            creature.tapped = false
         }
-        if(effect.pillaged){
-            
-        }
+    }
+
+    tryRemoveCreature (card:Card) {
+        //TODO
+        //3. death effects
+        //2. remove to discard
+        const spr = this.creatures.find(c=>c.id === card.id)
+        spr.destroy()
+        let board = store.getState().saveFile.currentMatch.board
+        board.splice(board.findIndex(c=>c.id === card.id), 1)
+        onUpdateBoard(Array.from(board))
+        const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
+        onUpdatePlayer({...p, discard: p.discard.concat(card)})
     }
 
     addCard = (cardId:string, worldX:number,worldY:number) => {
