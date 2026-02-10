@@ -3,7 +3,7 @@ import { CardType, Color, CreatureSpriteIndex, IconIndex, Modifier, Permanents }
 export const Portal:Record<CardType, CardMeta> = {
     [CardType.City]: {
         color:Color.Black,
-        attributes: null,
+        defaultAttributes: null,
         kind: Permanents.Land,
         ability: {
             tap: true,
@@ -13,7 +13,7 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.Desert]: {
         color:Color.Red,
-        attributes: null,
+        defaultAttributes: null,
         kind: Permanents.Land,
         ability: {
             tap: true,
@@ -23,7 +23,7 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.Forest]: {
         color:Color.Green,
-        attributes: null,
+        defaultAttributes: null,
         kind: Permanents.Land,
         ability: {
             tap: true,
@@ -33,7 +33,7 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.Tower]: {
         color:Color.Blue,
-        attributes: null,
+        defaultAttributes: null,
         kind: Permanents.Land,
         ability: {
             tap: true,
@@ -43,7 +43,7 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.Sanctuary]: {
         color:Color.White,
-        attributes: null,
+        defaultAttributes: null,
         kind: Permanents.Land,
         ability: {
             tap: true,
@@ -53,12 +53,12 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.SkyPirates]: {
         color:Color.Blue,
-        atk: 1,
-        def: 1,
+        defaultAtk: 1,
+        defaultDef: 1,
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Creature,
-        moves: 1,
-        attributes: [Modifier.Flying, Modifier.OnlyFlying],
+        defaultMoves: 1,
+        defaultAttributes: [Modifier.Flying, Modifier.OnlyFlying],
         ability: null,
         sprite: CreatureSpriteIndex.Skypirate
     },
@@ -66,7 +66,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:1}],
         kind: Permanents.Enchantment,
-        attributes: null,
+        defaultAttributes: null,
         ability: {
             targets: Permanents.Creature,
             effect: {
@@ -139,11 +139,11 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.HeroicSoldier]: {
         color:Color.White,
-        atk: 1,
-        def: 2,
+        defaultAtk: 1,
+        defaultDef: 2,
         cost: [{kind:Color.White, amount:1}],
         kind: Permanents.Creature,
-        moves: 1,
+        defaultMoves: 1,
         ability: null,
         sprite: CreatureSpriteIndex.HeroicSoldier
     },
@@ -176,22 +176,22 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.ForestJackal]: {
         color:Color.Green,
-        atk: 2,
-        def: 1,
+        defaultAtk: 2,
+        defaultDef: 1,
         cost: [{kind:Color.Green, amount:1}],
         kind: Permanents.Creature,
-        moves: 1,
+        defaultMoves: 1,
         ability: null,
-        attributes: [Modifier.CantBlock],
+        defaultAttributes: [Modifier.CantBlock],
         sprite: CreatureSpriteIndex.ForestJackal
     },
     [CardType.Merfolk]: {
         color:Color.Blue,
-        atk: 1,
-        def: 1,
+        defaultAtk: 1,
+        defaultDef: 1,
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Creature,
-        moves: 1,
+        defaultMoves: 1,
         ability: null,
         sprite: CreatureSpriteIndex.Merfolk
     },
@@ -210,22 +210,22 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.BillyGoat]: {
         color:Color.Red,
-        atk: 1,
-        def: 1,
+        defaultAtk: 1,
+        defaultDef: 1,
         cost: [{kind:Color.Red, amount:1}],
         kind: Permanents.Creature,
-        moves: 1,
+        defaultMoves: 1,
         ability: null,
-        attributes:[Modifier.DesertWalk],
+        defaultAttributes:[Modifier.DesertWalk],
         sprite: CreatureSpriteIndex.BillyGoat
     },
     [CardType.ScavengingRats]: {
         color:Color.Black,
-        atk: 1,
-        def: 1,
+        defaultAtk: 1,
+        defaultDef: 1,
         cost: [{kind:Color.Black, amount:1}],
         kind: Permanents.Creature,
-        moves: 1,
+        defaultMoves: 1,
         ability: null,
         sprite: CreatureSpriteIndex.ScavengingRats
     },
@@ -257,13 +257,13 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.Goblin]: {
         color:Color.Red,
-        atk: 1,
-        def: 1,
+        defaultAtk: 1,
+        defaultDef: 1,
         cost: [{kind:Color.Red, amount:1}],
         kind: Permanents.Creature,
-        moves: 1,
+        defaultMoves: 1,
         ability: null,
-        attributes:[Modifier.Berserk],
+        defaultAttributes:[Modifier.Berserk],
         sprite: CreatureSpriteIndex.Goblin
     },
     [CardType.Necromancy]: {

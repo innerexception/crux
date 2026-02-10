@@ -18,102 +18,36 @@ export const getCardData = (c:Card) => {
 }
 
 export const defaultCards = (playerId:string):Card[] => {
-    return Object.keys(Portal).map((c:CardType)=>{
-        return {
-            id: v4(),
-            ownerId: playerId,
-            kind: c,
-            tapped: false,
-            newSummon: true,
-            tileX:null,
-            tileY:null,
-            status:[]
-        }}
-    )
+    return Object.keys(Portal).map((c:CardType)=>getCard(playerId,c,Portal[c]))
+}
+
+const getCard = (playerId:string,kind:CardType,c:CardMeta):Card => {
+    return {
+        id: v4(),
+        ownerId: playerId,
+        kind,
+        tapped: false,
+        newSummon: true,
+        tileX:null,
+        tileY:null,
+        status:[],
+        atk: c.defaultAtk,
+        def: c.defaultDef,
+        moves: c.defaultMoves,
+        attributes: c.defaultAttributes
+    }
 }
 
 export const goblinHordes = (playerId:string):Card[] => {
     return [
-        {
-            id: v4(),
-            ownerId: playerId,
-            kind: CardType.Goblin,
-            tapped: false,
-            newSummon: true,
-            tileX:null,
-            tileY:null,
-            status:[]
-        },
-        {
-            id: v4(),
-            ownerId: playerId,
-            kind: CardType.Goblin,
-            tapped: false,
-            newSummon: true,
-            tileX:null,
-            tileY:null,
-            status:[]
-        },
-        {
-            id: v4(),
-            ownerId: playerId,
-            kind: CardType.Goblin,
-            tapped: false,
-            newSummon: true,
-            tileX:null,
-            tileY:null,
-            status:[]
-        },
-        {
-            id: v4(),
-            ownerId: playerId,
-            kind: CardType.Goblin,
-            tapped: false,
-            newSummon: true,
-            tileX:null,
-            tileY:null,
-            status:[]
-        },
-        {
-            id: v4(),
-            ownerId: playerId,
-            kind: CardType.Goblin,
-            tapped: false,
-            newSummon: true,
-            tileX:null,
-            tileY:null,
-            status:[]
-        },
-        {
-            id: v4(),
-            ownerId: playerId,
-            kind: CardType.Desert,
-            tapped: false,
-            newSummon: true,
-            tileX:null,
-            tileY:null,
-            status:[]
-        },
-        {
-            id: v4(),
-            ownerId: playerId,
-            kind: CardType.Desert,
-            tapped: false,
-            newSummon: true,
-            tileX:null,
-            tileY:null,
-            status:[]
-        },
-        {
-            id: v4(),
-            ownerId: playerId,
-            kind: CardType.Desert,
-            tapped: false,
-            newSummon: true,
-            tileX:null,
-            tileY:null,
-            status:[]
-        },
+        getCard(playerId, CardType.Goblin, Portal[CardType.Goblin]),
+        getCard(playerId, CardType.Goblin, Portal[CardType.Goblin]),
+        getCard(playerId, CardType.Goblin, Portal[CardType.Goblin]),
+        getCard(playerId, CardType.Goblin, Portal[CardType.Goblin]),
+        getCard(playerId, CardType.Goblin, Portal[CardType.Goblin]),
+        getCard(playerId, CardType.Desert, Portal[CardType.Desert]),
+        getCard(playerId, CardType.Desert, Portal[CardType.Desert]),
+        getCard(playerId, CardType.Desert, Portal[CardType.Desert])
     ]
 }
 

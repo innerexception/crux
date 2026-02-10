@@ -376,56 +376,17 @@ export default class MapScene extends Scene {
         this.applyCreatureEffect(creature, dat.ability.effect)
     }
 
-    expireEffect = (card:Card, effect:StatusEffect) => {
+    expireEffect = (creature:Card, effect:StatusEffect) => {
         //play dmg/buff/debuff sprite
-        const s = this.creatures.find(c=>c.id === card.id)
+        const s = this.creatures.find(c=>c.id === creature.id)
         this.flashIcon(s.x, s.y, effect.status.sprite)
-        card.status = card.status.filter(s=>s.id!==effect.id)
+        creature.status = creature.status.filter(s=>s.id!==effect.id)
         //TODO
         if(effect.status.atkUp){
-
+            creature.atk-=effect.status.atkUp
         }
         if(effect.status.defUp){
-
-        }
-        if(effect.status.cardToHandFromGY){
-        
-        }
-        if(effect.status.destroy){
-            
-        }
-        if(effect.status.discard){
-            
-        }
-        if(effect.status.dmg){
-            
-        }
-        if(effect.status.dmgX){
-            
-        }
-        if(effect.status.draw){
-            
-        }
-        if(effect.status.drawX){
-            
-        }
-        if(effect.status.hpPerForest){
-            
-        }
-        if(effect.status.pacifism){
-            
-        }
-        if(effect.status.removal){
-            
-        }
-        if(effect.status.searchSorceryForTop){
-            
-        }
-        if(effect.status.untap){
-            
-        }
-        if(effect.status.pillaged){
-            
+            creature.def-=effect.status.defUp
         }
     }
 
@@ -459,6 +420,11 @@ export default class MapScene extends Scene {
         if(effect.searchSorceryForTop){
             onShowModal(Modal.PickNextSorcery)
         }
+        if(player.hp <= 0){
+            if(player.id === store.getState().saveFile.myId) onShowModal(Modal.GameOver)
+            else onShowModal(Modal.Winner)
+        }
+        onUpdatePlayer({...player})
     }
 
     applyCreatureEffect(creature:Card, effect:CardEffect, x?:number) {

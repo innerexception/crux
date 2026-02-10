@@ -11,13 +11,13 @@ export default (props:{card:Card}) => {
 
     return (
         <div style={{width:'120px', height:'80px', border:'2px inset', fontSize:'16px', borderColor: colors[dat.color], paddingLeft:'5px', borderRadius:'5px'}}>
-            <Tooltip overlay={getCreatureDetail(dat)}>
+            <Tooltip overlay={getCreatureDetail(dat, props.card)}>
                 <div style={{display:'flex', justifyContent:'space-between'}}>
                     <div style={{marginRight:'5px'}}>
                         <div>{props.card.kind}</div>
                         <div style={{display:'flex', alignItems:'center'}}>
                             <CssIcon spriteIndex={dat.sprite} noTooltip={true}/>
-                            {dat.atk && <div style={{marginLeft:'5px'}}>{dat.atk}/{dat.def}</div>}
+                            {props.card.atk && <div style={{marginLeft:'5px'}}>{props.card.atk}/{props.card.def}</div>}
                         </div>
                     </div>
                 </div>
@@ -27,19 +27,19 @@ export default (props:{card:Card}) => {
     )
 }
     
-export const getCreatureDetail = (dat:CardMeta) => 
+export const getCreatureDetail = (dat:CardMeta, card:Card) => 
     <div style={{fontSize:'16px', borderColor: colors[dat.color]}}>
        
         <div style={{display:'flex', justifyContent:'space-between'}}>
             <div style={{marginRight:'5px'}}>
                 <div style={{display:'flex', alignItems:'center'}}>
                     <CssIcon spriteIndex={dat.sprite} noTooltip={true}/>
-                    {dat.atk && <div style={{marginLeft:'5px'}}>{dat.atk}/{dat.def}</div>}
+                    {card.atk && <div style={{marginLeft:'5px'}}>{card.atk}/{card.def}</div>}
                 </div>
             </div>
         </div>
         {dat.description && <div>{dat.description}</div>}
-        {dat.attributes && dat.attributes.map(a=><div>{ModifierDesc[a]}</div>)}
+        {card.attributes && card.attributes.map(a=><div>{ModifierDesc[a]}</div>)}
         {dat.ability && <div>
             <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Tap}/>} {renderCost(dat.ability.cost, dat.ability.effect?.dmgX)}</div>
             {dat.ability.targets && <div>Affects: {PermanentsDesc[dat.ability.targets]}</div>}

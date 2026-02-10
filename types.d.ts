@@ -27,18 +27,20 @@ interface Card {
     tileY:number
     atk:number
     def:number
+    attributes: import('./enum').Modifier[]
+    moves:number
 }
 
 interface CardMeta {
     color:import('./enum').Color
-    atk?:number
-    def?:number
-    moves?:number
+    defaultAtk?:number
+    defaultDef?:number
+    defaultMoves?:number
     cost?: ManaCost[]
     description?:string
     pumpColor?: import('./enum').Color
     kind: import('./enum').Permanents
-    attributes?: import('./enum').Modifier[]
+    defaultAttributes?: import('./enum').Modifier[]
     ability: {
         cost?: ManaCost[]
         tap?: boolean
