@@ -2,7 +2,7 @@ import * as React from 'react'
 import AppStyles, { colors } from '../styles/AppStyles';
 import { Button, CssIcon } from '../common/Shared';
 import { getCardData } from '../common/CardUtils';
-import { OtherIcons, IconIndex, Permanents, CreatureSpriteIndex, PermanentsDesc, ModifierDesc, Color } from '../../enum';
+import { OtherIcons, IconIndex, Permanents, CreatureSpriteIndex, TargetsDesc, ModifierDesc, Color } from '../../enum';
 import Tooltip from 'rc-tooltip';
 
 export default (props:{card:Card}) => {
@@ -42,7 +42,7 @@ export const getCreatureDetail = (dat:CardMeta, card:Card) =>
         {card.attributes && card.attributes.map(a=><div>{ModifierDesc[a]}</div>)}
         {dat.ability && <div>
             <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Tap}/>} {renderCost(dat.ability.cost, dat.ability.effect?.dmgX)}</div>
-            {dat.ability.targets && <div>Affects: {PermanentsDesc[dat.ability.targets]}</div>}
+            {dat.ability.targets && <div>Affects: {TargetsDesc[dat.ability.targets]}</div>}
             <div>{dat.ability.effect && renderEffect(dat.ability.effect)}</div>   
         </div>}
         {renderCost(dat.cost, dat.pumpColor ? true:false)}

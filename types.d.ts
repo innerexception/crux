@@ -44,7 +44,7 @@ interface CardMeta {
     ability: {
         cost?: ManaCost[]
         tap?: boolean
-        targets?: import('./enum').Permanents
+        targets?: import('./enum').Target
         effect?: CardEffect
     }
     sprite: import('./enum').CreatureSpriteIndex

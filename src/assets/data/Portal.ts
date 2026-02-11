@@ -1,4 +1,4 @@
-import { CardType, Color, CreatureSpriteIndex, IconIndex, Modifier, Permanents } from "../../../enum";
+import { CardType, Color, CreatureSpriteIndex, IconIndex, Modifier, Permanents, Target } from "../../../enum";
 
 export const Portal:Record<CardType, CardMeta> = {
     [CardType.City]: {
@@ -68,7 +68,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Enchantment,
         defaultAttributes: null,
         ability: {
-            targets: Permanents.Creature,
+            targets: Target.Creatures,
             effect: {
                 atkUp: 2,
                 dmg:2,
@@ -83,7 +83,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Enchantment,
         ability: {
-            targets: Permanents.Creature,
+            targets: Target.Creatures,
             effect: {
                 duration: 1,
                 draw: 1,
@@ -96,10 +96,9 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.Sandstorm]: {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:1}],
-        pumpColor: Color.None, //TODO: test this card next
         kind: Permanents.Sorcery,
         ability: {
-            targets: Permanents.Any,
+            targets: Target.CreaturesOrPlayers,
             effect: {
                 dmgX: true,
                 sprite: IconIndex.Damage
@@ -110,10 +109,9 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.Earthquake]: {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:1}],
-        pumpColor: Color.None, //TODO: then this one
         kind: Permanents.Sorcery,
         ability: {
-            targets: Permanents.CreaturesAndPlayers,
+            targets: Target.CreaturesAndPlayers,
             effect: {
                 dmgX: true,
                 sprite: IconIndex.Damage
@@ -128,7 +126,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             cost: [],
             tap: false,
-            targets: Permanents.CreaturesYouControl,
+            targets: Target.CreaturesYouControl,
             effect: {
                 duration: 1,
                 pacifism: true,
@@ -152,7 +150,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Green, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Permanents.Self,
+            targets: Target.Self,
             effect: {
                 hpPerForest: true,
                 sprite: IconIndex.Buff
@@ -166,7 +164,7 @@ export const Portal:Record<CardType, CardMeta> = {
         pumpColor: Color.None, //TODO: can add any amount to increase effect
         kind: Permanents.Sorcery,
         ability: {
-            targets: Permanents.CreaturesAndPlayers,
+            targets: Target.CreaturesAndPlayers,
             effect: {
                 dmgX: true,
                 sprite: IconIndex.Damage
@@ -200,7 +198,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Green, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Permanents.CreaturesYouControl,
+            targets: Target.CreaturesYouControl,
             effect: {
                 untap: true,
                 sprite: IconIndex.Buff
@@ -247,7 +245,7 @@ export const Portal:Record<CardType, CardMeta> = {
         pumpColor: Color.None, //TODO: can add any amount to increase effect
         kind: Permanents.Sorcery,
         ability: {
-            targets: Permanents.Players,
+            targets: Target.Players,
             effect: {
                 drawX:true,
                 sprite: IconIndex.Buff
@@ -271,7 +269,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Black, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Permanents.CreaturesYourGraveyard,
+            targets: Target.CreaturesYourGraveyard,
             effect: {
                 cardToHandFromGY: true,
                 sprite: IconIndex.Buff
@@ -284,7 +282,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Permanents.CreaturesOrPlayers,
+            targets: Target.CreaturesOrPlayers,
             effect: {
                 dmg: 1,
                 sprite: IconIndex.Damage

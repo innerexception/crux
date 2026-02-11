@@ -59,9 +59,13 @@ export enum Color {
 }
 
 export enum Permanents {
-    Land='Land',Creature='Creature',Enchantment='Enchantment',Any='Any',Sorcery='Sorcery',Self='Self',CreaturesYouControl='CreaturesYouControl',
-    CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',CreaturesYourGraveyard='CreaturesYourGraveyard',CreaturesOrPlayers='CreaturesOrPlayers',
-    CreaturesAnyGraveyard='CreaturesAnyGraveyard'
+    Land='Land',Creature='Creature',Enchantment='Enchantment',Sorcery='Sorcery'
+}
+
+export enum Target {
+    Self='Self',CreaturesYouControl='CreaturesYouControl',Creatures='Creatures',Lands='Lands',
+    CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',CreaturesYourGraveyard='CreaturesYourGraveyard',
+    CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard'
 }
 
 export enum Modifier {
@@ -86,19 +90,16 @@ export const ModifierDesc:Record<Modifier,string> = {
     [Modifier.ProtectionFromWhite]: 'Protection from Holy'
 }
 
-export const PermanentsDesc:Record<Permanents,string> = {
-    [Permanents.Any]:'',
-    [Permanents.Sorcery]:'',
-    [Permanents.Creature]:'Creatures',
-    [Permanents.CreaturesAndPlayers]:'Creatures & Players', //TODO, these activate upon selection
-    [Permanents.CreaturesOrPlayers]:'Creatures or Players',
-    [Permanents.CreaturesYouControl]:'Creatures you control',
-    [Permanents.CreaturesYourGraveyard]:'Creatures in your graveyard',
-    [Permanents.CreaturesAnyGraveyard]:'Creatures in any graveyard',
-    [Permanents.Enchantment]:'Enchantments',
-    [Permanents.Land]:'Lands',
-    [Permanents.Players]:'Any Player',
-    [Permanents.Self]:'You'
+export const TargetsDesc:Record<Target,string> = {
+    [Target.Lands]:'Lands',
+    [Target.Self]:'Self',
+    [Target.Players]:'Players',
+    [Target.Creatures]:'Creatures',
+    [Target.CreaturesAndPlayers]:'Creatures & Players',
+    [Target.CreaturesOrPlayers]:'Creatures or Players',
+    [Target.CreaturesYouControl]:'Creatures you control',
+    [Target.CreaturesYourGraveyard]:'Creatures in your graveyard',
+    [Target.CreaturesAnyGraveyard]:'Creatures in any graveyard',
 }
 
 export const OtherIcons:Record<Color, IconIndex> = {

@@ -1,6 +1,6 @@
 import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
-import { CardType, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, SceneNames } from "../../../enum";
+import { CardType, Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, SceneNames, Target } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
@@ -72,7 +72,7 @@ export default class MapScene extends Scene {
         drawMarchingDashedRect(g, rect)
         const pn = mySave.players.find(p=>p.dir === Direction.NORTH)
         this.playerNorth?.destroy()
-        this.playerNorth = new PlayerSprite(this, rect.centerX, rect.top-32, pn.sprite, pn.id)
+        this.playerNorth = new PlayerSprite(this, rect.centerX, rect.top-64, pn.sprite, pn.id)
         const ps = mySave.players.find(p=>p.dir === Direction.SOUTH)
         this.playerSouth?.destroy()
         this.playerSouth = new PlayerSprite(this, rect.centerX, rect.bottom+32, ps.sprite, ps.id)
@@ -162,12 +162,12 @@ export default class MapScene extends Scene {
         const next = p.deck.cards.shift()
         if(next) p.hand = p.hand.concat(next)
         //TODO: choose high priority target to destroy/block
-        const enemies = state.board.filter(c=>c.ownerId !== p.id && getCardData(c).kind === Permanents.Creature).map(c=>this.creatures.find(s=>s.id === c.id))
+        const enemies = state.board.filter(c=>c.ownerId !== p.id && getCardData(c).kind === Permanents.Creature)
         if(enemies.length > 0){
             const creatureSorceries = p.hand.find(c=>
                 getCardData(c).kind === Permanents.Sorcery &&
                 canAfford(p.manaPool,c) &&
-                getCardData(c).ability.targets === Permanents.Creature && 
+                getCardData(c).ability.targets === Target.Creatures && 
                 (getCardData(c).ability.effect.dmg || getCardData(c).ability.effect.removal))
             if(creatureSorceries){
                 this.applyCreatureSorcery(enemies[0], creatureSorceries)
@@ -178,7 +178,7 @@ export default class MapScene extends Scene {
         const creature = p.hand.find(c=>getCardData(c).kind === Permanents.Creature && canAfford(p.manaPool,c))
         if(creature){
             if(enemies[0]){
-                const enemyTile = this.map.getTileAtWorldXY(enemies[0].x, enemies[0].y, false, undefined, Layers.Earth)
+                const enemyTile = this.map.getTileAt(enemies[0].tileX, enemies[0].tileY, false, Layers.Earth)
                 const spawnTile = this.map.getTileAt(enemyTile.x, p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
                 this.addCard(creature.id, spawnTile.pixelX, spawnTile.pixelY)
             }
@@ -235,7 +235,7 @@ export default class MapScene extends Scene {
                 else if(dat.kind === Permanents.Enchantment){
                     let creatureTiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
                             .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
-                    if(dat.ability.targets === Permanents.CreaturesYouControl){
+                    if(dat.ability.targets === Target.CreaturesYouControl){
                         creatureTiles = state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id && getCardData(c).kind === Permanents.Creature)
                             .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
                     }
@@ -243,28 +243,28 @@ export default class MapScene extends Scene {
                 }
                 else if(dat.kind === Permanents.Sorcery){
                     let tiles = []
-                    if(dat.ability.targets === Permanents.Any){
-                        tiles = state.saveFile.currentMatch.board
-                            .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
-                    }
-                    if(dat.ability.targets === Permanents.Land){
+                    if(dat.ability.targets === Target.Lands){
                         tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land)
                             .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
                     }
-                    if(dat.ability.targets === Permanents.Creature || dat.ability.targets === Permanents.CreaturesOrPlayers){
+                    if(dat.ability.targets === Target.Creatures){
+                        tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
+                            .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
+                    }
+                    if(dat.ability.targets === Target.CreaturesOrPlayers || dat.ability.targets === Target.CreaturesAndPlayers){
                         tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
                             .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
                         tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerNorth.x, this.playerNorth.y, false, undefined, Layers.Earth))
                         tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerSouth.x, this.playerSouth.y, false, undefined, Layers.Earth))
                     }
-                    if(dat.ability.targets === Permanents.CreaturesYouControl){
+                    if(dat.ability.targets === Target.CreaturesYouControl){
                         tiles = state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id && getCardData(c).kind === Permanents.Creature)
                             .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
                     }
-                    if(dat.ability.targets === Permanents.CreaturesYourGraveyard){
+                    if(dat.ability.targets === Target.CreaturesYourGraveyard){
                         return onShowModal(Modal.Graveyard)
                     }
-                    if(dat.ability.targets === Permanents.CreaturesAnyGraveyard){
+                    if(dat.ability.targets === Target.CreaturesAnyGraveyard){
                         return onShowModal(Modal.AnyGraveyard) //TODO
                     }
                     tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
@@ -323,20 +323,26 @@ export default class MapScene extends Scene {
                         const card = me.hand.find(c=>c.id === state.selectedCardId)
                         const dat = getCardData(card)
                         const targets = dat.ability.targets
+                        if(targets === Target.CreaturesAndPlayers){
+                            this.applyGlobalEffect(card)
+                            this.payAndDiscard(card)
+                        }
                         const pid = (GameObjects[0] as any).playerId
                         if(pid){
-                            if(targets === Permanents.CreaturesOrPlayers || targets === Permanents.Players){
+                            if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
                                 this.applyPlayerEffect(state.saveFile.currentMatch.players.find(p=>p.id === pid), card)
                                 this.payAndDiscard(card)
                             }
-                            else if(targets === Permanents.Self && pid === state.saveFile.myId){
+                            else if(targets === Target.Self && pid === state.saveFile.myId){
                                 this.applyPlayerEffect(state.saveFile.currentMatch.players.find(p=>p.id === pid),card)
                                 this.payAndDiscard(card)
                             }
                             return
                         }
                         if(dat.kind === Permanents.Enchantment || dat.kind === Permanents.Sorcery){
-                            return this.applyCreatureSorcery(sprite, card)
+                            this.applyCreatureSorcery(state.saveFile.currentMatch.board.find(c=>c.id === sprite.id), card)
+                            this.payAndDiscard(card)
+                            return
                         }
                     }
                     else {
@@ -386,14 +392,14 @@ export default class MapScene extends Scene {
         } 
     }
 
-    applyCreatureSorcery = (s:CreatureSprite, sorcery:Card) => {
-        const creature = store.getState().saveFile.currentMatch.board.find(c=>c.id === s.id)
+    applyCreatureSorcery = (creature:Card, sorcery:Card) => {
         if(getCardData(creature).kind !== Permanents.Creature){
             return
         }
 
         //play dmg/buff/debuff sprite
         const dat = getCardData(sorcery)
+        const s = this.creatures.find(c=>c.id === creature.id)
         this.flashIcon(s.x, s.y, dat.ability.effect.sprite)
 
         if(dat.ability.effect.duration){
@@ -406,7 +412,6 @@ export default class MapScene extends Scene {
         }
         
         this.applyCreatureEffect(creature, dat.ability.effect)
-        this.payAndDiscard(creature)
     }
 
     payAndDiscard(card:Card){
@@ -414,10 +419,14 @@ export default class MapScene extends Scene {
         onSelectCreature('', null)
         const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
         const data = getCardData(card)
+        let colorless = null
+        if(data.ability.effect.dmgX || data.ability.effect.drawX){
+            colorless = { kind: Color.None, amount: getColorlessRemain(p.manaPool, card)}
+        }
         onUpdatePlayer({...p, 
             discard: p.discard.concat(card), 
             hand: p.hand.filter(h=>h.id!==card.id),
-            manaPool: payCost(p.manaPool, data.cost)
+            manaPool: payCost(p.manaPool, colorless ? data.cost.concat(colorless):data.cost)
         })
     }
 
@@ -437,9 +446,18 @@ export default class MapScene extends Scene {
         }
     }
 
-    applyPlayerEffect(player:PlayerState, c:Card) {
+    applyGlobalEffect(card:Card) {
+        const players = store.getState().saveFile.currentMatch.players
+        players.forEach(player=>this.applyPlayerEffect(player, card))
+
+        const creatures = store.getState().saveFile.currentMatch.board
+        creatures.forEach(creature=>this.applyCreatureSorcery(creature, card))
+    }
+
+    applyPlayerEffect(targetPlayer:PlayerState, c:Card) {
         
         const effect = getCardData(c).ability.effect
+        const caster = store.getState().saveFile.currentMatch.players.find(p=>p.id === c.ownerId)
         //TODO
         if(effect.cardToHandFromGY){
             onShowModal(Modal.ChooseFromGY)
@@ -448,33 +466,33 @@ export default class MapScene extends Scene {
             onShowModal(Modal.ChooseDiscard)
         }
         if(effect.dmg){
-            player.hp-=effect.dmg
+            targetPlayer.hp-=effect.dmg
         }
         if(effect.dmgX){
-            const x = getColorlessRemain(player.manaPool, c)
-            player.hp-=x
+            const x = getColorlessRemain(caster.manaPool, c)
+            targetPlayer.hp-=x
         }
         if(effect.draw){
-            player = {...player, hand: player.hand.concat(player.deck.cards.shift()),deck:player.deck}
+            targetPlayer = {...targetPlayer, hand: targetPlayer.hand.concat(targetPlayer.deck.cards.shift()),deck:targetPlayer.deck}
         }
         if(effect.drawX){
-            const x = getColorlessRemain(player.manaPool, c)
+            const x = getColorlessRemain(caster.manaPool, c)
             for(let i=0;i<x;i++){
-                player = {...player, hand: player.hand.concat(player.deck.cards.shift()),deck:player.deck}
+                targetPlayer = {...targetPlayer, hand: targetPlayer.hand.concat(targetPlayer.deck.cards.shift()),deck:targetPlayer.deck}
             }
         }
         if(effect.hpPerForest){
             const forests = store.getState().saveFile.currentMatch.board.filter(c=>c.kind === CardType.Forest)
-            player.hp+=forests.length
+            targetPlayer.hp+=forests.length
         }
         if(effect.searchSorceryForTop){
             onShowModal(Modal.PickNextSorcery)
         }
-        if(player.hp <= 0){
-            if(player.id === store.getState().saveFile.myId) onShowModal(Modal.GameOver)
+        if(targetPlayer.hp <= 0){
+            if(targetPlayer.id === store.getState().saveFile.myId) onShowModal(Modal.GameOver)
             else onShowModal(Modal.Winner)
         }
-        onUpdatePlayer({...player})
+        onUpdatePlayer({...targetPlayer})
     }
 
     applyCreatureEffect(creature:Card, effect:CardEffect) {
