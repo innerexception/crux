@@ -1,5 +1,5 @@
 import { GameObjects, Geom, Scene } from "phaser"
-import { Color, Direction, Layers, Permanents } from "../../enum"
+import { Color, CreatureSpriteIndex, Direction, Layers, Permanents } from "../../enum"
 import MapScene from "../components/scenes/MapScene"
 import { getAIDeck, getCardData } from "./CardUtils"
 import { SAVE_NAMES } from "./UIReducer"
@@ -36,7 +36,8 @@ export const getNewMatch = (s:SaveFile):MatchState => {
                 manaPool:{...emptyMana},
                 isAI: false,
                 hasPlayedLand: false,
-                drawAllowed: 1
+                drawAllowed: 1,
+                sprite: CreatureSpriteIndex.Player1
             },
             getAIPlayer(Direction.NORTH)
         ]
@@ -61,7 +62,8 @@ export const getAIPlayer = (dir:Direction):PlayerState => {
         manaPool:{...emptyMana},
         isAI: true,
         drawAllowed: 1,
-        hasPlayedLand: false
+        hasPlayedLand: false,
+        sprite: CreatureSpriteIndex.CityMage
     }
 }
 

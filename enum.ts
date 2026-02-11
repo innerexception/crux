@@ -45,7 +45,7 @@ export enum CreatureSpriteIndex {
     City=914, Desert=256, Forest=369, Tower=936, Meadow=218, Skypirate=4869,FireCloak=5392,FeatherCloak=5386,
     Sandstorm=1505,Earthquake=1900,PeaceTreaty=2138,HeroicSoldier=4893,FertileSoil=2483,Hurricane=4377,Goblin=4545,
     ForestJackal=4102,Merfolk=3956,Refreshment=2218,BillyGoat=4162,ScavengingRats=4089,Memoize=1964,Brainstorm=2028,
-    Necromancy=2095,FierySpear=1997,Sanctuary=385
+    Necromancy=2095,FierySpear=1997,Sanctuary=385,Player1=4979,CityMage=4881
 }
 
 export enum IconIndex {
@@ -90,7 +90,7 @@ export const PermanentsDesc:Record<Permanents,string> = {
     [Permanents.Any]:'',
     [Permanents.Sorcery]:'',
     [Permanents.Creature]:'Creatures',
-    [Permanents.CreaturesAndPlayers]:'Creatures & Players',
+    [Permanents.CreaturesAndPlayers]:'Creatures & Players', //TODO, these activate upon selection
     [Permanents.CreaturesOrPlayers]:'Creatures or Players',
     [Permanents.CreaturesYouControl]:'Creatures you control',
     [Permanents.CreaturesYourGraveyard]:'Creatures in your graveyard',

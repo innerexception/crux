@@ -7,6 +7,7 @@ import CreatureSprite from "../sprites/CreatureSprite";
 import { canAfford, drawMarchingDashedRect, drawRectSegment, emptyMana, isPassableTile, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, tapLand } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
+import PlayerSprite from "../sprites/PlayerSprite";
 
 const TILE_DIM=32
 const FIELD_WIDTH=6
@@ -28,6 +29,8 @@ export default class MapScene extends Scene {
     northCreatures:Tilemaps.Tile[]
     southLands:Tilemaps.Tile[]
     southCreatures:Tilemaps.Tile[]
+    playerNorth:GameObjects.Image
+    playerSouth:GameObjects.Image
     
     constructor(config){
         super(config)
@@ -67,6 +70,12 @@ export default class MapScene extends Scene {
         const g = this.add.graphics().setDefaultStyles({ lineStyle: { width:2, color:0xffffff, alpha:0.5 }}).setDepth(7)
         const rect = new Geom.Rectangle(midTile.pixelX-(FIELD_WIDTH*TILE_DIM), midTile.pixelY-(FIELD_HEIGHT*TILE_DIM), FIELD_WIDTH*2*TILE_DIM, FIELD_HEIGHT*2*TILE_DIM)
         drawMarchingDashedRect(g, rect)
+        const pn = mySave.players.find(p=>p.dir === Direction.NORTH)
+        this.playerNorth?.destroy()
+        this.playerNorth = new PlayerSprite(this, rect.centerX, rect.top-32, pn.sprite, pn.id)
+        const ps = mySave.players.find(p=>p.dir === Direction.SOUTH)
+        this.playerSouth?.destroy()
+        this.playerSouth = new PlayerSprite(this, rect.centerX, rect.bottom+32, ps.sprite, ps.id)
 
 
         this.creatures.forEach(e=>e.destroy())
@@ -89,7 +98,7 @@ export default class MapScene extends Scene {
         const rm = match.board.filter(c=>c.def <= 0)
         rm.forEach(c=>this.tryRemoveCreature(c))
         match = store.getState().saveFile.currentMatch
-        
+
         //1. move creatures / resolve combats
         const mine = this.creatures.filter(c=>match.board.find(cr=>cr.id===c.id && cr.ownerId === current.id))
         for(let i=0;i<mine.length;i++){
@@ -245,7 +254,8 @@ export default class MapScene extends Scene {
                     if(dat.ability.targets === Permanents.Creature || dat.ability.targets === Permanents.CreaturesOrPlayers){
                         tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
                             .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
-                        //TODO: highlight players also
+                        tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerNorth.x, this.playerNorth.y, false, undefined, Layers.Earth))
+                        tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerSouth.x, this.playerSouth.y, false, undefined, Layers.Earth))
                     }
                     if(dat.ability.targets === Permanents.CreaturesYouControl){
                         tiles = state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id && getCardData(c).kind === Permanents.Creature)
@@ -306,22 +316,39 @@ export default class MapScene extends Scene {
             if(tile){
                 const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
                 if(GameObjects.length > 0){
+                    
                     const sprite = GameObjects[0] as CreatureSprite
                     //determine card action
                     if(state.selectedCardId){
                         const card = me.hand.find(c=>c.id === state.selectedCardId)
-                        if(getCardData(card).kind === Permanents.Enchantment || getCardData(card).kind === Permanents.Sorcery){
+                        const dat = getCardData(card)
+                        const targets = dat.ability.targets
+                        const pid = (GameObjects[0] as any).playerId
+                        if(pid){
+                            if(targets === Permanents.CreaturesOrPlayers || targets === Permanents.Players){
+                                this.applyPlayerEffect(state.saveFile.currentMatch.players.find(p=>p.id === pid), getCardData(card).ability.effect,-1)
+                                this.playCard(card)
+                            }
+                            else if(targets === Permanents.Self && pid === state.saveFile.myId){
+                                this.applyPlayerEffect(state.saveFile.currentMatch.players.find(p=>p.id === pid), getCardData(card).ability.effect,-1)
+                                this.playCard(card)
+                            }
+                            return
+                        }
+                        if(dat.kind === Permanents.Enchantment || dat.kind === Permanents.Sorcery){
                             return this.applyCreatureSorcery(sprite, card)
                         }
                     }
                     else {
                         const card = state.saveFile.currentMatch.board.find(c=>c.id === sprite.id)
-                        const meta = getCardData(card)
-                        if(meta.kind === Permanents.Land && !card.tapped){
-                            //tap and add to pool
-                            tapLand(card, me)
-                            this.floatResource(sprite.x, sprite.y, IconIndex.Mana, '#ff0000')
-                            //TODO add exausted icon to card
+                        if(card){
+                            const meta = getCardData(card)
+                            if(meta.kind === Permanents.Land && !card.tapped){
+                                //tap and add to pool
+                                tapLand(card, me)
+                                this.floatResource(sprite.x, sprite.y, IconIndex.Mana, '#ff0000')
+                                //TODO add exausted icon to card
+                            }
                         }
                     }
                 }
@@ -379,10 +406,14 @@ export default class MapScene extends Scene {
         }
         
         this.applyCreatureEffect(creature, dat.ability.effect)
+        this.playCard(creature)
+    }
+
+    playCard(card:Card){
         this.creaturePreview?.destroy()
         onSelectCreature('', null)
-        const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === sorcery.ownerId)
-        onUpdatePlayer({...p, discard: p.discard.concat(sorcery), hand: p.hand.filter(h=>h.id!==sorcery.id)})
+        const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
+        onUpdatePlayer({...p, discard: p.discard.concat(card), hand: p.hand.filter(h=>h.id!==card.id)})
     }
 
     expireEffect = (creature:Card, effect:StatusEffect) => {

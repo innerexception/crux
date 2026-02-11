@@ -284,7 +284,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Permanents.CreaturesAndPlayers,
+            targets: Permanents.CreaturesOrPlayers,
             effect: {
                 dmg: 1,
                 sprite: IconIndex.Damage

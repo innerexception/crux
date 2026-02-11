@@ -88,6 +88,7 @@ interface PlayerState {
     isAI:boolean
     hasPlayedLand:boolean
     drawAllowed:number
+    sprite: import('./enum').CreatureSpriteIndex
 }
 
 interface MatchState {
