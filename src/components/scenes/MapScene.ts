@@ -1,6 +1,6 @@
 import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
-import { CardType, Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, SceneNames, Target } from "../../../enum";
+import { CardType, Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Modifier, Permanents, SceneNames, Target } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
@@ -331,17 +331,14 @@ export default class MapScene extends Scene {
                         if(pid){
                             if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
                                 this.applyPlayerEffect(state.saveFile.currentMatch.players.find(p=>p.id === pid), card)
-                                this.payAndDiscard(card)
                             }
                             else if(targets === Target.Self && pid === state.saveFile.myId){
                                 this.applyPlayerEffect(state.saveFile.currentMatch.players.find(p=>p.id === pid),card)
-                                this.payAndDiscard(card)
                             }
                             return
                         }
-                        if(dat.kind === Permanents.Enchantment || dat.kind === Permanents.Sorcery){
+                        if(this.validTarget(sprite, card)){
                             this.applyCreatureSorcery(state.saveFile.currentMatch.board.find(c=>c.id === sprite.id), card)
-                            this.payAndDiscard(card)
                             return
                         }
                     }
@@ -370,6 +367,30 @@ export default class MapScene extends Scene {
         })
     }
 
+    validTarget(sprite:CreatureSprite, sorcery:Card):boolean {
+        const sorceryData = getCardData(sorcery)
+        const creature = store.getState().saveFile.currentMatch.board.find(c=>c.id === sprite.id)
+        const cdat = getCardData(creature)
+        if(cdat.kind === Permanents.Land){
+            return sorceryData.ability.targets === Target.Lands
+        }
+        if(cdat.kind === Permanents.Creature){
+            if(sorceryData.ability.targets === Target.Creatures || 
+                sorceryData.ability.targets === Target.CreaturesAndPlayers ||
+                sorceryData.ability.targets === Target.CreaturesOrPlayers){
+                return true
+            }
+            if(sorceryData.ability.targets === Target.AttackingCreatures){
+                const owner = store.getState().saveFile.currentMatch.players.find(p=>p.id === creature.ownerId)
+                return !this.validStartTile(this.map.getTileAt(creature.tileX, creature.tileY, false, Layers.Earth), owner.dir, false)
+            }
+            if(sorceryData.ability.targets === Target.CreaturesYouControl){
+                return creature.ownerId === sorcery.ownerId
+            }
+        }
+
+    }
+
     validStartTile = (t:Tilemaps.Tile, dir:Direction, land:boolean) => {
         if(dir === Direction.SOUTH){
             if(land) return this.southLands.find(l=>l.x===t.x&&l.y===t.y)
@@ -393,12 +414,9 @@ export default class MapScene extends Scene {
     }
 
     applyCreatureSorcery = (creature:Card, sorcery:Card) => {
-        if(getCardData(creature).kind !== Permanents.Creature){
-            return
-        }
 
-        //play dmg/buff/debuff sprite
         const dat = getCardData(sorcery)
+        //play dmg/buff/debuff sprite
         const s = this.creatures.find(c=>c.id === creature.id)
         this.flashIcon(s.x, s.y, dat.ability.effect.sprite)
 
@@ -412,6 +430,7 @@ export default class MapScene extends Scene {
         }
         
         this.applyCreatureEffect(creature, dat.ability.effect)
+        this.payAndDiscard(creature)
     }
 
     payAndDiscard(card:Card){
@@ -493,6 +512,7 @@ export default class MapScene extends Scene {
             else onShowModal(Modal.Winner)
         }
         onUpdatePlayer({...targetPlayer})
+        this.payAndDiscard(c)
     }
 
     applyCreatureEffect(creature:Card, effect:CardEffect) {

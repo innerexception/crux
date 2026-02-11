@@ -45,7 +45,8 @@ export enum CreatureSpriteIndex {
     City=914, Desert=256, Forest=369, Tower=936, Meadow=218, Skypirate=4869,FireCloak=5392,FeatherCloak=5386,
     Sandstorm=1505,Earthquake=1900,PeaceTreaty=2138,HeroicSoldier=4893,FertileSoil=2483,Hurricane=4377,Goblin=4545,
     ForestJackal=4102,Merfolk=3956,Refreshment=2218,BillyGoat=4162,ScavengingRats=4089,Memoize=1964,Brainstorm=2028,
-    Necromancy=2095,FierySpear=1997,Sanctuary=385,Player1=4979,CityMage=4881
+    Necromancy=2095,FierySpear=1997,Sanctuary=385,Player1=4979,CityMage=4881,Knife=2882,Jellyfish=4104,
+    ForestCall=2170,Taunt=2153,Dryad=3814,Gryphon=3846,MartyrPrayer=2083,Imp=4238,Brigand=4975,Flood=1481
 }
 
 export enum IconIndex {
@@ -65,21 +66,28 @@ export enum Permanents {
 export enum Target {
     Self='Self',CreaturesYouControl='CreaturesYouControl',Creatures='Creatures',Lands='Lands',
     CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',CreaturesYourGraveyard='CreaturesYourGraveyard',
-    CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard'
+    CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',AttackingCreatures='AttackingCreatures',
+    AllPlayers='AllPlayers'
 }
 
 export enum Modifier {
     Banding=1,ProtectionFromBlack,ProtectionFromWhite,ProtectionFromRed,ProtectionFromGreen,ProtectionFromBlue,FirstStrike,
     Flying,OnlyFlying,CantBlock, //Can't be put in a lane w/ an opposing creature
-    DesertWalk, //Ghostly in lane that ends in a desert
-    Berserk //Haste
+    DesertWalk, ForestWalk, CityWalk, TowerWalk, TempleWalk, //Ghostly in lane that ends in a desert
+    Berserk, //Moves + 1
+    Defender //Moves 0
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
+    [Modifier.Defender]: 'Defender',
     [Modifier.Banding]: 'Banding',
     [Modifier.Berserk]: 'Berserk',
     [Modifier.CantBlock]: 'Timid',
     [Modifier.DesertWalk]: 'Pathfinder - Desert',
+    [Modifier.ForestWalk]: 'Pathfinder - Forest',
+    [Modifier.CityWalk]: 'Pathfinder - City',
+    [Modifier.TowerWalk]: 'Pathfinder - Tower',
+    [Modifier.TempleWalk]: 'Pathfinder - Temple',
     [Modifier.FirstStrike]: 'Ambush',
     [Modifier.Flying]: 'Flying',
     [Modifier.OnlyFlying]: 'Airborn',
@@ -91,10 +99,12 @@ export const ModifierDesc:Record<Modifier,string> = {
 }
 
 export const TargetsDesc:Record<Target,string> = {
+    [Target.AllPlayers]:'All Players',
     [Target.Lands]:'Lands',
     [Target.Self]:'Self',
     [Target.Players]:'Players',
     [Target.Creatures]:'Creatures',
+    [Target.AttackingCreatures]:'Attacking Creatures',
     [Target.CreaturesAndPlayers]:'Creatures & Players',
     [Target.CreaturesOrPlayers]:'Creatures or Players',
     [Target.CreaturesYouControl]:'Creatures you control',
@@ -113,12 +123,18 @@ export const OtherIcons:Record<Color, IconIndex> = {
 
 
 export enum CardType {
-    Sanctuary='Sanctuary',Desert='Desert',Tower='Tower',City='City',Forest='Forest',
+    Temple='Temple',Desert='Desert',Tower='Tower',City='City',Forest='Forest',
     Sandstorm='Sandstorm',FireCloak='FireCloak',FeatherCloak='FeatherCloak',
     SkyPirates='SkyPirates',HeroicSoldier='HeroicSoldier',Earthquake='Earthquake',
     PeaceTreaty='PeaceTreaty', FertileSoil='FertileSoil',Hurricane='Hurricane',
     ForestJackal='JunglePanther',Merfolk='Merfolk',Refreshment='Refreshment',
     BillyGoat='BillyGoat', ScavengingRats='ScavengingRats',Memoize='Memoize',
     Brainstorm='Brainstorm', Goblin='Goblin', Necromancy='Necromancy', FierySpear='FierySpear',
+    DustStorm='DustStorm', Scry='Scry', ForestCall='ForestCall', Taunt='Taunt',
+    WillowSpirit='WillowSpirit', FlashFlood='FlashFlood', VisitingGryphon='VisitingPegasus',
+    AssassinKnife='AssassinKnife', MartyrPrayer='MartyrPrayer', RefuseDrone='RefuseDrone',
+    JellyFish='ElectricEel', FaithlessKnight='FaithlessKnight', 
 
+    TracklessWilds='TracklessWilds', Defiance='Defiance', Pollution='Pollution', 
+    
 }

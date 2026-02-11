@@ -41,7 +41,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Tower
     },
-    [CardType.Sanctuary]: {
+    [CardType.Temple]: {
         color:Color.White,
         defaultAttributes: null,
         kind: Permanents.Land,
@@ -289,5 +289,192 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         },
         sprite: CreatureSpriteIndex.FierySpear
+    },
+    [CardType.AssassinKnife]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.AttackingCreatures,
+            effect: {
+                destroy: true,
+                sprite: IconIndex.Damage
+            }
+        },
+        sprite: CreatureSpriteIndex.Knife
+    },
+    [CardType.JellyFish]: {
+        color:Color.Blue,
+        defaultAtk: 2,
+        defaultDef: 1,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Creature,
+        defaultMoves: 1,
+        ability: null,
+        sprite: CreatureSpriteIndex.Jellyfish
+    },
+    [CardType.DustStorm]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.AttackingCreatures,
+            effect: {
+                dmg: 1,
+                sprite: IconIndex.Damage
+            }
+        },
+        sprite: CreatureSpriteIndex.Sandstorm
+    },
+    [CardType.Scry]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Players,
+            effect: {
+                viewHand: true,
+                sprite: IconIndex.Debuff
+            }
+        },
+        sprite: CreatureSpriteIndex.Brainstorm
+    },
+    [CardType.ForestCall]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                searchCreatureForTop: true,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.ForestCall
+    },
+    [CardType.Taunt]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creatures,
+            effect: {
+                taunt: true,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Taunt
+    },
+    [CardType.WillowSpirit]:{
+        color:Color.Green,
+        defaultAtk: 1,
+        defaultDef: 1,
+        cost: [{kind:Color.Green, amount:1}],
+        kind: Permanents.Creature,
+        defaultMoves: 1,
+        defaultAttributes:[Modifier.ForestWalk],
+        ability: null,
+        sprite: CreatureSpriteIndex.Dryad
+    },
+    [CardType.VisitingGryphon]: {
+        color:Color.White,
+        defaultAtk: 1,
+        defaultDef: 2,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Creature,
+        defaultMoves: 1,
+        defaultAttributes:[Modifier.Flying],
+        ability: null,
+        sprite: CreatureSpriteIndex.Gryphon
+    },
+    [CardType.MartyrPrayer]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                hpPerAttacker: true,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.MartyrPrayer
+    },
+    [CardType.RefuseDrone]: {
+        color:Color.Black,
+        defaultAtk: 1,
+        defaultDef: 1,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Creature,
+        defaultMoves: 1,
+        defaultAttributes:[Modifier.Flying],
+        ability: null,
+        sprite: CreatureSpriteIndex.Imp
+    },
+    [CardType.FaithlessKnight]: {
+        color:Color.Black,
+        defaultAtk: 2,
+        defaultDef: 2,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Creature,
+        defaultMoves: 1,
+        defaultAttributes:[Modifier.CantBlock],
+        ability: null,
+        sprite: CreatureSpriteIndex.Brigand
+    },
+    [CardType.FlashFlood]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.AllPlayers,
+            effect: {
+                discardAllAndDraw:true,
+                sprite: IconIndex.Debuff
+            }
+        },
+        sprite: CreatureSpriteIndex.Flood
+    },
+    [CardType.TracklessWilds]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:1},{kind: Color.None, amount: 1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.AttackingCreatures,
+            effect: {
+                resetMovement: true,
+                sprite: IconIndex.Debuff
+            }
+        },
+        sprite: CreatureSpriteIndex.Wilderness
+    },
+    [CardType.Defiance]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind: Color.None, amount: 1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creatures,
+            effect: {
+                duration: 1,
+                untap: true,
+                atkUp: 1,
+                defUp: 3,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Defiance
+    },
+    [CardType.Pollution]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:1},{kind: Color.None, amount: 1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.CreaturesAndPlayers,
+            effect: {
+                dmg: 1,
+                sprite: IconIndex.Damage
+            }
+        },
+        sprite: CreatureSpriteIndex.Pollution
     },
 }

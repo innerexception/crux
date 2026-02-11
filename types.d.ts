@@ -66,9 +66,15 @@ interface CardEffect {
     untap?:boolean
     pillaged?:boolean //does not untap
     searchSorceryForTop?:boolean
+    searchCreatureForTop?:boolean
     cardToHandFromGY?:boolean
     attributes?: import('./enum').Modifier[]
     sprite: import('./enum').IconIndex
+    viewHand?:boolean
+    taunt?:boolean //new non-defender creatures must be placed in this creatures lane
+    hpPerAttacker?:boolean
+    discardAllAndDraw?:boolean
+    resetMovement?:boolean //send all targets to starting tiles
 }
 
 interface Deck {
