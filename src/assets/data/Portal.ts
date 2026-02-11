@@ -96,7 +96,7 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.Sandstorm]: {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:1}],
-        pumpColor: Color.None, //TODO: can add any amount to increase effect
+        pumpColor: Color.None, //TODO: test this card next
         kind: Permanents.Sorcery,
         ability: {
             targets: Permanents.Any,
@@ -110,7 +110,7 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.Earthquake]: {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:1}],
-        pumpColor: Color.None, //TODO: can add any amount to increase effect
+        pumpColor: Color.None, //TODO: then this one
         kind: Permanents.Sorcery,
         ability: {
             targets: Permanents.CreaturesAndPlayers,

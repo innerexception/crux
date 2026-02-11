@@ -84,6 +84,15 @@ export const canAfford = (mana:Record<Color,number>, c:Card) => {
     return true
 }
 
+export const getColorlessRemain = (mana:Record<Color,number>, c:Card) => {
+    const cost = getCardData(c).cost
+    //subtract colored first to get remainder
+    const mans = {...mana}
+    cost.filter(c=>c.kind !== Color.None).forEach(c=>mans[c.kind]-=c.amount)
+    const colorless = Object.keys(mans).map((c:Color)=>mans[c]).reduce((sum,next)=>sum+next)
+    return colorless
+}
+
 export const payCost = (mana:Record<Color,number>, cost?:ManaCost[]):Record<Color,number> => {
     if(!cost) return mana
     cost.filter(c=>c.kind!==Color.None).forEach(c=>{

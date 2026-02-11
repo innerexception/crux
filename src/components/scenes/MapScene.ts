@@ -4,7 +4,7 @@ import { CardType, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Perman
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
-import { canAfford, drawMarchingDashedRect, drawRectSegment, emptyMana, isPassableTile, payCost, transitionIn, transitionOut } from "../../common/Utils";
+import { canAfford, drawMarchingDashedRect, drawRectSegment, emptyMana, getColorlessRemain, isPassableTile, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, tapLand } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
 import PlayerSprite from "../sprites/PlayerSprite";
@@ -326,12 +326,12 @@ export default class MapScene extends Scene {
                         const pid = (GameObjects[0] as any).playerId
                         if(pid){
                             if(targets === Permanents.CreaturesOrPlayers || targets === Permanents.Players){
-                                this.applyPlayerEffect(state.saveFile.currentMatch.players.find(p=>p.id === pid), getCardData(card).ability.effect,-1)
-                                this.playCard(card)
+                                this.applyPlayerEffect(state.saveFile.currentMatch.players.find(p=>p.id === pid), card)
+                                this.payAndDiscard(card)
                             }
                             else if(targets === Permanents.Self && pid === state.saveFile.myId){
-                                this.applyPlayerEffect(state.saveFile.currentMatch.players.find(p=>p.id === pid), getCardData(card).ability.effect,-1)
-                                this.playCard(card)
+                                this.applyPlayerEffect(state.saveFile.currentMatch.players.find(p=>p.id === pid),card)
+                                this.payAndDiscard(card)
                             }
                             return
                         }
@@ -406,14 +406,19 @@ export default class MapScene extends Scene {
         }
         
         this.applyCreatureEffect(creature, dat.ability.effect)
-        this.playCard(creature)
+        this.payAndDiscard(creature)
     }
 
-    playCard(card:Card){
+    payAndDiscard(card:Card){
         this.creaturePreview?.destroy()
         onSelectCreature('', null)
         const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
-        onUpdatePlayer({...p, discard: p.discard.concat(card), hand: p.hand.filter(h=>h.id!==card.id)})
+        const data = getCardData(card)
+        onUpdatePlayer({...p, 
+            discard: p.discard.concat(card), 
+            hand: p.hand.filter(h=>h.id!==card.id),
+            manaPool: payCost(p.manaPool, data.cost)
+        })
     }
 
     expireEffect = (creature:Card, effect:StatusEffect) => {
@@ -432,8 +437,9 @@ export default class MapScene extends Scene {
         }
     }
 
-    applyPlayerEffect(player:PlayerState, effect:CardEffect, x:number) {
+    applyPlayerEffect(player:PlayerState, c:Card) {
         
+        const effect = getCardData(c).ability.effect
         //TODO
         if(effect.cardToHandFromGY){
             onShowModal(Modal.ChooseFromGY)
@@ -445,12 +451,14 @@ export default class MapScene extends Scene {
             player.hp-=effect.dmg
         }
         if(effect.dmgX){
+            const x = getColorlessRemain(player.manaPool, c)
             player.hp-=x
         }
         if(effect.draw){
             player = {...player, hand: player.hand.concat(player.deck.cards.shift()),deck:player.deck}
         }
         if(effect.drawX){
+            const x = getColorlessRemain(player.manaPool, c)
             for(let i=0;i<x;i++){
                 player = {...player, hand: player.hand.concat(player.deck.cards.shift()),deck:player.deck}
             }
@@ -469,7 +477,7 @@ export default class MapScene extends Scene {
         onUpdatePlayer({...player})
     }
 
-    applyCreatureEffect(creature:Card, effect:CardEffect, x?:number) {
+    applyCreatureEffect(creature:Card, effect:CardEffect) {
         const state = store.getState()
         let me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.currentMatch.activePlayerId)
         //TODO
@@ -492,12 +500,14 @@ export default class MapScene extends Scene {
             creature.def-=effect.dmg
         }
         if(effect.dmgX){
+            const x = getColorlessRemain(me.manaPool, creature)
             creature.def-=x
         }
         if(effect.draw){
             me = {...me, hand: me.hand.concat(me.deck.cards.shift()),deck:me.deck}
         }
         if(effect.drawX){
+            const x = getColorlessRemain(me.manaPool, creature)
             for(let i=0;i<x;i++){
                 me = {...me, hand: me.hand.concat(me.deck.cards.shift()),deck:me.deck}
             }
