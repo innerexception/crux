@@ -29,14 +29,14 @@ export const onInspectCreature = (c:string) => {
     store.dispatch({ type: UIReducerActions.INSPECT_CARD, data: c })
 }
 
-export const onSelectCreature = (c:string, k:Card) => {
+export const onSelectCreature = (cid:string, k:Card) => {
     const state = store.getState()
     if(k){
         state.scene.startPreview(k)
         state.scene.showCardTargets(true)
     }
     else state.scene.showCardTargets(false)
-    store.dispatch({ type: UIReducerActions.SELECT_CARD, data: c })
+    store.dispatch({ type: UIReducerActions.SELECT_CARD, data: cid })
 }
 
 export const onUpdateSave = (s:SaveFile) => {

@@ -85,6 +85,11 @@ export default class MapScene extends Scene {
         const currentI = match.players.findIndex(p=>p.id === match.activePlayerId)
         const current = match.players[currentI]
         
+        //0. clear dead creatures
+        const rm = match.board.filter(c=>c.def <= 0)
+        rm.forEach(c=>this.tryRemoveCreature(c))
+        match = store.getState().saveFile.currentMatch
+        
         //1. move creatures / resolve combats
         const mine = this.creatures.filter(c=>match.board.find(cr=>cr.id===c.id && cr.ownerId === current.id))
         for(let i=0;i<mine.length;i++){
@@ -374,6 +379,10 @@ export default class MapScene extends Scene {
         }
         
         this.applyCreatureEffect(creature, dat.ability.effect)
+        this.creaturePreview?.destroy()
+        onSelectCreature('', null)
+        const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === sorcery.ownerId)
+        onUpdatePlayer({...p, discard: p.discard.concat(sorcery), hand: p.hand.filter(h=>h.id!==sorcery.id)})
     }
 
     expireEffect = (creature:Card, effect:StatusEffect) => {
@@ -381,12 +390,14 @@ export default class MapScene extends Scene {
         const s = this.creatures.find(c=>c.id === creature.id)
         this.flashIcon(s.x, s.y, effect.status.sprite)
         creature.status = creature.status.filter(s=>s.id!==effect.id)
-        //TODO
         if(effect.status.atkUp){
             creature.atk-=effect.status.atkUp
         }
         if(effect.status.defUp){
             creature.def-=effect.status.defUp
+        }
+        if(effect.status.attributes){
+            creature.attributes=creature.attributes.filter(a=>!effect.status.attributes.includes(a))
         }
     }
 
@@ -481,7 +492,6 @@ export default class MapScene extends Scene {
     tryRemoveCreature (card:Card) {
         //TODO
         //3. death effects
-        //2. remove to discard
         const spr = this.creatures.find(c=>c.id === card.id)
         spr.destroy()
         let board = store.getState().saveFile.currentMatch.board
