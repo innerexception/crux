@@ -587,4 +587,31 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Mind
     },
+    [CardType.Overgrowth]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creatures,
+            effect: {
+                atkUp:4,
+                defUp:4,
+                duration: 1,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Giant
+    },
+    [CardType.Sprite]: {
+        color:Color.Green,
+        defaultAtk: 1,
+        defaultDef: 1,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Creature,
+        defaultMoves: 1,
+        defaultAttributes:[Modifier.Flying],
+        ability: null,
+        sprite: CreatureSpriteIndex.Sprite
+    },
+    
 }
