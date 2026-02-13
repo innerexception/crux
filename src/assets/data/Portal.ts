@@ -68,7 +68,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Enchantment,
         defaultAttributes: null,
         ability: {
-            targets: Target.Creatures,
+            targets: Target.Creature,
             effect: {
                 atkUp: 2,
                 dmg:2,
@@ -83,7 +83,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Enchantment,
         ability: {
-            targets: Target.Creatures,
+            targets: Target.Creature,
             effect: {
                 duration: 1,
                 draw: 1,
@@ -152,7 +152,8 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Self,
             effect: {
-                hpPerForest: true,
+                hpPerLand: CardType.Forest,
+                hpUp: 1,
                 sprite: IconIndex.Buff
             }
         },
@@ -357,7 +358,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Creatures,
+            targets: Target.Creature,
             effect: {
                 taunt: true,
                 sprite: IconIndex.Buff
@@ -453,7 +454,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.White, amount:1},{kind: Color.None, amount: 1}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Creatures,
+            targets: Target.Creature,
             effect: {
                 duration: 1,
                 untap: true,
@@ -592,7 +593,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Creatures,
+            targets: Target.Creature,
             effect: {
                 atkUp:4,
                 defUp:4,
@@ -613,5 +614,166 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: null,
         sprite: CreatureSpriteIndex.Sprite
     },
-    
+    [CardType.NaturesPaths]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                putForestInPlay: true,
+                shuffle: true,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Giant
+    },
+    [CardType.Omen]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                viewTop3: true,
+                shuffle: true,
+                draw: 1,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Giant
+    },
+    [CardType.Owl]: {
+        color:Color.Blue,
+        defaultAtk: 1,
+        defaultDef: 1,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Creature,
+        defaultMoves: 1,
+        defaultAttributes:[Modifier.Flying],
+        ability: {
+            effect: {
+                draw: 1,
+                discard: 1,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Owl
+    },
+    [CardType.Treant]: {
+        color:Color.Green,
+        defaultAtk: 3,
+        defaultDef: 4,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Creature,
+        defaultMoves: 1,
+        ability: {
+            effect: {
+                destroyForest: true,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Treant
+    },
+    [CardType.Eruption]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.AllCreatures,
+            effect: {
+                dmg: 2,
+                sprite: IconIndex.Damage
+            }
+        },
+        sprite: CreatureSpriteIndex.Volcano
+    },
+    [CardType.HolyMountain]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                hpPerLand: CardType.Desert,
+                hpUp: 2,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Volcano
+    },
+    [CardType.HeavenlyDew]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                hpUp: 4,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Heal
+    },
+    [CardType.SewerRats]: {
+        color:Color.Black,
+        defaultAtk: 2,
+        defaultDef: 1,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Creature,
+        defaultMoves: 1,
+        ability: null,
+        sprite: CreatureSpriteIndex.Rats
+    },
+    [CardType.Tremors]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                dmgAsYourDeserts: true,
+                sprite: IconIndex.Damage
+            }
+        },
+        sprite: CreatureSpriteIndex.Earthquake
+    },
+    [CardType.Sunlight]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                hp3perBlackCreature:true,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Sun
+    },
+    [CardType.Steadfast]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.AllCreaturesYouControl,
+            effect: {
+                defUp:3,
+                duration:1,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Armor
+    },
+    [CardType.Crow]: {
+        color:Color.Blue,
+        defaultAtk: 1,
+        defaultDef: 2,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Creature,
+        defaultAttributes:[Modifier.Flying],
+        defaultMoves: 1,
+        ability: null,
+        sprite: CreatureSpriteIndex.Crow
+    },
 }

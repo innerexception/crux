@@ -62,7 +62,8 @@ interface CardEffect {
     drawX?:boolean
     discard?:number
     pacifism?:boolean //Creatures you control do not move in their lanes
-    hpPerForest?:boolean //entire board
+    hpPerLand?:import('./enum').CardType //entire board
+    hpUp?:number
     untap?:boolean
     pillaged?:boolean //does not untap
     searchSorceryForTop?:boolean
@@ -79,6 +80,8 @@ interface CardEffect {
     shuffle?:boolean
     lookAtHand?:boolean
     extraTurn?:boolean //extra turn and then you lose 
+    hp3perBlackCreature?:boolean
+    dmgAsYourDeserts?:boolean
 }
 
 interface Deck {

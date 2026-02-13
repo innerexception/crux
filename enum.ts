@@ -65,10 +65,10 @@ export enum Permanents {
 }
 
 export enum Target {
-    Self='Self',CreaturesYouControl='CreaturesYouControl',Creatures='Creatures',Lands='Lands',
+    Self='Self',CreaturesYouControl='CreaturesYouControl',Creature='Creature',Lands='Lands',AllCreatures='AllCreatures',
     CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',CreaturesYourGraveyard='CreaturesYourGraveyard',
     CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',AttackingCreatures='AttackingCreatures',
-    AllPlayers='AllPlayers'
+    AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl'
 }
 
 export enum Modifier {
@@ -105,7 +105,7 @@ export const TargetsDesc:Record<Target,string> = {
     [Target.Lands]:'Lands',
     [Target.Self]:'Self',
     [Target.Players]:'Players',
-    [Target.Creatures]:'Creatures',
+    [Target.Creature]:'Creatures',
     [Target.AttackingCreatures]:'Attacking Creatures',
     [Target.CreaturesAndPlayers]:'Creatures & Players',
     [Target.CreaturesOrPlayers]:'Creatures or Players',
@@ -141,6 +141,8 @@ export enum CardType {
     BlackBear='BlackBear',FatGoblin='FatGoblin',CatBurglar='CatBurglar',
     FaithfulKnight='FaithfulKnight',DoubleFate='DoubleFate',Dementia='Dementia',
     Overgrowth='Overgrowth',Sprite='Sprite',NaturesPaths='NaturesPaths',
-    Omen='Omen',Owl='Owl',Treant='Treant',Eruption='Eruption',HolyEarth='HolyEarth',
-    
+    Omen='Omen',Owl='Owl',Treant='Treant',Eruption='Eruption',HolyMountain='HolyMountain',
+    HeavenlyDew='HeavenlyDew', SewerRats='SewerRats',Tremors='Tremors',Sunlight='Sunlight',
+    Steadfast='Steadfast',Crow='Crow',BloomingEarth='BloomingEarth',Truce='Truce',
+    TidePool='TidePool',TreeClimbers='TreeClimbers',FireHammer='FireHammer'
 }

@@ -167,7 +167,7 @@ export default class MapScene extends Scene {
             const creatureSorceries = p.hand.find(c=>
                 getCardData(c).kind === Permanents.Sorcery &&
                 canAfford(p.manaPool,c) &&
-                getCardData(c).ability.targets === Target.Creatures && 
+                getCardData(c).ability.targets === Target.Creature && 
                 (getCardData(c).ability.effect.dmg || getCardData(c).ability.effect.removal))
             if(creatureSorceries){
                 this.applyCreatureSorcery(enemies[0], creatureSorceries)
@@ -247,7 +247,7 @@ export default class MapScene extends Scene {
                         tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land)
                             .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
                     }
-                    if(dat.ability.targets === Target.Creatures){
+                    if(dat.ability.targets === Target.Creature){
                         tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
                             .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
                     }
@@ -375,7 +375,7 @@ export default class MapScene extends Scene {
             return sorceryData.ability.targets === Target.Lands
         }
         if(cdat.kind === Permanents.Creature){
-            if(sorceryData.ability.targets === Target.Creatures || 
+            if(sorceryData.ability.targets === Target.Creature || 
                 sorceryData.ability.targets === Target.CreaturesAndPlayers ||
                 sorceryData.ability.targets === Target.CreaturesOrPlayers){
                 return true
@@ -500,7 +500,7 @@ export default class MapScene extends Scene {
                 targetPlayer = {...targetPlayer, hand: targetPlayer.hand.concat(targetPlayer.deck.cards.shift()),deck:targetPlayer.deck}
             }
         }
-        if(effect.hpPerForest){
+        if(effect.hpPerLand){
             const forests = store.getState().saveFile.currentMatch.board.filter(c=>c.kind === CardType.Forest)
             targetPlayer.hp+=forests.length
         }
@@ -550,7 +550,7 @@ export default class MapScene extends Scene {
                 me = {...me, hand: me.hand.concat(me.deck.cards.shift()),deck:me.deck}
             }
         }
-        if(effect.hpPerForest){
+        if(effect.hpPerLand){
             const forests = state.saveFile.currentMatch.board.filter(c=>c.kind === CardType.Forest)
             creature.def+=forests.length
         }

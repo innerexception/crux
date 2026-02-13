@@ -75,7 +75,7 @@ const renderEffect = (effect:CardEffect) =>
         {effect.dmg && <div>Deal {effect.dmg} to target.</div>}
         {effect.draw && <div>Draw a card.</div>}
         {effect.drawX && <div>Draw X cards.</div>}
-        {effect.hpPerForest && <div>Gain 1 life for each <CssIcon spriteIndex={CreatureSpriteIndex.Forest}/></div>}
+        {effect.hpPerLand && <div>Gain 1 life for each <CssIcon spriteIndex={CreatureSpriteIndex.Forest}/></div>}
         {effect.pacifism && <div>Target may not attack.</div>}
         {effect.dmgX && <div>Deal X damage to target.</div>}
         {effect.removal && <div>Remove target from the game.</div>}
