@@ -75,6 +75,10 @@ interface CardEffect {
     hpPerAttacker?:boolean
     discardAllAndDraw?:boolean
     resetMovement?:boolean //send all targets to starting tiles
+    draw3TemplesIfLessLand?:boolean
+    shuffle?:boolean
+    lookAtHand?:boolean
+    extraTurn?:boolean //extra turn and then you lose 
 }
 
 interface Deck {

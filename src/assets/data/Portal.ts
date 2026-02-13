@@ -477,4 +477,114 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Pollution
     },
+    [CardType.HolyMonk]: {
+        color:Color.White,
+        defaultAtk: 1,
+        defaultDef: 1,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Creature,
+        defaultMoves: 1,
+        defaultAttributes:[Modifier.BlockerMaxPwr1],
+        ability: null,
+        sprite: CreatureSpriteIndex.Monk
+    },
+    [CardType.LandReform]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind: Color.None, amount: 1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                draw3TemplesIfLessLand: true,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Law
+    },
+    [CardType.GoblinSargeant]: {
+        color:Color.Red,
+        defaultAtk: 2,
+        defaultDef: 1,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Creature,
+        defaultMoves: 1,
+        defaultAttributes:[],
+        ability: null,
+        sprite: CreatureSpriteIndex.Goblin2
+    },
+    [CardType.BlackBear]: {
+        color:Color.Green,
+        defaultAtk: 2,
+        defaultDef: 2,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Creature,
+        defaultMoves: 1,
+        defaultAttributes:[],
+        ability: null,
+        sprite: CreatureSpriteIndex.Bear
+    },
+    [CardType.FatGoblin]: {
+        color:Color.Red,
+        defaultAtk: 2,
+        defaultDef: 2,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Creature,
+        defaultMoves: 1,
+        defaultAttributes:[Modifier.CantBlock],
+        ability: null,
+        sprite: CreatureSpriteIndex.Goblin3
+    },
+    [CardType.CatBurglar]: {
+        color:Color.Blue,
+        defaultAtk: 1,
+        defaultDef: 1,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Creature,
+        defaultMoves: 1,
+        defaultAttributes:[Modifier.Flying],
+        ability: {
+            effect: {
+                lookAtHand:true,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Goblin3
+    },
+    [CardType.FaithfulKnight]: {
+        color:Color.White,
+        defaultAtk: 2,
+        defaultDef: 2,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Creature,
+        defaultMoves: 1,
+        defaultAttributes:[],
+        ability: null,
+        sprite: CreatureSpriteIndex.Knight
+    },
+    [CardType.DoubleFate]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:2}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                extraTurn: true,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Time
+    },
+    [CardType.Dementia]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Players,
+            effect: {
+                discard: 1,
+                sprite: IconIndex.Debuff
+            }
+        },
+        sprite: CreatureSpriteIndex.Mind
+    },
 }

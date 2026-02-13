@@ -76,7 +76,8 @@ export enum Modifier {
     Flying,OnlyFlying,CantBlock, //Can't be put in a lane w/ an opposing creature
     DesertWalk, ForestWalk, CityWalk, TowerWalk, TempleWalk, //Ghostly in lane that ends in a desert
     Berserk, //Moves + 1
-    Defender //Moves 0
+    Defender, //Moves 0
+    BlockerMaxPwr1,
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
@@ -135,7 +136,9 @@ export enum CardType {
     WillowSpirit='WillowSpirit', FlashFlood='FlashFlood', VisitingGryphon='VisitingPegasus',
     AssassinKnife='AssassinKnife', MartyrPrayer='MartyrPrayer', RefuseDrone='RefuseDrone',
     JellyFish='ElectricEel', FaithlessKnight='FaithlessKnight', 
-
     TracklessWilds='TracklessWilds', Defiance='Defiance', Pollution='Pollution', 
-    
+    HolyMonk='HolyMonk',LandReform='LandReform',GoblinSargeant='GoblinSargeant',
+    BlackBear='BlackBear',FatGoblin='FatGoblin',CatBurglar='CatBurglar',
+    FaithfulKnight='FaithfulKnight',DoubleFate='DoubleFate',Dementia='Dementia',
+    Overgrowth='Overgrowth',Sprite='Sprite'
 }
