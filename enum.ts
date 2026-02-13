@@ -97,21 +97,25 @@ export const ModifierDesc:Record<Modifier,string> = {
     [Modifier.ProtectionFromBlue]: 'Protection from Spirit',
     [Modifier.ProtectionFromGreen]: 'Protection from Forest',
     [Modifier.ProtectionFromRed]: 'Protection from Desert',
-    [Modifier.ProtectionFromWhite]: 'Protection from Holy'
+    [Modifier.ProtectionFromWhite]: 'Protection from Holy',
+    [Modifier.BlockFlying]: 'Air Defence',
+    [Modifier.BlockerMaxPwr1]: 'May not be opposed by creatures > strength 1'
 }
 
 export const TargetsDesc:Record<Target,string> = {
+    [Target.AllCreatures]: 'All Creatures',
+    [Target.AllCreaturesYouControl]: 'All Creatures you control',
     [Target.AllPlayers]:'All Players',
     [Target.Lands]:'Lands',
     [Target.Self]:'Self',
-    [Target.Players]:'Players',
-    [Target.Creature]:'Creatures',
+    [Target.Players]:'A Player',
+    [Target.Creature]:'A Creature',
     [Target.AttackingCreatures]:'Attacking Creatures',
-    [Target.CreaturesAndPlayers]:'Creatures & Players',
-    [Target.CreaturesOrPlayers]:'Creatures or Players',
-    [Target.CreaturesYouControl]:'Creatures you control',
-    [Target.CreaturesYourGraveyard]:'Creatures in your graveyard',
-    [Target.CreaturesAnyGraveyard]:'Creatures in any graveyard',
+    [Target.CreaturesAndPlayers]:'All Creatures & Players',
+    [Target.CreaturesOrPlayers]:'A Creature or Player',
+    [Target.CreaturesYouControl]:'A Creature you control',
+    [Target.CreaturesYourGraveyard]:'A Creature in your graveyard',
+    [Target.CreaturesAnyGraveyard]:'A Creature in any graveyard',
 }
 
 export const OtherIcons:Record<Color, IconIndex> = {
