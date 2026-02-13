@@ -5,11 +5,14 @@ import { onUpdateSave } from '../common/Thunks';
 import AppStyles from '../styles/AppStyles';
 import CardView from './CardView';
 import{ v4 } from 'uuid'
+import { Color } from '../../enum';
+import { getCardData } from '../common/CardUtils';
 
 export default () => {
     
     const me = useSelector((s:RState)=>s.saveFile)
     const selectedDeck = useSelector((s:RState)=>s.saveFile?.decks.find(d=>d.id === s.saveFile.currentDeckId))
+    const [selectedColor, setSelectedColor] = React.useState(Color.Red)
 
     const addCardToDeck = (c:Card) => {
         onUpdateSave({...me, decks: me.decks.map(d=>d.id === selectedDeck.id ? 
@@ -42,8 +45,15 @@ export default () => {
             {selectedDeck &&
             <div>
                 <div style={{marginTop:'1em'}}>All Workings</div>
+                <div style={{display:'flex'}}>
+                    <Button enabled={selectedColor!==Color.Red} text="Red" handler={()=>setSelectedColor(Color.Red)}/>
+                    <Button enabled={selectedColor!==Color.Green} text="Green" handler={()=>setSelectedColor(Color.Green)}/>
+                    <Button enabled={selectedColor!==Color.Blue} text="Blue" handler={()=>setSelectedColor(Color.Blue)}/>
+                    <Button enabled={selectedColor!==Color.White} text="White" handler={()=>setSelectedColor(Color.White)}/>
+                    <Button enabled={selectedColor!==Color.None} text="None" handler={()=>setSelectedColor(Color.None)}/>
+                </div>
                 <div style={{display:'flex', flexWrap:'wrap', height:'200px', overflow:'auto', border:'1px solid', padding:'5px'}}>
-                    {me.cards.map(c=><div onClick={()=>addCardToDeck(c)}><CardView card={c}/></div>)}
+                    {me.cards.filter(c=>getCardData(c).color === selectedColor).map(c=><div onClick={()=>addCardToDeck(c)}><CardView card={c}/></div>)}
                 </div>
             </div>}
         </div>
