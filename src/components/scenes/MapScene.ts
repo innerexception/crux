@@ -501,8 +501,8 @@ export default class MapScene extends Scene {
             }
         }
         if(effect.hpPerLand){
-            const forests = store.getState().saveFile.currentMatch.board.filter(c=>c.kind === CardType.Forest)
-            targetPlayer.hp+=forests.length
+            const forests = store.getState().saveFile.currentMatch.board.filter(c=>c.kind === effect.hpPerLand)
+            targetPlayer.hp+=forests.length*effect.hpUp
         }
         if(effect.searchSorceryForTop){
             onShowModal(Modal.PickNextSorcery)
@@ -549,10 +549,6 @@ export default class MapScene extends Scene {
             for(let i=0;i<x;i++){
                 me = {...me, hand: me.hand.concat(me.deck.cards.shift()),deck:me.deck}
             }
-        }
-        if(effect.hpPerLand){
-            const forests = state.saveFile.currentMatch.board.filter(c=>c.kind === CardType.Forest)
-            creature.def+=forests.length
         }
         if(effect.pacifism){
             creature.tapped = true

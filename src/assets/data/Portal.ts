@@ -776,4 +776,71 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: null,
         sprite: CreatureSpriteIndex.Crow
     },
+    [CardType.BloomingEarth]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                play3Land: true,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.FertileSoil
+    },
+    [CardType.Truce]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.AllPlayers,
+            effect: {
+                draw: 2,
+                hpUp: 2,
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Scroll
+    },
+    [CardType.TidePool]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                tap: true,
+                repeat: 3,
+                sprite: IconIndex.Debuff
+            }
+        },
+        sprite: CreatureSpriteIndex.Flood
+    },
+    [CardType.TreeClimbers]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.CreaturesYouControl,
+            effect: {
+                sprite: IconIndex.Buff,
+                attributes: [Modifier.BlockFlying]
+            }
+        },
+        sprite: CreatureSpriteIndex.FertileSoil
+    },
+    [CardType.FireHammer]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.CreaturesOrPlayers,
+            effect: {
+                dmg: 3,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Hammer
+    },
 }

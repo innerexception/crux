@@ -77,7 +77,7 @@ export enum Modifier {
     DesertWalk, ForestWalk, CityWalk, TowerWalk, TempleWalk, //Ghostly in lane that ends in a desert
     Berserk, //Moves + 1
     Defender, //Moves 0
-    BlockerMaxPwr1,
+    BlockerMaxPwr1,BlockFlying
 }
 
 export const ModifierDesc:Record<Modifier,string> = {

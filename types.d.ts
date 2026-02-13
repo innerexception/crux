@@ -65,6 +65,8 @@ interface CardEffect {
     hpPerLand?:import('./enum').CardType //entire board
     hpUp?:number
     untap?:boolean
+    tap?:boolean
+    repeat?:number
     pillaged?:boolean //does not untap
     searchSorceryForTop?:boolean
     searchCreatureForTop?:boolean
