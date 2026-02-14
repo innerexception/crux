@@ -148,5 +148,11 @@ export enum CardType {
     Omen='Omen',Owl='Owl',Treant='Treant',Eruption='Eruption',HolyMountain='HolyMountain',
     HeavenlyDew='HeavenlyDew', SewerRats='SewerRats',Tremors='Tremors',Sunlight='Sunlight',
     Steadfast='Steadfast',Crow='Crow',BloomingEarth='BloomingEarth',Truce='Truce',
-    TidePool='TidePool',TreeClimbers='TreeClimbers',FireHammer='FireHammer'
+    TidePool='TidePool',TreeClimbers='TreeClimbers',FireHammer='FireHammer',
+    CunningLure='CunningLure',AngelicTouch='AngelicTouch',DarkStare='DarkStare',
+    FlashOfLight='FlashOfLight',StreetThugs='StreetThugs',BorderWatch='BorderWatch',
+    SorcererApprentice='SorcererApprentice',MountedPaladin='MountedPaladin',
+    SpiritCloud='SpiritCloud', UnsummonWord='UnsummonWord', TwistedGiant='TwistedGiant',
+    CruelContract='CruelContract'
+    //TODO start on cost lvl 3 cards here
 }

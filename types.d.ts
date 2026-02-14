@@ -74,7 +74,8 @@ interface CardEffect {
     attributes?: import('./enum').Modifier[]
     sprite: import('./enum').IconIndex
     viewHand?:boolean
-    taunt?:boolean //new non-defender creatures must be placed in this creatures lane
+    taunt?:boolean //new non-defender creatures must be placed in this creatures lane next turn
+    tauntPlayer?:boolean //new non-defender creatures must be placed in an open lane next turn
     hpPerAttacker?:boolean
     discardAllAndDraw?:boolean
     resetMovement?:boolean //send all targets to starting tiles

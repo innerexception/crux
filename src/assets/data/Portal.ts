@@ -358,9 +358,9 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Creature,
+            targets: Target.Self,
             effect: {
-                taunt: true,
+                tauntPlayer: true,
                 sprite: IconIndex.Buff
             }
         },
@@ -842,5 +842,18 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         },
         sprite: CreatureSpriteIndex.Hammer
+    },
+    [CardType.CunningLure]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:2},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                taunt: true,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Lure
     },
 }
