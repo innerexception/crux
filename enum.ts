@@ -47,7 +47,8 @@ export enum CreatureSpriteIndex {
     ForestJackal=4102,Merfolk=3956,Refreshment=2218,BillyGoat=4162,ScavengingRats=4089,Memoize=1964,Brainstorm=2028,
     Necromancy=2095,FierySpear=1997,Sanctuary=385,Player1=4979,CityMage=4881,Knife=2882,Jellyfish=4104,
     ForestCall=2170,Taunt=2153,Dryad=3814,Gryphon=3846,MartyrPrayer=2083,Imp=4238,Brigand=4975,Flood=1481,
-    Wilderness=2164,Defiance=1882,Pollution=2132
+    Wilderness=2164,Defiance=1882,Pollution=2132,Monk=4943,Law=2521,Goblin2=3962,Goblin3,Bear=4019,Knight=4371,
+    Time=1972,Mind=3834,Giant=2212,Sprite=4035,
 }
 
 export enum IconIndex {
@@ -154,5 +155,4 @@ export enum CardType {
     SorcererApprentice='SorcererApprentice',MountedPaladin='MountedPaladin',
     SpiritCloud='SpiritCloud', UnsummonWord='UnsummonWord', TwistedGiant='TwistedGiant',
     CruelContract='CruelContract'
-    //TODO start on cost lvl 3 cards here
 }
