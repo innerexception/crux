@@ -700,7 +700,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Buff
             }
         },
-        sprite: CreatureSpriteIndex.Volcano
+        sprite: CreatureSpriteIndex.HolyMountain
     },
     [CardType.HeavenlyDew]: {
         color:Color.White,

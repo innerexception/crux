@@ -48,7 +48,7 @@ export enum CreatureSpriteIndex {
     Necromancy=2095,FierySpear=1997,Sanctuary=385,Player1=4979,CityMage=4881,Knife=2882,Jellyfish=4104,
     ForestCall=2170,Taunt=2153,Dryad=3814,Gryphon=3846,MartyrPrayer=2083,Imp=4238,Brigand=4975,Flood=1481,
     Wilderness=2164,Defiance=1882,Pollution=2132,Monk=4943,Law=2521,Goblin2=3962,Goblin3,Bear=4019,Knight=4371,
-    Time=1972,Mind=3834,Giant=2212,Sprite=4035,
+    Time=1972,Mind=3834,Giant=2212,Sprite=4035,Treant=4357,Crow=3945,Volcano=1952
 }
 
 export enum IconIndex {
