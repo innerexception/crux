@@ -73,6 +73,7 @@ interface CardEffect {
     cardToHandFromGY?:boolean
     attributes?: import('./enum').Modifier[]
     sprite: import('./enum').IconIndex
+    destroyForest?:boolean
     viewHand?:boolean
     taunt?:boolean //new non-defender creatures must be placed in this creatures lane next turn
     tauntPlayer?:boolean //new non-defender creatures must be placed in an open lane next turn
@@ -81,6 +82,8 @@ interface CardEffect {
     resetMovement?:boolean //send all targets to starting tiles
     draw3TemplesIfLessLand?:boolean
     shuffle?:boolean
+    putForestInPlay?:boolean
+    viewTop3?:boolean
     lookAtHand?:boolean
     extraTurn?:boolean //extra turn and then you lose 
     hp3perBlackCreature?:boolean
