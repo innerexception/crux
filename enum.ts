@@ -49,7 +49,7 @@ export enum CreatureSpriteIndex {
     ForestCall=2170,Taunt=2153,Dryad=3814,Gryphon=3846,MartyrPrayer=2083,Imp=4238,Brigand=4975,Flood=1481,
     Wilderness=2164,Defiance=1882,Pollution=2132,Monk=4943,Law=2521,Goblin2=3962,Goblin3,Bear=4019,Knight=4371,
     Time=1972,Mind=3834,Giant=2212,Sprite=4035,Treant=4357,Crow=3945,Volcano=1952,Hammer=3118,Lure=2562,Scroll=2800,
-    Armor=2117,Heal=2125
+    Armor=2117,Heal=2125,Sun=59,Rats=2180,DesertAsetic=2291,Dragonling=3827
 }
 
 export enum IconIndex {
@@ -70,7 +70,7 @@ export enum Target {
     Self='Self',CreaturesYouControl='CreaturesYouControl',Creature='Creature',Lands='Lands',AllCreatures='AllCreatures',
     CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',CreaturesYourGraveyard='CreaturesYourGraveyard',
     CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',AttackingCreatures='AttackingCreatures',
-    AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl'
+    AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl',ThisCreature='ThisCreature',
 }
 
 export enum Modifier {
@@ -105,11 +105,12 @@ export const ModifierDesc:Record<Modifier,string> = {
 }
 
 export const TargetsDesc:Record<Target,string> = {
+    [Target.ThisCreature]: 'This Creature',
     [Target.AllCreatures]: 'All Creatures',
     [Target.AllCreaturesYouControl]: 'All Creatures you control',
     [Target.AllPlayers]:'All Players',
     [Target.Lands]:'Lands',
-    [Target.Self]:'Self',
+    [Target.Self]:'You',
     [Target.Players]:'A Player',
     [Target.Creature]:'A Creature',
     [Target.AttackingCreatures]:'Attacking Creatures',
@@ -147,7 +148,7 @@ export enum CardType {
     BlackBear='BlackBear',FatGoblin='FatGoblin',CatBurglar='CatBurglar',
     FaithfulKnight='FaithfulKnight',DoubleFate='DoubleFate',Dementia='Dementia',
     Overgrowth='Overgrowth',Sprite='Sprite',NaturesPaths='NaturesPaths',
-    Omen='Omen',Owl='Owl',Treant='Treant',Eruption='Eruption',HolyMountain='HolyMountain',
+    Omen='Omen',Dragonling='Dragonling',Treant='Treant',Eruption='Eruption',DesertAsetic='DesertAsetic',
     HeavenlyDew='HeavenlyDew', SewerRats='SewerRats',Tremors='Tremors',Sunlight='Sunlight',
     Steadfast='Steadfast',Crow='Crow',BloomingEarth='BloomingEarth',Truce='Truce',
     TidePool='TidePool',TreeClimbers='TreeClimbers',FireHammer='FireHammer',
@@ -155,5 +156,9 @@ export enum CardType {
     FlashOfLight='FlashOfLight',StreetThugs='StreetThugs',BorderWatch='BorderWatch',
     SorcererApprentice='SorcererApprentice',MountedPaladin='MountedPaladin',
     SpiritCloud='SpiritCloud', UnsummonWord='UnsummonWord', TwistedGiant='TwistedGiant',
-    CruelContract='CruelContract'
+    CruelContract='CruelContract',CruelMaster='CruelMaster', DoubleCast='DoubleCast',
+    JungleCat='JungleCat',Ranger='Ranger',Roaches='Roaches', IceStorm='IceStorm',
+    ShadowForm='ShadowForm', FireImp='FireImp', Cycle='Cycle', Gorilla='Gorilla',
+    Downsizing='Downsizing', Justice='Justice', ArmoredTortoise='ArmoredTortoise',
+    ContractKiller='ContractKilling'
 }

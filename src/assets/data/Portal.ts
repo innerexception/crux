@@ -6,6 +6,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes: null,
         kind: Permanents.Land,
         ability: {
+            targets: Target.Self,
             tap: true,
             cost:[{ kind: Color.Black, amount: -1}],
         },
@@ -16,6 +17,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes: null,
         kind: Permanents.Land,
         ability: {
+            targets: Target.Self,
             tap: true,
             cost:[{ kind: Color.Red, amount: -1}],
         },
@@ -26,6 +28,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes: null,
         kind: Permanents.Land,
         ability: {
+            targets: Target.Self,
             tap: true,
             cost:[{ kind: Color.Green, amount: -1}],
         },
@@ -36,6 +39,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes: null,
         kind: Permanents.Land,
         ability: {
+            targets: Target.Self,
             tap: true,
             cost:[{ kind: Color.Blue, amount: -1}],
         },
@@ -46,6 +50,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes: null,
         kind: Permanents.Land,
         ability: {
+            targets: Target.Self,
             tap: true,
             cost:[{ kind: Color.White, amount: -1}],
         },
@@ -233,6 +238,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
+            targets: Target.Self,
             effect:{
                 searchSorceryForTop: true,
                 sprite: IconIndex.Buff
@@ -544,6 +550,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves: 1,
         defaultAttributes:[Modifier.Flying],
         ability: {
+            targets: Target.Players,
             effect: {
                 lookAtHand:true,
                 sprite: IconIndex.Buff
@@ -643,7 +650,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Giant
     },
-    [CardType.Owl]: {
+    [CardType.Dragonling]: {
         color:Color.Blue,
         defaultAtk: 1,
         defaultDef: 1,
@@ -652,13 +659,14 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves: 1,
         defaultAttributes:[Modifier.Flying],
         ability: {
+            targets: Target.Self,
             effect: {
                 draw: 1,
                 discard: 1,
                 sprite: IconIndex.Buff
             }
         },
-        sprite: CreatureSpriteIndex.Owl
+        sprite: CreatureSpriteIndex.Dragonling
     },
     [CardType.Treant]: {
         color:Color.Green,
@@ -668,6 +676,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         defaultMoves: 1,
         ability: {
+            targets: Target.Self,
             effect: {
                 destroyForest: true,
                 sprite: IconIndex.Buff
@@ -688,7 +697,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Volcano
     },
-    [CardType.HolyMountain]: {
+    [CardType.DesertAsetic]: {
         color:Color.White,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
@@ -700,7 +709,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Buff
             }
         },
-        sprite: CreatureSpriteIndex.HolyMountain
+        sprite: CreatureSpriteIndex.DesertAsetic
     },
     [CardType.HeavenlyDew]: {
         color:Color.White,
@@ -855,5 +864,218 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         },
         sprite: CreatureSpriteIndex.Lure
+    },
+    [CardType.AngelicTouch]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                atkUp:3,
+                defUp:3,
+                duration:1,
+                attributes:[Modifier.Flying],
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Lure
+    },
+    [CardType.DarkStare]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Players,
+            effect: {
+                lookAtHand:true,
+                drawForDeserts:true,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Lure
+    },
+    [CardType.FlashOfLight]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.AllCreatures,
+            effect: {
+                tap:true,
+                ignoreColor:Color.White,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Lure
+    },
+    [CardType.StreetThugs]: {
+        color:Color.Black,
+        defaultAtk:2,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        defaultAttributes:[Modifier.CityWalk],
+        sprite: CreatureSpriteIndex.Thug,
+        ability:null
+    },
+    [CardType.BorderWatch]: {
+        color:Color.White,
+        defaultAtk:1,
+        defaultDef:4,
+        defaultMoves:1,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Guard,
+        ability:null
+    },
+    [CardType.SorcererApprentice]: {
+        color:Color.Blue,
+        defaultAtk:1,
+        defaultDef:1,
+        defaultMoves:1,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Apprentice,
+        ability:{
+            targets:Target.CreaturesOrPlayers,
+            tap:true,
+            effect:{
+                dmg:1,
+                sprite: IconIndex.Damage
+            }
+        }
+    },
+    [CardType.MountedPaladin]: {
+        color:Color.White,
+        defaultAtk:2,
+        defaultDef:2,
+        defaultMoves:2,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Knight2,
+        ability:{
+            targets:Target.ThisCreature,
+            effect:{ 
+                defUp:3,
+                duration:1,
+                whenDamaged: true,
+                sprite: IconIndex.Buff
+            }
+        }
+    },
+    [CardType.SpiritCloud]: {
+        color:Color.Blue,
+        defaultAtk:3,
+        defaultDef:1,
+        defaultMoves:1,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Cloud,
+        defaultAttributes:[Modifier.Flying, Modifier.OnlyFlying],
+        ability: null
+    },
+    [CardType.UnsummonWord]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                creaturesToHand2:true,
+                sprite: IconIndex.Debuff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Unsummon
+    },
+    [CardType.TwistedGiant]: {
+        color:Color.Red,
+        defaultAtk:4,
+        defaultDef:1,
+        defaultMoves:1,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Giant2,
+        defaultAttributes:[Modifier.CantBlock],
+        ability: null
+    },
+    [CardType.CruelContract]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:3}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                draw: 4,
+                dmg: 8,
+                sprite: IconIndex.Debuff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Contract
+    },
+    [CardType.CruelMaster]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                searchCardForTop: true,
+                dmg: 2,
+                sprite: IconIndex.Debuff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Contract2
+    },
+    [CardType.DoubleCast]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                sorceryToHandFromGY: true,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Recast
+    },
+    [CardType.JungleCat]: {
+        color:Color.Green,
+        defaultAtk:2,
+        defaultDef:3,
+        defaultMoves:1,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.JungleCat,
+        defaultAttributes:[Modifier.ForestWalk],
+        ability: null
+    },
+    [CardType.Ranger]: {
+        color:Color.Green,
+        defaultAtk:4,
+        defaultDef:1,
+        defaultMoves:1,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Ranger,
+        ability: null
+    },
+    [CardType.Roaches]: {
+        color:Color.Black,
+        defaultAtk:1,
+        defaultDef:1,
+        defaultMoves:1,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Roaches,
+        ability: {
+            targets: Target.ThisCreature,
+            effect:{
+                returnToHandOnDeath: true,
+                sprite: IconIndex.Buff
+            }
+        }
     },
 }

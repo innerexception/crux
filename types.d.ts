@@ -44,7 +44,7 @@ interface CardMeta {
     ability: {
         cost?: ManaCost[]
         tap?: boolean
-        targets?: import('./enum').Target
+        targets: import('./enum').Target
         effect?: CardEffect
     }
     sprite: import('./enum').CreatureSpriteIndex
@@ -58,6 +58,7 @@ interface CardEffect {
     duration?: number
     atkUp?:number
     defUp?:number
+    whenDamaged?:boolean //procs when damage is applied to this creature
     draw?:number
     drawX?:boolean
     discard?:number
@@ -65,14 +66,20 @@ interface CardEffect {
     hpPerLand?:import('./enum').CardType //entire board
     hpUp?:number
     untap?:boolean
-    tap?:boolean
+    tap?:boolean //tapped creatures do not advance
+    ignoreColor?:import('./enum').Color //does not affect cards of this color
     repeat?:number
     pillaged?:boolean //does not untap
     searchSorceryForTop?:boolean
     searchCreatureForTop?:boolean
+    searchCardForTop?:boolean
     cardToHandFromGY?:boolean
+    sorceryToHandFromGY?:boolean
     attributes?: import('./enum').Modifier[]
     sprite: import('./enum').IconIndex
+    returnToHandOnDeath?:boolean
+    creaturesToHand2?:boolean
+    play3Land?:boolean
     destroyForest?:boolean
     viewHand?:boolean
     taunt?:boolean //new non-defender creatures must be placed in this creatures lane next turn
@@ -85,6 +92,7 @@ interface CardEffect {
     putForestInPlay?:boolean
     viewTop3?:boolean
     lookAtHand?:boolean
+    drawForDeserts?:boolean
     extraTurn?:boolean //extra turn and then you lose 
     hp3perBlackCreature?:boolean
     dmgAsYourDeserts?:boolean
