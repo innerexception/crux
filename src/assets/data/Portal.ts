@@ -1118,4 +1118,78 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         },
     },
+    [CardType.Cycle]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.AllPlayers,
+            effect: {
+                discardToDraw:true,
+                sprite: IconIndex.Debuff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Cycle
+    },
+    [CardType.Gorilla]: {
+        color:Color.Green,
+        defaultAtk:3,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Gorilla,
+        ability:null
+    },
+    [CardType.Downsizing]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                destroy:true,
+                ignoreColor: Color.Black,
+                sprite: IconIndex.Debuff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Destroy
+    },
+    [CardType.Justice]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                damageReflect: true,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Justice
+    },
+    [CardType.ArmoredTortoise]: {
+        color:Color.Blue,
+        defaultAtk:1,
+        defaultDef:4,
+        defaultMoves:1,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Tortoise,
+        ability:null
+    },
+    [CardType.ContractKiller]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                atkUp: 4,
+                duration: 1,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Contract
+    },
 }

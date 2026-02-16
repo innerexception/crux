@@ -160,5 +160,8 @@ export enum CardType {
     JungleCat='JungleCat',Ranger='Ranger',Roaches='Roaches', IceStorm='IceStorm',
     ShadowForm='ShadowForm', FireImp='FireImp', Cycle='Cycle', Gorilla='Gorilla',
     Downsizing='Downsizing', Justice='Justice', ArmoredTortoise='ArmoredTortoise',
-    ContractKiller='ContractKilling'
+    ContractKiller='ContractKilling', Longbowmen='Longbowmen', Assassin='Assassin',
+    SeaJelly='SeaJelly', Mercenary='Mercenary', MindThief='MindThief', MinotaurServant='MinotaurServant',
+    ForceOfWill='ForceOfWill', ForestSense='ForestSense', ForestFires='ForestFires',
+    Hailstorm='Hailstorm', CursedToad='CursedToad', PSIWarrior='PSIWarrior'
 }

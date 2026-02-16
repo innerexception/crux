@@ -52,6 +52,7 @@ interface CardMeta {
 
 interface CardEffect {
     dmg?:number
+    damageReflect?:boolean //Damage done to player is applied to creature owner as well
     dmgX?:boolean
     dmgOnSummon?:number
     removal?:boolean
@@ -63,6 +64,7 @@ interface CardEffect {
     draw?:number
     drawX?:boolean
     discard?:number
+    discardToDraw?:boolean //Discard any number to draw that number
     pacifism?:boolean //Creatures you control do not move in their lanes
     pacifyAllOfPlayer?:boolean //Creatures and lands are tapped until next untap phase
     hpPerLand?:import('./enum').CardType //entire board
