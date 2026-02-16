@@ -81,10 +81,11 @@ export enum Modifier {
     DesertWalk, ForestWalk, CityWalk, TowerWalk, TempleWalk, //Ghostly in lane that ends in a desert
     Berserk, //Moves + 1
     Defender, //Moves 0
-    BlockerMaxPwr1,BlockFlying
+    BlockerMaxPwr1,BlockFlying,Unblockable
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
+    [Modifier.Unblockable]: 'Unblockable',
     [Modifier.Defender]: 'Defender',
     [Modifier.Banding]: 'Banding',
     [Modifier.Berserk]: 'Berserk',
@@ -158,7 +159,7 @@ export enum CardType {
     CunningLure='CunningLure',AngelicTouch='AngelicTouch',DarkStare='DarkStare',
     FlashOfLight='FlashOfLight',StreetThugs='StreetThugs',BorderWatch='BorderWatch',
     SorcererApprentice='SorcererApprentice',MountedPaladin='MountedPaladin',
-    SpiritCloud='SpiritCloud', UnsummonWord='UnsummonWord', TwistedGiant='TwistedGiant',
+    SpiritCloud='SpiritCloud', PowerWordUnsummon='PowerWordUnsummon', TwistedGiant='TwistedGiant',
     CruelContract='CruelContract',CruelMaster='CruelMaster', DoubleCast='DoubleCast',
     JungleCat='JungleCat',Ranger='Ranger',Roaches='Roaches', IceStorm='IceStorm',
     ShadowForm='ShadowForm', FireImp='FireImp', Cycle='Cycle', Gorilla='Gorilla',
@@ -166,5 +167,9 @@ export enum CardType {
     ContractKiller='ContractKilling', Longbowmen='Longbowmen', Assassin='Assassin',
     SeaJelly='SeaJelly', Mercenary='Mercenary', MindThief='MindThief', MinotaurServant='MinotaurServant',
     ForceOfWill='ForceOfWill', ForestSense='ForestSense', ForestFires='ForestFires',
-    Hailstorm='Hailstorm', CursedToad='CursedToad', PSIWarrior='PSIWarrior'
+    Hailstorm='Hailstorm', CursedToad='CursedToad', PSIWarrior='PSIWarrior',SewerSnake='SewerSnake',
+    Cougar='Cougar',AcidRain='AcidRain',Unicorn='Unicorn',SetDisciple='SetDisciple',
+    FieldMarshal='FieldMarshal', LavaFlow='LavaFlow', HolySymbol='HolySymbol', DreamThief='DreamThief',
+    BurrowingWurm='BurrowingWurm', Slow='Slow', Gardener='Gardener', RighteousCharge='RighteousCharge',
+    WitherTouch='WitherTouch', VenerableMonk='VenerableMonk'
 }

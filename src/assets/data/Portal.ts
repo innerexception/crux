@@ -92,7 +92,7 @@ export const Portal:Record<CardType, CardMeta> = {
             effect: {
                 duration: 1,
                 draw: 1,
-                attributes: [Modifier.Flying],
+                addAttributes: [Modifier.Flying],
                 sprite: IconIndex.Buff
             }
         },
@@ -172,6 +172,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.CreaturesAndPlayers,
             effect: {
+                withAttribute: Modifier.Flying,
                 dmgX: true,
                 sprite: IconIndex.Damage
             }
@@ -834,7 +835,7 @@ export const Portal:Record<CardType, CardMeta> = {
             targets: Target.CreaturesYouControl,
             effect: {
                 sprite: IconIndex.Buff,
-                attributes: [Modifier.BlockFlying]
+                addAttributes: [Modifier.BlockFlying]
             }
         },
         sprite: CreatureSpriteIndex.FertileSoil
@@ -875,7 +876,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 atkUp:3,
                 defUp:3,
                 duration:1,
-                attributes:[Modifier.Flying],
+                addAttributes:[Modifier.Flying],
                 sprite: IconIndex.Buff,
             }
         },
@@ -976,7 +977,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes:[Modifier.Flying, Modifier.OnlyFlying],
         ability: null
     },
-    [CardType.UnsummonWord]: {
+    [CardType.PowerWordUnsummon]: {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Sorcery,
@@ -1275,5 +1276,120 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null
     },
-    
+    [CardType.ForceOfWill]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:1},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.TappedCreatures,
+            effect: {
+                destroy: true,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.ForestSense]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.CreaturesYouControl,
+            effect: {
+                duration:1,
+                addAttributes:[Modifier.ForestWalk],
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.ForestFires]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.AllCreatures,
+            effect: {
+                destroy: true,
+                onlyColor: Color.Green,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.Hailstorm]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.AllCreatures,
+            effect: {
+                dmg: 4,
+                withAttribute: Modifier.Flying,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.CursedToad]: {
+        color:Color.Black,
+        defaultAtk:1,
+        defaultDef:1,
+        defaultMoves:1,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: {
+            targets: Target.AllPlayers,
+            effect: {
+                discard:1,
+                sprite: IconIndex.Debuff
+            }
+        }
+    },
+    [CardType.PSIWarrior]: {
+        color:Color.Blue,
+        defaultAtk:2,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:1}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:null,
+        defaultAttributes: [Modifier.Unblockable]
+    },
+    [CardType.SewerSnake]: {
+        color:Color.Black,
+        defaultAtk:3,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:1}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:null
+    },
+    [CardType.Cougar]: {
+        color:Color.Red,
+        defaultAtk:2,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:1}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        defaultAttributes:[Modifier.Berserk],
+        ability:null
+    },
+    [CardType.AcidRain]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:1},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Lands,
+            effect: {
+                destroy: true,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
 }

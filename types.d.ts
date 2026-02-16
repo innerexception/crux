@@ -73,6 +73,8 @@ interface CardEffect {
     untap?:boolean
     tap?:boolean //tapped creatures do not advance, can't use abilities
     ignoreColor?:import('./enum').Color //does not affect cards of this color
+    onlyColor?:import('./enum').Color //only affect cards of this color
+    withAttribute?: import('./enum').Modifier
     repeat?:number
     pillaged?:boolean //does not untap
     searchSorceryForTop?:boolean
@@ -80,7 +82,7 @@ interface CardEffect {
     searchCardForTop?:boolean
     cardToHandFromGY?:boolean
     sorceryToHandFromGY?:boolean
-    attributes?: import('./enum').Modifier[]
+    addAttributes?: import('./enum').Modifier[]
     sprite: import('./enum').IconIndex
     returnToHandOnDeath?:boolean
     returnToHand?:boolean

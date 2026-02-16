@@ -460,8 +460,8 @@ export default class MapScene extends Scene {
         if(effect.status.defUp){
             creature.def-=effect.status.defUp
         }
-        if(effect.status.attributes){
-            creature.attributes=creature.attributes.filter(a=>!effect.status.attributes.includes(a))
+        if(effect.status.addAttributes){
+            creature.attributes=creature.attributes.filter(a=>!effect.status.addAttributes.includes(a))
         }
     }
 
