@@ -1192,4 +1192,88 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
+    [CardType.Longbowmen]: {
+        color:Color.White,
+        defaultAtk:2,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        defaultAttributes:[Modifier.BlockFlying],
+        ability:null
+    },
+    [CardType.Assassin]: {
+        color:Color.Black,
+        defaultAtk:1,
+        defaultDef:1,
+        defaultMoves:0,
+        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:1}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:{
+            targets: Target.TappedCreatures,
+            effect: {
+                sprite: IconIndex.Damage,
+                tap: true,
+                destroy: true
+            }
+        }
+    },
+    [CardType.SeaJelly]: {
+        color:Color.Blue,
+        defaultAtk:2,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:{
+            targets: Target.Creature,
+            effect: {
+                returnToHand: true,
+                sprite: IconIndex.Debuff
+            }
+        }
+    },
+    [CardType.Mercenary]: {
+        color:Color.Black,
+        defaultAtk:4,
+        defaultDef:4,
+        defaultMoves:1,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:{
+            targets: Target.Creature,
+            effect: {
+                destroyOnEnter: true,
+                sprite: IconIndex.Debuff
+            }
+        }
+    },
+    [CardType.MindThief]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Players,
+            effect: {
+                discard: 2,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.MinotaurServant]: {
+        color:Color.Red,
+        defaultAtk:2,
+        defaultDef:3,
+        defaultMoves:1,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:null
+    },
+    
 }

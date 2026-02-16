@@ -57,6 +57,7 @@ interface CardEffect {
     dmgOnSummon?:number
     removal?:boolean
     destroy?:boolean
+    destroyOnEnter?:boolean
     duration?: number
     atkUp?:number
     defUp?:number
@@ -82,6 +83,7 @@ interface CardEffect {
     attributes?: import('./enum').Modifier[]
     sprite: import('./enum').IconIndex
     returnToHandOnDeath?:boolean
+    returnToHand?:boolean
     creaturesToHand2?:boolean
     play3Land?:boolean
     destroyForest?:boolean

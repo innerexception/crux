@@ -72,7 +72,7 @@ export enum Target {
     Self='Self',CreaturesYouControl='CreaturesYouControl',Creature='Creature',Lands='Lands',AllCreatures='AllCreatures',
     CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',CreaturesYourGraveyard='CreaturesYourGraveyard',
     CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',AttackingCreatures='AttackingCreatures',
-    AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl',ThisCreature='ThisCreature',
+    AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl',ThisCreature='ThisCreature',TappedCreatures='TappedCreatures'
 }
 
 export enum Modifier {
@@ -110,6 +110,7 @@ export const TargetsDesc:Record<Target,string> = {
     [Target.ThisCreature]: 'This Creature',
     [Target.AllCreatures]: 'All Creatures',
     [Target.AllCreaturesYouControl]: 'All Creatures you control',
+    [Target.TappedCreatures]: 'Tapped Creatures',
     [Target.AllPlayers]:'All Players',
     [Target.Lands]:'Lands',
     [Target.Self]:'You',
