@@ -53,6 +53,7 @@ interface CardMeta {
 interface CardEffect {
     dmg?:number
     dmgX?:boolean
+    dmgOnSummon?:number
     removal?:boolean
     destroy?:boolean
     duration?: number
@@ -63,10 +64,11 @@ interface CardEffect {
     drawX?:boolean
     discard?:number
     pacifism?:boolean //Creatures you control do not move in their lanes
+    pacifyAllOfPlayer?:boolean //Creatures and lands are tapped until next untap phase
     hpPerLand?:import('./enum').CardType //entire board
     hpUp?:number
     untap?:boolean
-    tap?:boolean //tapped creatures do not advance
+    tap?:boolean //tapped creatures do not advance, can't use abilities
     ignoreColor?:import('./enum').Color //does not affect cards of this color
     repeat?:number
     pillaged?:boolean //does not untap

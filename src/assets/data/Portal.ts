@@ -1078,4 +1078,44 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         }
     },
+    [CardType.IceStorm]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Players,
+            effect: {
+                pacifyAllOfPlayer: true,
+                sprite: IconIndex.Debuff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Recast
+    },
+    [CardType.ShadowForm]: {
+        color:Color.Black,
+        defaultAtk:2,
+        defaultDef:1,
+        defaultMoves:1,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Shadow,
+        ability:null,
+        defaultAttributes:[Modifier.Flying] 
+    },
+    [CardType.FireImp]: {
+        color:Color.Red,
+        defaultAtk:2,
+        defaultDef:1,
+        defaultMoves:1,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Imp2,
+        ability:{
+            targets: Target.Creature,
+            effect: {
+                dmgOnSummon: 2,
+                sprite: IconIndex.Damage
+            }
+        },
+    },
 }
