@@ -57,6 +57,7 @@ interface CardEffect {
     dmgOnSummon?:number
     removal?:boolean
     destroy?:boolean
+    destroyAll?:boolean //all of target type
     destroy2Creatures?:boolean
     destroyOnEnter?:boolean
     duration?: number
@@ -89,7 +90,7 @@ interface CardEffect {
     sprite: import('./enum').IconIndex
     returnToHandOnDeath?:boolean
     returnToHand?:boolean
-    creaturesToHand2?:boolean
+    returnToBattle?:boolean
     play3Land?:boolean
     destroyForest?:boolean
     searchForForest?:boolean //Goes into play instantly

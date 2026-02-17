@@ -984,7 +984,8 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Creature,
             effect: {
-                creaturesToHand2:true,
+                returnToHand: true,
+                repeat: 2,
                 sprite: IconIndex.Debuff,
             }
         },
@@ -1669,5 +1670,117 @@ export const Portal:Record<CardType, CardMeta> = {
         ability:null,
         defaultAttributes: [Modifier.CityWalk]
     },
-    
+    [CardType.Reckoning]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:3},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Lands,
+            effect: {
+                destroyAll: true,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.BeeSwarm]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:3},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.CreaturesOrPlayers,
+            effect: {
+                dmg: 2,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.Boggart]: {
+        color:Color.Black,
+        defaultAtk:3,
+        defaultDef:3,
+        defaultMoves:1,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:null,
+        defaultAttributes: [Modifier.CityWalk]
+    },
+    [CardType.VolcanicVent]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:3},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Lands,
+            effect: {
+                destroyAll: true,
+                onlyColor: Color.Blue,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.Fear]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:3},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.CreaturesYouControl,
+            effect: {
+                onlyColor: Color.Black,
+                sprite: IconIndex.Damage,
+                addAttributes:[Modifier.Unblockable]
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.Resurrection]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:3},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.CreaturesYourGraveyard,
+            effect: {
+                sprite: IconIndex.Buff,
+                returnToBattle: true
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.Hippo]: {
+        color:Color.Green,
+        defaultAtk:3,
+        defaultDef:3,
+        defaultMoves:1,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:null,
+        defaultAttributes: [Modifier.TowerWalk]
+    },
+    [CardType.DesertDrake]: {
+        color:Color.Red,
+        defaultAtk:2,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:null,
+        defaultAttributes: [Modifier.Flying]
+    },
+    [CardType.SecretCache]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:2},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.YourGraveyard,
+            effect: {
+                sprite: IconIndex.Buff,
+                returnToHand: true
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
 }
