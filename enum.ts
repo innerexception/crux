@@ -171,5 +171,7 @@ export enum CardType {
     Cougar='Cougar',AcidRain='AcidRain',Unicorn='Unicorn',SetDisciple='SetDisciple',
     FieldMarshal='FieldMarshal', LavaFlow='LavaFlow', HolySymbol='HolySymbol', DreamThief='DreamThief',
     BurrowingWurm='BurrowingWurm', Slow='Slow', Gardener='Gardener', RighteousCharge='RighteousCharge',
-    WitherTouch='WitherTouch', VenerableMonk='VenerableMonk'
+    WitherTouch='WitherTouch', VenerableMonk='VenerableMonk', WordOfHate='WordOfHate',
+    GraniteWall='GraniteWall', BattlePrayer='BattlePrayer', Conspiracy='Conspiracy', AirDrake='AirDrake',
+    Blizzard='Blizzard', WoodElf='WoodElf', Anaconda='Anaconda'
 }
