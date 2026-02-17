@@ -1392,4 +1392,175 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
+    [CardType.Unicorn]: {
+        color:Color.White,
+        defaultAtk:2,
+        defaultDef:3,
+        defaultMoves:1,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:null
+    },
+    [CardType.SetDisciple]: {
+        color:Color.Black,
+        defaultAtk:3,
+        defaultDef:3,
+        defaultMoves:1,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:{
+            targets: Target.Self,
+            effect:{
+                dmgOnSummon: 3,
+                sprite: IconIndex.Damage
+            }
+        }
+    },
+    [CardType.FieldMarshal]: {
+        color:Color.White,
+        defaultAtk:2,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:{
+            targets: Target.Creature,
+            effect:{
+                duration: 1,
+                atkUp: 2,
+                defUp: 2,
+                sprite: IconIndex.Buff
+            }
+        }
+    },
+    [CardType.LavaFlow]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Lands,
+            effect: {
+                destroy: true,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.HolySymbol]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                returnToHand: true,
+                draw: 1,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.DreamThief]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                drawForTappedOpponent: true,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.BurrowingWurm]: {
+        color:Color.Green,
+        defaultAtk:4,
+        defaultDef:4,
+        defaultMoves:1,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:{
+            targets: Target.Lands,
+            effect:{
+                destroyOnEnter: true,
+                sprite: IconIndex.Buff
+            }
+        }
+    },
+    [CardType.Slow]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                creatureToLibrary: true,
+                sprite: IconIndex.Debuff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.Gardener]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                searchForForest: true,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.RighteousCharge]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:2},{kind:Color.None, amount:1},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.AllCreatures,
+            effect: {
+                atkUp: 2,
+                duration: 1,
+                onlyColor: Color.White,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.WitherTouch]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Players,
+            effect: {
+                dmg: 2,
+                hpUp: 2,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.VenerableMonk]: {
+        color:Color.White,
+        defaultAtk:2,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:{
+            targets: Target.Self,
+            effect:{
+                hpOnEnter: 2,
+                sprite: IconIndex.Buff
+            }
+        }
+    },
 }
