@@ -175,5 +175,8 @@ export enum CardType {
     Blizzard='Blizzard', WoodElf='WoodElf', Anaconda='Anaconda', Reckoning='Reckoning', BeeSwarm='BeeSwarm',
     Boggart='Boggart', VolcanicVent='VolcanicVent', Resurrection='Resurrection', Hippo='Hippo',
     DesertDrake='DesertDrake', Fear='Fear', SecretCache='SecretCache', LastGasp='LastGasp',
-    AshCloud='AshCloud', FootSoldier='FootSoldier'
+    AshCloud='AshCloud', FootSoldier='FootSoldier',Lightning='Lightning',SquidLord='SquidLord',
+    GiantSpider='GiantSpider',Graverobber='Graverobber', HilltopGiant='HilltopGiant', Troll='Troll',
+    LizardWarrior='LizardWarrior', CircleOfLife='CircleOfLife', WayOfPeace='WayOfPeace',
+    MongolHorde='MongolHorde', Minotaur='Minotaur', RowanTreant='RowanTreant'
 }

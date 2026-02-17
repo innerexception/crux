@@ -45,7 +45,7 @@ interface CardMeta {
         cost?: ManaCost[]
         tap?: boolean
         targets: import('./enum').Target
-        effect?: CardEffect
+        effect: CardEffect
     }
     sprite: import('./enum').CreatureSpriteIndex
 }
@@ -55,6 +55,7 @@ interface CardEffect {
     damageReflect?:boolean //Damage done to player is applied to creature owner as well
     dmgX?:boolean
     dmgOnSummon?:number
+    dmgAsCreaturePower?:true //Damage based on sacrificed creature power
     removal?:boolean
     destroy?:boolean
     destroyAll?:boolean //all of target type
@@ -83,9 +84,11 @@ interface CardEffect {
     searchSorceryForTop?:boolean
     searchCreatureForTop?:boolean
     searchCardForTop?:boolean
+    creatureToHandFromLibrary?:boolean
     cardToHandFromGY?:boolean
     creatureToLibrary?:boolean //from board to top of owner library
     sorceryToHandFromGY?:boolean
+    creatureToHandFromGY?:boolean
     addAttributes?: import('./enum').Modifier[]
     sprite: import('./enum').IconIndex
     returnToHandOnDeath?:boolean
@@ -110,6 +113,7 @@ interface CardEffect {
     extraTurn?:boolean //extra turn and then you lose 
     hp3perBlackCreature?:boolean
     dmgAsYourDeserts?:boolean
+    lightningSpecial?:boolean
 }
 
 interface Deck {

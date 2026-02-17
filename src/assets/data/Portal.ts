@@ -1735,6 +1735,19 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
+    [CardType.LastGasp]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Players,
+            effect: {
+                dmgAsCreaturePower: true,
+                sprite: IconIndex.Damage
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
     [CardType.Resurrection]: {
         color:Color.White,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:3},],
@@ -1807,5 +1820,98 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null,
     },
-    
+    [CardType.Lightning]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:3},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                sprite: IconIndex.Damage,
+                lightningSpecial: true
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.SquidLord]: {
+        color:Color.Blue,
+        defaultAtk:3,
+        defaultDef:3,
+        defaultMoves:1,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:null,
+    },
+    [CardType.GiantSpider]: {
+        color:Color.Green,
+        defaultAtk:2,
+        defaultDef:4,
+        defaultMoves:1,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:null,
+        defaultAttributes:[Modifier.BlockFlying]
+    },
+    [CardType.Graverobber]: {
+        color:Color.Black,
+        defaultAtk:2,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:{
+            targets: Target.CreaturesYourGraveyard,
+            effect: {
+                sprite: IconIndex.Buff,
+                creatureToHandFromGY: true
+            }
+        },
+    },
+    [CardType.HilltopGiant]: {
+        color:Color.Red,
+        defaultAtk:3,
+        defaultDef:4,
+        defaultMoves:1,
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:null
+    },
+    [CardType.Troll]: {
+        color:Color.Red,
+        defaultAtk:3,
+        defaultDef:3,
+        defaultMoves:1,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:null
+    },
+    [CardType.LizardWarrior]: {
+        color:Color.Red,
+        defaultAtk:4,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:null
+    },
+    [CardType.CircleOfLife]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:2},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                destroy: true,
+                sprite: IconIndex.Damage,
+                creatureToHandFromLibrary: true
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
 }
