@@ -171,5 +171,8 @@ export enum CardType {
     BurrowingWurm='BurrowingWurm', Slow='Slow', Gardener='Gardener', RighteousCharge='RighteousCharge',
     WitherTouch='WitherTouch', VenerableMonk='VenerableMonk', WordOfHate='WordOfHate',
     GraniteWall='GraniteWall', BattlePrayer='BattlePrayer', Conspiracy='Conspiracy', AirDrake='AirDrake',
-    Blizzard='Blizzard', WoodElf='WoodElf', Anaconda='Anaconda'
+    Blizzard='Blizzard', WoodElf='WoodElf', Anaconda='Anaconda', Reckoning='Reckoning', BeeSwarm='BeeSwarm',
+    Boggart='Boggart', VolcanicVent='VolcanicVent', Resurrection='Resurrection', Hippo='Hippo',
+    DesertDrake='DesertDrake', Fear='Fear', SecretCache='SecretCache', LastGasp='LastGasp',
+    AshCloud='AshCloud', FootSoldier='FootSoldier'
 }
