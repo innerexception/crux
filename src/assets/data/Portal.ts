@@ -1783,4 +1783,29 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
+    [CardType.AshCloud]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:3},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Lands,
+            effect: {
+                sprite: IconIndex.Buff,
+                destroyAll: true,
+                onlyColor: Color.White
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.FootSoldier]: {
+        color:Color.White,
+        defaultAtk:2,
+        defaultDef:4,
+        defaultMoves:1,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:null,
+    },
+    
 }
