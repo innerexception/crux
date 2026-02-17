@@ -57,6 +57,7 @@ interface CardEffect {
     dmgOnSummon?:number
     removal?:boolean
     destroy?:boolean
+    destroy2Creatures?:boolean
     destroyOnEnter?:boolean
     duration?: number
     atkUp?:number

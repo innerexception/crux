@@ -80,13 +80,11 @@ export enum Modifier {
     Flying,OnlyFlying,CantBlock, //Can't be put in a lane w/ an opposing creature
     DesertWalk, ForestWalk, CityWalk, TowerWalk, TempleWalk, //Ghostly in lane that ends in a desert
     Berserk, //Moves + 1
-    Defender, //Moves 0
     BlockerMaxPwr1,BlockFlying,Unblockable
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
     [Modifier.Unblockable]: 'Unblockable',
-    [Modifier.Defender]: 'Defender',
     [Modifier.Banding]: 'Banding',
     [Modifier.Berserk]: 'Berserk',
     [Modifier.CantBlock]: 'Timid',

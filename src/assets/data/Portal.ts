@@ -1563,4 +1563,111 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         }
     },
+    [CardType.WordOfHate]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.AllCreatures,
+            effect: {
+                destroy: true,
+                onlyColor: Color.White,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.GraniteWall]: {
+        color:Color.Red,
+        defaultAtk:0,
+        defaultDef:7,
+        defaultMoves:0,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:null
+    },
+    [CardType.BattlePrayer]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.CreaturesYouControl,
+            effect: {
+                atkUp: 1,
+                defUp: 1,
+                duration: 1,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.Conspiracy]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:1},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                destroy2Creatures: true,
+                dmg: 5,
+                ignoreColor: Color.Black,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.AirDrake]: {
+        color:Color.Blue,
+        defaultAtk:2,
+        defaultDef:2,
+        defaultMoves:0,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:null,
+        defaultAttributes: [Modifier.Flying]
+    },
+    [CardType.Blizzard]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:2},{kind:Color.None, amount:1},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Lands,
+            effect: {
+                destroy: true,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.WoodElf]: {
+        color:Color.Green,
+        defaultAtk:1,
+        defaultDef:1,
+        defaultMoves:0,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:{
+            targets: Target.Self,
+            effect: {
+                sprite: IconIndex.Buff,
+                searchForForest: true,
+                shuffle: true
+            }
+        }
+    },
+    [CardType.Anaconda]: {
+        color:Color.Green,
+        defaultAtk:3,
+        defaultDef:3,
+        defaultMoves:0,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability:null,
+        defaultAttributes: [Modifier.CityWalk]
+    },
+    
 }
