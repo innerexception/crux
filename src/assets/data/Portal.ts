@@ -2278,5 +2278,59 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
+    [CardType.YoungDruid]: {
+        color:Color.Green,
+        defaultAtk:6,
+        defaultDef:3,
+        defaultMoves:1,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:4}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: null
+    },
+    [CardType.TreeSpirits]: {
+        color:Color.Green,
+        defaultAtk:8,
+        defaultDef:8,
+        defaultMoves:1,
+        cost: [{kind:Color.Green, amount:3},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                sprite: IconIndex.Damage,
+                destroyForest: true,
+                repeat: 3
+            }
+        }
+    },
+    [CardType.RedwoodTreant]: {
+        color:Color.Green,
+        defaultAtk:3,
+        defaultDef:6,
+        defaultMoves:1,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:4}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: null
+    },
+    [CardType.WitchDoctor]: {
+        color:Color.Black,
+        defaultAtk:2,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                destroy: true,
+                ignoreColor: Color.Black,
+                sprite: IconIndex.Damage
+            }
+        }
+    },
     
 }

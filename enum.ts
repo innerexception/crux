@@ -191,5 +191,10 @@ export enum CardType {
     SwordWall='SwordWall', Judgement='Judgement', CollectiveMemory='CollectiveMemory', SteadfastMonk='SteadfastMonk',
     VampireSpawn='VampireSpawn', Redistribution='Redistribution', Riot='Riot', RhinoCharge='RhinoCharge',
     SealFate='SealFate', Salamander='Salamander', Cyclops='Cyclops', LavaAxe='LavaAxe', PyroFlow='PyroFlow',
-    DeepSprings='DeepSprings'
+    DeepSprings='DeepSprings', YoungDruid='YoungDruid', TreeSpirits='TreeSpirits', RedwoodTreant='RedwoodTreant',
+    WitchDoctor='WitchDoctor', LifeSteal='LifeSteal', Grizzly='Grizzly', GuardianAngel='GuardianAngel',
+    Cherubim='Cherubim', WhiteDragon='WhiteDragon', BlueDragon='BlueDragon', Megoladon='Megoladon', DeepOne='DeepOne',
+    SulfurRain='SulfurRain', Thunderhorse='Thunderhorse', RedDragon='RedDragon', Archangel='Archangel',
+    Comet='Comet', Genie='Genie', BlackDragon='BlackDragon', Firestorm='Firestorm', Financier='Financier',
+    ElephantCharge='ElephantCharge', FireHydra='FireHydra', Leviathan='Leviathan'
 }
