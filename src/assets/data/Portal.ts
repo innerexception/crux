@@ -8,7 +8,10 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Self,
             tap: true,
-            cost:[{ kind: Color.Black, amount: -1}],
+            effect: {
+                addMana: Color.Black,
+                sprite: IconIndex.Black
+            }
         },
         sprite: CreatureSpriteIndex.City
     },
@@ -19,7 +22,10 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Self,
             tap: true,
-            cost:[{ kind: Color.Red, amount: -1}],
+            effect: {
+                addMana: Color.Red,
+                sprite: IconIndex.Red
+            }
         },
         sprite: CreatureSpriteIndex.Desert
     },
@@ -30,7 +36,10 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Self,
             tap: true,
-            cost:[{ kind: Color.Green, amount: -1}],
+            effect: {
+                addMana: Color.Green,
+                sprite: IconIndex.Green
+            }
         },
         sprite: CreatureSpriteIndex.Forest
     },
@@ -41,7 +50,10 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Self,
             tap: true,
-            cost:[{ kind: Color.Blue, amount: -1}],
+            effect: {
+                addMana: Color.Blue,
+                sprite: IconIndex.Blue
+            }
         },
         sprite: CreatureSpriteIndex.Tower
     },
@@ -52,7 +64,10 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Self,
             tap: true,
-            cost:[{ kind: Color.White, amount: -1}],
+            effect: {
+                addMana: Color.White,
+                sprite: IconIndex.White
+            }
         },
         sprite: CreatureSpriteIndex.Sanctuary
     },
@@ -1215,9 +1230,9 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         ability:{
             targets: Target.TappedCreatures,
+            tap: true,
             effect: {
                 sprite: IconIndex.Damage,
-                tap: true,
                 destroy: true
             }
         }
@@ -1913,5 +1928,55 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         },
         sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.WayOfPeace]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:3},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                destroy: true,
+                sprite: IconIndex.Damage,
+                hpToOwner:4
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.MongolHorde]: {
+        color:Color.Red,
+        defaultAtk:5,
+        defaultDef:5,
+        defaultMoves:1,
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                sprite: IconIndex.Damage,
+                discard: 1
+            }
+        }
+    },
+    [CardType.Minotaur]: {
+        color:Color.Red,
+        defaultAtk:3,
+        defaultDef:3,
+        defaultMoves:2,
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: null
+    },
+    [CardType.RowanTreant]: {
+        color:Color.Green,
+        defaultAtk:3,
+        defaultDef:4,
+        defaultMoves:1,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: null
     },
 }

@@ -325,7 +325,7 @@ export default class MapScene extends Scene {
                         const targets = dat.ability.targets
                         if(targets === Target.CreaturesAndPlayers){
                             this.applyGlobalEffect(card)
-                            this.payAndDiscard(card)
+                            return this.payAndDiscard(card)
                         }
                         const pid = (GameObjects[0] as any).playerId
                         if(pid){
@@ -510,6 +510,9 @@ export default class MapScene extends Scene {
         if(targetPlayer.hp <= 0){
             if(targetPlayer.id === store.getState().saveFile.myId) onShowModal(Modal.GameOver)
             else onShowModal(Modal.Winner)
+        }
+        if(effect.addMana){
+            targetPlayer.manaPool[effect.addMana]++
         }
         onUpdatePlayer({...targetPlayer})
         this.payAndDiscard(c)

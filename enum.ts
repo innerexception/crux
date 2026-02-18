@@ -178,5 +178,8 @@ export enum CardType {
     AshCloud='AshCloud', FootSoldier='FootSoldier',Lightning='Lightning',SquidLord='SquidLord',
     GiantSpider='GiantSpider',Graverobber='Graverobber', HilltopGiant='HilltopGiant', Troll='Troll',
     LizardWarrior='LizardWarrior', CircleOfLife='CircleOfLife', WayOfPeace='WayOfPeace',
-    MongolHorde='MongolHorde', Minotaur='Minotaur', RowanTreant='RowanTreant'
+    MongolHorde='MongolHorde', Minotaur='Minotaur', RowanTreant='RowanTreant', VeteranPriest='VeteranPriest', 
+    MasterTactician='MasterTactician', Addict='Addict', ProtoDrake='ProtoDrake', ElderGriffin='ElderGriffin',
+    SavannaLion='SavannaLion', FlashOfInsight='FlashOfInsight', Shambler='Shambler', Retribution='Retribution',
+    SwordWall='SwordWall', Judgement='Judgement', CollectiveMemory='CollectiveMemory'
 }

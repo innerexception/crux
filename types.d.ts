@@ -51,6 +51,7 @@ interface CardMeta {
 }
 
 interface CardEffect {
+    addMana?:import('./enum').Color
     dmg?:number
     damageReflect?:boolean //Damage done to player is applied to creature owner as well
     dmgX?:boolean
@@ -74,6 +75,7 @@ interface CardEffect {
     pacifyAllOfPlayer?:boolean //Creatures and lands are tapped until next untap phase
     hpPerLand?:import('./enum').CardType //entire board
     hpUp?:number
+    hpToOwner?:number
     untap?:boolean
     tap?:boolean //tapped creatures do not advance, can't use abilities
     ignoreColor?:import('./enum').Color //does not affect cards of this color
