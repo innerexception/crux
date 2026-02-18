@@ -72,7 +72,8 @@ export enum Target {
     Self='Self',CreaturesYouControl='CreaturesYouControl',Creature='Creature',Lands='Lands',AllCreatures='AllCreatures',CreatureOrLand='CreatureOrLand',
     CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',CreaturesYourGraveyard='CreaturesYourGraveyard',YourGraveyard='YourGraveyard',
     CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',AttackingCreatures='AttackingCreatures',
-    AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl',ThisCreature='ThisCreature',TappedCreatures='TappedCreatures'
+    AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl',ThisCreature='ThisCreature',TappedCreatures='TappedCreatures',
+    CreatureAndLand='CreatureAndLand',
 }
 
 export enum Triggers {
@@ -86,10 +87,12 @@ export enum Modifier {
     Berserk, //Moves + 1
     BlockerMaxPwr1,BlockFlying,Unblockable, //Ghostly, passes through creatures in lane
     BlockerMax1,
-    CantBeTapped
+    CantBeTapped,
+    Defender
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
+    [Modifier.Defender]: 'Can defend in any lane',
     [Modifier.Unblockable]: 'Unblockable',
     [Modifier.Banding]: 'Banding',
     [Modifier.Berserk]: 'Berserk',

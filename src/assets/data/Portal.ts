@@ -2412,5 +2412,195 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes: [Modifier.Flying, Modifier.OnlyFlying],
         ability: null
     },
-    
+    [CardType.Megoladon]: {
+        color:Color.Blue,
+        defaultAtk:5,
+        defaultDef:5,
+        defaultMoves:0,
+        cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:4}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: null
+    },
+    [CardType.DeepOne]: {
+        color:Color.Black,
+        defaultAtk:6,
+        defaultDef:5,
+        defaultMoves:1,
+        cost: [{kind:Color.Black, amount:3},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                sprite: IconIndex.Damage,
+                dmg: 5
+            }
+        },
+        defaultAttributes: [Modifier.Flying]
+    },
+    [CardType.SulfurRain]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:4}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Lands,
+            effect: {
+                destroy: true,
+                repeat: 2,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.Thunderhorse]: {
+        color:Color.Red,
+        defaultAtk:5,
+        defaultDef:5,
+        defaultMoves:2,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:5}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: {
+            targets: Target.AllCreatures,
+            effect: {
+                sprite: IconIndex.Damage,
+                tap: true
+            }
+        }
+    },
+    [CardType.RedDragon]: {
+        color:Color.Red,
+        defaultAtk:4,
+        defaultDef:4,
+        defaultMoves:2,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:5}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        defaultAttributes:[Modifier.Flying],
+        ability: null
+    },
+    [CardType.Archangel]: {
+        color:Color.White,
+        defaultAtk:5,
+        defaultDef:5,
+        defaultMoves:2,
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:5}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        defaultAttributes:[Modifier.Flying, Modifier.CantBeTapped],
+        ability: null
+    },
+    [CardType.Comet]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:5}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.CreatureAndLand,
+            effect: {
+                destroy: true,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.Genie]: {
+        color:Color.Blue,
+        defaultAtk:5,
+        defaultDef:6,
+        defaultMoves:2,
+        cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:5}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        defaultAttributes:[Modifier.Flying],
+        ability: null
+    },
+    [CardType.BlackDragon]: {
+        color:Color.Black,
+        defaultAtk:5,
+        defaultDef:4,
+        defaultMoves:1,
+        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:5}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        defaultAttributes:[Modifier.Flying],
+        ability: {
+            targets: Target.Players,
+            effect: {
+                sprite: IconIndex.Debuff,
+                discard: 1
+            }
+        }
+    },
+    [CardType.Firestorm]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:5}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.CreaturesAndPlayers,
+            effect: {
+                dmg: 6,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.Financier]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:5}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.CreaturesOrPlayers,
+            effect: {
+                dmg: 4,
+                hpUp: 4,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.ElephantCharge]: {
+        color:Color.Green,
+        defaultAtk:8,
+        defaultDef:5,
+        defaultMoves:2,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:6}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: null
+    },
+    [CardType.FireHydra]: {
+        color:Color.Red,
+        defaultAtk:6,
+        defaultDef:6,
+        defaultMoves:2,
+        cost: [{kind:Color.Red, amount:3},{kind:Color.None, amount:6}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        defaultAttributes: [Modifier.Flying],
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                sprite: IconIndex.Damage,
+                dmgAsYourDeserts: true
+            }
+        }
+    },
+    [CardType.Leviathan]: {
+        color:Color.Blue,
+        defaultAtk:9,
+        defaultDef:9,
+        defaultMoves:3,
+        cost: [{kind:Color.Blue, amount:3},{kind:Color.None, amount:6}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: {
+            targets: Target.Self,
+            trigger: Triggers.OnAttack,
+            effect: {
+                sprite: IconIndex.Damage,
+                destroyTower: true
+            }
+        }
+    },
 }
