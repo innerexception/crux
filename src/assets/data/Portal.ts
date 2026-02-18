@@ -1577,7 +1577,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability:{
             targets: Target.Self,
             effect:{
-                hpOnEnter: 2,
+                hpUp: 2,
                 sprite: IconIndex.Buff
             }
         }
@@ -2331,6 +2331,86 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Damage
             }
         }
+    },
+    [CardType.LifeSteal]: {
+        color:Color.Black,
+        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:3}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                hpUp: 3,
+                dmg: 3,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.Grizzly]: {
+        color:Color.Green,
+        defaultAtk:5,
+        defaultDef:4,
+        defaultMoves:1,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:4}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: null
+    },
+    [CardType.GuardianAngel]: {
+        color:Color.White,
+        defaultAtk:3,
+        defaultDef:4,
+        defaultMoves:1,
+        cost: [{kind:Color.White, amount:2},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        defaultAttributes: [Modifier.Flying],
+        ability: {
+            targets: Target.Self,
+            effect: {
+                sprite: IconIndex.Buff,
+                hpUp: 4
+            }
+        }
+    },
+    [CardType.Cherubim]: {
+        color:Color.White,
+        defaultAtk:3,
+        defaultDef:4,
+        defaultMoves:1,
+        cost: [{kind:Color.White, amount:2},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        defaultAttributes: [Modifier.Flying],
+        ability: null
+    },
+    [CardType.WhiteDragon]: {
+        color:Color.White,
+        defaultAtk:4,
+        defaultDef:4,
+        defaultMoves:1,
+        cost: [{kind:Color.White, amount:2},{kind:Color.None, amount:4}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        defaultAttributes: [Modifier.Flying],
+        ability: {
+            targets: Target.ThisCreature,
+            effect: {
+                sprite: IconIndex.Buff,
+                returnToHand: true
+            }
+        }
+    },
+    [CardType.BlueDragon]: {
+        color:Color.Blue,
+        defaultAtk:5,
+        defaultDef:4,
+        defaultMoves:1,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:5}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        defaultAttributes: [Modifier.Flying, Modifier.OnlyFlying],
+        ability: null
     },
     
 }

@@ -105,7 +105,6 @@ interface CardEffect {
     taunt?:boolean //new non-defender creatures must be placed in this creatures lane next turn
     tauntPlayer?:boolean //new non-defender creatures must be placed in an open lane next turn
     hpPerAttacker?:boolean
-    hpOnEnter?:number
     discardAllAndDraw?:boolean
     resetMovement?:boolean //send all targets to starting tiles
     shuffle?:boolean
