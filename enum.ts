@@ -84,7 +84,8 @@ export enum Modifier {
     Flying,OnlyFlying,CantBlock, //Can't be put in a lane w/ an opposing creature
     DesertWalk, ForestWalk, CityWalk, TowerWalk, TempleWalk, //Ghostly in lane that ends in a desert
     Berserk, //Moves + 1
-    BlockerMaxPwr1,BlockFlying,Unblockable
+    BlockerMaxPwr1,BlockFlying,Unblockable, //Ghostly, passes through creatures in lane
+    BlockerMax1
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
@@ -106,7 +107,8 @@ export const ModifierDesc:Record<Modifier,string> = {
     [Modifier.ProtectionFromRed]: 'Protection from Desert',
     [Modifier.ProtectionFromWhite]: 'Protection from Holy',
     [Modifier.BlockFlying]: 'Air Defence',
-    [Modifier.BlockerMaxPwr1]: 'May not be opposed by creatures > strength 1'
+    [Modifier.BlockerMaxPwr1]: 'May not be opposed by creatures > strength 1',
+    [Modifier.BlockerMax1]: 'May not be opposed by more than 1 creature'
 }
 
 export const TargetsDesc:Record<Target,string> = {
@@ -185,5 +187,8 @@ export enum CardType {
     MongolHorde='MongolHorde', Minotaur='Minotaur', RowanTreant='RowanTreant', VeteranPriest='VeteranPriest', 
     MasterTactician='MasterTactician', Addict='Addict', ProtoDrake='ProtoDrake', ElderGriffin='ElderGriffin',
     SavannaLion='SavannaLion', FlashOfInsight='FlashOfInsight', Shambler='Shambler', Retribution='Retribution',
-    SwordWall='SwordWall', Judgement='Judgement', CollectiveMemory='CollectiveMemory'
+    SwordWall='SwordWall', Judgement='Judgement', CollectiveMemory='CollectiveMemory', SteadfastMonk='SteadfastMonk',
+    VampireSpawn='VampireSpawn', Redistribution='Redistribution', Riot='Riot', RhinoCharge='RhinoCharge',
+    SealFate='SealFate', Salamander='Salamander', Cyclops='Cyclops', LavaAxe='LavaAxe', PyroFlow='PyroFlow',
+    DeepSprings='DeepSprings'
 }

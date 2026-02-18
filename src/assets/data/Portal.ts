@@ -1089,8 +1089,9 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         ability: {
             targets: Target.ThisCreature,
+            trigger: Triggers.OnDeath,
             effect:{
-                returnToHandOnDeath: true,
+                returnToHand: true,
                 sprite: IconIndex.Buff
             }
         }
@@ -2008,5 +2009,129 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite:IconIndex.Debuff
             }
         },
+    },
+    [CardType.Addict]: {
+        color:Color.Black,
+        defaultAtk:5,
+        defaultDef:1,
+        defaultMoves:1,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: null,
+    },
+    [CardType.ProtoDrake]: {
+        color:Color.Blue,
+        defaultAtk:3,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: null,
+        defaultAttributes:[Modifier.Flying]
+    },
+    [CardType.ElderGriffin]: {
+        color:Color.White,
+        defaultAtk:2,
+        defaultDef:3,
+        defaultMoves:1,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: null,
+        defaultAttributes:[Modifier.Flying]
+    },
+    [CardType.SavannaLion]: {
+        color:Color.Green,
+        defaultAtk:3,
+        defaultDef:3,
+        defaultMoves:1,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: null,
+        defaultAttributes:[Modifier.BlockerMax1]
+    },
+    [CardType.FlashOfInsight]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:3},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                draw: 2,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.Shambler]: {
+        color:Color.Black,
+        defaultAtk:3,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: {
+            targets: Target.ThisCreature,
+            trigger: Triggers.OnDeath,
+            effect: {
+                sprite: IconIndex.Buff,
+                creatureToLibrary: true
+            }
+        },
+    },
+    [CardType.Retribution]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:3},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.TappedCreatures,
+            effect: {
+                destroy: true,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.SwordWall]: {
+        color:Color.White,
+        defaultAtk:3,
+        defaultDef:5,
+        defaultMoves:0,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        defaultAttributes: [Modifier.Flying],
+        ability:null
+    },
+    [CardType.Judgement]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:2},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.AllCreatures,
+            effect: {
+                destroy: true,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.CollectiveMemory]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:3},{kind:Color.None, amount:2},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                draw: 7,
+                discard: 5,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
     },
 }

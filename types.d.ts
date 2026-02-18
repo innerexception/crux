@@ -93,7 +93,6 @@ interface CardEffect {
     creatureToHandFromGY?:boolean
     addAttributes?: import('./enum').Modifier[]
     sprite: import('./enum').IconIndex
-    returnToHandOnDeath?:boolean
     returnToHand?:boolean
     returnToBattle?:boolean
     play3Land?:boolean
