@@ -1,4 +1,4 @@
-import { CardType, Color, CreatureSpriteIndex, IconIndex, Modifier, Permanents, Target } from "../../../enum";
+import { CardType, Color, CreatureSpriteIndex, IconIndex, Modifier, Permanents, Target, Triggers } from "../../../enum";
 
 export const Portal:Record<CardType, CardMeta> = {
     [CardType.City]: {
@@ -1128,9 +1128,9 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:{
-            targets: Target.Creature,
+            targets: Target.ThisCreature,
             effect: {
-                dmgOnSummon: 2,
+                dmg: 2,
                 sprite: IconIndex.Damage
             }
         },
@@ -1356,6 +1356,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability: {
+            trigger: Triggers.OnDeath,
             targets: Target.AllPlayers,
             effect: {
                 discard:1,
@@ -1429,7 +1430,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability:{
             targets: Target.Self,
             effect:{
-                dmgOnSummon: 3,
+                dmg: 3,
                 sprite: IconIndex.Damage
             }
         }
@@ -1443,6 +1444,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:{
+            tap: true,
             targets: Target.Creature,
             effect:{
                 duration: 1,
@@ -1978,5 +1980,33 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability: null
+    },
+    [CardType.VeteranPriest]: {
+        color:Color.White,
+        defaultAtk:3,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: null,
+        defaultAttributes: [Modifier.ProtectionFromBlack]
+    },
+    [CardType.MasterTactician]: {
+        color:Color.White,
+        defaultAtk:2,
+        defaultDef:2,
+        defaultMoves:1,
+        cost: [{kind:Color.White, amount:2},{kind:Color.None, amount:2}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: {
+            targets: Target.Creature,
+            trigger: Triggers.OnAttack,
+            effect: {
+                tap: true,
+                sprite:IconIndex.Debuff
+            }
+        },
     },
 }

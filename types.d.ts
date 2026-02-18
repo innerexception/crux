@@ -45,6 +45,7 @@ interface CardMeta {
         cost?: ManaCost[]
         tap?: boolean
         targets: import('./enum').Target
+        trigger?: import('./enum').Triggers //default is onEnter
         effect: CardEffect
     }
     sprite: import('./enum').CreatureSpriteIndex
@@ -55,13 +56,12 @@ interface CardEffect {
     dmg?:number
     damageReflect?:boolean //Damage done to player is applied to creature owner as well
     dmgX?:boolean
-    dmgOnSummon?:number
     dmgAsCreaturePower?:true //Damage based on sacrificed creature power
     removal?:boolean
     destroy?:boolean
     destroyAll?:boolean //all of target type
     destroy2Creatures?:boolean
-    destroyOnEnter?:boolean
+    destroyOnEnter?:boolean //destroy a land you control
     duration?: number
     atkUp?:number
     defUp?:number

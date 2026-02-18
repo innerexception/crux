@@ -75,6 +75,10 @@ export enum Target {
     AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl',ThisCreature='ThisCreature',TappedCreatures='TappedCreatures'
 }
 
+export enum Triggers {
+    OnAttack,OnEnter,OnDeath,OnExit
+}
+
 export enum Modifier {
     Banding=1,ProtectionFromBlack,ProtectionFromWhite,ProtectionFromRed,ProtectionFromGreen,ProtectionFromBlue,FirstStrike,
     Flying,OnlyFlying,CantBlock, //Can't be put in a lane w/ an opposing creature
