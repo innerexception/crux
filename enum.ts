@@ -119,6 +119,7 @@ export const ModifierDesc:Record<Modifier,string> = {
 export const TargetsDesc:Record<Target,string> = {
     [Target.ThisCreature]: 'This Creature',
     [Target.AllCreatures]: 'All Creatures',
+    [Target.CreatureAndLand]: 'All Creatures & Lands',
     [Target.AllCreaturesYouControl]: 'All Creatures you control',
     [Target.TappedCreatures]: 'Tapped Creatures',
     [Target.AllPlayers]:'All Players',
