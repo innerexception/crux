@@ -69,7 +69,7 @@ export enum Permanents {
 }
 
 export enum Target {
-    Self='Self',CreaturesYouControl='CreaturesYouControl',Creature='Creature',Lands='Lands',AllCreatures='AllCreatures',
+    Self='Self',CreaturesYouControl='CreaturesYouControl',Creature='Creature',Lands='Lands',AllCreatures='AllCreatures',CreatureOrLand='CreatureOrLand',
     CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',CreaturesYourGraveyard='CreaturesYourGraveyard',YourGraveyard='YourGraveyard',
     CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',AttackingCreatures='AttackingCreatures',
     AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl',ThisCreature='ThisCreature',TappedCreatures='TappedCreatures'
@@ -85,7 +85,8 @@ export enum Modifier {
     DesertWalk, ForestWalk, CityWalk, TowerWalk, TempleWalk, //Ghostly in lane that ends in a desert
     Berserk, //Moves + 1
     BlockerMaxPwr1,BlockFlying,Unblockable, //Ghostly, passes through creatures in lane
-    BlockerMax1
+    BlockerMax1,
+    CantBeTapped
 }
 
 export const ModifierDesc:Record<Modifier,string> = {

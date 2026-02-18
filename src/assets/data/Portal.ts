@@ -2134,4 +2134,149 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
+    [CardType.SteadfastMonk]: {
+        color:Color.White,
+        defaultAtk:2,
+        defaultDef:5,
+        defaultMoves:1,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:4}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        defaultAttributes: [Modifier.CantBeTapped],
+        ability:null
+    },
+    [CardType.VampireSpawn]: {
+        color:Color.Black,
+        defaultAtk:4,
+        defaultDef:3,
+        defaultMoves:1,
+        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        defaultAttributes: [Modifier.Flying],
+        ability:null
+    },
+    [CardType.Redistribution]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:3},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Self,
+            effect: {
+                drawIfFewerCards: true,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.Riot]: {
+        color:Color.Black,
+        defaultAtk:3,
+        defaultDef:3,
+        defaultMoves:1,
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:4}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: {
+            targets: Target.ThisCreature,
+            trigger: Triggers.OnAttack,
+            effect: {
+                sprite: IconIndex.Buff,
+                atkUp: 2,
+                duration: 1
+            }
+        }
+    },
+    [CardType.RhinoCharge]: {
+        color:Color.Green,
+        defaultAtk:4,
+        defaultDef:4,
+        defaultMoves:1,
+        cost: [{kind:Color.Green, amount:2},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: null,
+        defaultAttributes:[Modifier.BlockerMax1]
+    },
+    [CardType.SealFate]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:4},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Players,
+            effect: {
+                arrangeTop5Remove1: true,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.Salamander]: {
+        color:Color.Red,
+        defaultAtk:3,
+        defaultDef:1,
+        defaultMoves:1,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:4}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: {
+            targets: Target.Lands,
+            trigger: Triggers.OnDeath,
+            effect: {
+                destroy: true,
+                sprite: IconIndex.Damage
+            }
+        },
+    },
+    [CardType.Cyclops]: {
+        color:Color.Red,
+        defaultAtk:5,
+        defaultDef:5,
+        defaultMoves:1,
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:3}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.Placeholder,
+        ability: null,
+        defaultAttributes: [Modifier.CantBlock]
+    },
+    [CardType.LavaAxe]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:4},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Players,
+            effect: {
+                dmg: 5,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.PyroFlow]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:3},],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.CreatureOrLand,
+            effect: {
+                destroy: true,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.DeepSprings]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:2},{kind:Color.None, amount:3}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Players,
+            effect: {
+                hpUp: 8,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    
 }

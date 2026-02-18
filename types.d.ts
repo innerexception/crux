@@ -68,6 +68,8 @@ interface CardEffect {
     whenDamaged?:boolean //procs when damage is applied to this creature
     draw?:number
     drawX?:boolean
+    draw3TemplesIfLessLand?:boolean
+    drawIfFewerCards?:boolean
     drawForTappedOpponent?:boolean //draw 1 for each tapped creature of opponent
     discard?:number
     discardToDraw?:boolean //Discard any number to draw that number
@@ -91,6 +93,7 @@ interface CardEffect {
     creatureToLibrary?:boolean //from board to top of owner library
     sorceryToHandFromGY?:boolean
     creatureToHandFromGY?:boolean
+    arrangeTop5Remove1?:boolean
     addAttributes?: import('./enum').Modifier[]
     sprite: import('./enum').IconIndex
     returnToHand?:boolean
@@ -105,7 +108,6 @@ interface CardEffect {
     hpOnEnter?:number
     discardAllAndDraw?:boolean
     resetMovement?:boolean //send all targets to starting tiles
-    draw3TemplesIfLessLand?:boolean
     shuffle?:boolean
     putForestInPlay?:boolean
     viewTop3?:boolean
