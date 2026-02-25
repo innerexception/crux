@@ -5,12 +5,12 @@ import AppStyles from '../styles/AppStyles'
 import Tooltip from 'rc-tooltip'
 import { CardType, CreatureSpriteIndex, IconIndex } from '../../enum'
 
-export const TopBar = (text:string|JSX.Element) => 
-    <div style={AppStyles.topBar}>
-        <div style={{width:'33%'}}><hr style={AppStyles.hr}/><hr style={AppStyles.hr}/><hr style={AppStyles.hr}/><hr style={AppStyles.hr}/></div>
-            {text}
-        <div style={{width:'33%'}}><hr style={AppStyles.hr}/><hr style={AppStyles.hr}/><hr style={AppStyles.hr}/><hr style={AppStyles.hr}/></div>
-    </div>
+// export const TopBar = (text:string|JSX.Element) => 
+//     <div style={AppStyles.topBar}>
+//         <div style={{width:'33%'}}><hr style={AppStyles.hr}/><hr style={AppStyles.hr}/><hr style={AppStyles.hr}/><hr style={AppStyles.hr}/></div>
+//             {text}
+//         <div style={{width:'33%'}}><hr style={AppStyles.hr}/><hr style={AppStyles.hr}/><hr style={AppStyles.hr}/><hr style={AppStyles.hr}/></div>
+//     </div>
 
 interface ButtonProps {
     enabled:boolean, handler:Function, text:JSX.Element | string, style?:object, icon?: IconIndex

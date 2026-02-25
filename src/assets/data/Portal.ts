@@ -182,7 +182,7 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.Hurricane]: {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1}],
-        pumpColor: Color.None, //TODO: can add any amount to increase effect
+        pumpColor: Color.None,
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.CreaturesAndPlayers,
@@ -265,7 +265,6 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.Brainstorm]: {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1}],
-        pumpColor: Color.None, //TODO: can add any amount to increase effect
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.Players,

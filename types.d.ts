@@ -41,14 +41,16 @@ interface CardMeta {
     pumpColor?: import('./enum').Color
     kind: import('./enum').Permanents
     defaultAttributes?: import('./enum').Modifier[]
-    ability: {
-        cost?: ManaCost[]
-        tap?: boolean
-        targets: import('./enum').Target
-        trigger?: import('./enum').Triggers //default is onEnter
-        effect: CardEffect
-    }
+    ability: CardAbility
     sprite: import('./enum').CreatureSpriteIndex
+}
+
+interface CardAbility  {
+    cost?: ManaCost[]
+    tap?: boolean
+    targets: import('./enum').Target
+    trigger?: import('./enum').Triggers //default is onEnter
+    effect: CardEffect
 }
 
 interface CardEffect {
