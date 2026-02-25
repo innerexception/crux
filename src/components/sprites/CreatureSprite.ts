@@ -34,7 +34,7 @@ export default class CreatureSprite extends GameObjects.Image {
                 const enemy = state.players.find(p=>p.id !== creature.ownerId)
                 onUpdatePlayer({...enemy, hp: enemy.hp-creature.atk})
                 this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Damage, '0xff0000', '-')
-                return this.reset()
+                return //this.reset() TODO, return creature to hand
             }
             const target = store.getState().saveFile.currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
             if(target){
@@ -78,13 +78,7 @@ export default class CreatureSprite extends GameObjects.Image {
         this.scene.flashIcon(myTile.pixelX, myTile.pixelY, IconIndex.Sword)
         if(defender.kind === Permanents.Land){
             //If target is land, apply pillage (tap land until end of controller's next turn)
-            this.reset()
-            target.tapped = true
-            target.status.push({
-                id: v4(),
-                status: { pillaged: true, sprite: IconIndex.Debuff },
-                duration: 1
-            })
+            //this.reset() TODO, return creature to hand, destroy target land
             onUpdateBoardCreature(target)
             return this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Sword, '0xff0000')
         }

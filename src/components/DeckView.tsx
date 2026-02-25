@@ -29,6 +29,7 @@ export default () => {
             </div>
             <div>
                 <Button icon={IconIndex.Draw} enabled={me.deck.cards.length>0 && me.drawAllowed > 0} text="Draw" handler={()=>drawNext()}/>
+                <Button icon={IconIndex.Draw} enabled={!me.hasPlayedLand} text="Create Land" handler={()=>onShowModal(Modal.ShowLandChoices)}/>
                 <Button icon={IconIndex.Graveyard} enabled={me.discard.length>0} text="Graveyard" handler={()=>onShowModal(Modal.Graveyard)}/>
             </div>
         </div>
