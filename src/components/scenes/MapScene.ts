@@ -478,6 +478,20 @@ export default class MapScene extends Scene {
         const effect = getCardData(c).ability.effect
         const caster = store.getState().saveFile.currentMatch.players.find(p=>p.id === c.ownerId)
         //TODO
+        if(effect.damageReflect){
+            const otherPlayer = store.getState().saveFile.currentMatch.players.find(p=>p.id !== c.ownerId)
+            otherPlayer.hp-=targetPlayer.dmgRecieved
+            onUpdatePlayer({...otherPlayer})
+        }
+        if(effect.creatureToHandFromGY){
+            onShowModal(Modal.ChooseCreatureFromGY)
+        }
+        if(effect.creatureToHandFromLibrary){
+            onShowModal(Modal.ChooseCreatureFromLibrary)
+        }
+        if(effect.arrangeTop5Remove1){
+            onShowModal(Modal.EnemyTop5Remove1)
+        }
         if(effect.cardToHandFromGY){
             onShowModal(Modal.ChooseFromGY)
         }
@@ -522,6 +536,17 @@ export default class MapScene extends Scene {
         const state = store.getState()
         let me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.currentMatch.activePlayerId)
         //TODO
+        if(effect.creatureToLibrary){
+            this.tryRemoveCreature(creature)
+            const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === creature.ownerId)
+            onUpdatePlayer({...p, 
+                deck: {...p.deck, cards: p.deck.cards.concat(creature)},
+                discard: p.discard.filter(c=>c.id !== creature.id)
+            })
+        }
+        if(effect.addAttributes){
+            creature.attributes = creature.attributes.concat(effect.addAttributes)
+        }
         if(effect.atkUp){
             creature.atk+=effect.atkUp
         }

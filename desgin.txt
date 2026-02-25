@@ -14,3 +14,6 @@ Turnbased
     -Creatures that have reached the home row are reset to their origin
 
 3. Campaign Map
+    -Dueling house -> next opponent battle
+    -Spell shop (spend tp)
+    -Builder's library (manage decks)

@@ -60,6 +60,7 @@ export const renderCost = (mana:ManaCost[], x:boolean) => {
 const renderEffect = (effect:CardEffect) => 
     <div>
         {effect.duration && <div>For {effect.duration} turns: </div>}
+        {effect.repeat && <div>{effect.repeat} times</div>}
         {(effect.atkUp || effect.defUp) &&
         <div>
             <div>Target recieves </div>
@@ -82,5 +83,18 @@ const renderEffect = (effect:CardEffect) =>
         {effect.destroy && <div>Put target into controller's graveyard.</div>}
         {effect.searchSorceryForTop && <div>Search your deck for a sorcery. It will be placed on top of your library.</div>}
         {effect.untap && <div>Untap target.</div>}
+        {effect.addAttributes && <div>Creature gains {effect.addAttributes.join(' & ')}</div>}
+        {effect.addMana && <div>Add <CssIcon spriteIndex={OtherIcons[effect.addMana]}/></div>}
+        {effect.arrangeTop5Remove1 && <div>Look at enemy's top 5 and remove 1 from the fight</div>}
+        {effect.creatureToHandFromGY && <div>Return target creature to your hand from your graveyard.</div>}
+        {effect.creatureToHandFromLibrary && <div>Choose a creature from your library. Shuffle.</div>}
+        {effect.creatureToLibrary && <div>Put this creature on top of your library.</div>}
+        {effect.damageReflect && <div>Damage dealt to you is also dealt to the opposing player</div>}
+        {/* {effect.destroy2Creatures && <div>Destroy 2 target creatures.</div>}
+        {effect.destroyAll && <div>Destroy all targets</div>}
+        {effect.destroyForest && <div>Destroy a forest</div>}
+        {effect.destroyTower && <div>Destroy a tower</div>}
+        {effect.dmgAsCreaturePower && <div>Deal damage to target equal to creature's power</div>}
+         */}
         {/* //TODO */}
     </div>
