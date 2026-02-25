@@ -5,8 +5,9 @@ import { onUpdateBoardCreature, onUpdatePlayer } from "./Thunks";
 
 export const tapLand = (card:Card, me:PlayerState) => {
     const meta = getCardData(card)
+    const color = meta.ability.effect.addMana
     onUpdatePlayer({...me, manaPool: {...me.manaPool, 
-        [meta.color]: me.manaPool[meta.color]-meta.ability.cost[0].amount
+        [color]: me.manaPool[color]+1
     }})
     onUpdateBoardCreature({...card, tapped: true})
 }

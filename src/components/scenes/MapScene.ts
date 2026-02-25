@@ -10,7 +10,7 @@ import{ v4 } from 'uuid'
 import PlayerSprite from "../sprites/PlayerSprite";
 
 const TILE_DIM=32
-const FIELD_WIDTH=6
+const FIELD_WIDTH=4
 const FIELD_HEIGHT=3
 
 export default class MapScene extends Scene {
@@ -142,7 +142,8 @@ export default class MapScene extends Scene {
         const p = state.players.find(p=>p.id === state.activePlayerId)
         state.board.filter(c=>getCardData(c).kind === Permanents.Land && c.ownerId === p.id && !c.tapped).forEach(l=>{
             const meta = getCardData(l)
-            p.manaPool[meta.color]=p.manaPool[meta.color]-meta.ability.cost[0].amount
+            const color = meta.ability.effect.addMana
+            p.manaPool[color]=p.manaPool[color]+1
             l.tapped = true
         })
         onUpdateBoard(Array.from(state.board))
@@ -171,7 +172,7 @@ export default class MapScene extends Scene {
                 (getCardData(c).ability.effect.dmg || getCardData(c).ability.effect.removal))
             if(creatureSorceries){
                 this.applyCreatureSorcery(enemies[0], creatureSorceries)
-                p.manaPool = payCost(p.manaPool, getCardData(creatureSorceries).cost)
+                this.payAndDiscard(creatureSorceries)
             }
         }
         onUpdatePlayer({...p})
@@ -331,14 +332,22 @@ export default class MapScene extends Scene {
                         if(pid){
                             if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
                                 this.applyPlayerEffect(state.saveFile.currentMatch.players.find(p=>p.id === pid), card)
+                                this.payAndDiscard(card)
                             }
                             else if(targets === Target.Self && pid === state.saveFile.myId){
                                 this.applyPlayerEffect(state.saveFile.currentMatch.players.find(p=>p.id === pid),card)
+                                this.payAndDiscard(card)
+                            }
+                            else if(targets === Target.AllPlayers){
+                                const players = store.getState().saveFile.currentMatch.players
+                                players.forEach(player=>this.applyPlayerEffect(player, card))
+                                this.payAndDiscard(card)
                             }
                             return
                         }
                         if(this.validTarget(sprite, card)){
                             this.applyCreatureSorcery(state.saveFile.currentMatch.board.find(c=>c.id === sprite.id), card)
+                            this.payAndDiscard(card)
                             return
                         }
                     }
@@ -346,7 +355,7 @@ export default class MapScene extends Scene {
                         const card = state.saveFile.currentMatch.board.find(c=>c.id === sprite.id)
                         if(card){
                             const meta = getCardData(card)
-                            if(meta.kind === Permanents.Land && !card.tapped){
+                            if(meta.ability.effect.addMana && !card.tapped){
                                 //tap and add to pool
                                 tapLand(card, me)
                                 this.floatResource(sprite.x, sprite.y, IconIndex.Mana, '#ff0000')
@@ -430,7 +439,6 @@ export default class MapScene extends Scene {
         }
         
         this.applyCreatureEffect(creature, dat.ability.effect)
-        this.payAndDiscard(creature)
     }
 
     payAndDiscard(card:Card){
@@ -471,6 +479,7 @@ export default class MapScene extends Scene {
 
         const creatures = store.getState().saveFile.currentMatch.board
         creatures.forEach(creature=>this.applyCreatureSorcery(creature, card))
+        this.payAndDiscard(card)
     }
 
     applyPlayerEffect(targetPlayer:PlayerState, c:Card) {
@@ -515,7 +524,6 @@ export default class MapScene extends Scene {
             targetPlayer.manaPool[effect.addMana]++
         }
         onUpdatePlayer({...targetPlayer})
-        this.payAndDiscard(c)
     }
 
     applyCreatureEffect(creature:Card, effect:CardEffect) {

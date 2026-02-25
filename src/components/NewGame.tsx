@@ -37,7 +37,7 @@ export default () => {
                     <Button text="New" enabled={true} handler={()=>{resetSave()}} style={{border:'1px solid white', padding:'5px'}}/>
                 </div>
                 <div style={{marginBottom:'0.5em'}}>
-                    <Button text="Continue" enabled={saveFile?true:false} handler={()=>{onStartMatch(saveFile)}} style={{border:'1px solid white', padding:'5px'}}/>
+                    <Button text="Continue" enabled={saveFile?.currentDeckId?true:false} handler={()=>{onStartMatch(saveFile)}} style={{border:'1px solid white', padding:'5px'}}/>
                 </div>
                 <div style={{marginBottom:'0.5em'}}>
                     <Button enabled={true} text="Quit" handler={onQuit} style={{border:'1px solid white', padding:'5px'}}/>
