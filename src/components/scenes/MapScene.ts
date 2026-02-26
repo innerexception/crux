@@ -487,20 +487,20 @@ export default class MapScene extends Scene {
         const effect = getCardData(c).ability.effect
         const caster = store.getState().saveFile.currentMatch.players.find(p=>p.id === c.ownerId)
         //TODO
-        if(effect.damageReflect){
-            const otherPlayer = store.getState().saveFile.currentMatch.players.find(p=>p.id !== c.ownerId)
-            otherPlayer.hp-=targetPlayer.dmgRecieved
-            onUpdatePlayer({...otherPlayer})
-        }
-        if(effect.creatureToHandFromGY){
-            onShowModal(Modal.ChooseCreatureFromGY)
-        }
-        if(effect.creatureToHandFromLibrary){
-            onShowModal(Modal.ChooseCreatureFromLibrary)
-        }
-        if(effect.arrangeTop5Remove1){
-            onShowModal(Modal.EnemyTop5Remove1)
-        }
+        // if(effect.damageReflect){
+        //     const otherPlayer = store.getState().saveFile.currentMatch.players.find(p=>p.id !== c.ownerId)
+        //     otherPlayer.hp-=targetPlayer.dmgRecieved
+        //     onUpdatePlayer({...otherPlayer})
+        // }
+        // if(effect.creatureToHandFromGY){
+        //     onShowModal(Modal.ChooseCreatureFromGY)
+        // }
+        // if(effect.creatureToHandFromLibrary){
+        //     onShowModal(Modal.ChooseCreatureFromLibrary)
+        // }
+        // if(effect.arrangeTop5Remove1){
+        //     onShowModal(Modal.EnemyTop5Remove1)
+        // }
         if(effect.cardToHandFromGY){
             onShowModal(Modal.ChooseFromGY)
         }
