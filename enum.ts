@@ -81,39 +81,47 @@ export enum Triggers {
 }
 
 export enum Modifier {
-    Banding=1,ProtectionFromBlack,ProtectionFromWhite,ProtectionFromRed,ProtectionFromGreen,ProtectionFromBlue,FirstStrike,
-    Flying,OnlyFlying,CantBlock, //Can't be put in a lane w/ an opposing creature
-    DesertWalk, ForestWalk, CityWalk, TowerWalk, TempleWalk, //Ghostly in lane that ends in a desert
-    Berserk, //Moves + 1
-    BlockerMaxPwr1,BlockFlying,Unblockable, //Ghostly, passes through creatures in lane
-    BlockerMax1,
-    CantBeTapped,
-    Defender
+    Banding=1, //Adds adjacent creatures pwr/def during combat. Damage is assigned to non-banders first.
+    ProtectionFromBlack,ProtectionFromWhite,ProtectionFromRed,ProtectionFromGreen,ProtectionFromBlue,
+    Nimble, //May tap to displace left or right 1 lane
+    CantBlock, //Can't be put in a lane w/ an opposing creature
+    DesertWalk, ForestWalk, CityWalk, TowerWalk, TempleWalk, //Opposing land type means this will move over any creature it moves onto instead of triggering combat
+    DesertAffinity, ForestAffinity, CityAffinity, TowerAffinity, SanctuaryAffinity, //May only be placed in a lane with this land type
+    Haste, //Moves an extra time during movement phase unless combat occurs
+    BlockerMaxPwr1, //Non-defender creatures with pwr>1 may not be placed in this lane 
+    Taunt,
+    Unblockable, //See affinity ability
+    Defender, //Does not move during movement phase
+    Vigilant, //Cannot be targeted by sorcery or enchantments
+    Fearsome //Creatures cannot be placed in this lane
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
     [Modifier.Defender]: 'Can defend in any lane',
     [Modifier.Unblockable]: 'Unblockable',
     [Modifier.Banding]: 'Banding',
-    [Modifier.Berserk]: 'Berserk',
+    [Modifier.Haste]: 'Haste',
     [Modifier.CantBlock]: 'Timid',
-    [Modifier.CantBeTapped]: 'Inexhaustable',
     [Modifier.DesertWalk]: 'Pathfinder - Desert',
     [Modifier.ForestWalk]: 'Pathfinder - Forest',
     [Modifier.CityWalk]: 'Pathfinder - City',
     [Modifier.TowerWalk]: 'Pathfinder - Tower',
     [Modifier.TempleWalk]: 'Pathfinder - Temple',
-    [Modifier.FirstStrike]: 'Ambush',
-    [Modifier.Flying]: 'Flying',
-    [Modifier.OnlyFlying]: 'Airborn',
+    [Modifier.CityAffinity]: 'Affinity - City',
+    [Modifier.ForestAffinity]: 'Affinity - Forest',
+    [Modifier.TowerAffinity]: 'Affinity - Tower',
+    [Modifier.DesertAffinity]: 'Affinity - Desert',
+    [Modifier.SanctuaryAffinity]: 'Affinity - Sactuary',
+    [Modifier.Vigilant]: 'Vigilant',
+    [Modifier.Nimble]: 'Flying',
     [Modifier.ProtectionFromBlack]: 'Protection from City',
     [Modifier.ProtectionFromBlue]: 'Protection from Spirit',
     [Modifier.ProtectionFromGreen]: 'Protection from Forest',
     [Modifier.ProtectionFromRed]: 'Protection from Desert',
     [Modifier.ProtectionFromWhite]: 'Protection from Holy',
-    [Modifier.BlockFlying]: 'Air Defence',
+    [Modifier.Taunt]: 'Taunt',
+    [Modifier.Fearsome]: 'Fearsome',
     [Modifier.BlockerMaxPwr1]: 'May not be opposed by creatures > strength 1',
-    [Modifier.BlockerMax1]: 'May not be opposed by more than 1 creature'
 }
 
 export const TargetsDesc:Record<Target,string> = {

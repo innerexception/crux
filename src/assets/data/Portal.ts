@@ -78,7 +78,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
-        defaultAttributes: [Modifier.Flying, Modifier.OnlyFlying],
+        defaultAttributes: [Modifier.Nimble, Modifier.CantBlock],
         ability: null,
         sprite: CreatureSpriteIndex.Skypirate
     },
@@ -107,7 +107,7 @@ export const Portal:Record<CardType, CardMeta> = {
             effect: {
                 duration: 1,
                 draw: 1,
-                addAttributes: [Modifier.Flying],
+                addAttributes: [Modifier.Nimble],
                 sprite: IconIndex.Buff
             }
         },
@@ -187,7 +187,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.CreaturesAndPlayers,
             effect: {
-                withAttribute: Modifier.Flying,
+                withAttribute: Modifier.Nimble,
                 dmgX: true,
                 sprite: IconIndex.Damage
             }
@@ -283,7 +283,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         defaultMoves: 1,
         ability: null,
-        defaultAttributes:[Modifier.Berserk],
+        defaultAttributes:[Modifier.Haste],
         sprite: CreatureSpriteIndex.Goblin
     },
     [CardType.Necromancy]: {
@@ -405,7 +405,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
-        defaultAttributes:[Modifier.Flying],
+        defaultAttributes:[Modifier.Nimble],
         ability: null,
         sprite: CreatureSpriteIndex.Gryphon
     },
@@ -429,7 +429,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
-        defaultAttributes:[Modifier.Flying],
+        defaultAttributes:[Modifier.Nimble],
         ability: null,
         sprite: CreatureSpriteIndex.Imp
     },
@@ -563,7 +563,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
-        defaultAttributes:[Modifier.Flying],
+        defaultAttributes:[Modifier.Nimble],
         ability: {
             targets: Target.Players,
             effect: {
@@ -632,7 +632,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
-        defaultAttributes:[Modifier.Flying],
+        defaultAttributes:[Modifier.Nimble],
         ability: null,
         sprite: CreatureSpriteIndex.Sprite
     },
@@ -672,7 +672,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
-        defaultAttributes:[Modifier.Flying],
+        defaultAttributes:[Modifier.Nimble],
         ability: {
             targets: Target.Self,
             effect: {
@@ -795,7 +795,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultDef: 2,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
-        defaultAttributes:[Modifier.Flying],
+        defaultAttributes:[Modifier.Nimble],
         defaultMoves: 1,
         ability: null,
         sprite: CreatureSpriteIndex.Crow
@@ -849,7 +849,7 @@ export const Portal:Record<CardType, CardMeta> = {
             targets: Target.CreaturesYouControl,
             effect: {
                 sprite: IconIndex.Buff,
-                addAttributes: [Modifier.BlockFlying]
+                addAttributes: [Modifier.Taunt]
             }
         },
         sprite: CreatureSpriteIndex.FertileSoil
@@ -890,7 +890,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 atkUp:3,
                 defUp:3,
                 duration:1,
-                addAttributes:[Modifier.Flying],
+                addAttributes:[Modifier.Nimble],
                 sprite: IconIndex.Buff,
             }
         },
@@ -988,7 +988,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes:[Modifier.Flying, Modifier.OnlyFlying],
+        defaultAttributes:[Modifier.Nimble, Modifier.CantBlock],
         ability: null
     },
     [CardType.PowerWordUnsummon]: {
@@ -1117,7 +1117,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null,
-        defaultAttributes:[Modifier.Flying] 
+        defaultAttributes:[Modifier.Nimble] 
     },
     [CardType.FireImp]: {
         color:Color.Red,
@@ -1217,7 +1217,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes:[Modifier.BlockFlying],
+        defaultAttributes:[Modifier.Taunt],
         ability:null
     },
     [CardType.Assassin]: {
@@ -1341,7 +1341,7 @@ export const Portal:Record<CardType, CardMeta> = {
             targets: Target.AllCreatures,
             effect: {
                 dmg: 4,
-                withAttribute: Modifier.Flying,
+                withAttribute: Modifier.Nimble,
                 sprite: IconIndex.Damage,
             }
         },
@@ -1393,7 +1393,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes:[Modifier.Berserk],
+        defaultAttributes:[Modifier.Haste],
         ability:null
     },
     [CardType.AcidRain]: {
@@ -1644,7 +1644,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null,
-        defaultAttributes: [Modifier.Flying]
+        defaultAttributes: [Modifier.Nimble]
     },
     [CardType.Blizzard]: {
         color:Color.Green,
@@ -1798,7 +1798,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null,
-        defaultAttributes: [Modifier.Flying]
+        defaultAttributes: [Modifier.Nimble]
     },
     [CardType.SecretCache]: {
         color:Color.Green,
@@ -1869,7 +1869,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null,
-        defaultAttributes:[Modifier.BlockFlying]
+        defaultAttributes:[Modifier.Taunt]
     },
     [CardType.Graverobber]: {
         color:Color.Black,
@@ -2028,7 +2028,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability: null,
-        defaultAttributes:[Modifier.Flying]
+        defaultAttributes:[Modifier.Nimble]
     },
     [CardType.ElderGriffin]: {
         color:Color.White,
@@ -2039,7 +2039,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability: null,
-        defaultAttributes:[Modifier.Flying]
+        defaultAttributes:[Modifier.Nimble]
     },
     [CardType.SavannaLion]: {
         color:Color.Green,
@@ -2050,7 +2050,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability: null,
-        defaultAttributes:[Modifier.BlockerMax1]
+        defaultAttributes:[Modifier.ForestWalk]
     },
     [CardType.FlashOfInsight]: {
         color:Color.Blue,
@@ -2103,7 +2103,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes: [Modifier.Flying],
+        defaultAttributes: [Modifier.Nimble],
         ability:null
     },
     [CardType.Judgement]: {
@@ -2141,7 +2141,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:4}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes: [Modifier.CantBeTapped],
+        defaultAttributes: [Modifier.Vigilant],
         ability:null
     },
     [CardType.VampireSpawn]: {
@@ -2152,7 +2152,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes: [Modifier.Flying],
+        defaultAttributes: [Modifier.Nimble],
         ability:null
     },
     [CardType.Redistribution]: {
@@ -2195,7 +2195,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability: null,
-        defaultAttributes:[Modifier.BlockerMax1]
+        defaultAttributes:[Modifier.Haste]
     },
     [CardType.SealFate]: {
         color:Color.Blue,
@@ -2363,7 +2363,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.White, amount:2},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes: [Modifier.Flying],
+        defaultAttributes: [Modifier.Nimble],
         ability: {
             targets: Target.Self,
             effect: {
@@ -2380,7 +2380,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.White, amount:2},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes: [Modifier.Flying],
+        defaultAttributes: [Modifier.Nimble],
         ability: null
     },
     [CardType.WhiteDragon]: {
@@ -2391,7 +2391,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.White, amount:2},{kind:Color.None, amount:4}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes: [Modifier.Flying],
+        defaultAttributes: [Modifier.Nimble],
         ability: {
             targets: Target.ThisCreature,
             effect: {
@@ -2408,7 +2408,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:5}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes: [Modifier.Flying, Modifier.OnlyFlying],
+        defaultAttributes: [Modifier.Nimble, Modifier.TowerAffinity],
         ability: null
     },
     [CardType.Megoladon]: {
@@ -2436,7 +2436,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 dmg: 5
             }
         },
-        defaultAttributes: [Modifier.Flying]
+        defaultAttributes: [Modifier.Nimble]
     },
     [CardType.SulfurRain]: {
         color:Color.Red,
@@ -2476,7 +2476,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:5}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes:[Modifier.Flying],
+        defaultAttributes:[Modifier.Nimble],
         ability: null
     },
     [CardType.Archangel]: {
@@ -2487,7 +2487,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:5}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes:[Modifier.Flying, Modifier.CantBeTapped],
+        defaultAttributes:[Modifier.Nimble, Modifier.Vigilant],
         ability: null
     },
     [CardType.Comet]: {
@@ -2511,7 +2511,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:5}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes:[Modifier.Flying],
+        defaultAttributes:[Modifier.Nimble],
         ability: null
     },
     [CardType.BlackDragon]: {
@@ -2522,7 +2522,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:5}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes:[Modifier.Flying],
+        defaultAttributes:[Modifier.Nimble],
         ability: {
             targets: Target.Players,
             effect: {
@@ -2576,7 +2576,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:3},{kind:Color.None, amount:6}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes: [Modifier.Flying],
+        defaultAttributes: [Modifier.Nimble],
         ability: {
             targets: Target.Creature,
             effect: {
