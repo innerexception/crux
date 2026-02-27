@@ -140,6 +140,15 @@ export default class MapScene extends Scene {
     playLand = () => {
         let state=store.getState().saveFile.currentMatch
         const p = state.players.find(p=>p.id === state.activePlayerId)
+        const lTile = p.dir === Direction.NORTH ? 
+            this.northLands.find(t=>!state.board.find(c=>c.tileX === t.x && c.tileY === t.y)):
+            this.southLands.find(t=>!state.board.find(c=>c.tileX === t.x && c.tileY === t.y))
+        let land = state.lands.slice(0,3).find(l=>p.hand.find(c=>getCardData(c).color === getCardData(l).color))
+        if(!land) land = state.lands[0]
+        if(lTile){
+            this.addCard(land.id, lTile.pixelX, lTile.pixelY)
+        }
+        state=store.getState().saveFile.currentMatch
         state.board.filter(c=>getCardData(c).kind === Permanents.Land && c.ownerId === p.id && !c.tapped).forEach(l=>{
             const meta = getCardData(l)
             const color = meta.ability.effect.addMana
@@ -147,13 +156,6 @@ export default class MapScene extends Scene {
             l.tapped = true
         })
         onUpdateBoard(Array.from(state.board))
-        const land = p.hand.find(c=>getCardData(c).kind === Permanents.Land)
-        const lTile = p.dir === Direction.NORTH ? 
-            this.northLands.find(t=>!state.board.find(c=>c.tileX === t.x && c.tileY === t.y)):
-            this.southLands.find(t=>!state.board.find(c=>c.tileX === t.x && c.tileY === t.y))
-        if(land && lTile){
-            this.addCard(land.id, lTile.pixelX, lTile.pixelY)
-        }
     }
 
     runAITurn = async () => {

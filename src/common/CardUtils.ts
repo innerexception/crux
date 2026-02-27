@@ -76,10 +76,7 @@ export const goblinHordes = (playerId:string):Card[] => {
         getCard(playerId, CardType.Goblin, Portal[CardType.Goblin]),
         getCard(playerId, CardType.Goblin, Portal[CardType.Goblin]),
         getCard(playerId, CardType.Goblin, Portal[CardType.Goblin]),
-        getCard(playerId, CardType.Goblin, Portal[CardType.Goblin]),
-        getCard(playerId, CardType.Desert, Portal[CardType.Desert]),
-        getCard(playerId, CardType.Desert, Portal[CardType.Desert]),
-        getCard(playerId, CardType.Desert, Portal[CardType.Desert])
+        getCard(playerId, CardType.Goblin, Portal[CardType.Goblin])
     ]
 }
 
