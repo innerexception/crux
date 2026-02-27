@@ -145,6 +145,7 @@ interface MatchState {
     activePlayerId:string
     players: PlayerState[]
     board:Card[]
+    lands:Card[]
 }
 
 interface RState {

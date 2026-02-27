@@ -21,6 +21,10 @@ export const onUpdateBoard = (c:Card[]) => {
     store.dispatch({ type: UIReducerActions.UPDATE_BOARD, data: c })
 }
 
+export const onUpdateLands = (c:Card[]) => {
+    store.dispatch({ type: UIReducerActions.UPDATE_LANDS, data: c })
+}
+
 export const onUpdatePlayer = (p:PlayerState) => {
     store.dispatch({ type: UIReducerActions.UPDATE_PLAYER, data: p })
 }

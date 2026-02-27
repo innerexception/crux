@@ -10,6 +10,7 @@ import CardView from './components/CardView';
 import Sidebar from './components/Sidebar';
 import Graveyard from './components/Graveyard';
 import CPUDeck from './components/CPUDeck';
+import LandChoice from './components/LandChoice';
 
 export default () => {
 
@@ -20,6 +21,7 @@ export default () => {
       case Modal.NewGame: return <NewGame/>
       case Modal.Options: return <Options/>
       case Modal.Graveyard: return <Graveyard/>
+      case Modal.ShowLandChoices: return <LandChoice/>
       default: return <span/>
     }
   }

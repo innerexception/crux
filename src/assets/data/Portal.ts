@@ -146,7 +146,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             cost: [],
             tap: false,
-            targets: Target.CreaturesYouControl,
+            targets: Target.AllCreatures,
             effect: {
                 duration: 1,
                 pacifism: true,

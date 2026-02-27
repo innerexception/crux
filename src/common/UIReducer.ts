@@ -28,6 +28,8 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
             return { ...state, saveFile: {...state.saveFile, currentMatch: {...state.saveFile.currentMatch, activePlayerId: action.data }}}
         case UIReducerActions.UPDATE_BOARD:
             return { ...state, saveFile: {...state.saveFile, currentMatch: {...state.saveFile.currentMatch, board: action.data }}}
+        case UIReducerActions.UPDATE_LANDS:
+            return { ...state, saveFile: {...state.saveFile, currentMatch: {...state.saveFile.currentMatch, lands: action.data }}}
         case UIReducerActions.UPDATE_PLAYER:
             return { ...state, saveFile: {...state.saveFile, currentMatch: {...state.saveFile.currentMatch, players: state.saveFile.currentMatch.players.map(p=>p.id === action.data.id ? {...action.data} : p)}}}
         default:

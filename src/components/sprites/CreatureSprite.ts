@@ -87,13 +87,6 @@ export default class CreatureSprite extends GameObjects.Image {
         const defHp = target.def - thisCard.atk
         const atkHp = thisCard.def - target.atk
         
-        if(thisCard.attributes.includes(Modifier.FirstStrike) && defHp <= 0){
-            return this.scene.tryRemoveCreature(target)
-        }
-        if(target.attributes.includes(Modifier.FirstStrike) && atkHp <= 0){
-            return this.scene.tryRemoveCreature(thisCard)
-        }
-
         if(defHp <= 0) this.scene.tryRemoveCreature(target)
         if(atkHp <= 0) this.scene.tryRemoveCreature(thisCard)
     }

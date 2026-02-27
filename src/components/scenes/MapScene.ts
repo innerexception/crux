@@ -2,7 +2,7 @@ import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
 import { CardType, Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Modifier, Permanents, SceneNames, Target } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
-import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
+import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
 import { canAfford, drawMarchingDashedRect, drawRectSegment, emptyMana, getColorlessRemain, isPassableTile, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, tapLand } from "../../common/CardUtils";
@@ -211,7 +211,8 @@ export default class MapScene extends Scene {
             callback: () => {
                 const state = store.getState()
                 const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
-                const card = me.hand.find(c=>c.id === state.selectedCardId)
+                let card = me.hand.find(c=>c.id === state.selectedCardId)
+                if(!card) card = state.saveFile.currentMatch.lands.find(l=>l.id === state.selectedCardId)
                 const dat = getCardData(card)
                 if(dat.kind === Permanents.Land){
                     if(me.dir === Direction.NORTH){
@@ -365,7 +366,8 @@ export default class MapScene extends Scene {
                     }
                 }
                 else if(GameObjects.length === 0 && state.selectedCardId){
-                    const card = me.hand.find(c=>c.id === state.selectedCardId)
+                    let card = me.hand.find(c=>c.id === state.selectedCardId)
+                    if(!card) card = state.saveFile.currentMatch.lands.find(l=>l.id === state.selectedCardId)
                     const d = getCardData(card)
                     if(d.kind===Permanents.Land && me.hasPlayedLand) return
                     if(this.validStartTile(tile, this.myDir, d.kind === Permanents.Land)){
@@ -470,6 +472,9 @@ export default class MapScene extends Scene {
         }
         if(effect.status.addAttributes){
             creature.attributes=creature.attributes.filter(a=>!effect.status.addAttributes.includes(a))
+        }
+        if(effect.status.pacifism){
+            creature.moves=getCardData(creature).defaultMoves
         }
     }
 
@@ -587,7 +592,7 @@ export default class MapScene extends Scene {
             }
         }
         if(effect.pacifism){
-            creature.tapped = true
+            creature.moves = 0
         }
         if(effect.removal){
             this.tryRemoveCreature(creature)
@@ -615,18 +620,21 @@ export default class MapScene extends Scene {
     addCard = (cardId:string, worldX:number,worldY:number) => {
         this.creaturePreview?.destroy()
         onSelectCreature('',null)
-        const state = store.getState()
-        const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.currentMatch.activePlayerId)
-        const card = me.hand.find(c=>c.id === cardId)
+        let state = store.getState().saveFile
+        const me = state.currentMatch.players.find(p=>p.id === state.currentMatch.activePlayerId)
+        let card = me.hand.find(c=>c.id === cardId)
+        if(!card) card = state.currentMatch.lands.find(l=>l.id === cardId)
         const data = getCardData(card)
         if(data.kind === Permanents.Land) me.hasPlayedLand = true
         this.creatures.push(new CreatureSprite(this, worldX,worldY, data.sprite, card.id, me.dir))
         const t = this.map.getTileAtWorldXY(worldX,worldY,false, undefined, Layers.Earth)
-        onUpdateBoard(state.saveFile.currentMatch.board.concat({...card, tileX:t.x, tileY:t.y}))
+        onUpdateBoard(state.currentMatch.board.concat({...card, ownerId: me.id, tileX:t.x, tileY:t.y}))
         onUpdatePlayer({...me, 
             hand: me.hand.filter(c=>c.id !== cardId), 
             manaPool: payCost(me.manaPool, data.cost)
         })
+        state = store.getState().saveFile
+        if(data.kind === Permanents.Land) onUpdateLands(state.currentMatch.lands.filter(l=>l.id!==cardId))
     }
 
     setCursor = (assetUrl:string) => {

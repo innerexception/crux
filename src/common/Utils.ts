@@ -1,7 +1,7 @@
 import { GameObjects, Geom, Scene } from "phaser"
 import { Color, CreatureSpriteIndex, Direction, Layers, Permanents } from "../../enum"
 import MapScene from "../components/scenes/MapScene"
-import { getAIDeck, getCardData } from "./CardUtils"
+import { getAIDeck, getCardData, getFreshLands } from "./CardUtils"
 import { SAVE_NAMES } from "./UIReducer"
 import{ v4 } from 'uuid'
 
@@ -25,6 +25,7 @@ export const getNewMatch = (s:SaveFile):MatchState => {
     return {
         activePlayerId: s.myId,
         board:[],
+        lands: getFreshLands(),
         players: [
             {
                 id:s.myId,

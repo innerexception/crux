@@ -77,7 +77,7 @@ const renderEffect = (effect:CardEffect) =>
         {effect.draw && <div>Draw a card.</div>}
         {effect.drawX && <div>Draw X cards.</div>}
         {effect.hpPerLand && <div>Gain {effect.hpUp} life for each {effect.hpPerLand}</div>}
-        {effect.pacifism && <div>Target may not attack.</div>}
+        {effect.pacifism && <div>Target may not move.</div>}
         {effect.dmgX && <div>Deal X damage to target.</div>}
         {effect.removal && <div>Remove target from the game.</div>}
         {effect.destroy && <div>Put target into controller's graveyard.</div>}

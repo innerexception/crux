@@ -5,7 +5,7 @@ import { onUpdateSave } from '../common/Thunks';
 import AppStyles from '../styles/AppStyles';
 import CardView from './CardView';
 import{ v4 } from 'uuid'
-import { Color } from '../../enum';
+import { Color, Permanents } from '../../enum';
 import { getCardData } from '../common/CardUtils';
 
 export default () => {
@@ -53,7 +53,7 @@ export default () => {
                     <Button enabled={selectedColor!==Color.None} text="None" handler={()=>setSelectedColor(Color.None)}/>
                 </div>
                 <div style={{display:'flex', flexWrap:'wrap', height:'200px', overflow:'auto', border:'1px solid', padding:'5px'}}>
-                    {me.cards.filter(c=>getCardData(c).color === selectedColor).map(c=><div onClick={()=>addCardToDeck(c)}><CardView card={c}/></div>)}
+                    {me.cards.filter(c=>getCardData(c).color === selectedColor && getCardData(c).kind !== Permanents.Land).map(c=><div onClick={()=>addCardToDeck(c)}><CardView card={c}/></div>)}
                 </div>
             </div>}
         </div>

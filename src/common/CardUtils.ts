@@ -2,6 +2,7 @@ import { CardType } from "../../enum";
 import{ v4 } from 'uuid'
 import { Portal } from "../assets/data/Portal";
 import { onUpdateBoardCreature, onUpdatePlayer } from "./Thunks";
+import { shuffle } from "./Utils";
 
 export const tapLand = (card:Card, me:PlayerState) => {
     const meta = getCardData(card)
@@ -37,6 +38,36 @@ const getCard = (playerId:string,kind:CardType,c:CardMeta):Card => {
         moves: c.defaultMoves,
         attributes: c.defaultAttributes
     }
+}
+
+export const getFreshLands = () => {
+    return shuffle([
+        getCard('', CardType.Temple, Portal[CardType.Temple]),
+        getCard('', CardType.Temple, Portal[CardType.Temple]),
+        getCard('', CardType.Temple, Portal[CardType.Temple]),
+        getCard('', CardType.Temple, Portal[CardType.Temple]),
+        getCard('', CardType.Temple, Portal[CardType.Temple]),
+        getCard('', CardType.Tower, Portal[CardType.Tower]),
+        getCard('', CardType.Tower, Portal[CardType.Tower]),
+        getCard('', CardType.Tower, Portal[CardType.Tower]),
+        getCard('', CardType.Tower, Portal[CardType.Tower]),
+        getCard('', CardType.Tower, Portal[CardType.Tower]),
+        getCard('', CardType.City, Portal[CardType.City]),
+        getCard('', CardType.City, Portal[CardType.City]),
+        getCard('', CardType.City, Portal[CardType.City]),
+        getCard('', CardType.City, Portal[CardType.City]),
+        getCard('', CardType.City, Portal[CardType.City]),
+        getCard('', CardType.Desert, Portal[CardType.Desert]),
+        getCard('', CardType.Desert, Portal[CardType.Desert]),
+        getCard('', CardType.Desert, Portal[CardType.Desert]),
+        getCard('', CardType.Desert, Portal[CardType.Desert]),
+        getCard('', CardType.Desert, Portal[CardType.Desert]),
+        getCard('', CardType.Forest, Portal[CardType.Forest]),
+        getCard('', CardType.Forest, Portal[CardType.Forest]),
+        getCard('', CardType.Forest, Portal[CardType.Forest]),
+        getCard('', CardType.Forest, Portal[CardType.Forest]),
+        getCard('', CardType.Forest, Portal[CardType.Forest])
+    ])
 }
 
 export const goblinHordes = (playerId:string):Card[] => {
