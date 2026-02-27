@@ -92,7 +92,6 @@ export const Portal:Record<CardType, CardMeta> = {
             effect: {
                 atkUp: 2,
                 dmg:2,
-                duration: 1,
                 sprite: IconIndex.Damage
             }
         },
@@ -105,8 +104,6 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Creature,
             effect: {
-                duration: 1,
-                draw: 1,
                 addAttributes: [Modifier.Nimble],
                 sprite: IconIndex.Buff
             }
@@ -807,7 +804,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Self,
             effect: {
-                play3Land: true,
+                playExtraLand: true,
                 sprite: IconIndex.Buff
             }
         },

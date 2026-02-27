@@ -106,7 +106,7 @@ interface CardEffect {
     sprite: import('./enum').IconIndex
     returnToHand?:boolean
     returnToBattle?:boolean
-    play3Land?:boolean
+    playExtraLand?:boolean
     searchForForest?:boolean //Goes into play instantly
     viewHand?:boolean
     taunt?:boolean //new creatures must be placed in this creatures lane next turn

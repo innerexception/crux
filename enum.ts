@@ -98,7 +98,7 @@ export enum Modifier {
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
-    [Modifier.Defender]: 'Can defend in any lane',
+    [Modifier.Defender]: 'Does not move',
     [Modifier.Unblockable]: 'Unblockable',
     [Modifier.Banding]: 'Banding',
     [Modifier.Haste]: 'Haste',
@@ -122,7 +122,7 @@ export const ModifierDesc:Record<Modifier,string> = {
     [Modifier.ProtectionFromWhite]: 'Protection from Holy',
     [Modifier.Taunt]: 'Taunt',
     [Modifier.Fearsome]: 'Fearsome',
-    [Modifier.BlockerMaxPwr1]: 'May not be opposed by creatures > strength 1',
+    [Modifier.BlockerMaxPwr1]: 'Revered'
 }
 
 export const TargetsDesc:Record<Target,string> = {
