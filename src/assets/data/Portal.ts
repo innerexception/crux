@@ -1155,7 +1155,7 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null
     },
-    [CardType.Downsizing]: {
+    [CardType.CullWeaklings]: {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
@@ -1163,7 +1163,7 @@ export const Portal:Record<CardType, CardMeta> = {
             targets: Target.Creature,
             effect: {
                 destroy:true,
-                ignoreColor: Color.Black,
+                def3orLess: true,
                 sprite: IconIndex.Debuff,
             }
         },
@@ -1214,7 +1214,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes:[Modifier.Taunt],
+        defaultAttributes:[Modifier.Ranged],
         ability:null
     },
     [CardType.Assassin]: {
@@ -1224,13 +1224,15 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:0,
         cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
+        defaultAttributes: [Modifier.Defender],
         sprite: CreatureSpriteIndex.Placeholder,
         ability:{
             targets: Target.TappedCreatures,
             tap: true,
             effect: {
                 sprite: IconIndex.Damage,
-                destroy: true
+                destroy: true,
+                def3orLess: true
             }
         }
     },
@@ -1259,14 +1261,14 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:{
-            targets: Target.Creature,
+            targets: Target.CreaturesYouControl,
             effect: {
                 destroyOnEnter: true,
                 sprite: IconIndex.Debuff
             }
         }
     },
-    [CardType.MindThief]: {
+    [CardType.Hypnotize]: {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
@@ -1324,6 +1326,7 @@ export const Portal:Record<CardType, CardMeta> = {
             targets: Target.AllCreatures,
             effect: {
                 destroy: true,
+                def3orLess: true,
                 onlyColor: Color.Green,
                 sprite: IconIndex.Damage,
             }
@@ -1372,7 +1375,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability:null,
         defaultAttributes: [Modifier.Unblockable]
     },
-    [CardType.SewerSnake]: {
+    [CardType.LabSpecimen]: {
         color:Color.Black,
         defaultAtk:3,
         defaultDef:2,
@@ -1478,7 +1481,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
-    [CardType.DreamThief]: {
+    [CardType.Premonition]: {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
@@ -1548,7 +1551,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
-    [CardType.WitherTouch]: {
+    [CardType.DebtCollection]: {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
@@ -1578,7 +1581,7 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         }
     },
-    [CardType.WordOfHate]: {
+    [CardType.Collectivization]: {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
@@ -1661,7 +1664,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:1,
         defaultDef:1,
         defaultMoves:1,
-        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:{
@@ -1678,7 +1681,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:3,
         defaultDef:3,
         defaultMoves:1,
-        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:3}],
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null,
@@ -1742,6 +1745,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.CreaturesYouControl,
             effect: {
+                duration: 1,
                 onlyColor: Color.Black,
                 sprite: IconIndex.Damage,
                 addAttributes:[Modifier.Unblockable]
@@ -1978,7 +1982,7 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         ability: null
     },
-    [CardType.VeteranPriest]: {
+    [CardType.VeteranExorcist]: {
         color:Color.White,
         defaultAtk:3,
         defaultDef:2,
@@ -2084,9 +2088,9 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:3},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.TappedCreatures,
+            targets: Target.AllCreatures,
             effect: {
-                destroy: true,
+                retribution: true,
                 sprite: IconIndex.Damage,
             }
         },

@@ -60,7 +60,7 @@ interface CardEffect {
     dmgX?:boolean
     dmgAsCreaturePower?:true //Damage based on sacrificed creature power
     dmgAsYourDeserts?:boolean
-    removal?:boolean
+    def3orLess?:boolean //targets creatures with def 3 or less
     destroy?:boolean
     destroyAll?:boolean //all of target type
     destroy2Creatures?:boolean
@@ -109,8 +109,8 @@ interface CardEffect {
     playExtraLand?:boolean
     searchForForest?:boolean //Goes into play instantly
     viewHand?:boolean
-    taunt?:boolean //new creatures must be placed in this creatures lane next turn
-    tauntPlayer?:boolean //new creatures must be placed in an open lane next turn
+    taunt?:boolean //creatures may not leave this creature's lane
+    tauntPlayer?:boolean //new creatures must be placed in an open lane
     resetMovement?:boolean //send all targets to starting tiles
     shuffle?:boolean
     putForestInPlay?:boolean
@@ -119,6 +119,7 @@ interface CardEffect {
     extraTurn?:boolean //extra turn and then you lose 
     hp3perBlackCreature?:boolean
     lightningSpecial?:boolean
+    retribution?:boolean //creatures that destroy a creature during the next combat are destroyed
 }
 
 interface Deck {

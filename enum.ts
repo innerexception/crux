@@ -70,8 +70,9 @@ export enum Permanents {
 }
 
 export enum Target {
-    Self='Self',CreaturesYouControl='CreaturesYouControl',Creature='Creature',Lands='Lands',AllCreatures='AllCreatures',CreatureOrLand='CreatureOrLand',
-    CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',CreaturesYourGraveyard='CreaturesYourGraveyard',YourGraveyard='YourGraveyard',
+    Self='Self',CreaturesYouControl='CreaturesYouControl',Creature='Creature',Lands='Lands',LandsYouControl='LandsYouControl',
+    AllCreatures='AllCreatures',CreatureOrLand='CreatureOrLand',CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',
+    CreaturesYourGraveyard='CreaturesYourGraveyard',YourGraveyard='YourGraveyard',
     CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',AttackingCreatures='AttackingCreatures',
     AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl',ThisCreature='ThisCreature',TappedCreatures='TappedCreatures',
     CreatureAndLand='CreatureAndLand',
@@ -90,7 +91,8 @@ export enum Modifier {
     DesertAffinity, ForestAffinity, CityAffinity, TowerAffinity, SanctuaryAffinity, //May only be placed in a lane with this land type
     Haste, //Moves an extra time during movement phase unless combat occurs
     BlockerMaxPwr1, //Non-defender creatures with pwr>1 may not be placed in this lane 
-    Taunt,
+    Taunt, //Creatures may not leave this creature's lane.
+    Ranged, //Creature may tap to deal its power to another creature in lane, up to 2 squares away
     Unblockable, //See affinity ability
     Defender, //Does not move during movement phase
     Vigilant, //Cannot be targeted by sorcery or enchantments
@@ -102,6 +104,7 @@ export const ModifierDesc:Record<Modifier,string> = {
     [Modifier.Unblockable]: 'Unblockable',
     [Modifier.Banding]: 'Banding',
     [Modifier.Haste]: 'Haste',
+    [Modifier.Ranged]: 'Ranged',
     [Modifier.CantBlock]: 'Timid',
     [Modifier.DesertWalk]: 'Pathfinder - Desert',
     [Modifier.ForestWalk]: 'Pathfinder - Forest',
@@ -126,13 +129,14 @@ export const ModifierDesc:Record<Modifier,string> = {
 }
 
 export const TargetsDesc:Record<Target,string> = {
+    [Target.LandsYouControl]: 'A Land you control',
     [Target.ThisCreature]: 'This Creature',
     [Target.AllCreatures]: 'All Creatures',
     [Target.CreatureAndLand]: 'All Creatures & Lands',
     [Target.AllCreaturesYouControl]: 'All Creatures you control',
     [Target.TappedCreatures]: 'Tapped Creatures',
     [Target.AllPlayers]:'All Players',
-    [Target.Lands]:'Lands',
+    [Target.Lands]:'A Land',
     [Target.Self]:'You',
     [Target.Players]:'A Player',
     [Target.Creature]:'A Creature',
@@ -184,15 +188,15 @@ export enum CardType {
     CruelContract='CruelContract',CruelMaster='CruelMaster', DoubleCast='DoubleCast',
     JungleCat='JungleCat',Ranger='Ranger',Roaches='Roaches', IceStorm='IceStorm',
     ShadowForm='ShadowForm', FireImp='FireImp', Cycle='Cycle', Gorilla='Gorilla',
-    Downsizing='Downsizing', Justice='Justice', ArmoredTortoise='ArmoredTortoise',
+    CullWeaklings='CullWeaklings', Justice='Justice', ArmoredTortoise='ArmoredTortoise',
     ContractKiller='ContractKilling', Longbowmen='Longbowmen', Assassin='Assassin',
-    SeaJelly='SeaJelly', Mercenary='Mercenary', MindThief='MindThief', MinotaurServant='MinotaurServant',
+    SeaJelly='SeaJelly', Mercenary='Mercenary', Hypnotize='Hypnotize', MinotaurServant='MinotaurServant',
     ForceOfWill='ForceOfWill', ForestSense='ForestSense', ForestFires='ForestFires',
-    Hailstorm='Hailstorm', CursedToad='CursedToad', PSIWarrior='PSIWarrior',SewerSnake='SewerSnake',
+    Hailstorm='Hailstorm', CursedToad='CursedToad', PSIWarrior='PSIWarrior',LabSpecimen='LabSpecimen',
     Cougar='Cougar',AcidRain='AcidRain',Unicorn='Unicorn',SetDisciple='SetDisciple',
-    FieldMarshal='FieldMarshal', LavaFlow='LavaFlow', HolySymbol='HolySymbol', DreamThief='DreamThief',
+    FieldMarshal='FieldMarshal', LavaFlow='LavaFlow', HolySymbol='HolySymbol', Premonition='Premonition',
     BurrowingWurm='BurrowingWurm', Slow='Slow', Gardener='Gardener', RighteousCharge='RighteousCharge',
-    WitherTouch='WitherTouch', VenerableMonk='VenerableMonk', WordOfHate='WordOfHate',
+    DebtCollection='DebtCollection', VenerableMonk='VenerableMonk', Collectivization='Collectivization',
     GraniteWall='GraniteWall', BattlePrayer='BattlePrayer', Conspiracy='Conspiracy', AirDrake='AirDrake',
     Blizzard='Blizzard', WoodElf='WoodElf', Anaconda='Anaconda', Reckoning='Reckoning', BeeSwarm='BeeSwarm',
     Boggart='Boggart', VolcanicVent='VolcanicVent', Resurrection='Resurrection', Hippo='Hippo',
@@ -200,7 +204,7 @@ export enum CardType {
     AshCloud='AshCloud', FootSoldier='FootSoldier',Lightning='Lightning',SquidLord='SquidLord',
     GiantSpider='GiantSpider',Graverobber='Graverobber', HilltopGiant='HilltopGiant', Troll='Troll',
     LizardWarrior='LizardWarrior', CircleOfLife='CircleOfLife', WayOfPeace='WayOfPeace',
-    MongolHorde='MongolHorde', Minotaur='Minotaur', RowanTreant='RowanTreant', VeteranPriest='VeteranPriest', 
+    MongolHorde='MongolHorde', Minotaur='Minotaur', RowanTreant='RowanTreant', VeteranExorcist='VeteranExorcist', 
     MasterTactician='MasterTactician', Addict='Addict', ProtoDrake='ProtoDrake', ElderGriffin='ElderGriffin',
     SavannaLion='SavannaLion', FlashOfInsight='FlashOfInsight', Shambler='Shambler', Retribution='Retribution',
     SwordWall='SwordWall', Judgement='Judgement', CollectiveMemory='CollectiveMemory', SteadfastMonk='SteadfastMonk',
