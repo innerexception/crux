@@ -1,10 +1,47 @@
 const { app, BrowserWindow, ipcMain, screen } = require('electron');
 // const publicIp = require('public-ip')
 
+const steamworks = require('steamworks.js');
+const { matchmaking } = require('steamworks.js/client');
+
+const PLAYTEST_ID = -1
+const LIVE_ID=-1
+
+let sw = steamworks.init(LIVE_ID) 
+try{
+  sw = steamworks.init(LIVE_ID) 
+} 
+catch(e){
+  console.log('steam unavailable...')
+}
+
+// const publicIp = require('public-ip')
+
 ipcMain.on('close', ()=>{
+  console.log('quit invoked')
+  app.quit()
+})
+ipcMain.on('quit', ()=>{
+  console.log('quit invoked')
   app.quit()
 })
 
+if(sw){
+  console.log('registering steamworks hooks...')
+  ipcMain.on('achievement', (e, achievement)=>{
+    console.log('achievment unlocked: '+achievement)
+    sw.achievement.activate(achievement)
+  })
+  
+  ipcMain.handle('save', (e, playerJSON)=>{
+    console.log('save was invoked')
+    console.log(sw.cloud.writeFile('spsave', playerJSON))
+  })
+  
+  ipcMain.handle('load', (e)=>{
+    return sw.cloud.readFile('spsave')
+  })
+}
 // ipcMain.on('setSessionName', (event, player)=>{
 //   let s = new Server()
 //   s.init(player)
@@ -36,7 +73,10 @@ const createWindow = () => {
     resizable: false,
     frame: false,
     maximizable: true,
+    disableAutoHideCursor: true,
+    fullscreen: true,
     webPreferences: {
+      devTools: false,
       nodeIntegration: true,
       contextIsolation: false
     }

@@ -2179,11 +2179,10 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         ability: {
             targets: Target.ThisCreature,
-            trigger: Triggers.OnAttack,
+            trigger: Triggers.InEnemyTerritory,
             effect: {
                 sprite: IconIndex.Buff,
-                atkUp: 2,
-                duration: 1
+                atkUp: 2
             }
         }
     },
@@ -2196,7 +2195,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability: null,
-        defaultAttributes:[Modifier.Haste]
+        defaultAttributes:[Modifier.Fearsome]
     },
     [CardType.SealFate]: {
         color:Color.Blue,
