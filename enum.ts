@@ -12,7 +12,8 @@ export enum UIReducerActions {
     UPDATE_PLAYER='UPDATE_PLAYER',
     UPDATE_BOARD='UPDATE_BOARD',
     UPDATE_ACTIVE='UPDATE_ACTIVE',
-    UPDATE_LANDS='UPDATE_LANDS'
+    UPDATE_LANDS='UPDATE_LANDS',
+    NETWORK_MESSAGE='NETWORK_MESSAGE'
 }
 
 export enum Modal {
@@ -24,6 +25,10 @@ export enum Modal {
 
 export enum Direction {
     NORTH=1,SOUTH=-1
+}
+
+export enum EventType {
+    Endturn='Endturn'
 }
 
 export enum SceneNames {

@@ -79,7 +79,6 @@ const renderEffect = (effect:CardEffect) =>
         {effect.hpPerLand && <div>Gain {effect.hpUp} life for each {effect.hpPerLand}</div>}
         {effect.pacifism && <div>Target may not move.</div>}
         {effect.dmgX && <div>Deal X damage to target.</div>}
-        {effect.removal && <div>Remove target from the game.</div>}
         {effect.destroy && <div>Put target into controller's graveyard.</div>}
         {effect.searchSorceryForTop && <div>Search your deck for a sorcery. It will be placed on top of your library.</div>}
         {effect.untap && <div>Untap target.</div>}

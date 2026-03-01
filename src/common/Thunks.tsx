@@ -4,6 +4,10 @@ import IntroScene from "../components/scenes/IntroScene"
 import MapScene from "../components/scenes/MapScene"
 import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
 
+export const onRecieveMessage = (data:MatchState) => {
+    store.dispatch({ type: UIReducerActions.NETWORK_MESSAGE, data })
+}
+
 export const onEndTurn = () => {
     store.getState().scene.endTurn()
 }

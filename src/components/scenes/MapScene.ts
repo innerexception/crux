@@ -171,7 +171,7 @@ export default class MapScene extends Scene {
                 getCardData(c).kind === Permanents.Sorcery &&
                 canAfford(p.manaPool,c) &&
                 getCardData(c).ability.targets === Target.Creature && 
-                (getCardData(c).ability.effect.dmg || getCardData(c).ability.effect.removal))
+                (getCardData(c).ability.effect.dmg || getCardData(c).ability.effect.destroy))
             if(creatureSorceries){
                 this.applyCreatureSorcery(enemies[0], creatureSorceries)
                 this.payAndDiscard(creatureSorceries)
@@ -595,9 +595,6 @@ export default class MapScene extends Scene {
         }
         if(effect.pacifism){
             creature.moves = 0
-        }
-        if(effect.removal){
-            this.tryRemoveCreature(creature)
         }
         if(effect.searchSorceryForTop){
             onShowModal(Modal.PickNextSorcery)

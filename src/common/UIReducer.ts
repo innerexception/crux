@@ -22,6 +22,8 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
             return { ...state, inspectCardId: action.data }
         case UIReducerActions.SELECT_CARD:
             return { ...state, selectedCardId: action.data }
+        case UIReducerActions.NETWORK_MESSAGE:
+            return { ...state, saveFile: {...state.saveFile, currentMatch: action.data }}
         case UIReducerActions.SET_SCENE:
             return { ...state, scene: action.data }
         case UIReducerActions.UPDATE_ACTIVE:

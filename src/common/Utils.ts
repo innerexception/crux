@@ -23,6 +23,7 @@ export const getNewMatch = (s:SaveFile):MatchState => {
     }
     const hand = deck.cards.splice(0,5)
     return {
+        lobbyId:'',
         activePlayerId: s.myId,
         board:[],
         lands: getFreshLands(),

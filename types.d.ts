@@ -143,6 +143,7 @@ interface PlayerState {
 }
 
 interface MatchState {
+    lobbyId:string
     activePlayerId:string
     players: PlayerState[]
     board:Card[]
