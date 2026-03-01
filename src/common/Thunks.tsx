@@ -1,8 +1,12 @@
 import { store } from "../.."
-import { CardType, Maps, Modal, SceneNames, UIReducerActions } from "../../enum"
+import { Modal, SceneNames, UIReducerActions } from "../../enum"
 import IntroScene from "../components/scenes/IntroScene"
 import MapScene from "../components/scenes/MapScene"
 import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
+
+export const onSetLobby = (id:string) => {
+    store.dispatch({ type: UIReducerActions.SET_LOBBY, data:id })
+}
 
 export const onRecieveMessage = (data:MatchState) => {
     store.dispatch({ type: UIReducerActions.NETWORK_MESSAGE, data })
@@ -72,8 +76,8 @@ export const onSetScene = (scene:MapScene) => {
     store.dispatch({ type: UIReducerActions.SET_SCENE, data: scene })
 }
 
-export const onStartMatch = (s:SaveFile) => {
-    if(!s.currentMatch) s.currentMatch = getNewMatch(s)
+export const onStartMatch = (s:SaveFile, opponent:PlayerState) => {
+    if(!s.currentMatch) s.currentMatch = getNewMatch(s, opponent)
     store.dispatch({ type: UIReducerActions.START_NEW_MATCH, data:s.currentMatch })
     const intro = store.getState().scene.scene.get(SceneNames.Intro) as IntroScene
     transitionOut(intro, SceneNames.Main, ()=>transitionIn(store.getState().scene))

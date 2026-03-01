@@ -143,7 +143,7 @@ interface PlayerState {
 }
 
 interface MatchState {
-    lobbyId:string
+    previousLobbyId:string
     activePlayerId:string
     players: PlayerState[]
     board:Card[]
@@ -154,6 +154,7 @@ interface RState {
     activeModal: import('./enum').Modal
     isLoaded:boolean
     saveFile:SaveFile
+    lobbyId:string
     selectedSaveName: string
     inspectCardId: string
     selectedCardId: string

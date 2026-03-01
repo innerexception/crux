@@ -1,5 +1,4 @@
 import { UIReducerActions } from "../../enum";
-import { getNewMatch } from "./Utils";
 
 export const SAVE_NAMES = ['crux_save_1','crux_save_2','crux_save_3']
 
@@ -22,6 +21,8 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
             return { ...state, inspectCardId: action.data }
         case UIReducerActions.SELECT_CARD:
             return { ...state, selectedCardId: action.data }
+        case UIReducerActions.SET_LOBBY:
+            return { ...state, lobbyId: action.data }
         case UIReducerActions.NETWORK_MESSAGE:
             return { ...state, saveFile: {...state.saveFile, currentMatch: action.data }}
         case UIReducerActions.SET_SCENE:
@@ -49,7 +50,8 @@ const getInitialState = () => {
         scene: null,
         selectedCardId: '',
         inspectCardId:'',
-        currentDeckId:''
+        currentDeckId:'',
+        lobbyId:''
     }
 }
 
