@@ -155,6 +155,7 @@ interface RState {
     isLoaded:boolean
     saveFile:SaveFile
     lobbyId:string
+    joinedPlayer: PlayerState
     selectedSaveName: string
     inspectCardId: string
     selectedCardId: string

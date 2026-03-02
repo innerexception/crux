@@ -14,6 +14,7 @@ export default () => {
 
     const saveFile = useSelector((s:RState)=>s.saveFile)
     const lobbyId = useSelector((s:RState)=>s.lobbyId)
+    const opponent = useSelector((s:RState)=>s.joinedPlayer)
     const [joinLobbyId, setLobbyId] = React.useState('')
 
     const resetSave = () => {
@@ -33,8 +34,8 @@ export default () => {
     },[])
 
     if(!saveFile) return <span/>
-    const opponent = saveFile.currentMatch.players?.find(p=>p.id !== saveFile.myId)
-
+    const deckSelected = saveFile.currentDeckId ? true:false
+    
     return (
         <div style={{...AppStyles.modal, margin:'auto', width:'auto', border:'none'}}>
             <h3 style={{textAlign:'center', marginBottom:'0.5em'}}>MENAGERIE</h3>
@@ -42,18 +43,18 @@ export default () => {
             <div style={{display:'flex', justifyContent:'flex-end'}}>
                 {!lobbyId &&
                 <div style={{marginTop:'0.5em'}}>
-                    <input placeholder='Join Lobby' value={lobbyId} onChange={(e)=>setLobbyId(e.currentTarget.value)} />
-                    <Button enabled={lobbyId.length === 4} handler={()=>createOrJoinLobby(joinLobbyId)} text="Join"/>
+                    <input placeholder='Join Lobby' value={joinLobbyId} onChange={(e)=>setLobbyId(e.currentTarget.value)} />
+                    <Button enabled={joinLobbyId.length === 4 && deckSelected} handler={()=>createOrJoinLobby(joinLobbyId)} text="Join"/>
                 </div>}
                 {lobbyId ? 
                     <div style={{marginRight:'1em', display:'flex', alignItems:'center'}}>Session ID: {lobbyId}</div> : 
                     <Button enabled={true} handler={()=>createOrJoinLobby()} style={{border:'1px solid white', padding:'5px'}} text="Host"/>}
-                {opponent && <div><CssIcon spriteIndex={opponent.sprite}/> joined</div>}
+                {opponent && <div><CssIcon noTooltip={true} spriteIndex={opponent.sprite}/> joined</div>}
                 <div>
                     <Button text="Reset" enabled={true} handler={()=>{resetSave()}} style={{border:'1px solid white', padding:'5px'}}/>
                 </div>
                 <div>
-                    <Button text="Continue" enabled={saveFile.currentDeckId?true:false} handler={()=>{onStartMatch(saveFile, joinedPlayer || getAIPlayer(Direction.NORTH))}} style={{border:'1px solid white', padding:'5px'}}/>
+                    <Button text="Continue" enabled={deckSelected} handler={()=>{onStartMatch(saveFile, opponent || getAIPlayer(Direction.NORTH))}} style={{border:'1px solid white', padding:'5px'}}/>
                 </div>
                 <div>
                     <Button enabled={true} text="Quit" handler={onQuit} style={{border:'1px solid white', padding:'5px'}}/>

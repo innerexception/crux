@@ -27,6 +27,8 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
             return { ...state, saveFile: {...state.saveFile, currentMatch: action.data }}
         case UIReducerActions.SET_SCENE:
             return { ...state, scene: action.data }
+        case UIReducerActions.PLAYER_JOIN:
+            return { ...state, joinedPlayer: action.data }
         case UIReducerActions.UPDATE_ACTIVE:
             return { ...state, saveFile: {...state.saveFile, currentMatch: {...state.saveFile.currentMatch, activePlayerId: action.data }}}
         case UIReducerActions.UPDATE_BOARD:
@@ -43,6 +45,7 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
 const getInitialState = () => {
     return {
         activeModal: null,
+        joinedPlayer: null,
         isLoaded:false,
         saveFile: null,
         selectedSaveName: '',

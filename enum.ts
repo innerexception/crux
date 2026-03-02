@@ -14,7 +14,8 @@ export enum UIReducerActions {
     UPDATE_ACTIVE='UPDATE_ACTIVE',
     UPDATE_LANDS='UPDATE_LANDS',
     NETWORK_MESSAGE='NETWORK_MESSAGE',
-    SET_LOBBY='SET_LOBBY'
+    SET_LOBBY='SET_LOBBY',
+    PLAYER_JOIN='PLAYER_JOIN'
 }
 
 export enum Modal {
@@ -29,7 +30,7 @@ export enum Direction {
 }
 
 export enum EventType {
-    Endturn='Endturn'
+    Endturn='Endturn', Join='Join'
 }
 
 export enum SceneNames {
