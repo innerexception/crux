@@ -18,7 +18,7 @@ export default () => {
             </div>
             <div style={{display:'flex', flexWrap:'wrap', width:'400px', justifyContent:'flex-end', alignItems:'center'}}>
                 <Button enabled={true} style={{marginRight:'25px'}}  text="End Turn" icon={IconIndex.Quit} handler={()=>onEndTurn()}/>
-                <Button enabled={true} text="Exit" icon={IconIndex.Options} handler={()=>onSave(SAVE_NAMES[0])}/>
+                <Button enabled={true} text="Exit" icon={IconIndex.Options} handler={()=>onSave()}/>
             </div>
         </div>
     )

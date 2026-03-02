@@ -94,7 +94,7 @@ export const onShowModal = (modal:Modal) => {
     store.dispatch({ type: UIReducerActions.SHOW_MODAL, data:modal })
 }
 
-export const onSave = (saveName:string) => {
+export const onSave = () => {
     const uiState = store.getState().saveFile
     trySaveFile(JSON.stringify(uiState))
     onUpdateSave(uiState)

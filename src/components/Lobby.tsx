@@ -17,21 +17,18 @@ export default () => {
             <h3 style={{textAlign:'center', marginBottom:'0.5em'}}>MENAGERIE</h3>
             <div style={{display:'flex', justifyContent:'flex-end'}}>
                 {!lobbyId &&
-                <div style={{marginTop:'0.5em'}}>
+                <div style={{marginTop:'0.5em', display:'flex'}}>
                     <input placeholder='Join Lobby' value={joinLobbyId} onChange={(e)=>setLobbyId(e.currentTarget.value)} />
-                    <Button enabled={joinLobbyId.length === 4} handler={()=>createOrJoinLobby(joinLobbyId)} text="Join"/>
                 </div>}
-                {lobbyId ? 
+                
+                {opponent && <div style={{display:'flex', alignItems:'center', marginRight:'1em'}}><CssIcon noTooltip={true} spriteIndex={opponent.playerSprite}/> joined</div>}
+                <div style={{display:'flex', justifyContent:'flex-end'}}>
+                    {!lobbyId &&<Button enabled={joinLobbyId.length === 4} handler={()=>createOrJoinLobby(joinLobbyId)} text="Join" style={{border:'1px solid white', padding:'5px'}}/>}
+                    {lobbyId ? 
                     <div style={{marginRight:'1em', display:'flex', alignItems:'center'}}>Session ID: {lobbyId}</div> : 
                     <Button enabled={true} handler={()=>createOrJoinLobby()} style={{border:'1px solid white', padding:'5px'}} text="Host"/>}
-                {opponent && <div><CssIcon noTooltip={true} spriteIndex={opponent.sprite}/> joined</div>}
-                <div style={{display:'flex', justifyContent:'flex-end'}}>
-                    <div>
-                        <Button text="Begin" enabled={true} handler={()=>{onStartMatch(saveFile, opponent)}} style={{border:'1px solid white', padding:'5px'}}/>
-                    </div>
-                    <div>
-                        <Button text="Cancel" enabled={true} handler={()=>onShowModal(Modal.NewGame)} style={{border:'1px solid white', padding:'5px'}}/>
-                    </div>
+                    <Button text="Begin" enabled={opponent?true:false} handler={()=>{onStartMatch(saveFile, opponent)}} style={{border:'1px solid white', padding:'5px'}}/>
+                    <Button text="Cancel" enabled={true} handler={()=>onShowModal(Modal.NewGame)} style={{border:'1px solid white', padding:'5px'}}/>
                 </div>
             </div>
         </div>

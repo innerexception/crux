@@ -39,7 +39,7 @@ export const getNewMatch = (s:SaveFile, opponent:PlayerState):MatchState => {
                 isAI: false,
                 hasPlayedLand: false,
                 drawAllowed: 1,
-                sprite: CreatureSpriteIndex.Player1
+                playerSprite: CreatureSpriteIndex.Player1
             },
             opponent
         ]
@@ -65,7 +65,7 @@ export const getAIPlayer = (dir:Direction):PlayerState => {
         isAI: true,
         drawAllowed: 1,
         hasPlayedLand: false,
-        sprite: CreatureSpriteIndex.CityMage
+        playerSprite: CreatureSpriteIndex.CityMage
     }
 }
 

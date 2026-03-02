@@ -20,7 +20,7 @@ export default () => {
                        </div>
             })}
             <div style={{display:'flex'}}>
-                <Button style={{marginRight:'10px'}} text="Save" handler={()=>onSave(selectedSave)} enabled={selectedSave ? true : false}/>
+                <Button style={{marginRight:'10px'}} text="Save" handler={()=>onSave()} enabled={selectedSave ? true : false}/>
                 <Button text="Cancel" handler={()=>onShowModal(null)} enabled={true}/>
             </div>
             

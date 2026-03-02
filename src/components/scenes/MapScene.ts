@@ -72,10 +72,10 @@ export default class MapScene extends Scene {
         drawMarchingDashedRect(g, rect)
         const pn = mySave.players.find(p=>p.dir === Direction.NORTH)
         this.playerNorth?.destroy()
-        this.playerNorth = new PlayerSprite(this, rect.centerX, rect.top-64, pn.sprite, pn.id)
+        this.playerNorth = new PlayerSprite(this, rect.centerX, rect.top-64, pn.playerSprite, pn.id)
         const ps = mySave.players.find(p=>p.dir === Direction.SOUTH)
         this.playerSouth?.destroy()
-        this.playerSouth = new PlayerSprite(this, rect.centerX, rect.bottom+32, ps.sprite, ps.id)
+        this.playerSouth = new PlayerSprite(this, rect.centerX, rect.bottom+32, ps.playerSprite, ps.id)
 
 
         this.creatures.forEach(e=>e.destroy())

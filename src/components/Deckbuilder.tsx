@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { Button } from '../common/Shared';
-import { onShowModal, onUpdateSave } from '../common/Thunks';
+import { onSave, onShowModal, onUpdateSave } from '../common/Thunks';
 import AppStyles from '../styles/AppStyles';
 import CardView from './CardView';
 import{ v4 } from 'uuid'
@@ -29,7 +29,7 @@ export default () => {
     return (
         <div style={{...AppStyles.modal, margin:'auto', width:'auto', border:'none'}}>
             <div style={{display:'flex',gap:'5px'}}>
-                {me.decks.map((d,i)=><div style={{display:'flex', alignItems:'center', border:'1px white', borderStyle: d.id === selectedDeck.id ? 'solid' : 'dashed'}}>
+                {me.decks.map((d,i)=><div style={{display:'flex', padding:'5px', alignItems:'center', border:'1px white', borderStyle: d.id === selectedDeck.id ? 'solid' : 'dashed'}}>
                     <div style={{marginRight:'5px'}}>Set {i}</div>
                     <Button enabled={d.id !== selectedDeck.id} text="Select" handler={()=>onUpdateSave({...me, currentDeckId: d.id})}/>
                 </div>)}
@@ -56,7 +56,7 @@ export default () => {
             </div>}
             <div style={{display:'flex', justifyContent:'flex-end'}}>
                 <div>
-                    <Button text="Done" enabled={true} handler={()=>onShowModal(Modal.NewGame)} style={{border:'1px solid white', padding:'5px'}}/>
+                    <Button text="Done" enabled={true} handler={()=>{onSave();onShowModal(Modal.NewGame)}} style={{border:'1px solid white', padding:'5px'}}/>
                 </div>
             </div>
         </div>
