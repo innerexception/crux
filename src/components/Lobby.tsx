@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { Button, CssIcon } from '../common/Shared';
-import { onShowModal, onStartMatch } from '../common/Thunks';
+import { onShowModal } from '../common/Thunks';
 import AppStyles from '../styles/AppStyles';
 import { useSelector } from 'react-redux';
-import { createOrJoinLobby } from '../common/Network';
+import { createOrJoinLobby, sendStartMatch } from '../common/Network';
 import { Modal } from '../../enum';
 
 export default () => {
@@ -30,7 +30,7 @@ export default () => {
                     {lobbyId ? 
                     <div style={{marginRight:'1em', display:'flex', alignItems:'center'}}>Session ID: {lobbyId}</div> : 
                     <Button enabled={true} handler={()=>{createOrJoinLobby(); setIsHost(true)}} style={{border:'1px solid white', padding:'5px'}} text="Host"/>}
-                    <Button text="Begin" enabled={joinedPlayer?true:false} handler={()=>{onStartMatch(saveFile, joinedPlayer)}} style={{border:'1px solid white', padding:'5px'}}/>
+                    <Button text="Begin" enabled={joinedPlayer && hosting} handler={()=>sendStartMatch()} style={{border:'1px solid white', padding:'5px'}}/>
                     <Button text="Cancel" enabled={true} handler={()=>onShowModal(Modal.NewGame)} style={{border:'1px solid white', padding:'5px'}}/>
                 </div>
             </div>

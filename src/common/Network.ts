@@ -1,6 +1,6 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
-import { CreatureSpriteIndex, Direction, EventType } from '../../enum'
-import { onRecieveMessage, onRecievePlayer, onSetLobby, onUpdateSave } from './Thunks'
+import { Direction, EventType } from '../../enum'
+import { onRecieveMessage, onRecievePlayer, onSetLobby, onStartMatch, onUpdateSave } from './Thunks'
 import { store } from '../..'
 import { emptyMana } from './Utils'
 import{ v4 } from 'uuid'
@@ -17,22 +17,27 @@ export const createOrJoinLobby = async (id?:string) => {
     if(!id) id = Phaser.Math.Between(1000,9999).toString()
     lobby = supabase.channel('crux_'+id)
     lobby.on('broadcast' as any, { event: EventType.Endturn }, (data)=>onRecieveMessage(data.payload))
+    lobby.on('broadcast' as any, { event: EventType.Start }, ()=>onStartMatch(store.getState().saveFile, store.getState().joinedPlayer))
     lobby.on('broadcast' as any, { event: EventType.Join }, async (data)=>{
         const player = data.payload as PlayerState
         if(player.id !== store.getState().saveFile.myId){
             onRecievePlayer(data.payload)
         }
         if(host && !sendRemotePlayer) 
-            await sendMessage(EventType.Join, getMyPlayer(Direction.SOUTH))
+            await sendMessage(EventType.Join, getMyPlayer())
         sendRemotePlayer = true
     })
     .subscribe()
     onSetLobby(id)
     if(!host)
-        await sendMessage(EventType.Join, getMyPlayer(Direction.NORTH))
+        await sendMessage(EventType.Join, getMyPlayer())
 }
 
-export const getMyPlayer = (dir:Direction):PlayerState => {
+export const sendStartMatch = async () => {
+    await sendMessage(EventType.Start, {})
+}
+
+export const getMyPlayer = ():PlayerState => {
     const myId = v4()
     const s = store.getState().saveFile
     const theDeck = s.decks.find(d=>d.id === s.currentDeckId)
@@ -46,7 +51,7 @@ export const getMyPlayer = (dir:Direction):PlayerState => {
     return {
         id:myId,
         hp:20,
-        dir,
+        dir:null,
         hand,
         deck,
         discard: [],

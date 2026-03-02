@@ -41,19 +41,19 @@ export const getNewMatch = (s:SaveFile, opponent:PlayerState):MatchState => {
                 drawAllowed: 1,
                 playerSprite: s.playerSprite
             },
-            opponent
+            {...opponent, dir: Direction.NORTH}
         ]
     }
 }
 
-export const getAIPlayer = (dir:Direction):PlayerState => {
+export const getAIPlayer = ():PlayerState => {
     const id = v4()
     const deck = getAIDeck(id)
     const hand = deck.splice(0,5)
     return {
         id,
         hp:20,
-        dir,
+        dir:null,
         hand,
         deck: {
             id:v4(),
