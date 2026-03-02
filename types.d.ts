@@ -164,6 +164,7 @@ interface RState {
 
 interface SaveFile {
     myId:string
+    playerSprite: import('./enum').CreatureSpriteIndex
     name:string
     decks:Deck[]
     currentDeckId: string

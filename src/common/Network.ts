@@ -1,6 +1,6 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
 import { CreatureSpriteIndex, Direction, EventType } from '../../enum'
-import { onRecieveMessage, onRecievePlayer, onSetLobby } from './Thunks'
+import { onRecieveMessage, onRecievePlayer, onSetLobby, onUpdateSave } from './Thunks'
 import { store } from '../..'
 import { emptyMana } from './Utils'
 import{ v4 } from 'uuid'
@@ -18,7 +18,10 @@ export const createOrJoinLobby = async (id?:string) => {
     lobby = supabase.channel('crux_'+id)
     lobby.on('broadcast' as any, { event: EventType.Endturn }, (data)=>onRecieveMessage(data.payload))
     lobby.on('broadcast' as any, { event: EventType.Join }, async (data)=>{
-        onRecievePlayer(data.payload)
+        const player = data.payload as PlayerState
+        if(player.id !== store.getState().saveFile.myId){
+            onRecievePlayer(data.payload)
+        }
         if(host && !sendRemotePlayer) 
             await sendMessage(EventType.Join, getMyPlayer(Direction.SOUTH))
         sendRemotePlayer = true
@@ -30,6 +33,7 @@ export const createOrJoinLobby = async (id?:string) => {
 }
 
 export const getMyPlayer = (dir:Direction):PlayerState => {
+    const myId = v4()
     const s = store.getState().saveFile
     const theDeck = s.decks.find(d=>d.id === s.currentDeckId)
     const deck:Deck = {
@@ -38,8 +42,9 @@ export const getMyPlayer = (dir:Direction):PlayerState => {
         cards: Array.from(theDeck.cards)
     }
     const hand = deck.cards.splice(0,5)
+    onUpdateSave({...s, myId})
     return {
-        id:s.myId,
+        id:myId,
         hp:20,
         dir,
         hand,
@@ -49,7 +54,7 @@ export const getMyPlayer = (dir:Direction):PlayerState => {
         isAI: false,
         hasPlayedLand: false,
         drawAllowed: 1,
-        playerSprite: CreatureSpriteIndex.Player1
+        playerSprite: s.playerSprite
     }
 }
 

@@ -58,9 +58,11 @@ export enum CreatureSpriteIndex {
     Wilderness=2164,Defiance=1882,Pollution=2132,Monk=4943,Law=2521,Goblin2=3962,Goblin3,Bear=4019,Knight=4371,
     Time=1972,Mind=3834,Giant=2212,Sprite=4035,Treant=4357,Crow=3945,Volcano=1952,Hammer=3118,Lure=2562,Scroll=2800,
     Armor=2117,Heal=2125,Sun=59,Rats=2180,DesertAsetic=2291,Dragonling=3827,Thug=3861,Guard=3897,Apprentice=3889,
-    Placeholder=4428,Knight2=3868
+    Placeholder=4428,Knight2=3868,OldMage=4942,LadyMage=4948
 
 }
+
+export const PlayerAvatars = [CreatureSpriteIndex.Player1, CreatureSpriteIndex.CityMage, CreatureSpriteIndex.OldMage, CreatureSpriteIndex.LadyMage]
 
 export enum IconIndex {
     Mana=16, Options=1759, Close=37, Cancel=1734, Ok=1735, Quit=115,Sword=1902,Save=1935,

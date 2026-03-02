@@ -39,7 +39,7 @@ export const getNewMatch = (s:SaveFile, opponent:PlayerState):MatchState => {
                 isAI: false,
                 hasPlayedLand: false,
                 drawAllowed: 1,
-                playerSprite: CreatureSpriteIndex.Player1
+                playerSprite: s.playerSprite
             },
             opponent
         ]
