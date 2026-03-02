@@ -13,11 +13,17 @@ export const createOrJoinLobby = (id?:string) => {
         lobby.unsubscribe()
     }
     const host = id ? false : true
+    let sendRemotePlayer = false
     if(!id) id = Phaser.Math.Between(1000,9999).toString()
     lobby = supabase.channel('crux_'+id)
     lobby.on('broadcast' as any, { event: EventType.Endturn }, (data)=>onRecieveMessage(data.payload))
-    lobby.on('broadcast' as any, { event: EventType.Join }, (data)=>onRecievePlayer(data.payload, host))
-        .subscribe()
+    lobby.on('broadcast' as any, { event: EventType.Join }, (data)=>{
+        onRecievePlayer(data.payload)
+        if(host && !sendRemotePlayer) 
+            sendMessage(EventType.Join, getMyPlayer(Direction.SOUTH))
+        sendRemotePlayer = true
+    })
+    .subscribe()
     onSetLobby(id)
     if(!host)
         sendMessage(EventType.Join, getMyPlayer(Direction.NORTH))
@@ -48,10 +54,6 @@ export const getMyPlayer = (dir:Direction):PlayerState => {
 }
 
 export const sendMessage = (event:EventType, data:any) => {
-    lobby.send({
-        type: 'broadcast',
-        event,
-        payload: data
-    })
+    lobby.httpSend(event, data)
 }
 

@@ -2,7 +2,6 @@ import { store } from "../.."
 import { Direction, EventType, Modal, SceneNames, UIReducerActions } from "../../enum"
 import IntroScene from "../components/scenes/IntroScene"
 import MapScene from "../components/scenes/MapScene"
-import { getMyPlayer, sendMessage } from "./Network"
 import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
 
 export const onSetLobby = (id:string) => {
@@ -13,9 +12,8 @@ export const onRecieveMessage = (data:MatchState) => {
     store.dispatch({ type: UIReducerActions.NETWORK_MESSAGE, data })
 }
 
-export const onRecievePlayer = (data:PlayerState, host:boolean) => {
+export const onRecievePlayer = (data:PlayerState) => {
     store.dispatch({ type: UIReducerActions.PLAYER_JOIN, data })
-    if(host) sendMessage(EventType.Join, getMyPlayer(Direction.SOUTH))
 }
 
 export const onEndTurn = () => {
