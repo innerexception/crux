@@ -8,7 +8,7 @@ import{ v4 } from 'uuid'
 const supabase = createClient('https://tcuyfzebridkroyzfobz.supabase.co', 'sb_publishable_ygcDc5PEiCwv9e5Tr0T96w_Nyu54ZsB')
 let lobby:RealtimeChannel = null
 
-export const createOrJoinLobby = (id?:string) => {
+export const createOrJoinLobby = async (id?:string) => {
     if(lobby){
         lobby.unsubscribe()
     }
@@ -17,16 +17,16 @@ export const createOrJoinLobby = (id?:string) => {
     if(!id) id = Phaser.Math.Between(1000,9999).toString()
     lobby = supabase.channel('crux_'+id)
     lobby.on('broadcast' as any, { event: EventType.Endturn }, (data)=>onRecieveMessage(data.payload))
-    lobby.on('broadcast' as any, { event: EventType.Join }, (data)=>{
+    lobby.on('broadcast' as any, { event: EventType.Join }, async (data)=>{
         onRecievePlayer(data.payload)
         if(host && !sendRemotePlayer) 
-            sendMessage(EventType.Join, getMyPlayer(Direction.SOUTH))
+            await sendMessage(EventType.Join, getMyPlayer(Direction.SOUTH))
         sendRemotePlayer = true
     })
     .subscribe()
     onSetLobby(id)
     if(!host)
-        sendMessage(EventType.Join, getMyPlayer(Direction.NORTH))
+        await sendMessage(EventType.Join, getMyPlayer(Direction.NORTH))
 }
 
 export const getMyPlayer = (dir:Direction):PlayerState => {
@@ -53,7 +53,7 @@ export const getMyPlayer = (dir:Direction):PlayerState => {
     }
 }
 
-export const sendMessage = (event:EventType, data:any) => {
-    lobby.httpSend(event, data)
+export const sendMessage = async (event:EventType, data:any) => {
+    await lobby.httpSend(event, data)
 }
 
