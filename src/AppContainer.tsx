@@ -11,6 +11,8 @@ import Sidebar from './components/Sidebar';
 import Graveyard from './components/Graveyard';
 import CPUDeck from './components/CPUDeck';
 import LandChoice from './components/LandChoice';
+import Lobby from './components/Lobby';
+import Deckbuilder from './components/Deckbuilder';
 
 export default () => {
 
@@ -22,6 +24,8 @@ export default () => {
       case Modal.Options: return <Options/>
       case Modal.Graveyard: return <Graveyard/>
       case Modal.ShowLandChoices: return <LandChoice/>
+      case Modal.Lobby: return <Lobby/>
+      case Modal.Deckbuilder: return <Deckbuilder/>
       default: return <span/>
     }
   }

@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { Button } from '../common/Shared';
-import { onUpdateSave } from '../common/Thunks';
+import { onShowModal, onUpdateSave } from '../common/Thunks';
 import AppStyles from '../styles/AppStyles';
 import CardView from './CardView';
 import{ v4 } from 'uuid'
-import { Color, Permanents } from '../../enum';
+import { Color, Modal, Permanents } from '../../enum';
 import { getCardData } from '../common/CardUtils';
 
 export default () => {
@@ -26,16 +26,14 @@ export default () => {
                 cards: selectedDeck.cards.filter(cc=>cc.id !== c.id)} : d)})
     }
 
-    if(!me) return <span/>
-
     return (
         <div style={{...AppStyles.modal, margin:'auto', width:'auto', border:'none'}}>
-            <div style={{display:'flex'}}>
-                {me.decks.map((d,i)=><div style={{display:'flex', alignItems:'center'}}>
+            <div style={{display:'flex',gap:'5px'}}>
+                {me.decks.map((d,i)=><div style={{display:'flex', alignItems:'center', border:'1px white', borderStyle: d.id === selectedDeck.id ? 'solid' : 'dashed'}}>
                     <div style={{marginRight:'5px'}}>Set {i}</div>
-                    <Button enabled={true} text="Select" handler={()=>onUpdateSave({...me, currentDeckId: d.id})}/>
+                    <Button enabled={d.id !== selectedDeck.id} text="Select" handler={()=>onUpdateSave({...me, currentDeckId: d.id})}/>
                 </div>)}
-                <Button style={{marginLeft:'1em'}} text="Add New Set+" enabled={true} handler={()=>onUpdateSave({...me, decks: me.decks.concat({id:v4(), name:'new set', cards: []})})} />
+                <Button style={{marginLeft:'1em'}} text="Add New+" enabled={true} handler={()=>onUpdateSave({...me, decks: me.decks.concat({id:v4(), name:'new set', cards: []})})} />
             </div>
             <div style={{marginTop:'1em'}}>{selectedDeck ? 'Editing Set':''}</div>
             {selectedDeck && <div style={{display:'flex', flexWrap:'wrap', height:'200px', overflow:'auto', border:'1px solid', padding:'5px'}}>
@@ -56,6 +54,11 @@ export default () => {
                     {me.cards.filter(c=>getCardData(c).color === selectedColor && getCardData(c).kind !== Permanents.Land).map(c=><div onClick={()=>addCardToDeck(c)}><CardView card={c}/></div>)}
                 </div>
             </div>}
+            <div style={{display:'flex', justifyContent:'flex-end'}}>
+                <div>
+                    <Button text="Done" enabled={true} handler={()=>onShowModal(Modal.NewGame)} style={{border:'1px solid white', padding:'5px'}}/>
+                </div>
+            </div>
         </div>
     )
 }
