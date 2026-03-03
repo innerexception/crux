@@ -1,7 +1,7 @@
 import Tooltip from 'rc-tooltip';
 import * as React from 'react'
 import { useSelector } from 'react-redux';
-import { VerticalProgressBar } from '../common/Shared';
+import { CssIcon, VerticalProgressBar } from '../common/Shared';
 import { colors } from '../styles/AppStyles';
 
 export default () => {
@@ -11,11 +11,11 @@ export default () => {
     return (
         <div style={{width:'100px', height:'100%', position:'absolute', top:64,left:-64}}>
             <div style={{display:'flex', marginBottom:'30px'}}>
-                <div style={{width:'10px', marginRight:'10px', wordWrap:'break-word'}}>Host</div>
+                <CssIcon spriteIndex={me.playerSprite}/>
                 <VerticalProgressBar value={me.hp} max={20} bg={colors.white}/>
             </div>
             <div style={{display:'flex'}}>
-                <div style={{width:'10px', marginRight:'10px',wordWrap:'break-word'}}>Visitor</div>
+                <CssIcon spriteIndex={cpu.playerSprite}/>
                 <VerticalProgressBar value={cpu.hp} max={20} bg={colors.white}/>
             </div>
         </div>

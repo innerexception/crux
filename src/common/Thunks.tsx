@@ -2,7 +2,7 @@ import { store } from "../.."
 import { Modal, SceneNames, UIReducerActions } from "../../enum"
 import IntroScene from "../components/scenes/IntroScene"
 import MapScene from "../components/scenes/MapScene"
-import { sendEndTurn } from "./Network"
+import { sendEndTurn, sendLandDeck } from "./Network"
 import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
 
 export const onSetLobby = (id:string) => {
@@ -90,8 +90,11 @@ export const onStartMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:
     store.dispatch({ type: UIReducerActions.START_NEW_MATCH, data:s.currentMatch })
     const intro = store.getState().scene.scene.get(SceneNames.Intro) as IntroScene
     transitionOut(intro, SceneNames.Main, ()=>transitionIn(store.getState().scene))
+    //TODO: send land deck to visitor
+    if(startingPlayerId === s.myId){
+        sendLandDeck(s.currentMatch.lands)
+    }
 }
-
 
 export const onShowModal = (modal:Modal) => {
     store.dispatch({ type: UIReducerActions.SHOW_MODAL, data:modal })

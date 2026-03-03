@@ -1,6 +1,6 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
 import { NetworkEvent } from '../../enum'
-import { onRecieveMessage, onRecievePlayer, onSetLobby, onStartMatch, onUpdateSave } from './Thunks'
+import { onRecieveMessage, onRecievePlayer, onSetLobby, onStartMatch, onUpdateLands, onUpdateSave } from './Thunks'
 import { store } from '../..'
 import { emptyMana } from './Utils'
 import{ v4 } from 'uuid'
@@ -16,6 +16,7 @@ export const createOrJoinLobby = async (id?:string) => {
     let sendRemotePlayer = false
     if(!id) id = Phaser.Math.Between(1000,9999).toString()
     lobby = supabase.channel('crux_'+id)
+    lobby.on('broadcast' as any, { event: NetworkEvent.LandDeck }, (data)=>onUpdateLands(data.payload.lands))
     lobby.on('broadcast' as any, { event: NetworkEvent.PlaySorcery }, (data)=>store.getState().scene.applyCreatureSorcery(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.AllPlayersEffect }, (data)=>store.getState().scene.targetAllPlayers(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.TapLand }, (data)=>store.getState().scene.tapLand(data.payload))
@@ -38,6 +39,10 @@ export const createOrJoinLobby = async (id?:string) => {
     onSetLobby(id)
     if(!host)
         await sendMessage(NetworkEvent.Join, getMyPlayer())
+}
+
+export const sendLandDeck = (lands:Card[]) => {
+    sendMessage(NetworkEvent.LandDeck, {lands})
 }
 
 export const sendStartMatch = async () => {
