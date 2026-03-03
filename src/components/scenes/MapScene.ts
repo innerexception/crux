@@ -84,8 +84,7 @@ export default class MapScene extends Scene {
     }
 
     endTurn = async (match:MatchState) => {
-        const currentI = match.players.findIndex(p=>p.id === match.activePlayerId)
-        const current = match.players[currentI]
+        const current = match.players.find(p=>p.id === match.activePlayerId)
         
         //0. clear dead creatures
         const rm = match.board.filter(c=>c.def <= 0)
@@ -99,8 +98,7 @@ export default class MapScene extends Scene {
         }
         match = store.getState().saveFile.currentMatch
         //2. set next player
-        const nextI = (currentI+1)%match.players.length
-        const nextPlayer = match.players[nextI]
+        const nextPlayer = match.players.find(p=>p.id !== current.id)
         onUpdateActivePlayer(nextPlayer.id)
 
         //3.reset player resources
