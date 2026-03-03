@@ -16,6 +16,7 @@ export const createOrJoinLobby = async (id?:string) => {
     let sendRemotePlayer = false
     if(!id) id = Phaser.Math.Between(1000,9999).toString()
     lobby = supabase.channel('crux_'+id)
+    lobby.on('broadcast' as any, { event: NetworkEvent.TapLand }, (data)=>store.getState().scene.tapLand(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.AddCard }, (data)=>store.getState().scene.addCard(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.PlayerEffect }, (data)=>store.getState().scene.targetPlayer(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.GlobalEffect }, (data)=>store.getState().scene.applyGlobalEffect(data.payload))
@@ -41,7 +42,31 @@ export const sendStartMatch = async () => {
     await sendMessage(NetworkEvent.Start, {})
 }
 
-export const getMyPlayer = ():PlayerState => {
+export const sendGlobalEffect = (card:Card) => {
+    sendMessage(NetworkEvent.GlobalEffect, card)
+}
+
+export const sendTargetPlayerEffect = (props:{player:PlayerState, card:Card}) => {
+    sendMessage(NetworkEvent.PlayerEffect, props)
+}
+
+export const sendEndTurn = (match:MatchState) => {
+    sendMessage(NetworkEvent.EndTurn, match)
+}
+
+export const sendAddCardEffect = (props:{cardId:string, worldX:number,worldY:number}) => {
+    sendMessage(NetworkEvent.AddCard, props)
+}
+
+export const sendLandTappedEffect = (land:Card) => {
+    sendMessage(NetworkEvent.TapLand, land)
+}
+
+const sendMessage = async (event:NetworkEvent, data:any) => {
+    await lobby.httpSend(event, data)
+}
+
+const getMyPlayer = ():PlayerState => {
     const myId = v4()
     const s = store.getState().saveFile
     const theDeck = s.decks.find(d=>d.id === s.currentDeckId)
@@ -67,23 +92,4 @@ export const getMyPlayer = ():PlayerState => {
     }
 }
 
-export const sendGlobalEffect = (card:Card) => {
-    sendMessage(NetworkEvent.GlobalEffect, card)
-}
-
-export const sendTargetPlayerEffect = (props:{player:PlayerState, card:Card}) => {
-    sendMessage(NetworkEvent.PlayerEffect, props)
-}
-
-export const sendEndTurn = (match:MatchState) => {
-    sendMessage(NetworkEvent.EndTurn, match)
-}
-
-export const sendAddCardEffect = (props:{cardId:string, worldX:number,worldY:number}) => {
-    sendMessage(NetworkEvent.AddCard, props)
-}
-
-const sendMessage = async (event:NetworkEvent, data:any) => {
-    await lobby.httpSend(event, data)
-}
 

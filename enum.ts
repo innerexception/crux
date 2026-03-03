@@ -32,7 +32,7 @@ export enum Direction {
 export enum NetworkEvent {
     Update='Update', Join='Join', Start='Start',EndTurn='EndTurn',PlaySorcery='PlaySorcery',
     GlobalEffect='GlobalEffect',PlayerEffect='PlayerEffect',
-    AddCard='AddCard'
+    AddCard='AddCard',TapLand='TapLand'
 }
 
 export enum SceneNames {

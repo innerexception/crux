@@ -8,7 +8,7 @@ import { canAfford, drawMarchingDashedRect, emptyMana, getColorlessRemain, payCo
 import { getCardData, tapLand } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
 import PlayerSprite from "../sprites/PlayerSprite";
-import { sendAddCardEffect, sendGlobalEffect, sendTargetPlayerEffect } from "../../common/Network";
+import { sendAddCardEffect, sendGlobalEffect, sendLandTappedEffect, sendTargetPlayerEffect } from "../../common/Network";
 
 const TILE_DIM=32
 const FIELD_WIDTH=3
@@ -368,14 +368,9 @@ export default class MapScene extends Scene {
                         const card = state.saveFile.currentMatch.board.find(c=>c.id === sprite.id)
                         if(card){
                             const meta = getCardData(card)
-                            if(meta.ability.effect.addMana && !card.tapped){
+                            if(meta.ability.effect.addMana && !card.tapped && card.ownerId === me.id){
                                 if(networkActive) sendLandTappedEffect(card)
-                                else {
-                                    //tap and add to pool
-                                    tapLand(card, me)
-                                    this.floatResource(sprite.x, sprite.y, IconIndex.Mana, '#ff0000')
-                                    //TODO add exausted icon to card
-                                }
+                                else this.tapLand(card)
                             }
                         }
                     }
@@ -393,6 +388,15 @@ export default class MapScene extends Scene {
                 }
             }
         })
+    }
+
+    tapLand(card:Card){
+        //tap and add to pool
+        const me = store.getState().saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
+        tapLand(card, me)
+        const sprite = this.creatures.find(c=>c.id === card.id)
+        this.floatResource(sprite.x, sprite.y, IconIndex.Mana, '#ff0000')
+        //TODO add exausted icon to card
     }
 
     targetPlayer(props:{player:PlayerState, card:Card}) {
