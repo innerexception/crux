@@ -1,5 +1,5 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
-import { EventType } from '../../enum'
+import { NetworkEvent } from '../../enum'
 import { onRecieveMessage, onRecievePlayer, onSetLobby, onStartMatch, onUpdateSave } from './Thunks'
 import { store } from '../..'
 import { emptyMana } from './Utils'
@@ -16,28 +16,29 @@ export const createOrJoinLobby = async (id?:string) => {
     let sendRemotePlayer = false
     if(!id) id = Phaser.Math.Between(1000,9999).toString()
     lobby = supabase.channel('crux_'+id)
-    lobby.on('broadcast' as any, { event: EventType.PlayerEffect }, (data)=>store.getState().scene.targetPlayer(data.payload))
-    lobby.on('broadcast' as any, { event: EventType.GlobalEffect }, (data)=>store.getState().scene.applyGlobalEffect(data.payload))
-    lobby.on('broadcast' as any, { event: EventType.EndTurn }, (data)=>store.getState().scene.endTurn(data.payload))
-    lobby.on('broadcast' as any, { event: EventType.Update }, (data)=>onRecieveMessage(data.payload))
-    lobby.on('broadcast' as any, { event: EventType.Start }, ()=>onStartMatch(store.getState().saveFile, store.getState().joinedPlayer, host ? store.getState().saveFile.myId : store.getState().joinedPlayer.id))
-    lobby.on('broadcast' as any, { event: EventType.Join }, async (data)=>{
+    lobby.on('broadcast' as any, { event: NetworkEvent.AddCard }, (data)=>store.getState().scene.addCard(data.payload))
+    lobby.on('broadcast' as any, { event: NetworkEvent.PlayerEffect }, (data)=>store.getState().scene.targetPlayer(data.payload))
+    lobby.on('broadcast' as any, { event: NetworkEvent.GlobalEffect }, (data)=>store.getState().scene.applyGlobalEffect(data.payload))
+    lobby.on('broadcast' as any, { event: NetworkEvent.EndTurn }, (data)=>store.getState().scene.endTurn(data.payload))
+    lobby.on('broadcast' as any, { event: NetworkEvent.Update }, (data)=>onRecieveMessage(data.payload))
+    lobby.on('broadcast' as any, { event: NetworkEvent.Start }, ()=>onStartMatch(store.getState().saveFile, store.getState().joinedPlayer, host ? store.getState().saveFile.myId : store.getState().joinedPlayer.id))
+    lobby.on('broadcast' as any, { event: NetworkEvent.Join }, async (data)=>{
         const player = data.payload as PlayerState
         if(player.id !== store.getState().saveFile.myId){
             onRecievePlayer(data.payload)
         }
         if(host && !sendRemotePlayer) 
-            await sendMessage(EventType.Join, getMyPlayer())
+            await sendMessage(NetworkEvent.Join, getMyPlayer())
         sendRemotePlayer = true
     })
     .subscribe()
     onSetLobby(id)
     if(!host)
-        await sendMessage(EventType.Join, getMyPlayer())
+        await sendMessage(NetworkEvent.Join, getMyPlayer())
 }
 
 export const sendStartMatch = async () => {
-    await sendMessage(EventType.Start, {})
+    await sendMessage(NetworkEvent.Start, {})
 }
 
 export const getMyPlayer = ():PlayerState => {
@@ -67,18 +68,22 @@ export const getMyPlayer = ():PlayerState => {
 }
 
 export const sendGlobalEffect = (card:Card) => {
-    sendMessage(EventType.GlobalEffect, card)
+    sendMessage(NetworkEvent.GlobalEffect, card)
 }
 
 export const sendTargetPlayerEffect = (props:{player:PlayerState, card:Card}) => {
-    sendMessage(EventType.PlayerEffect, props)
+    sendMessage(NetworkEvent.PlayerEffect, props)
 }
 
 export const sendEndTurn = (match:MatchState) => {
-    sendMessage(EventType.EndTurn, match)
+    sendMessage(NetworkEvent.EndTurn, match)
 }
 
-const sendMessage = async (event:EventType, data:any) => {
+export const sendAddCardEffect = (props:{cardId:string, worldX:number,worldY:number}) => {
+    sendMessage(NetworkEvent.AddCard, props)
+}
+
+const sendMessage = async (event:NetworkEvent, data:any) => {
     await lobby.httpSend(event, data)
 }
 

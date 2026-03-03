@@ -29,9 +29,10 @@ export enum Direction {
     NORTH=1,SOUTH=-1
 }
 
-export enum EventType {
+export enum NetworkEvent {
     Update='Update', Join='Join', Start='Start',EndTurn='EndTurn',PlaySorcery='PlaySorcery',
-    GlobalEffect='GlobalEffect',PlayerEffect='PlayerEffect'
+    GlobalEffect='GlobalEffect',PlayerEffect='PlayerEffect',
+    AddCard='AddCard'
 }
 
 export enum SceneNames {

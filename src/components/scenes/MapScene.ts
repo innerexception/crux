@@ -1,6 +1,6 @@
 import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
-import { Color, Direction, EventType, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, SceneNames, Target } from "../../../enum";
+import { Color, Direction, NetworkEvent, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, SceneNames, Target } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
@@ -8,7 +8,7 @@ import { canAfford, drawMarchingDashedRect, emptyMana, getColorlessRemain, payCo
 import { getCardData, tapLand } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
 import PlayerSprite from "../sprites/PlayerSprite";
-import { sendGlobalEffect, sendTargetPlayerEffect } from "../../common/Network";
+import { sendAddCardEffect, sendGlobalEffect, sendTargetPlayerEffect } from "../../common/Network";
 
 const TILE_DIM=32
 const FIELD_WIDTH=3
@@ -138,7 +138,7 @@ export default class MapScene extends Scene {
         let land = state.lands.slice(0,3).find(l=>p.hand.find(c=>getCardData(c).color === getCardData(l).color))
         if(!land) land = state.lands[0]
         if(lTile){
-            this.addCard(land.id, lTile.pixelX, lTile.pixelY)
+            this.addCard({cardId: land.id, worldX:lTile.pixelX, worldY:lTile.pixelY})
         }
         state=store.getState().saveFile.currentMatch
         state.board.filter(c=>getCardData(c).kind === Permanents.Land && c.ownerId === p.id && !c.tapped).forEach(l=>{
@@ -174,11 +174,11 @@ export default class MapScene extends Scene {
             if(enemies[0]){
                 const enemyTile = this.map.getTileAt(enemies[0].tileX, enemies[0].tileY, false, Layers.Earth)
                 const spawnTile = this.map.getTileAt(enemyTile.x, p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
-                this.addCard(creature.id, spawnTile.pixelX, spawnTile.pixelY)
+                this.addCard({cardId: creature.id, worldX: spawnTile.pixelX, worldY: spawnTile.pixelY})
             }
             else {
                 const spawnTile = this.map.getTileAt(this.getEmptyStartTile(p).x, p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
-                this.addCard(creature.id, spawnTile.pixelX, spawnTile.pixelY)
+                this.addCard({cardId: creature.id, worldX: spawnTile.pixelX, worldY: spawnTile.pixelY})
             }
         }
         //TODO: use owned creature abilities if possible
@@ -358,8 +358,8 @@ export default class MapScene extends Scene {
                             const creature = state.saveFile.currentMatch.board.find(c=>c.id === sprite.id)
                             if(networkActive) sendCreatureSorceryEffect({creature, card})
                             else{
-                                this.applyCreatureSorcery({creature, card})
-                                this.payAndDiscard(props.sorcery)
+                                this.applyCreatureSorcery({creature, sorcery:card})
+                                this.payAndDiscard(card)
                             } 
                             return
                         }
@@ -386,8 +386,9 @@ export default class MapScene extends Scene {
                     const d = getCardData(card)
                     if(d.kind===Permanents.Land && me.hasPlayedLand) return
                     if(this.validStartTile(tile, me.dir, d.kind === Permanents.Land)){
-                        if(networkActive) sendAddCardEffect(card)
-                        else this.addCard(state.selectedCardId, tile.pixelX, tile.pixelY)
+                        const props = {cardId:state.selectedCardId, worldX:tile.pixelX, worldY: tile.pixelY}
+                        if(networkActive) sendAddCardEffect(props)
+                        else this.addCard(props)
                     }
                 }
             }
@@ -639,24 +640,24 @@ export default class MapScene extends Scene {
         onUpdatePlayer({...p, discard: p.discard.concat(card)})
     }
 
-    addCard = (cardId:string, worldX:number,worldY:number) => {
+    addCard = (props:{cardId:string, worldX:number,worldY:number}) => {
         this.creaturePreview?.destroy()
         onSelectCreature('',null)
         let state = store.getState().saveFile
         const me = state.currentMatch.players.find(p=>p.id === state.currentMatch.activePlayerId)
-        let card = me.hand.find(c=>c.id === cardId)
-        if(!card) card = state.currentMatch.lands.find(l=>l.id === cardId)
+        let card = me.hand.find(c=>c.id === props.cardId)
+        if(!card) card = state.currentMatch.lands.find(l=>l.id === props.cardId)
         const data = getCardData(card)
         if(data.kind === Permanents.Land) me.hasPlayedLand = true
-        this.creatures.push(new CreatureSprite(this, worldX,worldY, data.sprite, card.id, me.dir))
-        const t = this.map.getTileAtWorldXY(worldX,worldY,false, undefined, Layers.Earth)
+        this.creatures.push(new CreatureSprite(this, props.worldX,props.worldY, data.sprite, card.id, me.dir))
+        const t = this.map.getTileAtWorldXY(props.worldX,props.worldY,false, undefined, Layers.Earth)
         onUpdateBoard(state.currentMatch.board.concat({...card, ownerId: me.id, tileX:t.x, tileY:t.y}))
         onUpdatePlayer({...me, 
-            hand: me.hand.filter(c=>c.id !== cardId), 
+            hand: me.hand.filter(c=>c.id !== props.cardId), 
             manaPool: payCost(me.manaPool, data.cost)
         })
         state = store.getState().saveFile
-        if(data.kind === Permanents.Land) onUpdateLands(state.currentMatch.lands.filter(l=>l.id!==cardId))
+        if(data.kind === Permanents.Land) onUpdateLands(state.currentMatch.lands.filter(l=>l.id!==props.cardId))
     }
 
     refresh(match:MatchState) {
