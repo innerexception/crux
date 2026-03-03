@@ -4,7 +4,6 @@ import { CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier, Permanents
 import { getCardData } from "../../common/CardUtils"
 import { onSendNetworkUpdate, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
-import{ v4 } from 'uuid'
 
 export default class CreatureSprite extends GameObjects.Image {
 
@@ -23,6 +22,7 @@ export default class CreatureSprite extends GameObjects.Image {
     }
 
     tryMoveNext = async () => {
+        //onSendNetworkUpdate({ action: NetworkActions.tryMove, creatureId: this.id }) TODO: send action
         const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
         const state = store.getState().saveFile.currentMatch
         let creature = state.board.find(c=>c.id === this.id)
@@ -56,7 +56,6 @@ export default class CreatureSprite extends GameObjects.Image {
                             let unitTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
                             const creature = store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id)
                             onUpdateBoardCreature({...creature, tileX:unitTile.x, tileY:unitTile.y})
-                            onSendNetworkUpdate()
                             resolve(1)
                         }
                     })

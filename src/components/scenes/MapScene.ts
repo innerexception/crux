@@ -437,7 +437,7 @@ export default class MapScene extends Scene {
         }
         
         this.applyCreatureEffect(creature, dat.ability.effect)
-        onSendNetworkUpdate()
+        //onSendNetworkUpdate({ action: NetworkActions.applySorcery, creature, sorcery}) TODO: trigger specific action
     }
 
     payAndDiscard(card:Card){
