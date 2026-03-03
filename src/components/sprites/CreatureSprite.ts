@@ -22,7 +22,6 @@ export default class CreatureSprite extends GameObjects.Image {
     }
 
     tryMoveNext = async () => {
-        //onSendNetworkUpdate({ action: NetworkActions.tryMove, creatureId: this.id }) TODO: send action
         const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
         const state = store.getState().saveFile.currentMatch
         let creature = state.board.find(c=>c.id === this.id)

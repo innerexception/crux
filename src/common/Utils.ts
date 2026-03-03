@@ -31,7 +31,7 @@ export const getNewMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:s
             {
                 id:s.myId,
                 hp:20,
-                dir:Direction.SOUTH,
+                dir:startingPlayerId === s.myId ? Direction.SOUTH : Direction.NORTH,
                 hand,
                 deck,
                 discard: [],
@@ -41,7 +41,7 @@ export const getNewMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:s
                 drawAllowed: 1,
                 playerSprite: s.playerSprite
             },
-            {...opponent, dir: Direction.NORTH}
+            {...opponent, dir: startingPlayerId === s.myId ? Direction.NORTH:Direction.SOUTH}
         ]
     }
 }
