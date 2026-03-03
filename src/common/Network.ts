@@ -1,5 +1,5 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
-import { Direction, EventType } from '../../enum'
+import { EventType } from '../../enum'
 import { onRecieveMessage, onRecievePlayer, onSetLobby, onStartMatch, onUpdateSave } from './Thunks'
 import { store } from '../..'
 import { emptyMana } from './Utils'
@@ -16,6 +16,8 @@ export const createOrJoinLobby = async (id?:string) => {
     let sendRemotePlayer = false
     if(!id) id = Phaser.Math.Between(1000,9999).toString()
     lobby = supabase.channel('crux_'+id)
+    lobby.on('broadcast' as any, { event: EventType.PlaySorcery }, (data)=>onPlaySorcery(data.payload))
+    lobby.on('broadcast' as any, { event: EventType.EndTurn }, (data)=>store.getState().scene.endTurn(data.payload))
     lobby.on('broadcast' as any, { event: EventType.Update }, (data)=>onRecieveMessage(data.payload))
     lobby.on('broadcast' as any, { event: EventType.Start }, ()=>onStartMatch(store.getState().saveFile, store.getState().joinedPlayer, host ? store.getState().saveFile.myId : store.getState().joinedPlayer.id))
     lobby.on('broadcast' as any, { event: EventType.Join }, async (data)=>{

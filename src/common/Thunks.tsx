@@ -5,8 +5,9 @@ import MapScene from "../components/scenes/MapScene"
 import { sendMessage } from "./Network"
 import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
 
-export const onSendNetworkUpdate = () => {
-    sendMessage(EventType.Update, store.getState().saveFile.currentMatch)
+export const onSendNetworkUpdate = async () => {
+    if(store.getState().saveFile.currentMatch.players.find(p=>p.isAI)) return
+    await sendMessage(EventType.Update, store.getState().saveFile.currentMatch)
 }
 
 export const onSetLobby = (id:string) => {
@@ -22,8 +23,11 @@ export const onRecievePlayer = (data:PlayerState) => {
     store.dispatch({ type: UIReducerActions.PLAYER_JOIN, data })
 }
 
-export const onEndTurn = () => {
-    store.getState().scene.endTurn()
+export const onEndTurn = (match:MatchState) => {
+    if(match.players.find(p=>p.isAI)){
+        store.getState().scene.endTurn(match)
+    }
+    else sendMessage(EventType.EndTurn, match)
 }
 
 export const onUpdateBoardCreature = (cd:Card) => {
