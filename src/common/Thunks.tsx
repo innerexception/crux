@@ -1,14 +1,9 @@
 import { store } from "../.."
-import { EventType, Modal, SceneNames, UIReducerActions } from "../../enum"
+import { Modal, SceneNames, UIReducerActions } from "../../enum"
 import IntroScene from "../components/scenes/IntroScene"
 import MapScene from "../components/scenes/MapScene"
-import { sendMessage } from "./Network"
+import { sendEndTurn } from "./Network"
 import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
-
-export const onSendNetworkUpdate = async () => {
-    if(store.getState().saveFile.currentMatch.players.find(p=>p.isAI)) return
-    await sendMessage(EventType.Update, store.getState().saveFile.currentMatch)
-}
 
 export const onSetLobby = (id:string) => {
     store.dispatch({ type: UIReducerActions.SET_LOBBY, data:id })
@@ -27,7 +22,7 @@ export const onEndTurn = (match:MatchState) => {
     if(match.players.find(p=>p.isAI)){
         store.getState().scene.endTurn(match)
     }
-    else sendMessage(EventType.EndTurn, match)
+    else sendEndTurn(match)
 }
 
 export const onUpdateBoardCreature = (cd:Card) => {

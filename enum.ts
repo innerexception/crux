@@ -30,7 +30,8 @@ export enum Direction {
 }
 
 export enum EventType {
-    Update='Update', Join='Join', Start='Start',EndTurn='EndTurn',PlaySorcery='PlaySorcery'
+    Update='Update', Join='Join', Start='Start',EndTurn='EndTurn',PlaySorcery='PlaySorcery',
+    GlobalEffect='GlobalEffect',PlayerEffect='PlayerEffect'
 }
 
 export enum SceneNames {

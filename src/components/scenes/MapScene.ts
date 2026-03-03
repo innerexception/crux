@@ -2,13 +2,13 @@ import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
 import { Color, Direction, EventType, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, SceneNames, Target } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
-import { onInspectCreature, onSelectCreature, onSendNetworkUpdate, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer } from "../../common/Thunks";
+import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
 import { canAfford, drawMarchingDashedRect, emptyMana, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, tapLand } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
 import PlayerSprite from "../sprites/PlayerSprite";
-import { sendMessage } from "../../common/Network";
+import { sendGlobalEffect, sendTargetPlayerEffect } from "../../common/Network";
 
 const TILE_DIM=32
 const FIELD_WIDTH=3
@@ -84,11 +84,6 @@ export default class MapScene extends Scene {
     }
 
     endTurn = async (match:MatchState) => {
-
-        if(!match.players.find(p=>p.isAI)){
-            sendMessage(EventType.EndTurn, match)
-        }
-
         const currentI = match.players.findIndex(p=>p.id === match.activePlayerId)
         const current = match.players[currentI]
         
@@ -134,7 +129,7 @@ export default class MapScene extends Scene {
         }
     }
 
-    playLand = () => {
+    playAILand = () => {
         let state=store.getState().saveFile.currentMatch
         const p = state.players.find(p=>p.id === state.activePlayerId)
         const lTile = p.dir === Direction.NORTH ? 
@@ -153,13 +148,10 @@ export default class MapScene extends Scene {
             l.tapped = true
         })
         onUpdateBoard(Array.from(state.board))
-        if(!state.players.find(p=>p.isAI)){
-            onSendNetworkUpdate()
-        }
     }
 
     runAITurn = async () => {
-        this.playLand()
+        this.playAILand()
         const state = store.getState().saveFile.currentMatch
         let p = state.players.find(p=>p.id === state.activePlayerId)
         const next = p.deck.cards.shift()
@@ -173,7 +165,7 @@ export default class MapScene extends Scene {
                 getCardData(c).ability.targets === Target.Creature && 
                 (getCardData(c).ability.effect.dmg || getCardData(c).ability.effect.destroy))
             if(creatureSorceries){
-                this.applyCreatureSorcery(enemies[0], creatureSorceries)
+                this.applyCreatureSorcery({creature: enemies[0], sorcery: creatureSorceries})
             }
         }
         onUpdatePlayer({...p})
@@ -318,6 +310,7 @@ export default class MapScene extends Scene {
             let tile = this.map?.getTileAtWorldXY(this.input.activePointer.worldX, this.input.activePointer.worldY, false, undefined, Layers.Earth)
             if(tile){
                 const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
+                const networkActive = state.saveFile.currentMatch.players.find(p=>p.isAI) ? false : true
                 if(GameObjects.length > 0){
                     
                     const sprite = GameObjects[0] as CreatureSprite
@@ -327,33 +320,47 @@ export default class MapScene extends Scene {
                         const dat = getCardData(card)
                         const targets = dat.ability.targets
                         if(targets === Target.CreaturesAndPlayers){
-                            this.applyGlobalEffect(card)
+                            if(networkActive) sendGlobalEffect(card)
+                            else this.applyGlobalEffect(card)
                             return 
                         }
+                        else if(targets === Target.AllCreatures){
+                            //TODO
+                            // if(networkActive) sendAllCreaturesEffect(card)
+                            // else this.applyAllCreaturesEffect(card)
+                            // return 
+                        }
+                        else if(targets === Target.AllCreaturesYouControl || targets === Target.TappedCreatures){
+                            //TODO
+                            // if(networkActive) sendSomeCreaturesEffect(card, state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id))
+                            // else this.applySomeCreaturesEffect(card, state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id))
+                            // return 
+                        }
+                        
                         const pid = (GameObjects[0] as any).playerId
-                        if(pid){
+                        if(pid){ //Targeting a player
+                            const player = state.saveFile.currentMatch.players.find(p=>p.id === pid)
                             if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
-                                if(!store.getState().saveFile.currentMatch.players.find(p=>p.isAI)){
-                                    sendMessage(EventType.PlaySorcery, { creature, sorcery })
-                                }                        
-                                this.applyPlayerEffect(state.saveFile.currentMatch.players.find(p=>p.id === pid), card)
-                                this.payAndDiscard(card)
+                                if(networkActive) sendTargetPlayerEffect({player, card})
+                                else this.targetPlayer({player, card})
                             }
                             else if(targets === Target.Self && pid === state.saveFile.myId){
-                                
+                                if(networkActive) sendTargetPlayerEffect({player, card})
+                                this.targetPlayer({player, card})
                             }
                             else if(targets === Target.AllPlayers){
-                                if(!store.getState().saveFile.currentMatch.players.find(p=>p.isAI)){
-                                    sendMessage(EventType.PlaySorcery, { creature, sorcery })
-                                }                        
-                                const players = store.getState().saveFile.currentMatch.players
-                                players.forEach(player=>this.applyPlayerEffect(player, card))
-                                this.payAndDiscard(card)
+                                if(networkActive) sendAllPlayerEffect(card)
+                                else this.targetAllPlayers(card)
                             }
                             return
                         }
-                        if(this.validTarget(sprite, card)){
-                            this.applyCreatureSorcery(state.saveFile.currentMatch.board.find(c=>c.id === sprite.id), card)
+                        if(this.validTarget(sprite, card)){ //All other single targets
+                            const creature = state.saveFile.currentMatch.board.find(c=>c.id === sprite.id)
+                            if(networkActive) sendCreatureSorceryEffect({creature, card})
+                            else{
+                                this.applyCreatureSorcery({creature, card})
+                                this.payAndDiscard(props.sorcery)
+                            } 
                             return
                         }
                     }
@@ -362,11 +369,13 @@ export default class MapScene extends Scene {
                         if(card){
                             const meta = getCardData(card)
                             if(meta.ability.effect.addMana && !card.tapped){
-                                //tap and add to pool
-                                tapLand(card, me)
-                                //onSendNetworkUpdate() //Send player tapped land?
-                                this.floatResource(sprite.x, sprite.y, IconIndex.Mana, '#ff0000')
-                                //TODO add exausted icon to card
+                                if(networkActive) sendLandTappedEffect(card)
+                                else {
+                                    //tap and add to pool
+                                    tapLand(card, me)
+                                    this.floatResource(sprite.x, sprite.y, IconIndex.Mana, '#ff0000')
+                                    //TODO add exausted icon to card
+                                }
                             }
                         }
                     }
@@ -377,18 +386,22 @@ export default class MapScene extends Scene {
                     const d = getCardData(card)
                     if(d.kind===Permanents.Land && me.hasPlayedLand) return
                     if(this.validStartTile(tile, me.dir, d.kind === Permanents.Land)){
-                        this.addCard(state.selectedCardId, tile.pixelX, tile.pixelY)
+                        if(networkActive) sendAddCardEffect(card)
+                        else this.addCard(state.selectedCardId, tile.pixelX, tile.pixelY)
                     }
                 }
             }
         })
     }
 
-    targetSelf () { 
-        if(!store.getState().saveFile.currentMatch.players.find(p=>p.isAI)){
-            sendMessage(EventType.PlaySorcery, { creature, sorcery })
-        }
-        this.applyPlayerEffect(state.saveFile.currentMatch.players.find(p=>p.id === pid),card)
+    targetPlayer(props:{player:PlayerState, card:Card}) {
+        this.applyPlayerEffect(props.player, props.card)
+        this.payAndDiscard(props.card)
+    }
+
+    targetAllPlayers(card:Card) {
+        const players = store.getState().saveFile.currentMatch.players
+        players.forEach(player=>this.applyPlayerEffect(player, card))
         this.payAndDiscard(card)
     }
 
@@ -438,27 +451,21 @@ export default class MapScene extends Scene {
         } 
     }
 
-    applyCreatureSorcery = (creature:Card, sorcery:Card) => {
-
-        if(!store.getState().saveFile.currentMatch.players.find(p=>p.isAI)){
-            sendMessage(EventType.PlaySorcery, { creature, sorcery })
-        }
-
-        const dat = getCardData(sorcery)
+    applyCreatureSorcery = (props:{creature:Card, sorcery:Card}) => {
+        const dat = getCardData(props.sorcery)
         //play dmg/buff/debuff sprite
-        const s = this.creatures.find(c=>c.id === creature.id)
+        const s = this.creatures.find(c=>c.id === props.creature.id)
         this.flashIcon(s.x, s.y, dat.ability.effect.sprite)
-        this.payAndDiscard(sorcery)
         if(dat.ability.effect.duration){
-            creature.status.push({
+            props.creature.status.push({
                 id: v4(),
                 duration: dat.ability.effect.duration,
                 status: dat.ability.effect
             })
-            onUpdateBoardCreature({...creature})
+            onUpdateBoardCreature({...props.creature})
         }
         
-        this.applyCreatureEffect(creature, dat.ability.effect)
+        this.applyCreatureEffect(props.creature, dat.ability.effect)
     }
 
     payAndDiscard(card:Card){
@@ -501,7 +508,7 @@ export default class MapScene extends Scene {
         players.forEach(player=>this.applyPlayerEffect(player, card))
 
         const creatures = store.getState().saveFile.currentMatch.board
-        creatures.forEach(creature=>this.applyCreatureSorcery(creature, card))
+        creatures.forEach(creature=>this.applyCreatureSorcery({creature, sorcery: card}))
     }
 
     applyPlayerEffect(targetPlayer:PlayerState, c:Card) {
@@ -630,7 +637,6 @@ export default class MapScene extends Scene {
         onUpdateBoard(Array.from(board))
         const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
         onUpdatePlayer({...p, discard: p.discard.concat(card)})
-        onSendNetworkUpdate()
     }
 
     addCard = (cardId:string, worldX:number,worldY:number) => {
@@ -651,7 +657,6 @@ export default class MapScene extends Scene {
         })
         state = store.getState().saveFile
         if(data.kind === Permanents.Land) onUpdateLands(state.currentMatch.lands.filter(l=>l.id!==cardId))
-        onSendNetworkUpdate()
     }
 
     refresh(match:MatchState) {

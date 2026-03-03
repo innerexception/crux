@@ -16,7 +16,8 @@ export const createOrJoinLobby = async (id?:string) => {
     let sendRemotePlayer = false
     if(!id) id = Phaser.Math.Between(1000,9999).toString()
     lobby = supabase.channel('crux_'+id)
-    lobby.on('broadcast' as any, { event: EventType.PlaySorcery }, (data)=>onPlaySorcery(data.payload))
+    lobby.on('broadcast' as any, { event: EventType.PlayerEffect }, (data)=>store.getState().scene.targetPlayer(data.payload))
+    lobby.on('broadcast' as any, { event: EventType.GlobalEffect }, (data)=>store.getState().scene.applyGlobalEffect(data.payload))
     lobby.on('broadcast' as any, { event: EventType.EndTurn }, (data)=>store.getState().scene.endTurn(data.payload))
     lobby.on('broadcast' as any, { event: EventType.Update }, (data)=>onRecieveMessage(data.payload))
     lobby.on('broadcast' as any, { event: EventType.Start }, ()=>onStartMatch(store.getState().saveFile, store.getState().joinedPlayer, host ? store.getState().saveFile.myId : store.getState().joinedPlayer.id))
@@ -65,7 +66,19 @@ export const getMyPlayer = ():PlayerState => {
     }
 }
 
-export const sendMessage = async (event:EventType, data:any) => {
+export const sendGlobalEffect = (card:Card) => {
+    sendMessage(EventType.GlobalEffect, card)
+}
+
+export const sendTargetPlayerEffect = (props:{player:PlayerState, card:Card}) => {
+    sendMessage(EventType.PlayerEffect, props)
+}
+
+export const sendEndTurn = (match:MatchState) => {
+    sendMessage(EventType.EndTurn, match)
+}
+
+const sendMessage = async (event:EventType, data:any) => {
     await lobby.httpSend(event, data)
 }
 
