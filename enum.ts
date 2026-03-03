@@ -32,7 +32,7 @@ export enum Direction {
 export enum NetworkEvent {
     Update='Update', Join='Join', Start='Start',EndTurn='EndTurn',PlaySorcery='PlaySorcery',
     GlobalEffect='GlobalEffect',PlayerEffect='PlayerEffect',
-    AddCard='AddCard',TapLand='TapLand'
+    AddCard='AddCard',TapLand='TapLand',AllPlayersEffect='AllPlayersEffect'
 }
 
 export enum SceneNames {
@@ -86,7 +86,7 @@ export enum Target {
     CreaturesYourGraveyard='CreaturesYourGraveyard',YourGraveyard='YourGraveyard',
     CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',AttackingCreatures='AttackingCreatures',
     AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl',ThisCreature='ThisCreature',TappedCreatures='TappedCreatures',
-    CreatureAndLand='CreatureAndLand',
+    CreatureAndLand='CreatureAndLand',CreaturesInLane='CreaturesInLane'
 }
 
 export enum Triggers {
@@ -140,6 +140,7 @@ export const ModifierDesc:Record<Modifier,string> = {
 }
 
 export const TargetsDesc:Record<Target,string> = {
+    [Target.CreaturesInLane]: "Creatures in target's lane",
     [Target.LandsYouControl]: 'A Land you control',
     [Target.ThisCreature]: 'This Creature',
     [Target.AllCreatures]: 'All Creatures',

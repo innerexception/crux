@@ -8,7 +8,7 @@ import { canAfford, drawMarchingDashedRect, emptyMana, getColorlessRemain, payCo
 import { getCardData, tapLand } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
 import PlayerSprite from "../sprites/PlayerSprite";
-import { sendAddCardEffect, sendGlobalEffect, sendLandTappedEffect, sendTargetPlayerEffect } from "../../common/Network";
+import { sendAddCardEffect, sendAllPlayerEffect, sendCreatureSorceryEffect, sendGlobalEffect, sendLandTappedEffect, sendTargetPlayerEffect } from "../../common/Network";
 
 const TILE_DIM=32
 const FIELD_WIDTH=3
@@ -336,6 +336,12 @@ export default class MapScene extends Scene {
                             // else this.applySomeCreaturesEffect(card, state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id))
                             // return 
                         }
+                        else if(targets === Target.CreaturesInLane){
+                            //TODO
+                            // if(networkActive) sendSomeCreaturesEffect(card, state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id))
+                            // else this.applySomeCreaturesEffect(card, state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id))
+                            // return 
+                        }
                         
                         const pid = (GameObjects[0] as any).playerId
                         if(pid){ //Targeting a player
@@ -356,7 +362,7 @@ export default class MapScene extends Scene {
                         }
                         if(this.validTarget(sprite, card)){ //All other single targets
                             const creature = state.saveFile.currentMatch.board.find(c=>c.id === sprite.id)
-                            if(networkActive) sendCreatureSorceryEffect({creature, card})
+                            if(networkActive) sendCreatureSorceryEffect({creature, sorcery:card})
                             else{
                                 this.applyCreatureSorcery({creature, sorcery:card})
                                 this.payAndDiscard(card)
