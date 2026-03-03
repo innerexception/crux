@@ -1,10 +1,6 @@
-import { GameObjects, Time } from "phaser"
-import { store } from "../../.."
-import { CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier, Permanents } from "../../../enum"
-import { getCardData } from "../../common/CardUtils"
-import { onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
+import { GameObjects } from "phaser"
+import { CreatureSpriteIndex } from "../../../enum"
 import MapScene from "../scenes/MapScene"
-import{ v4 } from 'uuid'
 
 export default class PlayerSprite extends GameObjects.Image {
 

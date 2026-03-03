@@ -16,8 +16,8 @@ export const createOrJoinLobby = async (id?:string) => {
     let sendRemotePlayer = false
     if(!id) id = Phaser.Math.Between(1000,9999).toString()
     lobby = supabase.channel('crux_'+id)
-    lobby.on('broadcast' as any, { event: EventType.Endturn }, (data)=>onRecieveMessage(data.payload))
-    lobby.on('broadcast' as any, { event: EventType.Start }, ()=>onStartMatch(store.getState().saveFile, store.getState().joinedPlayer))
+    lobby.on('broadcast' as any, { event: EventType.Update }, (data)=>onRecieveMessage(data.payload))
+    lobby.on('broadcast' as any, { event: EventType.Start }, ()=>onStartMatch(store.getState().saveFile, store.getState().joinedPlayer, host ? store.getState().saveFile.myId : store.getState().joinedPlayer.id))
     lobby.on('broadcast' as any, { event: EventType.Join }, async (data)=>{
         const player = data.payload as PlayerState
         if(player.id !== store.getState().saveFile.myId){

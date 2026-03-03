@@ -1,8 +1,13 @@
 import { store } from "../.."
-import { Direction, EventType, Modal, SceneNames, UIReducerActions } from "../../enum"
+import { EventType, Modal, SceneNames, UIReducerActions } from "../../enum"
 import IntroScene from "../components/scenes/IntroScene"
 import MapScene from "../components/scenes/MapScene"
+import { sendMessage } from "./Network"
 import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
+
+export const onSendNetworkUpdate = () => {
+    sendMessage(EventType.Update, store.getState().saveFile.currentMatch)
+}
 
 export const onSetLobby = (id:string) => {
     store.dispatch({ type: UIReducerActions.SET_LOBBY, data:id })
@@ -10,6 +15,7 @@ export const onSetLobby = (id:string) => {
 
 export const onRecieveMessage = (data:MatchState) => {
     store.dispatch({ type: UIReducerActions.NETWORK_MESSAGE, data })
+    store.getState().scene.refresh(data)
 }
 
 export const onRecievePlayer = (data:PlayerState) => {

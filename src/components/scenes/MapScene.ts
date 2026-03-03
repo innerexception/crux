@@ -1,10 +1,10 @@
 import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
-import { CardType, Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Modifier, Permanents, SceneNames, Target } from "../../../enum";
+import { Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, SceneNames, Target } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
-import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
+import { onInspectCreature, onSelectCreature, onSendNetworkUpdate, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
-import { canAfford, drawMarchingDashedRect, drawRectSegment, emptyMana, getColorlessRemain, isPassableTile, payCost, transitionIn, transitionOut } from "../../common/Utils";
+import { canAfford, drawMarchingDashedRect, emptyMana, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, tapLand } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
 import PlayerSprite from "../sprites/PlayerSprite";
@@ -24,7 +24,6 @@ export default class MapScene extends Scene {
     sounds: {[key:string]:Phaser.Sound.BaseSound}
     creatures: CreatureSprite[]
     creaturePreview:GameObjects.Image
-    myDir:Direction
     northLands:Tilemaps.Tile[]
     northCreatures:Tilemaps.Tile[]
     southLands:Tilemaps.Tile[]
@@ -54,8 +53,7 @@ export default class MapScene extends Scene {
 
     initMap = () => {
         
-        const mySave= store.getState().saveFile.currentMatch
-        this.myDir = mySave.players.find(p=>p.id === store.getState().saveFile.myId).dir
+        const match= store.getState().saveFile.currentMatch
         this.map?.destroy()
         this.map = this.add.tilemap(Maps.Tutorial)
         let grass = this.map.addTilesetImage('tiles', 'tiles', TILE_DIM,TILE_DIM)
@@ -70,20 +68,15 @@ export default class MapScene extends Scene {
         const g = this.add.graphics().setDefaultStyles({ lineStyle: { width:2, color:0xffffff, alpha:0.5 }}).setDepth(7)
         const rect = new Geom.Rectangle(midTile.pixelX-(FIELD_WIDTH*TILE_DIM), midTile.pixelY-(FIELD_HEIGHT*TILE_DIM), FIELD_WIDTH*2*TILE_DIM, 5*TILE_DIM)
         drawMarchingDashedRect(g, rect)
-        const pn = mySave.players.find(p=>p.dir === Direction.NORTH)
+        const pn = match.players.find(p=>p.dir === Direction.NORTH)
         this.playerNorth?.destroy()
         this.playerNorth = new PlayerSprite(this, rect.centerX, rect.top-64, pn.playerSprite, pn.id)
-        const ps = mySave.players.find(p=>p.dir === Direction.SOUTH)
+        const ps = match.players.find(p=>p.dir === Direction.SOUTH)
         this.playerSouth?.destroy()
         this.playerSouth = new PlayerSprite(this, rect.centerX, rect.bottom+32, ps.playerSprite, ps.id)
 
 
-        this.creatures.forEach(e=>e.destroy())
-        this.creatures = []
-        mySave.board.forEach(c=>{
-            const player = mySave.players.find(p=>p.id === c.ownerId)
-            this.creatures.push(new CreatureSprite(this, this.map.tileToWorldX(c.tileX), this.map.tileToWorldY(c.tileY), getCardData(c).sprite, c.id, player.dir))
-        })
+        this.refresh(match)
         
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.cameras.main.worldView.height)
         this.cameras.main.centerToBounds()
@@ -134,7 +127,7 @@ export default class MapScene extends Scene {
         if(nextPlayer.isAI){
             this.runAITurn()
         }
-
+        else onSendNetworkUpdate()
     }
 
     playLand = () => {
@@ -156,6 +149,7 @@ export default class MapScene extends Scene {
             l.tapped = true
         })
         onUpdateBoard(Array.from(state.board))
+        onSendNetworkUpdate()
     }
 
     runAITurn = async () => {
@@ -372,7 +366,7 @@ export default class MapScene extends Scene {
                     if(!card) card = state.saveFile.currentMatch.lands.find(l=>l.id === state.selectedCardId)
                     const d = getCardData(card)
                     if(d.kind===Permanents.Land && me.hasPlayedLand) return
-                    if(this.validStartTile(tile, this.myDir, d.kind === Permanents.Land)){
+                    if(this.validStartTile(tile, me.dir, d.kind === Permanents.Land)){
                         this.addCard(state.selectedCardId, tile.pixelX, tile.pixelY)
                     }
                 }
@@ -443,6 +437,7 @@ export default class MapScene extends Scene {
         }
         
         this.applyCreatureEffect(creature, dat.ability.effect)
+        onSendNetworkUpdate()
     }
 
     payAndDiscard(card:Card){
@@ -614,6 +609,7 @@ export default class MapScene extends Scene {
         onUpdateBoard(Array.from(board))
         const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
         onUpdatePlayer({...p, discard: p.discard.concat(card)})
+        onSendNetworkUpdate()
     }
 
     addCard = (cardId:string, worldX:number,worldY:number) => {
@@ -634,6 +630,16 @@ export default class MapScene extends Scene {
         })
         state = store.getState().saveFile
         if(data.kind === Permanents.Land) onUpdateLands(state.currentMatch.lands.filter(l=>l.id!==cardId))
+        onSendNetworkUpdate()
+    }
+
+    refresh(match:MatchState) {
+        this.creatures.forEach(e=>e.destroy())
+        this.creatures = []
+        match.board.forEach(c=>{
+            const player = match.players.find(p=>p.id === c.ownerId)
+            this.creatures.push(new CreatureSprite(this, this.map.tileToWorldX(c.tileX), this.map.tileToWorldY(c.tileY), getCardData(c).sprite, c.id, player.dir))
+        })
     }
 
     setCursor = (assetUrl:string) => {

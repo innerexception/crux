@@ -1,8 +1,8 @@
-import { GameObjects, Time } from "phaser"
+import { GameObjects } from "phaser"
 import { store } from "../../.."
 import { CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier, Permanents } from "../../../enum"
 import { getCardData } from "../../common/CardUtils"
-import { onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
+import { onSendNetworkUpdate, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
 import{ v4 } from 'uuid'
 
@@ -56,6 +56,7 @@ export default class CreatureSprite extends GameObjects.Image {
                             let unitTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
                             const creature = store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id)
                             onUpdateBoardCreature({...creature, tileX:unitTile.x, tileY:unitTile.y})
+                            onSendNetworkUpdate()
                             resolve(1)
                         }
                     })
@@ -68,6 +69,7 @@ export default class CreatureSprite extends GameObjects.Image {
         const startTile = this.scene.map.getTileAt(myTile.x, this.dir === Direction.NORTH ? this.scene.northCreatures[0].y : this.scene.southCreatures[0].y, false, Layers.Earth)
         onUpdateBoardCreature({...store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id), tileY: startTile.y})
         this.setPosition(startTile.pixelX,startTile.pixelY)
+        onSendNetworkUpdate()
     }
 
     fight = async (target:Card) => {
