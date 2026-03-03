@@ -80,8 +80,8 @@ export const onSetScene = (scene:MapScene) => {
     store.dispatch({ type: UIReducerActions.SET_SCENE, data: scene })
 }
 
-export const onStartMatch = (s:SaveFile, opponent:PlayerState) => {
-    if(!s.currentMatch) s.currentMatch = getNewMatch(s, opponent)
+export const onStartMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:string) => {
+    if(!s.currentMatch) s.currentMatch = getNewMatch(s, opponent, startingPlayerId)
     store.dispatch({ type: UIReducerActions.START_NEW_MATCH, data:s.currentMatch })
     const intro = store.getState().scene.scene.get(SceneNames.Intro) as IntroScene
     transitionOut(intro, SceneNames.Main, ()=>transitionIn(store.getState().scene))
