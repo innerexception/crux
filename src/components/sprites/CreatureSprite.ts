@@ -33,13 +33,12 @@ export default class CreatureSprite extends GameObjects.Image {
                 const enemy = state.players.find(p=>p.id !== creature.ownerId)
                 onUpdatePlayer({...enemy, hp: enemy.hp-creature.atk})
                 this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Damage, '0xff0000', '-')
-                this.returnToHand()
                 const land = state.board.find(c=>c.tileX===next.x && c.tileY === next.y)
                 if(land){
                     this.scene.tryRemoveCreature(land)
                     this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Sword, '0xff0000')
                 }        
-                return
+                return this.returnToHand()
             }
             const target = store.getState().saveFile.currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
             if(target){

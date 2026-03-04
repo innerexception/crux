@@ -26,7 +26,7 @@ export default () => {
                     <input placeholder='Join Lobby' value={joinLobbyId} onChange={(e)=>setLobbyId(e.currentTarget.value)} />
                 </div>}
                 <div style={{display:'flex', justifyContent:'flex-end'}}>
-                    {!lobbyId &&<Button enabled={joinLobbyId.length === 4} handler={()=>createOrJoinLobby(joinLobbyId)} text="Join" style={{border:'1px solid white', padding:'5px'}}/>}
+                    {!lobbyId &&<Button enabled={joinLobbyId.length === 3} handler={()=>createOrJoinLobby(joinLobbyId)} text="Join" style={{border:'1px solid white', padding:'5px'}}/>}
                     {lobbyId ? 
                     <div style={{marginRight:'1em', display:'flex', alignItems:'center'}}>Session ID: {lobbyId}</div> : 
                     <Button enabled={true} handler={()=>{createOrJoinLobby(); setIsHost(true)}} style={{border:'1px solid white', padding:'5px'}} text="Host"/>}

@@ -316,6 +316,7 @@ export default class MapScene extends Scene {
                     if(state.selectedCardId){
                         const card = me.hand.find(c=>c.id === state.selectedCardId)
                         const dat = getCardData(card)
+                        if(dat.kind === Permanents.Creature || dat.kind === Permanents.Land) return
                         const targets = dat.ability.targets
                         if(targets === Target.CreaturesAndPlayers){
                             if(networkActive) sendGlobalEffect(card)

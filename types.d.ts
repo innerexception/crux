@@ -41,7 +41,7 @@ interface CardMeta {
     pumpColor?: import('./enum').Color
     kind: import('./enum').Permanents
     defaultAttributes?: import('./enum').Modifier[]
-    ability: CardAbility
+    ability?: CardAbility
     sprite: import('./enum').CreatureSpriteIndex
 }
 
