@@ -1,5 +1,5 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
-import { NetworkEvent } from '../../enum'
+import { CardType, NetworkEvent } from '../../enum'
 import { onRecieveMessage, onRecievePlayer, onSetLobby, onStartMatch, onUpdateLands, onUpdateSave } from './Thunks'
 import { store } from '../..'
 import { emptyMana } from './Utils'
@@ -16,6 +16,7 @@ export const createOrJoinLobby = async (id?:string) => {
     let sendRemotePlayer = false
     if(!id) id = Phaser.Math.Between(100,999).toString()
     lobby = supabase.channel('crux_'+id)
+    lobby.on('broadcast' as any, { event: NetworkEvent.MultiCreatureEffect }, (data)=>store.getState().scene.applyMultiCreatureEffect(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.LandDeck }, (data)=>onUpdateLands(data.payload.lands))
     lobby.on('broadcast' as any, { event: NetworkEvent.PlaySorcery }, (data)=>store.getState().scene.applyCreatureSorcery(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.AllPlayersEffect }, (data)=>store.getState().scene.targetAllPlayers(data.payload))
@@ -51,6 +52,10 @@ export const sendStartMatch = async () => {
 
 export const sendGlobalEffect = (card:Card) => {
     sendMessage(NetworkEvent.GlobalEffect, card)
+}
+
+export const sendSomeCreaturesEffect = (props:{ card:Card, creatures:Card[]}) => {
+    sendMessage(NetworkEvent.MultiCreatureEffect, props)
 }
 
 export const sendTargetPlayerEffect = (props:{player:PlayerState, card:Card}) => {

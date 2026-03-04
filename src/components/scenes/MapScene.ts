@@ -8,7 +8,7 @@ import { canAfford, drawMarchingDashedRect, emptyMana, getColorlessRemain, payCo
 import { getCardData, tapLand } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
 import PlayerSprite from "../sprites/PlayerSprite";
-import { sendAddCardEffect, sendAllPlayerEffect, sendCreatureSorceryEffect, sendGlobalEffect, sendLandTappedEffect, sendTargetPlayerEffect } from "../../common/Network";
+import { sendAddCardEffect, sendAllPlayerEffect, sendCreatureSorceryEffect, sendGlobalEffect, sendLandTappedEffect, sendSomeCreaturesEffect as sendMultiCreatureEffect, sendTargetPlayerEffect } from "../../common/Network";
 
 const TILE_DIM=32
 const FIELD_WIDTH=3
@@ -323,22 +323,28 @@ export default class MapScene extends Scene {
                             return 
                         }
                         else if(targets === Target.AllCreatures){
-                            //TODO
-                            // if(networkActive) sendAllCreaturesEffect(card)
-                            // else this.applyAllCreaturesEffect(card)
-                            // return 
+                            const props = {creatures: state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature), card}
+                            if(networkActive) sendMultiCreatureEffect(props)
+                            else this.applyMultiCreatureEffect(props)
+                            return 
                         }
-                        else if(targets === Target.AllCreaturesYouControl || targets === Target.TappedCreatures){
-                            //TODO
-                            // if(networkActive) sendSomeCreaturesEffect(card, state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id))
-                            // else this.applySomeCreaturesEffect(card, state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id))
-                            // return 
+                        else if(targets === Target.AllCreaturesYouControl){
+                            const props = {creatures: state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.ownerId === me.id), card}
+                            if(networkActive) sendMultiCreatureEffect(props)
+                            else this.applyMultiCreatureEffect(props)
+                            return 
+                        }
+                        else if(targets === Target.TappedCreatures){
+                            const props = {creatures: state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.tapped), card}
+                            if(networkActive) sendMultiCreatureEffect(props)
+                            else this.applyMultiCreatureEffect(props)
+                            return 
                         }
                         else if(targets === Target.CreaturesInLane){
-                            //TODO
-                            // if(networkActive) sendSomeCreaturesEffect(card, state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id))
-                            // else this.applySomeCreaturesEffect(card, state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id))
-                            // return 
+                            const props = {creatures: state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.tileX === card.tileX), card}
+                            if(networkActive) sendMultiCreatureEffect(props)
+                            else this.applyMultiCreatureEffect(props)
+                            return 
                         }
                         
                         const pid = (GameObjects[0] as any).playerId
@@ -512,6 +518,10 @@ export default class MapScene extends Scene {
         }
     }
 
+    applyMultiCreatureEffect(props:{card:Card, creatures:Card[]}) {
+        props.creatures.forEach(creature=>this.applyCreatureSorcery({creature, sorcery: props.card}))
+    }
+
     applyGlobalEffect(card:Card) {
         const players = store.getState().saveFile.currentMatch.players
         players.forEach(player=>this.applyPlayerEffect(player, card))
@@ -582,7 +592,6 @@ export default class MapScene extends Scene {
         const state = store.getState()
         let activePlayer = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.currentMatch.activePlayerId)
         let me = state.saveFile.currentMatch.activePlayerId === state.saveFile.myId
-        //TODO
         if(effect.creatureToLibrary){
             this.tryRemoveCreature(creature)
             const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === creature.ownerId)
