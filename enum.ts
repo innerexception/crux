@@ -98,7 +98,7 @@ export enum Modifier {
     Banding=1, //Adds adjacent creatures pwr/def during combat. Damage is assigned to non-banders first.
     ProtectionFromBlack,ProtectionFromWhite,ProtectionFromRed,ProtectionFromGreen,ProtectionFromBlue,
     Nimble, //May tap to displace left or right 1 lane
-    CantBlock, //Can't be put in a lane w/ an opposing creature
+    Timid, //Can't be put in a lane w/ an opposing creature
     DesertWalk, ForestWalk, CityWalk, TowerWalk, TempleWalk, //Opposing land type means this will move over any creature it moves onto instead of triggering combat
     DesertAffinity, ForestAffinity, CityAffinity, TowerAffinity, SanctuaryAffinity, //May only be placed in a lane with this land type
     Haste, //Moves an extra time during movement phase unless combat occurs
@@ -117,7 +117,7 @@ export const ModifierDesc:Record<Modifier,string> = {
     [Modifier.Banding]: 'Banding',
     [Modifier.Haste]: 'Haste',
     [Modifier.Ranged]: 'Ranged',
-    [Modifier.CantBlock]: 'Timid',
+    [Modifier.Timid]: 'Timid',
     [Modifier.DesertWalk]: 'Pathfinder - Desert',
     [Modifier.ForestWalk]: 'Pathfinder - Forest',
     [Modifier.CityWalk]: 'Pathfinder - City',

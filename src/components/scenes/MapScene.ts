@@ -675,6 +675,16 @@ export default class MapScene extends Scene {
         })
         state = store.getState().saveFile
         if(data.kind === Permanents.Land) onUpdateLands(state.currentMatch.lands.filter(l=>l.id!==props.cardId))
+        if(data.ability){
+            if(!data.ability.trigger){
+                //OnEnter effect
+                if(data.ability.conditionalSpend){
+                    if(!me.manaPool[data.ability.conditionalSpend]) return
+                }
+                onShowPendingEffect(data.ability)
+                this.showCardTargets(card)
+            }
+        }
     }
 
     refresh(match:MatchState) {

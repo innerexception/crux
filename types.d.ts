@@ -50,6 +50,7 @@ interface CardAbility  {
     tap?: boolean
     targets: import('./enum').Target
     trigger?: import('./enum').Triggers //default is onEnter
+    conditionalSpend?: import('./enum').Color //ability only triggers if this color was spent
     effect: CardEffect
 }
 
@@ -108,13 +109,12 @@ interface CardEffect {
     returnToBattle?:boolean
     playExtraLand?:boolean
     searchForForest?:boolean //Goes into play instantly
-    viewHand?:boolean
     taunt?:boolean //creatures may not leave this creature's lane
     tauntPlayer?:boolean //new creatures must be placed in an open lane
     resetMovement?:boolean //send all targets to starting tiles
     shuffle?:boolean
     putForestInPlay?:boolean
-    viewTop3?:boolean
+    lookAtTop3?:boolean
     lookAtHand?:boolean
     extraTurn?:boolean //extra turn and then you lose 
     hp3perBlackCreature?:boolean

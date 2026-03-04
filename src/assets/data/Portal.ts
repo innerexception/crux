@@ -75,11 +75,18 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         defaultAtk: 1,
         defaultDef: 1,
-        cost: [{kind:Color.Blue, amount:1}],
+        cost: [{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
-        defaultAttributes: [Modifier.Nimble, Modifier.CantBlock],
-        ability: null,
+        defaultAttributes: [Modifier.Nimble, Modifier.Timid],
+        ability: {
+            targets: Target.Players,
+            conditionalSpend: Color.Blue,
+            effect: {
+                sprite: IconIndex.Buff,
+                lookAtTop3: true
+            }
+        },
         sprite: CreatureSpriteIndex.Skypirate
     },
     [CardType.FireCloak]: {
@@ -199,7 +206,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         defaultMoves: 1,
         ability: null,
-        defaultAttributes: [Modifier.CantBlock],
+        defaultAttributes: [Modifier.Timid],
         sprite: CreatureSpriteIndex.ForestJackal
     },
     [CardType.Merfolk]: {
@@ -352,7 +359,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Players,
             effect: {
-                viewHand: true,
+                lookAtHand: true,
                 sprite: IconIndex.Debuff
             }
         },
@@ -437,7 +444,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
-        defaultAttributes:[Modifier.CantBlock],
+        defaultAttributes:[Modifier.Timid],
         ability: null,
         sprite: CreatureSpriteIndex.Brigand
     },
@@ -549,7 +556,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
-        defaultAttributes:[Modifier.CantBlock],
+        defaultAttributes:[Modifier.Timid],
         ability: null,
         sprite: CreatureSpriteIndex.Goblin3
     },
@@ -654,7 +661,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Self,
             effect: {
-                viewTop3: true,
+                lookAtTop3: true,
                 shuffle: true,
                 draw: 1,
                 sprite: IconIndex.Buff
@@ -985,7 +992,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes:[Modifier.Nimble, Modifier.CantBlock],
+        defaultAttributes:[Modifier.Nimble, Modifier.Timid],
         ability: null
     },
     [CardType.PowerWordUnsummon]: {
@@ -1010,7 +1017,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes:[Modifier.CantBlock],
+        defaultAttributes:[Modifier.Timid],
         ability: null
     },
     [CardType.CruelContract]: {
@@ -2236,7 +2243,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability: null,
-        defaultAttributes: [Modifier.CantBlock]
+        defaultAttributes: [Modifier.Timid]
     },
     [CardType.LavaAxe]: {
         color:Color.Red,
