@@ -642,8 +642,7 @@ export default class MapScene extends Scene {
         const spr = this.creatures.find(c=>c.id === card.id)
         spr.destroy()
         let board = store.getState().saveFile.currentMatch.board
-        board.splice(board.findIndex(c=>c.id === card.id), 1)
-        onUpdateBoard(Array.from(board))
+        onUpdateBoard(board.filter(c=>c.id !== card.id))
         const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
         onUpdatePlayer({...p, discard: p.discard.concat(card)})
     }

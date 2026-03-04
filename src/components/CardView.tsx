@@ -89,11 +89,5 @@ const renderEffect = (effect:CardEffect) =>
         {effect.creatureToHandFromLibrary && <div>Choose a creature from your library. Shuffle.</div>}
         {effect.creatureToLibrary && <div>Put this creature on top of your library.</div>}
         {effect.damageReflect && <div>Damage dealt to you is also dealt to the opposing player</div>}
-        {/* {effect.destroy2Creatures && <div>Destroy 2 target creatures.</div>}
-        {effect.destroyAll && <div>Destroy all targets</div>}
-        {effect.destroyForest && <div>Destroy a forest</div>}
-        {effect.destroyTower && <div>Destroy a tower</div>}
-        {effect.dmgAsCreaturePower && <div>Deal damage to target equal to creature's power</div>}
-         */}
         {/* //TODO */}
     </div>

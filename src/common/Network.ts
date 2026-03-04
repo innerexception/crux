@@ -14,7 +14,7 @@ export const createOrJoinLobby = async (id?:string) => {
     }
     const host = id ? false : true
     let sendRemotePlayer = false
-    if(!id) id = Phaser.Math.Between(1000,9999).toString()
+    if(!id) id = Phaser.Math.Between(100,999).toString()
     lobby = supabase.channel('crux_'+id)
     lobby.on('broadcast' as any, { event: NetworkEvent.LandDeck }, (data)=>onUpdateLands(data.payload.lands))
     lobby.on('broadcast' as any, { event: NetworkEvent.PlaySorcery }, (data)=>store.getState().scene.applyCreatureSorcery(data.payload))

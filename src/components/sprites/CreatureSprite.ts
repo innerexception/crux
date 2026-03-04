@@ -2,7 +2,7 @@ import { GameObjects } from "phaser"
 import { store } from "../../.."
 import { CreatureSpriteIndex, Direction, IconIndex, Layers, Permanents } from "../../../enum"
 import { getCardData } from "../../common/CardUtils"
-import { onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
+import { onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
 
 export default class CreatureSprite extends GameObjects.Image {
@@ -33,7 +33,13 @@ export default class CreatureSprite extends GameObjects.Image {
                 const enemy = state.players.find(p=>p.id !== creature.ownerId)
                 onUpdatePlayer({...enemy, hp: enemy.hp-creature.atk})
                 this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Damage, '0xff0000', '-')
-                return //this.reset() TODO, return creature to hand
+                this.returnToHand()
+                const land = state.board.find(c=>c.tileX===next.x && c.tileY === next.y)
+                if(land){
+                    this.scene.tryRemoveCreature(land)
+                    this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Sword, '0xff0000')
+                }        
+                return
             }
             const target = store.getState().saveFile.currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
             if(target){
@@ -69,19 +75,21 @@ export default class CreatureSprite extends GameObjects.Image {
         this.setPosition(startTile.pixelX,startTile.pixelY)
     }
 
+    returnToHand(){
+        const state = store.getState().saveFile.currentMatch
+        let creature = state.board.find(c=>c.id === this.id)
+        let owner = state.players.find(p=>p.id === creature.ownerId)
+        onUpdatePlayer({...owner, hand: owner.hand.concat(creature)})
+        onUpdateBoard(state.board.filter(b=>b.id !== creature.id))
+        this.destroy()
+    }
+
     fight = async (target:Card) => {
-        const defender = getCardData(target)
         let thisCard = store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id)
         const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
             
         this.scene.flashIcon(myTile.pixelX, myTile.pixelY, IconIndex.Sword)
-        if(defender.kind === Permanents.Land){
-            //If target is land, apply pillage (tap land until end of controller's next turn)
-            //this.reset() TODO, return creature to hand, destroy target land
-            onUpdateBoardCreature(target)
-            return this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Sword, '0xff0000')
-        }
-
+        
         //1. def - atk
         const defHp = target.def - thisCard.atk
         const atkHp = thisCard.def - target.atk
