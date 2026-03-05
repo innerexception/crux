@@ -680,9 +680,8 @@ export default class MapScene extends Scene {
         state = store.getState().saveFile
         if(data.kind === Permanents.Land){
             onUpdateLands(state.currentMatch.lands.filter(l=>l.id!==props.cardId))
-            return
-        } 
-        if(data.ability){
+        }
+        else if(data.kind === Permanents.Creature && data.ability){
             if(!data.ability.trigger){
                 //OnEnter effects
                 if(data.ability.conditionalSpend){
