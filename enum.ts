@@ -93,7 +93,7 @@ export enum Target {
 }
 
 export enum Triggers {
-    OnAttack,OnEnter,OnDeath,OnExit,InEnemyTerritory
+    OnAttack,OnEnter,OnDeath,OnExit,InEnemyTerritory,AtWill
 }
 
 export enum Modifier {

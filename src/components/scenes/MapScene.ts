@@ -1,8 +1,8 @@
 import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
-import { Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, SceneNames, Target } from "../../../enum";
+import { Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, SceneNames, Target, Triggers } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
-import { onInspectCreature, onSelectCardAbility, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer } from "../../common/Thunks";
+import { onInspectCreature, onSelectBoardCard, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
 import { canAfford, drawMarchingDashedRect, emptyMana, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, tapLand } from "../../common/CardUtils";
@@ -314,71 +314,19 @@ export default class MapScene extends Scene {
                 if(GameObjects.length > 0){
                     
                     const sprite = GameObjects[0] as CreatureSprite
-                    //determine card action: sorcery or enchant
-                    if(state.selectedCardId){
-                        //TODO: how to handle card effects from on the board
-                        let card = me.hand.find(c=>c.id === state.selectedCardId)
-                        if(!card) card = state.saveFile.currentMatch.board.find(c=>c.id === state.selectedCardId)
+                    if(state.selectedBoardCardId){
+                        const card = state.saveFile.currentMatch.board.find(c=>c.id === state.selectedBoardCardId)
+                        this.triggerCardAbility(card, sprite, false) //card on board are not discarded when triggered
+                        return
+                    }
+                    //determine card action: sorcery or enchant from hand
+                    if(state.selectedHandOrLandCardId){
+                        let card = me.hand.find(c=>c.id === state.selectedHandOrLandCardId)
                         if(!card) return
                         const dat = getCardData(card)
-                        if(dat.kind === Permanents.Creature || dat.kind === Permanents.Land) return
-                        const targets = dat.ability.targets
-                        if(targets === Target.CreaturesAndPlayers){
-                            if(networkActive) sendGlobalEffect(card)
-                            else this.applyGlobalEffect(card)
-                            return 
-                        }
-                        else if(targets === Target.AllCreatures){
-                            const props = {creatures: state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature), card}
-                            if(networkActive) sendMultiCreatureEffect(props)
-                            else this.applyMultiCreatureEffect(props)
-                            return 
-                        }
-                        else if(targets === Target.AllCreaturesYouControl){
-                            const props = {creatures: state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.ownerId === me.id), card}
-                            if(networkActive) sendMultiCreatureEffect(props)
-                            else this.applyMultiCreatureEffect(props)
-                            return 
-                        }
-                        else if(targets === Target.TappedCreatures){
-                            const props = {creatures: state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.tapped), card}
-                            if(networkActive) sendMultiCreatureEffect(props)
-                            else this.applyMultiCreatureEffect(props)
-                            return 
-                        }
-                        else if(targets === Target.CreaturesInLane){
-                            const props = {creatures: state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.tileX === card.tileX), card}
-                            if(networkActive) sendMultiCreatureEffect(props)
-                            else this.applyMultiCreatureEffect(props)
-                            return 
-                        }
-                        
-                        const pid = (GameObjects[0] as any).playerId
-                        if(pid){ //Targeting a player
-                            const player = state.saveFile.currentMatch.players.find(p=>p.id === pid)
-                            if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
-                                if(networkActive) sendTargetPlayerEffect({player, card})
-                                else this.targetPlayer({player, card})
-                            }
-                            else if(targets === Target.Self && pid === state.saveFile.myId){
-                                if(networkActive) sendTargetPlayerEffect({player, card})
-                                this.targetPlayer({player, card})
-                            }
-                            else if(targets === Target.AllPlayers){
-                                if(networkActive) sendAllPlayerEffect(card)
-                                else this.targetAllPlayers(card)
-                            }
-                            return
-                        }
-                        if(this.validTarget(sprite, card)){ //All other single targets
-                            const creature = state.saveFile.currentMatch.board.find(c=>c.id === sprite.id)
-                            if(networkActive) sendCreatureSorceryEffect({creature, sorcery:card})
-                            else{
-                                this.applyCreatureSorcery({creature, sorcery:card})
-                                this.payAndDiscard(card)
-                            } 
-                            return
-                        }
+                        if(dat.kind === Permanents.Sorcery || dat.kind === Permanents.Enchantment)
+                            this.triggerCardAbility(card, sprite, true)
+                        return
                     }
                     else {
                         //card action: Mana producer
@@ -389,22 +337,116 @@ export default class MapScene extends Scene {
                                 if(networkActive) sendLandTappedEffect(card)
                                 else this.tapLand(card)
                             }
+                            if(meta.ability.trigger === Triggers.AtWill){
+                                onSelectBoardCard(card)
+                            }
                         }
                     }
                 }
-                else if(GameObjects.length === 0 && state.selectedCardId){
-                    let card = me.hand.find(c=>c.id === state.selectedCardId)
-                    if(!card) card = state.saveFile.currentMatch.lands.find(l=>l.id === state.selectedCardId)
+                else if(GameObjects.length === 0 && state.selectedHandOrLandCardId){
+                    //If not over anything, place creature or land in valid space
+                    let card = me.hand.find(c=>c.id === state.selectedHandOrLandCardId)
+                    if(!card) card = state.saveFile.currentMatch.lands.find(l=>l.id === state.selectedHandOrLandCardId)
                     const d = getCardData(card)
-                    if(d.kind===Permanents.Land && me.hasPlayedLand) return
+                    if(d.kind === Permanents.Enchantment || d.kind === Permanents.Sorcery) return //Can only place lands & creatures in open spaces
+                    if(d.kind===Permanents.Land && me.hasPlayedLand) return //land cutoff
                     if(this.validStartTile(tile, me.dir, d.kind === Permanents.Land)){
-                        const props = {cardId:state.selectedCardId, worldX:tile.pixelX, worldY: tile.pixelY}
+                        const props = {cardId:state.selectedHandOrLandCardId, worldX:tile.pixelX, worldY: tile.pixelY}
                         if(networkActive) sendAddCard(props)
                         else this.addCard(props)
                     }
                 }
             }
         })
+    }
+
+    triggerCardAbility(card:Card, sprite:CreatureSprite, discard:boolean){
+        const state = store.getState()
+        const networkActive = state.saveFile.currentMatch.players.find(p=>p.isAI) ? false : true
+        const dat = getCardData(card)
+        const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
+        const targets = dat.ability.targets
+
+        if(targets === Target.CreaturesAndPlayers){
+            if(networkActive) sendGlobalEffect(card)
+            else{
+                this.applyGlobalEffect(card)
+                if(discard) this.payAndDiscard(card)
+            } 
+            return 
+        }
+        else if(targets === Target.AllCreatures){
+            const props = {creatures: state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature), card}
+            if(networkActive) sendMultiCreatureEffect(props)
+            else{
+                this.applyMultiCreatureEffect(props)
+                if(discard) this.payAndDiscard(props.card)
+            } 
+            return 
+        }
+        else if(targets === Target.AllCreaturesYouControl){
+            const props = {creatures: state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.ownerId === me.id), card}
+            if(networkActive) sendMultiCreatureEffect(props)
+            else{
+                this.applyMultiCreatureEffect(props)
+                if(discard) this.payAndDiscard(props.card)
+            } 
+            return 
+        }
+        else if(targets === Target.TappedCreatures){
+            const props = {creatures: state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.tapped), card}
+            if(networkActive) sendMultiCreatureEffect(props)
+            else{
+                this.applyMultiCreatureEffect(props)
+                if(discard) this.payAndDiscard(props.card)
+            } 
+            return 
+        }
+        else if(targets === Target.CreaturesInLane){
+            const props = {creatures: state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.tileX === card.tileX), card}
+            if(networkActive) sendMultiCreatureEffect(props)
+            else{
+                this.applyMultiCreatureEffect(props)
+                if(discard) this.payAndDiscard(props.card)
+            } 
+            return 
+        }
+        
+        const pid = (GameObjects[0] as any).playerId
+        if(pid){ //Targeting a player
+            const player = state.saveFile.currentMatch.players.find(p=>p.id === pid)
+            if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
+                if(networkActive) sendTargetPlayerEffect({player, card})
+                else{
+                    this.targetPlayer({player, card})
+                    if(discard) this.payAndDiscard(card)
+                } 
+            }
+            else if(targets === Target.Self && pid === state.saveFile.myId){
+                if(networkActive) sendTargetPlayerEffect({player, card})
+                else {
+                    this.targetPlayer({player, card})
+                    if(discard) this.payAndDiscard(card)
+                }
+            }
+            else if(targets === Target.AllPlayers){
+                if(networkActive) sendAllPlayerEffect(card)
+                else{
+                    this.targetAllPlayers(card)
+                    if(discard) this.payAndDiscard(card)
+                } 
+            }
+            return
+        }
+        if(this.validTarget(sprite, card)){ //All other single targets
+            const creature = state.saveFile.currentMatch.board.find(c=>c.id === sprite.id)
+            if(networkActive) sendCreatureSorceryEffect({creature, sorcery:card})
+            else{
+                this.applyCreatureSorcery({creature, sorcery:card})
+                if(discard) this.payAndDiscard(card)
+            } 
+            return
+        }
     }
 
     tapLand(card:Card){
@@ -418,13 +460,11 @@ export default class MapScene extends Scene {
 
     targetPlayer(props:{player:PlayerState, card:Card}) {
         this.applyPlayerEffect(props.player, props.card)
-        this.payAndDiscard(props.card)
     }
 
     targetAllPlayers(card:Card) {
         const players = store.getState().saveFile.currentMatch.players
         players.forEach(player=>this.applyPlayerEffect(player, card))
-        this.payAndDiscard(card)
     }
 
     validTarget(sprite:CreatureSprite, sorcery:Card):boolean {
@@ -527,7 +567,6 @@ export default class MapScene extends Scene {
 
     applyMultiCreatureEffect(props:{card:Card, creatures:Card[]}) {
         props.creatures.forEach(creature=>this.applyCreatureSorcery({creature, sorcery: props.card}))
-        this.payAndDiscard(props.card)
     }
 
     applyGlobalEffect(card:Card) {
@@ -536,7 +575,7 @@ export default class MapScene extends Scene {
 
         const creatures = store.getState().saveFile.currentMatch.board
         creatures.forEach(creature=>this.applyCreatureSorcery({creature, sorcery: card}))
-        this.payAndDiscard(card)
+        
     }
 
     applyPlayerEffect(targetPlayer:PlayerState, c:Card) {
@@ -694,7 +733,7 @@ export default class MapScene extends Scene {
                 if(data.ability.conditionalSpend){
                     if(!me.manaPool[data.ability.conditionalSpend]) return
                 }
-                onSelectCardAbility(card)
+                onSelectBoardCard(card)
             }
         }
     }

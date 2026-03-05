@@ -64,7 +64,7 @@ export const onSelectCreature = (k:Card) => {
     } 
 }
 
-export const onSelectCardAbility = (k:Card) => {
+export const onSelectBoardCard = (k:Card) => {
     store.getState().scene.showAbilityTargets(getCardData(k).ability)
     store.dispatch({ type: UIReducerActions.SELECT_CARD_ABILITY, data: k.id })
 }

@@ -68,7 +68,7 @@ interface CardEffect {
     destroyForest?:boolean
     destroyTower?:boolean
     destroyOnEnter?:boolean //destroy a land you control
-    duration?: number
+    duration?: number //777 = until discarded
     atkUp?:number
     defUp?:number
     whenDamaged?:boolean //procs when damage is applied to this creature
@@ -159,8 +159,8 @@ interface RState {
     joinedPlayer: PlayerState
     selectedSaveName: string
     inspectCardId: string
-    selectedCardId: string
-    selectedCardAbility: CardAbility
+    selectedHandOrLandCardId: string
+    selectedBoardCardId: string
     scene: import('./src/components/scenes/MapScene').default
 }
 
