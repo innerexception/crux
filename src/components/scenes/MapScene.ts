@@ -8,7 +8,7 @@ import { canAfford, drawMarchingDashedRect, emptyMana, getColorlessRemain, payCo
 import { getCardData, tapLand } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
 import PlayerSprite from "../sprites/PlayerSprite";
-import { sendAddCardEffect, sendAllPlayerEffect, sendCreatureSorceryEffect, sendGlobalEffect, sendLandTappedEffect, sendSomeCreaturesEffect as sendMultiCreatureEffect, sendTargetPlayerEffect } from "../../common/Network";
+import { sendAddCardEffect as sendAddCard, sendAllPlayerEffect, sendCreatureSorceryEffect, sendGlobalEffect, sendLandTappedEffect, sendSomeCreaturesEffect as sendMultiCreatureEffect, sendTargetPlayerEffect } from "../../common/Network";
 
 const TILE_DIM=32
 const FIELD_WIDTH=3
@@ -194,76 +194,72 @@ export default class MapScene extends Scene {
         }
     }
 
-    showCardTargets = (show:boolean) => {
+    hideCardTargets() {
         this.g.clear()
-        if(!show) return
-        this.time.addEvent({
-            delay:250,
-            callback: () => {
-                const state = store.getState()
-                const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
-                let card = me.hand.find(c=>c.id === state.selectedCardId)
-                if(!card) card = state.saveFile.currentMatch.lands.find(l=>l.id === state.selectedCardId)
-                const dat = getCardData(card)
-                if(dat.kind === Permanents.Land){
-                    if(me.dir === Direction.NORTH){
-                        this.northLands.forEach(t=>{
-                            drawMarchingDashedRect(this.g, t.getBounds() as Geom.Rectangle)
-                        })
-                    }
-                    else this.southLands.forEach(t=>{
-                        drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
-                    })
-                }
-                else if(dat.kind === Permanents.Creature){
-                    if(me.dir === Direction.NORTH){
-                        this.northCreatures.forEach(t=>{
-                            drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
-                        })
-                    }
-                    else this.southCreatures.forEach(t=>{
-                        drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
-                    })
-                }
-                else if(dat.kind === Permanents.Enchantment){
-                    let creatureTiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
-                            .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
-                    if(dat.ability.targets === Target.CreaturesYouControl){
-                        creatureTiles = state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id && getCardData(c).kind === Permanents.Creature)
-                            .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
-                    }
-                    creatureTiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
-                }
-                else if(dat.kind === Permanents.Sorcery){
-                    let tiles = []
-                    if(dat.ability.targets === Target.Lands){
-                        tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land)
-                            .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
-                    }
-                    if(dat.ability.targets === Target.Creature){
-                        tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
-                            .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
-                    }
-                    if(dat.ability.targets === Target.CreaturesOrPlayers || dat.ability.targets === Target.CreaturesAndPlayers){
-                        tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
-                            .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
-                        tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerNorth.x, this.playerNorth.y, false, undefined, Layers.Earth))
-                        tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerSouth.x, this.playerSouth.y, false, undefined, Layers.Earth))
-                    }
-                    if(dat.ability.targets === Target.CreaturesYouControl){
-                        tiles = state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id && getCardData(c).kind === Permanents.Creature)
-                            .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
-                    }
-                    if(dat.ability.targets === Target.CreaturesYourGraveyard){
-                        return onShowModal(Modal.Graveyard)
-                    }
-                    if(dat.ability.targets === Target.CreaturesAnyGraveyard){
-                        return onShowModal(Modal.AnyGraveyard) //TODO
-                    }
-                    tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
-                }
+    }
+
+    showCardTargets = (card:Card) => {
+        this.g.clear()
+        const state = store.getState()
+        const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
+        const dat = getCardData(card)
+        if(dat.kind === Permanents.Land){
+            if(me.dir === Direction.NORTH){
+                this.northLands.forEach(t=>{
+                    drawMarchingDashedRect(this.g, t.getBounds() as Geom.Rectangle)
+                })
             }
-        })
+            else this.southLands.forEach(t=>{
+                drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
+            })
+        }
+        else if(dat.kind === Permanents.Creature){
+            if(me.dir === Direction.NORTH){
+                this.northCreatures.forEach(t=>{
+                    drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
+                })
+            }
+            else this.southCreatures.forEach(t=>{
+                drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
+            })
+        }
+        else if(dat.kind === Permanents.Enchantment){
+            let creatureTiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
+                    .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
+            if(dat.ability.targets === Target.CreaturesYouControl){
+                creatureTiles = state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id && getCardData(c).kind === Permanents.Creature)
+                    .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
+            }
+            creatureTiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
+        }
+        else if(dat.kind === Permanents.Sorcery){
+            let tiles = []
+            if(dat.ability.targets === Target.Lands){
+                tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land)
+                    .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
+            }
+            if(dat.ability.targets === Target.Creature){
+                tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
+                    .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
+            }
+            if(dat.ability.targets === Target.CreaturesOrPlayers || dat.ability.targets === Target.CreaturesAndPlayers){
+                tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
+                    .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
+                tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerNorth.x, this.playerNorth.y, false, undefined, Layers.Earth))
+                tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerSouth.x, this.playerSouth.y, false, undefined, Layers.Earth))
+            }
+            if(dat.ability.targets === Target.CreaturesYouControl){
+                tiles = state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id && getCardData(c).kind === Permanents.Creature)
+                    .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
+            }
+            if(dat.ability.targets === Target.CreaturesYourGraveyard){
+                return onShowModal(Modal.Graveyard)
+            }
+            if(dat.ability.targets === Target.CreaturesAnyGraveyard){
+                return onShowModal(Modal.AnyGraveyard) //TODO
+            }
+            tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
+        }
     }
 
     createSelectIcon = () => {
@@ -302,7 +298,7 @@ export default class MapScene extends Scene {
         this.input.on('pointerdown', (event, GameObjects:Array<Phaser.GameObjects.GameObject>) => {
             if (event.rightButtonDown()){
                 this.creaturePreview.destroy()
-                return onSelectCreature('',null)
+                return onSelectCreature(null)
             }
             const state = store.getState()
             let tile = this.map?.getTileAtWorldXY(this.input.activePointer.worldX, this.input.activePointer.worldY, false, undefined, Layers.Earth)
@@ -312,7 +308,7 @@ export default class MapScene extends Scene {
                 if(GameObjects.length > 0){
                     
                     const sprite = GameObjects[0] as CreatureSprite
-                    //determine card action
+                    //determine card action: sorcery or enchant
                     if(state.selectedCardId){
                         const card = me.hand.find(c=>c.id === state.selectedCardId)
                         const dat = getCardData(card)
@@ -376,6 +372,7 @@ export default class MapScene extends Scene {
                         }
                     }
                     else {
+                        //card action: Mana producer
                         const card = state.saveFile.currentMatch.board.find(c=>c.id === sprite.id)
                         if(card){
                             const meta = getCardData(card)
@@ -393,7 +390,7 @@ export default class MapScene extends Scene {
                     if(d.kind===Permanents.Land && me.hasPlayedLand) return
                     if(this.validStartTile(tile, me.dir, d.kind === Permanents.Land)){
                         const props = {cardId:state.selectedCardId, worldX:tile.pixelX, worldY: tile.pixelY}
-                        if(networkActive) sendAddCardEffect(props)
+                        if(networkActive) sendAddCard(props)
                         else this.addCard(props)
                     }
                 }
@@ -486,7 +483,7 @@ export default class MapScene extends Scene {
 
     payAndDiscard(card:Card){
         this.creaturePreview?.destroy()
-        onSelectCreature('', null)
+        onSelectCreature(null)
         const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
         const data = getCardData(card)
         let colorless = null
@@ -659,7 +656,7 @@ export default class MapScene extends Scene {
 
     addCard = (props:{cardId:string, worldX:number,worldY:number}) => {
         this.creaturePreview?.destroy()
-        onSelectCreature('',null)
+        onSelectCreature(null)
         let state = store.getState().saveFile
         const me = state.currentMatch.players.find(p=>p.id === state.currentMatch.activePlayerId)
         let card = me.hand.find(c=>c.id === props.cardId)
@@ -677,7 +674,7 @@ export default class MapScene extends Scene {
         if(data.kind === Permanents.Land) onUpdateLands(state.currentMatch.lands.filter(l=>l.id!==props.cardId))
         if(data.ability){
             if(!data.ability.trigger){
-                //OnEnter effect
+                //OnEnter effects
                 if(data.ability.conditionalSpend){
                     if(!me.manaPool[data.ability.conditionalSpend]) return
                 }
