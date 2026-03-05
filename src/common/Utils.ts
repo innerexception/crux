@@ -72,12 +72,16 @@ export const getAIPlayer = ():PlayerState => {
 export const canAfford = (mana:Record<Color,number>, c:Card) => {
     const cost = getCardData(c).cost
     if(cost){
-        if(cost.find(c=>mana[c.kind] < c.amount)) return false
-        //colorless
         const colorlessCost = cost.find(c=>c.kind === Color.None)
-        if(colorlessCost){
+        if(!colorlessCost){
+            return !cost.find(c=>mana[c.kind] < c.amount)
+        }
+        else {
             //subtract colored first to get remainder
-            const mans = {...mana}
+            let mans = {...mana}
+            const invalidAmt = cost.filter(c=>c.kind !== Color.None).find(c=>mans[c.kind]<c.amount)
+            if(invalidAmt) return false
+
             cost.filter(c=>c.kind !== Color.None).forEach(c=>mans[c.kind]-=c.amount)
             const colorless = Object.keys(mans).map((c:Color)=>mans[c]).reduce((sum,next)=>sum+next)
             return colorless >= colorlessCost.amount
@@ -96,23 +100,24 @@ export const getColorlessRemain = (mana:Record<Color,number>, c:Card) => {
 }
 
 export const payCost = (mana:Record<Color,number>, cost?:ManaCost[]):Record<Color,number> => {
-    if(!cost) return mana
+    const newMana = {...mana}
+    if(!cost) return newMana
     cost.filter(c=>c.kind!==Color.None).forEach(c=>{
-        mana[c.kind]-=c.amount
+        newMana[c.kind]-=c.amount
     })
     const colorless = cost.find(c=>c.kind===Color.None)
     if(colorless){
         let amt = colorless.amount
         while(amt > 0){
-            Object.keys(mana).forEach(color=>{
-                if(mana[color]>0 && amt > 0){
-                    mana[color]--
+            Object.keys(newMana).forEach(color=>{
+                if(newMana[color]>0 && amt > 0){
+                    newMana[color]--
                     amt--
                 } 
             })
         }
     }
-    return mana
+    return newMana
 }
 
 export const trySaveFile = async (json:string) => {

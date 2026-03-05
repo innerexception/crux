@@ -15,7 +15,8 @@ export enum UIReducerActions {
     UPDATE_LANDS='UPDATE_LANDS',
     NETWORK_MESSAGE='NETWORK_MESSAGE',
     SET_LOBBY='SET_LOBBY',
-    PLAYER_JOIN='PLAYER_JOIN'
+    PLAYER_JOIN='PLAYER_JOIN',
+    SELECT_CARD_ABILITY='SELECT_CARD_ABILITY'
 }
 
 export enum Modal {
@@ -106,7 +107,6 @@ export enum Modifier {
     BlockerMaxPwr1, //Non-defender creatures with pwr>1 may not be placed in this lane 
     Taunt, //Creatures may not leave this creature's lane.
     Ranged, //Creature may tap to deal its power to another creature in lane, up to 2 squares away
-    Unblockable, //See affinity ability
     Defender, //Does not move during movement phase
     Vigilant, //Cannot be targeted by sorcery or enchantments
     Fearsome //Creatures cannot be placed in this lane
@@ -114,7 +114,6 @@ export enum Modifier {
 
 export const ModifierDesc:Record<Modifier,string> = {
     [Modifier.Defender]: 'Does not move',
-    [Modifier.Unblockable]: 'Unblockable',
     [Modifier.Banding]: 'Banding',
     [Modifier.Haste]: 'Haste',
     [Modifier.Ranged]: 'Ranged',
@@ -130,7 +129,7 @@ export const ModifierDesc:Record<Modifier,string> = {
     [Modifier.DesertAffinity]: 'Affinity - Desert',
     [Modifier.SanctuaryAffinity]: 'Affinity - Sactuary',
     [Modifier.Vigilant]: 'Vigilant',
-    [Modifier.Nimble]: 'Flying',
+    [Modifier.Nimble]: 'Nimble',
     [Modifier.ProtectionFromBlack]: 'Protection from City',
     [Modifier.ProtectionFromBlue]: 'Protection from Spirit',
     [Modifier.ProtectionFromGreen]: 'Protection from Forest',

@@ -2,6 +2,7 @@ import { store } from "../.."
 import { Modal, SceneNames, UIReducerActions } from "../../enum"
 import IntroScene from "../components/scenes/IntroScene"
 import MapScene from "../components/scenes/MapScene"
+import { getCardData } from "./CardUtils"
 import { sendEndTurn, sendLandDeck } from "./Network"
 import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
 
@@ -63,9 +64,9 @@ export const onSelectCreature = (k:Card) => {
     } 
 }
 
-export const onSelectBoardCard = (k:Card) => {
-    store.getState().scene.showCardTargets(k)
-    store.dispatch({ type: UIReducerActions.SELECT_CARD, data: k.id })
+export const onSelectCardAbility = (k:Card) => {
+    store.getState().scene.showAbilityTargets(getCardData(k).ability)
+    store.dispatch({ type: UIReducerActions.SELECT_CARD_ABILITY, data: k.id })
 }
 
 export const onUpdateSave = (s:SaveFile) => {

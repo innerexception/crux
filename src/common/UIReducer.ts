@@ -21,6 +21,8 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
             return { ...state, inspectCardId: action.data }
         case UIReducerActions.SELECT_CARD:
             return { ...state, selectedCardId: action.data }
+        case UIReducerActions.SELECT_CARD_ABILITY:
+            return { ...state, selectedCardAbility: action.data }
         case UIReducerActions.SET_LOBBY:
             return { ...state, lobbyId: action.data }
         case UIReducerActions.NETWORK_MESSAGE:
@@ -50,6 +52,7 @@ const getInitialState = () => {
         isLoaded:false,
         saveFile: null,
         selectedSaveName: '',
+        selectedCardAbility: null,
         currentMatch: null,
         scene: null,
         selectedCardId: '',

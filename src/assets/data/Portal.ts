@@ -1380,7 +1380,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null,
-        defaultAttributes: [Modifier.Unblockable]
+        defaultAttributes: [Modifier.Fearsome]
     },
     [CardType.LabSpecimen]: {
         color:Color.Black,
@@ -1755,7 +1755,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 duration: 1,
                 onlyColor: Color.Black,
                 sprite: IconIndex.Damage,
-                addAttributes:[Modifier.Unblockable]
+                addAttributes:[Modifier.Fearsome]
             }
         },
         sprite: CreatureSpriteIndex.Placeholder

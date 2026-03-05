@@ -160,6 +160,7 @@ interface RState {
     selectedSaveName: string
     inspectCardId: string
     selectedCardId: string
+    selectedCardAbility: CardAbility
     scene: import('./src/components/scenes/MapScene').default
 }
 
