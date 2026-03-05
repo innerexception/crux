@@ -1,7 +1,7 @@
 import * as React from 'react'
-import AppStyles from '../styles/AppStyles';
-import { Button } from '../common/Shared';
-import { onShowModal } from '../common/Thunks';
+import AppStyles from '../../styles/AppStyles';
+import { Button } from '../../common/Shared';
+import { onShowModal } from '../../common/Thunks';
 
 export default () => {
     

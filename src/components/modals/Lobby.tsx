@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { Button, CssIcon } from '../common/Shared';
-import { onSetLobby, onShowModal } from '../common/Thunks';
-import AppStyles from '../styles/AppStyles';
+import { Button, CssIcon } from '../../common/Shared';
+import { onSetLobby, onShowModal } from '../../common/Thunks';
+import AppStyles from '../../styles/AppStyles';
 import { useSelector } from 'react-redux';
-import { createOrJoinLobby, sendStartMatch } from '../common/Network';
-import { Modal } from '../../enum';
+import { createOrJoinLobby, sendStartMatch } from '../../common/Network';
+import { Modal } from '../../../enum';
 
 export default () => {
     const saveFile = useSelector((s:RState)=>s.saveFile)

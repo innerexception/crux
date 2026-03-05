@@ -1,12 +1,12 @@
 import * as React from 'react'
-import { Button, CssIcon } from '../common/Shared';
-import { onQuit, onShowModal, onStartMatch, onUpdateSave } from '../common/Thunks';
-import { getAIPlayer, tryLoadFile, trySaveFile } from '../common/Utils';
-import AppStyles from '../styles/AppStyles';
+import { Button, CssIcon } from '../../common/Shared';
+import { onQuit, onShowModal, onStartMatch, onUpdateSave } from '../../common/Thunks';
+import { getAIPlayer, tryLoadFile, trySaveFile } from '../../common/Utils';
+import AppStyles from '../../styles/AppStyles';
 import{ v4 } from 'uuid'
 import { useSelector } from 'react-redux';
-import { defaultCards } from '../common/CardUtils';
-import { CreatureSpriteIndex, Direction, Modal, PlayerAvatars } from '../../enum';
+import { defaultCards } from '../../common/CardUtils';
+import { CreatureSpriteIndex, Direction, Modal, PlayerAvatars } from '../../../enum';
 
 export default () => {
 
@@ -47,7 +47,7 @@ export default () => {
     
     return (
         <div style={{...AppStyles.modal, margin:'auto', width:'auto', border:'none'}}>
-            <h3 style={{textAlign:'center', marginBottom:'0.5em'}}>MENAGERIE</h3>
+            <h3 style={{textAlign:'center', marginBottom:'0.5em'}}>CRUX</h3>
             <div style={{display:'flex', gap:'5px', alignItems:'center'}}>
                 <div style={{display:'flex', marginRight:'1em'}}>
                     <Button enabled={selectedAvatarI > 0} text={'<'} handler={()=>setPlayerAvatar(selectedAvatarI-1)}/>

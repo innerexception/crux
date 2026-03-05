@@ -2,7 +2,7 @@ import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
 import { Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, SceneNames, Target } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
-import { onInspectCreature, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer } from "../../common/Thunks";
+import { onInspectCreature, onSelectBoardCard, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
 import { canAfford, drawMarchingDashedRect, emptyMana, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, tapLand } from "../../common/CardUtils";
@@ -310,7 +310,9 @@ export default class MapScene extends Scene {
                     const sprite = GameObjects[0] as CreatureSprite
                     //determine card action: sorcery or enchant
                     if(state.selectedCardId){
-                        const card = me.hand.find(c=>c.id === state.selectedCardId)
+                        //TODO: how to handle card effects from on the board
+                        let card = me.hand.find(c=>c.id === state.selectedCardId)
+                        if(!card) card = state.saveFile.currentMatch.board.find(c=>c.id === state.selectedCardId)
                         const dat = getCardData(card)
                         if(dat.kind === Permanents.Creature || dat.kind === Permanents.Land) return
                         const targets = dat.ability.targets
@@ -518,6 +520,7 @@ export default class MapScene extends Scene {
 
     applyMultiCreatureEffect(props:{card:Card, creatures:Card[]}) {
         props.creatures.forEach(creature=>this.applyCreatureSorcery({creature, sorcery: props.card}))
+        this.payAndDiscard(props.card)
     }
 
     applyGlobalEffect(card:Card) {
@@ -526,6 +529,7 @@ export default class MapScene extends Scene {
 
         const creatures = store.getState().saveFile.currentMatch.board
         creatures.forEach(creature=>this.applyCreatureSorcery({creature, sorcery: card}))
+        this.payAndDiscard(card)
     }
 
     applyPlayerEffect(targetPlayer:PlayerState, c:Card) {
@@ -548,10 +552,16 @@ export default class MapScene extends Scene {
         //     onShowModal(Modal.EnemyTop5Remove1)
         // }
         if(effect.cardToHandFromGY){
-            onShowModal(Modal.ChooseFromGY)
+            onShowModal(Modal.ChooseFromGY, {targetPlayer})
         }
         if(effect.discard){
-            onShowModal(Modal.ChooseDiscard)
+            onShowModal(Modal.ChooseDiscard, {targetPlayer})
+        }
+        if(effect.lookAtTop3){
+            onShowModal(Modal.ViewDeckTop3, {targetPlayer})
+        }
+        if(effect.searchSorceryForTop){
+            onShowModal(Modal.PickNextSorcery, {targetPlayer})
         }
         if(effect.dmg){
             targetPlayer.hp-=effect.dmg
@@ -572,9 +582,6 @@ export default class MapScene extends Scene {
         if(effect.hpPerLand){
             const forests = store.getState().saveFile.currentMatch.board.filter(c=>c.kind === effect.hpPerLand)
             targetPlayer.hp+=forests.length*effect.hpUp
-        }
-        if(effect.searchSorceryForTop){
-            onShowModal(Modal.PickNextSorcery)
         }
         if(targetPlayer.hp <= 0){
             if(targetPlayer.id === store.getState().saveFile.myId) onShowModal(Modal.GameOver)
@@ -671,15 +678,17 @@ export default class MapScene extends Scene {
             manaPool: payCost(me.manaPool, data.cost)
         })
         state = store.getState().saveFile
-        if(data.kind === Permanents.Land) onUpdateLands(state.currentMatch.lands.filter(l=>l.id!==props.cardId))
+        if(data.kind === Permanents.Land){
+            onUpdateLands(state.currentMatch.lands.filter(l=>l.id!==props.cardId))
+            return
+        } 
         if(data.ability){
             if(!data.ability.trigger){
                 //OnEnter effects
                 if(data.ability.conditionalSpend){
                     if(!me.manaPool[data.ability.conditionalSpend]) return
                 }
-                onShowPendingEffect(data.ability)
-                this.showCardTargets(card)
+                onSelectBoardCard(card)
             }
         }
     }

@@ -55,8 +55,16 @@ export const onSelectCreature = (k:Card) => {
     if(k){
         state.scene.startPreview(k)
         state.scene.showCardTargets(k)
+        store.dispatch({ type: UIReducerActions.SELECT_CARD, data: k.id })
     }
-    else state.scene.hideCardTargets()
+    else{
+        state.scene.hideCardTargets()
+        store.dispatch({ type: UIReducerActions.SELECT_CARD, data: null })
+    } 
+}
+
+export const onSelectBoardCard = (k:Card) => {
+    store.getState().scene.showCardTargets(k)
     store.dispatch({ type: UIReducerActions.SELECT_CARD, data: k.id })
 }
 
@@ -78,7 +86,7 @@ export const onQuit = () => {
     //const intro = store.getState().scene.scene.get(SceneNames.Intro) as IntroScene
     //intro.sound.get(SoundEffects.Intro).play()
 
-    store.dispatch({ type: UIReducerActions.SHOW_MODAL, data:Modal.NewGame })
+    onShowModal(Modal.NewGame)
 }
 
 export const onSetScene = (scene:MapScene) => {
@@ -95,8 +103,8 @@ export const onStartMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:
     }
 }
 
-export const onShowModal = (modal:Modal) => {
-    store.dispatch({ type: UIReducerActions.SHOW_MODAL, data:modal })
+export const onShowModal = (modal:Modal, data?:any) => {
+    store.dispatch({ type: UIReducerActions.SHOW_MODAL, data:{modal,data} })
 }
 
 export const onSave = () => {

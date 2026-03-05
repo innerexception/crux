@@ -1,9 +1,9 @@
 import * as React from 'react'
-import AppStyles from '../styles/AppStyles';
-import { Button } from '../common/Shared';
-import { onShowModal } from '../common/Thunks';
+import AppStyles from '../../styles/AppStyles';
+import { Button } from '../../common/Shared';
+import { onShowModal } from '../../common/Thunks';
 import { useSelector } from 'react-redux';
-import CardView from './CardView';
+import CardView from '../CardView';
 
 export default () => {
     const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId))

@@ -152,6 +152,7 @@ interface MatchState {
 
 interface RState {
     activeModal: import('./enum').Modal
+    modalData:any
     isLoaded:boolean
     saveFile:SaveFile
     lobbyId:string

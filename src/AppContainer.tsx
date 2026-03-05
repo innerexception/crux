@@ -2,17 +2,18 @@ import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { Modal } from '../enum';
 import Viewport from './components/Viewport';
-import NewGame from './components/NewGame';
+import NewGame from './components/modals/NewGame';
 import StatusBar from './components/StatusBar';
-import Options from './components/Options';
+import Options from './components/modals/Options';
 import DeckView from './components/DeckView';
 import CardView from './components/CardView';
 import Sidebar from './components/Sidebar';
-import Graveyard from './components/Graveyard';
+import Graveyard from './components/modals/Graveyard';
 import CPUDeck from './components/CPUDeck';
-import LandChoice from './components/LandChoice';
-import Lobby from './components/Lobby';
+import LandChoice from './components/modals/LandChoice';
+import Lobby from './components/modals/Lobby';
 import Deckbuilder from './components/Deckbuilder';
+import LookAtCodex from './components/modals/LookAtCodex';
 
 export default () => {
 
@@ -26,6 +27,7 @@ export default () => {
       case Modal.ShowLandChoices: return <LandChoice/>
       case Modal.Lobby: return <Lobby/>
       case Modal.Deckbuilder: return <Deckbuilder/>
+      case Modal.ViewDeckTop3: return <LookAtCodex number={3}/>
       default: return <span/>
     }
   }

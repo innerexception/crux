@@ -12,7 +12,7 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
         case UIReducerActions.UPDATE:
             return { ...state, saveFile: action.data }
         case UIReducerActions.SHOW_MODAL: 
-            return { ...state, activeModal: action.data }
+            return { ...state, activeModal: action.data.modal, modalData: action.data.data }
         case UIReducerActions.START_NEW_MATCH:
             return { ...state, saveFile: {...state.saveFile, currentMatch: action.data}, activeModal:null, isLoaded: true }
         case UIReducerActions.SAVE:
@@ -45,6 +45,7 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
 const getInitialState = () => {
     return {
         activeModal: null,
+        modalData: null,
         joinedPlayer: null,
         isLoaded:false,
         saveFile: null,
