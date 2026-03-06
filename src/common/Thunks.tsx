@@ -21,7 +21,7 @@ export const onRecievePlayer = (data:PlayerState) => {
 
 export const onEndTurn = (match:MatchState) => {
     if(match.players.find(p=>p.isAI)){
-        store.getState().scene.endTurn(match)
+        store.getState().scene.net_endTurn(match)
     }
     else sendEndTurn(match)
 }
