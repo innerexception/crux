@@ -2,7 +2,7 @@ import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
 import { Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, SceneNames, Target, Triggers } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
-import { onInspectCreature, onSelectBoardCard, onSelectCreature, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer } from "../../common/Thunks";
+import { onInspectCreature, onSelectBoardCard, onSelectCreature as onSelectCard, onSetScene, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
 import { canAfford, drawMarchingDashedRect, emptyMana, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, tapLand } from "../../common/CardUtils";
@@ -304,7 +304,7 @@ export default class MapScene extends Scene {
         this.input.on('pointerdown', (event, GameObjects:Array<Phaser.GameObjects.GameObject>) => {
             if (event.rightButtonDown()){
                 this.creaturePreview.destroy()
-                return onSelectCreature(null)
+                return onSelectCard(null)
             }
             const state = store.getState()
             let tile = this.map?.getTileAtWorldXY(this.input.activePointer.worldX, this.input.activePointer.worldY, false, undefined, Layers.Earth)
@@ -312,21 +312,21 @@ export default class MapScene extends Scene {
                 const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
                 const networkActive = state.saveFile.currentMatch.players.find(p=>p.isAI) ? false : true
                 if(GameObjects.length > 0){
-                    
                     const sprite = GameObjects[0] as CreatureSprite
-                    if(state.selectedBoardCardId){
-                        const card = state.saveFile.currentMatch.board.find(c=>c.id === state.selectedBoardCardId)
-                        this.triggerCardAbility(card, sprite, false) //card on board are not discarded when triggered
-                        return
-                    }
                     //determine card action: sorcery or enchant from hand
-                    if(state.selectedHandOrLandCardId){
-                        let card = me.hand.find(c=>c.id === state.selectedHandOrLandCardId)
-                        if(!card) return
-                        const dat = getCardData(card)
-                        if(dat.kind === Permanents.Sorcery || dat.kind === Permanents.Enchantment)
-                            this.triggerCardAbility(card, sprite, true)
-                        return
+                    if(state.selectedCardId){
+                        let card = me.hand.find(c=>c.id === state.selectedCardId)
+                        if(card){
+                            const dat = getCardData(card)
+                            if(dat.kind === Permanents.Sorcery || dat.kind === Permanents.Enchantment)
+                                this.triggerCardAbility(card, sprite, true)
+                            return
+                        }
+                        card = state.saveFile.currentMatch.board.find(c=>c.id === state.selectedCardId)
+                        if(card){
+                            this.triggerCardAbility(card, sprite, false) //card on board are not discarded when triggered
+                            return
+                        }
                     }
                     else {
                         //card action: Mana producer
@@ -343,15 +343,15 @@ export default class MapScene extends Scene {
                         }
                     }
                 }
-                else if(GameObjects.length === 0 && state.selectedHandOrLandCardId){
+                else if(GameObjects.length === 0 && state.selectedCardId){
                     //If not over anything, place creature or land in valid space
-                    let card = me.hand.find(c=>c.id === state.selectedHandOrLandCardId)
-                    if(!card) card = state.saveFile.currentMatch.lands.find(l=>l.id === state.selectedHandOrLandCardId)
+                    let card = me.hand.find(c=>c.id === state.selectedCardId)
+                    if(!card) card = state.saveFile.currentMatch.lands.find(l=>l.id === state.selectedCardId)
                     const d = getCardData(card)
                     if(d.kind === Permanents.Enchantment || d.kind === Permanents.Sorcery) return //Can only place lands & creatures in open spaces
                     if(d.kind===Permanents.Land && me.hasPlayedLand) return //land cutoff
                     if(this.validStartTile(tile, me.dir, d.kind === Permanents.Land)){
-                        const props = {cardId:state.selectedHandOrLandCardId, worldX:tile.pixelX, worldY: tile.pixelY}
+                        const props = {cardId:state.selectedCardId, worldX:tile.pixelX, worldY: tile.pixelY}
                         if(networkActive) sendAddCard(props)
                         else this.addCard(props)
                     }
@@ -532,7 +532,7 @@ export default class MapScene extends Scene {
 
     payAndDiscard(card:Card){
         this.creaturePreview?.destroy()
-        onSelectCreature(null)
+        onSelectCard(null)
         const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
         const data = getCardData(card)
         let colorless = null
@@ -709,7 +709,7 @@ export default class MapScene extends Scene {
 
     addCard = (props:{cardId:string, worldX:number,worldY:number}) => {
         this.creaturePreview?.destroy()
-        onSelectCreature(null)
+        onSelectCard(null)
         let state = store.getState().saveFile
         const me = state.currentMatch.players.find(p=>p.id === state.currentMatch.activePlayerId)
         let card = me.hand.find(c=>c.id === props.cardId)

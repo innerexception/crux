@@ -159,8 +159,7 @@ interface RState {
     joinedPlayer: PlayerState
     selectedSaveName: string
     inspectCardId: string
-    selectedHandOrLandCardId: string
-    selectedBoardCardId: string
+    selectedCardId: string
     scene: import('./src/components/scenes/MapScene').default
 }
 
