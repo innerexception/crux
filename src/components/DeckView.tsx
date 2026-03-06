@@ -1,7 +1,7 @@
 import Tooltip from 'rc-tooltip';
 import * as React from 'react'
 import { useSelector } from 'react-redux';
-import { onSelectCreature, onShowModal, onUpdatePlayer } from '../common/Thunks';
+import { onEndTurn, onSelectCreature, onShowModal, onUpdatePlayer } from '../common/Thunks';
 import { canAfford } from '../common/Utils';
 import { getCreatureDetail } from './CardView';
 import { Button, CssIcon } from '../common/Shared';
@@ -15,7 +15,8 @@ export default () => {
     const myTurn = useSelector((state:RState)=>state.saveFile.currentMatch.activePlayerId === state.saveFile.myId)
     const lands = useSelector((state:RState)=>state.saveFile.currentMatch.board.filter(b=>b.ownerId === me.id && getCardData(b).kind === Permanents.Land))
     const selectedCardId = useSelector((state:RState)=>state.selectedCardId)
-    
+    const match = useSelector((state:RState)=>state.saveFile.currentMatch)
+
     const drawNext = () => {
         onUpdatePlayer({...me, 
             drawAllowed: me.drawAllowed-1,
@@ -33,6 +34,7 @@ export default () => {
                 <Button icon={IconIndex.Draw} enabled={myTurn && me.deck.cards.length>0 && me.drawAllowed > 0} text="Draw" handler={()=>drawNext()}/>
                 <Button icon={IconIndex.Draw} enabled={myTurn && (!me.hasPlayedLand) && lands.length<6} text="Create Land" handler={()=>onShowModal(Modal.ShowLandChoices)}/>
                 <Button icon={IconIndex.Graveyard} enabled={myTurn && me.discard.length>0} text="Graveyard" handler={()=>onShowModal(Modal.Graveyard)}/>
+                <Button enabled={myTurn} text="End Turn" icon={IconIndex.Quit} handler={()=>onEndTurn(match)}/>
             </div>
         </div>
     )

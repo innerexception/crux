@@ -18,7 +18,12 @@ import LookAtCodex from './components/modals/LookAtCodex';
 export default () => {
 
   const state = useSelector((state:RState)=>state)
- 
+  const myTurn = useSelector((state:RState)=>{
+    if(!state.saveFile) return true
+    if(!state.saveFile.currentMatch) return true
+    return state.saveFile.currentMatch.activePlayerId === state.saveFile?.myId
+  })
+
   const getModal = () => {
     switch(state.activeModal){
       case Modal.NewGame: return <NewGame/>
@@ -35,6 +40,7 @@ export default () => {
   return (
     <div style={{position:'relative', height:'100vh', overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center'}}>
       {state.activeModal && <div style={{position:'absolute', height:'fit-content', width:'800px', left:0,right:0,bottom:0,top:0, margin:'auto', zIndex:1}}>{getModal()}</div>}
+      {!myTurn && <div style={{position:'absolute', top:0, left:0, width:'100vw', height:'100vh', background:'white', opacity:0.1, zIndex:2}}/>}
       <div style={{position:'relative'}}>
         {state.activeModal !== Modal.NewGame && state.isLoaded && <Sidebar />}
         {state.activeModal !== Modal.NewGame && state.isLoaded && <StatusBar />}
