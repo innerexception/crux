@@ -82,50 +82,6 @@ export default class MapScene extends Scene {
         this.cameras.main.centerToBounds()
     }
 
-    net_endTurn = async (match:MatchState) => {
-        const current = match.players.find(p=>p.id === match.activePlayerId)
-        
-        //0. clear dead creatures
-        const rm = match.board.filter(c=>c.def <= 0)
-        rm.forEach(c=>this.tryRemoveCreature(c))
-        match = store.getState().saveFile.currentMatch
-
-        //1. move creatures / resolve combats
-        const mine = this.creatures.filter(c=>match.board.find(cr=>cr.id===c.id && cr.ownerId === current.id))
-        for(let i=0;i<mine.length;i++){
-            await mine[i].tryMoveNext()
-        }
-        match = store.getState().saveFile.currentMatch
-        //2. set next player
-        const nextPlayer = match.players.find(p=>p.id !== current.id)
-        onUpdateActivePlayer(nextPlayer.id)
-
-        //3.reset player resources
-        match.board.forEach(c=>{
-            if(c.ownerId === nextPlayer.id){
-                c.tapped = false
-                c.newSummon = false
-                //add/remove timed status effects
-                c.status.forEach(s=>s.duration--)
-                c.status.forEach(s=>{
-                    if(s.duration <= 0){
-                        this.expireEffect(c, s)
-                    }
-                })
-            }
-        })
-        onUpdateBoard(Array.from(match.board))
-        onUpdatePlayer({...nextPlayer,
-            drawAllowed:1,
-            hasPlayedLand:false,
-            manaPool:{...emptyMana}
-        })
-
-        if(nextPlayer.isAI){
-            this.runAITurn()
-        }
-    }
-
     playAILand = () => {
         let state=store.getState().saveFile.currentMatch
         const p = state.players.find(p=>p.id === state.activePlayerId)
@@ -464,6 +420,50 @@ export default class MapScene extends Scene {
     }
 
     //NET safe methods to perform side effects
+    
+    net_endTurn = async (match:MatchState) => {
+        const current = match.players.find(p=>p.id === match.activePlayerId)
+        
+        //0. clear dead creatures
+        const rm = match.board.filter(c=>c.def <= 0)
+        rm.forEach(c=>this.tryRemoveCreature(c))
+        match = store.getState().saveFile.currentMatch
+
+        //1. move creatures / resolve combats
+        const mine = this.creatures.filter(c=>match.board.find(cr=>cr.id===c.id && cr.ownerId === current.id))
+        for(let i=0;i<mine.length;i++){
+            await mine[i].tryMoveNext()
+        }
+        match = store.getState().saveFile.currentMatch
+        //2. set next player
+        const nextPlayer = match.players.find(p=>p.id !== current.id)
+        onUpdateActivePlayer(nextPlayer.id)
+
+        //3.reset player resources
+        match.board.forEach(c=>{
+            if(c.ownerId === nextPlayer.id){
+                c.tapped = false
+                c.newSummon = false
+                //add/remove timed status effects
+                c.status.forEach(s=>s.duration--)
+                c.status.forEach(s=>{
+                    if(s.duration <= 0){
+                        this.expireEffect(c, s)
+                    }
+                })
+            }
+        })
+        onUpdateBoard(Array.from(match.board))
+        onUpdatePlayer({...nextPlayer,
+            drawAllowed:1,
+            hasPlayedLand:false,
+            manaPool:{...emptyMana}
+        })
+
+        if(nextPlayer.isAI){
+            this.runAITurn()
+        }
+    }
 
     net_tapLand(card:Card){
         //tap and add to pool
