@@ -7,7 +7,6 @@ import CreatureSprite from "../sprites/CreatureSprite";
 import { canAfford, drawMarchingDashedRect, emptyMana, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, tapLand } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
-import PlayerSprite from "../sprites/PlayerSprite";
 import { sendAddCardEffect as sendAddCard, sendAllPlayerEffect, sendCreatureSorceryEffect, sendGlobalEffect, sendLandTappedEffect, sendSomeCreaturesEffect as sendMultiCreatureEffect, sendTargetPlayerEffect } from "../../common/Network";
 
 const TILE_DIM=32
@@ -71,10 +70,10 @@ export default class MapScene extends Scene {
         drawMarchingDashedRect(g, rect)
         const pn = match.players.find(p=>p.dir === Direction.NORTH)
         this.playerNorth?.destroy()
-        this.playerNorth = new PlayerSprite(this, rect.centerX, rect.top-64, pn.playerSprite, pn.id)
+        this.playerNorth = new CreatureSprite(this, rect.centerX, rect.top-64, pn.playerSprite, pn.id, Direction.NORTH)
         const ps = match.players.find(p=>p.dir === Direction.SOUTH)
         this.playerSouth?.destroy()
-        this.playerSouth = new PlayerSprite(this, rect.centerX, rect.bottom+32, ps.playerSprite, ps.id)
+        this.playerSouth = new CreatureSprite(this, rect.centerX, rect.bottom+32, ps.playerSprite, ps.id, Direction.SOUTH)
 
 
         this.refresh(match)
@@ -245,6 +244,10 @@ export default class MapScene extends Scene {
             tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land)
                 .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
         }
+        if(ability.targets === Target.LandsYouControl){
+            tiles = state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id && getCardData(c).kind === Permanents.Land)
+                .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
+        }
         if(ability.targets === Target.Creature){
             tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
                 .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
@@ -259,11 +262,21 @@ export default class MapScene extends Scene {
             tiles = state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id && getCardData(c).kind === Permanents.Creature)
                 .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
         }
-        if(ability.targets === Target.CreaturesYourGraveyard){
+        if(ability.targets === Target.CreaturesYourGraveyard || ability.targets === Target.YourGraveyard){
             return onShowModal(Modal.Graveyard)
         }
         if(ability.targets === Target.CreaturesAnyGraveyard){
             return onShowModal(Modal.AnyGraveyard) //TODO
+        }
+        if(ability.targets === Target.Players || ability.targets === Target.AllPlayers){
+            tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerNorth.x, this.playerNorth.y, false, undefined, Layers.Earth))
+            tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerSouth.x, this.playerSouth.y, false, undefined, Layers.Earth))
+        }
+        if(ability.targets === Target.Self){
+            if(me.dir === Direction.NORTH)
+                tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerNorth.x, this.playerNorth.y, false, undefined, Layers.Earth))
+            else
+                tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerSouth.x, this.playerSouth.y, false, undefined, Layers.Earth))
         }
         tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
     }
@@ -281,6 +294,7 @@ export default class MapScene extends Scene {
             let tile = this.map?.getTileAtWorldXY(this.input.activePointer.worldX, this.input.activePointer.worldY, false, undefined, Layers.Earth)
             if(tile && gameObjects.length > 0){
                 const bld = gameObjects[0] as CreatureSprite
+                if(store.getState().saveFile.currentMatch.players.find(p=>p.id === bld.id)) return
                 const ctr = bld.getCenter()
                 this.selectIcon.setPosition(ctr.x, ctr.y)
                 this.selectIcon.setVisible(true)
@@ -325,6 +339,7 @@ export default class MapScene extends Scene {
                         card = state.saveFile.currentMatch.board.find(c=>c.id === state.selectedCardId)
                         if(card){
                             this.triggerCardAbility(card, sprite, false) //card on board are not discarded when triggered
+                            onSelectCard(null)
                             return
                         }
                     }
@@ -412,32 +427,32 @@ export default class MapScene extends Scene {
             return 
         }
         
-        const pid = (GameObjects[0] as any).playerId
-        if(pid){ //Targeting a player
-            const player = state.saveFile.currentMatch.players.find(p=>p.id === pid)
-            if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
-                if(networkActive) sendTargetPlayerEffect({player, card})
-                else{
-                    this.targetPlayer({player, card})
-                    if(discard) this.payAndDiscard(card)
-                } 
-            }
-            else if(targets === Target.Self && pid === state.saveFile.myId){
-                if(networkActive) sendTargetPlayerEffect({player, card})
-                else {
-                    this.targetPlayer({player, card})
-                    if(discard) this.payAndDiscard(card)
-                }
-            }
-            else if(targets === Target.AllPlayers){
-                if(networkActive) sendAllPlayerEffect(card)
-                else{
-                    this.targetAllPlayers(card)
-                    if(discard) this.payAndDiscard(card)
-                } 
+        const player = state.saveFile.currentMatch.players.find(p=>p.id === sprite.id)
+        if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
+            if(networkActive) sendTargetPlayerEffect({player, card})
+            else{
+                this.targetPlayer({player, card})
+                if(discard) this.payAndDiscard(card)
+            } 
+            return
+        }
+        else if(targets === Target.Self && player.id === state.saveFile.myId){
+            if(networkActive) sendTargetPlayerEffect({player, card})
+            else {
+                this.targetPlayer({player, card})
+                if(discard) this.payAndDiscard(card)
             }
             return
         }
+        else if(targets === Target.AllPlayers){
+            if(networkActive) sendAllPlayerEffect(card)
+            else{
+                this.targetAllPlayers(card)
+                if(discard) this.payAndDiscard(card)
+            } 
+            return
+        }
+        
         if(this.validTarget(sprite, card)){ //All other single targets
             const creature = state.saveFile.currentMatch.board.find(c=>c.id === sprite.id)
             if(networkActive) sendCreatureSorceryEffect({creature, sorcery:card})

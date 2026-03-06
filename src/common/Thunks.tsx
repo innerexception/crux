@@ -104,7 +104,7 @@ export const onStartMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:
     }
 }
 
-export const onShowModal = (modal:Modal, data?:any) => {
+export const onShowModal = (modal:Modal, data?:ModalData) => {
     store.dispatch({ type: UIReducerActions.SHOW_MODAL, data:{modal,data} })
 }
 

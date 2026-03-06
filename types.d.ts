@@ -152,7 +152,7 @@ interface MatchState {
 
 interface RState {
     activeModal: import('./enum').Modal
-    modalData:any
+    modalData: ModalData
     isLoaded:boolean
     saveFile:SaveFile
     lobbyId:string
@@ -162,6 +162,10 @@ interface RState {
     selectedCardId: string
     scene: import('./src/components/scenes/MapScene').default
 }
+
+interface ModalData { 
+    targetPlayer: PlayerState
+} 
 
 interface SaveFile {
     myId:string

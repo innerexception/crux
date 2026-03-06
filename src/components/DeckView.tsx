@@ -14,7 +14,7 @@ export default () => {
     const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId))
     const myTurn = useSelector((state:RState)=>state.saveFile.currentMatch.activePlayerId === state.saveFile.myId)
     const lands = useSelector((state:RState)=>state.saveFile.currentMatch.board.filter(b=>b.ownerId === me.id && getCardData(b).kind === Permanents.Land))
-    const selectedCardId = useSelector((state:RState)=>state.selectedCard)
+    const selectedCardId = useSelector((state:RState)=>state.selectedCardId)
     
     const drawNext = () => {
         onUpdatePlayer({...me, 
@@ -25,11 +25,11 @@ export default () => {
     }
 
     return (
-        <div style={{width:'97%', display:'flex', justifyContent:'space-between', position:'absolute', bottom:50, left:10}}>
+        <div style={{width:'97%', justifyContent:'space-between', position:'absolute', bottom:10, left:10}}>
             <div style={{display:'flex', alignItems:'center', flexWrap:'wrap'}}>
                 {me.hand.map(c=>CardPreview(me, c, selectedCardId))}
             </div>
-            <div>
+            <div style={{display:'flex', justifyContent:'flex-end', marginTop:'10px'}}>
                 <Button icon={IconIndex.Draw} enabled={myTurn && me.deck.cards.length>0 && me.drawAllowed > 0} text="Draw" handler={()=>drawNext()}/>
                 <Button icon={IconIndex.Draw} enabled={myTurn && (!me.hasPlayedLand) && lands.length<6} text="Create Land" handler={()=>onShowModal(Modal.ShowLandChoices)}/>
                 <Button icon={IconIndex.Graveyard} enabled={myTurn && me.discard.length>0} text="Graveyard" handler={()=>onShowModal(Modal.Graveyard)}/>
