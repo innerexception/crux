@@ -339,7 +339,6 @@ export default class MapScene extends Scene {
                         card = state.saveFile.currentMatch.board.find(c=>c.id === state.selectedCardId)
                         if(card){
                             this.triggerCardAbility(card, sprite, false) //card on board are not discarded when triggered
-                            onSelectCard(null)
                             return
                         }
                     }
@@ -475,6 +474,7 @@ export default class MapScene extends Scene {
 
     targetPlayer(props:{player:PlayerState, card:Card}) {
         this.applyPlayerEffect(props.player, props.card)
+        onSelectCard(null)
     }
 
     targetAllPlayers(card:Card) {
@@ -596,7 +596,8 @@ export default class MapScene extends Scene {
     applyPlayerEffect(targetPlayer:PlayerState, c:Card) {
         
         const effect = getCardData(c).ability.effect
-        const caster = store.getState().saveFile.currentMatch.players.find(p=>p.id === c.ownerId)
+        const state = store.getState().saveFile
+        const caster = state.currentMatch.players.find(p=>p.id === c.ownerId)
         //TODO
         // if(effect.damageReflect){
         //     const otherPlayer = store.getState().saveFile.currentMatch.players.find(p=>p.id !== c.ownerId)
@@ -612,17 +613,20 @@ export default class MapScene extends Scene {
         // if(effect.arrangeTop5Remove1){
         //     onShowModal(Modal.EnemyTop5Remove1)
         // }
-        if(effect.cardToHandFromGY){
-            onShowModal(Modal.ChooseFromGY, {targetPlayer})
-        }
-        if(effect.discard){
-            onShowModal(Modal.ChooseDiscard, {targetPlayer})
-        }
-        if(effect.lookAtTop3){
-            onShowModal(Modal.ViewDeckTop3, {targetPlayer})
-        }
-        if(effect.searchSorceryForTop){
-            onShowModal(Modal.PickNextSorcery, {targetPlayer})
+        //Modal actions only happen on caster's client
+        if(caster.id === state.myId){
+            if(effect.cardToHandFromGY){
+                onShowModal(Modal.ChooseFromGY, {targetPlayer})
+            }
+            if(effect.discard){
+                onShowModal(Modal.ChooseDiscard, {targetPlayer})
+            }
+            if(effect.lookAtTop3){
+                onShowModal(Modal.ViewDeckTop3, {targetPlayer})
+            }
+            if(effect.searchSorceryForTop){
+                onShowModal(Modal.PickNextSorcery, {targetPlayer})
+            }
         }
         if(effect.dmg){
             targetPlayer.hp-=effect.dmg
