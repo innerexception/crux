@@ -22,7 +22,6 @@ interface Card {
     kind: import('./enum').CardType
     status: StatusEffect[]
     tapped:boolean
-    newSummon:boolean
     tileX:number
     tileY:number
     atk:number

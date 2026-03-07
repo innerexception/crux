@@ -1,7 +1,7 @@
 import { GameObjects } from "phaser"
 import { store } from "../../.."
 import { CreatureSpriteIndex, Direction, IconIndex, Layers, Permanents } from "../../../enum"
-import { getCardData } from "../../common/CardUtils"
+import { getCard, getCardData } from "../../common/CardUtils"
 import { onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
 
@@ -78,12 +78,13 @@ export default class CreatureSprite extends GameObjects.Image {
         const state = store.getState().saveFile.currentMatch
         let creature = state.board.find(c=>c.id === this.id)
         let owner = state.players.find(p=>p.id === creature.ownerId)
-        onUpdatePlayer({...owner, hand: owner.hand.concat(creature)})
+        onUpdatePlayer({...owner, hand: owner.hand.concat(getCard(owner.id, creature.kind, getCardData(creature)))}) //Enchants are removed
         onUpdateBoard(state.board.filter(b=>b.id !== creature.id))
         this.destroy()
     }
 
     fight = async (target:Card) => {
+        //TODO: tapped creature deals no damage
         let thisCard = store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id)
         const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
             

@@ -183,7 +183,7 @@ export const ColorIcons:Record<Color, IconIndex> = {
 
 export enum CardType {
     Temple='Temple',Desert='Desert',Tower='Tower',City='City',Forest='Forest',
-    Sandstorm='Sandstorm',FireCloak='FireCloak',FeatherCloak='FeatherCloak',
+    Sandstorm='Sandstorm',FeatherCloak='FeatherCloak',
     SkyPirates='SkyPirates',HeroicSoldier='HeroicSoldier',Earthquake='Earthquake',
     PeaceTreaty='PeaceTreaty', FertileSoil='FertileSoil',Hurricane='Hurricane',
     ForestJackal='JunglePanther',Merfolk='Merfolk',Refreshment='Refreshment',

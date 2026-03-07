@@ -77,7 +77,6 @@ const sendMessage = async (event:NetworkEvent, data:any) => {
 }
 
 const getMyPlayer = ():PlayerState => {
-    const myId = v4()
     const s = store.getState().saveFile
     const theDeck = s.decks.find(d=>d.id === s.currentDeckId)
     const deck:Deck = {
@@ -86,9 +85,8 @@ const getMyPlayer = ():PlayerState => {
         cards: Array.from(theDeck.cards)
     }
     const hand = deck.cards.splice(0,5)
-    onUpdateSave({...s, myId})
     return {
-        id:myId,
+        id:s.myId,
         hp:20,
         dir:null,
         hand,

@@ -292,8 +292,8 @@ export default class MapScene extends Scene {
                 const networkActive = state.saveFile.currentMatch.players.find(p=>p.isAI) ? false : true
                 if(GameObjects.length > 0){
                     const sprite = GameObjects[0] as CreatureSprite
-                    //determine card action: sorcery or enchant from hand
                     if(state.selectedCardId){
+                        //determine card action: Sorcery or Enchantment from hand
                         let card = me.hand.find(c=>c.id === state.selectedCardId)
                         if(card){
                             const dat = getCardData(card)
@@ -318,14 +318,14 @@ export default class MapScene extends Scene {
                         if(card){
                             if(card.tapped) return //tapped cards can't be activated
                             const meta = getCardData(card)
-                            if(meta.ability.effect.addMana && card.ownerId === me.id){
+                            if(meta.ability?.effect.addMana && card.ownerId === me.id){
                                 if(networkActive) sendLandTappedEffect(card)
                                 else this.net_tapLand(card)
                             }
-                            if(meta.ability.trigger === Triggers.AtWill || card.attributes.includes(Modifier.Nimble)){
+                            if(meta.ability?.trigger === Triggers.AtWill || card.attributes.includes(Modifier.Nimble)){
                                 if(card.attributes.includes(Modifier.Nimble)){
                                     let tiles = []
-                                    tiles.push(this.map.getTileAt(card.tileX-1, card.tileY, false, Layers.Earth))
+                                    tiles.push(this.map.getTileAt(card.tileX-1, card.tileY, false, Layers.Earth)) //TODO: left/right tiles may be occupied, or Taunt may be in effect
                                     tiles.push(this.map.getTileAt(card.tileX+1, card.tileY, false, Layers.Earth))
                                     tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
                                 }
@@ -485,7 +485,6 @@ export default class MapScene extends Scene {
         match.board.forEach(c=>{
             if(c.ownerId === nextPlayer.id){
                 c.tapped = false
-                c.newSummon = false
                 //add/remove timed status effects
                 c.status.forEach(s=>s.duration--)
                 c.status.forEach(s=>{

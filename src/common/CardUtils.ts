@@ -23,13 +23,12 @@ export const defaultCards = (playerId:string):Card[] => {
     return Object.keys(Portal).map((c:CardType)=>getCard(playerId,c,Portal[c]))
 }
 
-const getCard = (playerId:string,kind:CardType,c:CardMeta):Card => {
+export const getCard = (playerId:string,kind:CardType,c:CardMeta):Card => {
     return {
         id: v4(),
         ownerId: playerId,
         kind,
         tapped: false,
-        newSummon: true,
         tileX:null,
         tileY:null,
         status:[],

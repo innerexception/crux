@@ -89,21 +89,6 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Skypirate
     },
-    [CardType.FireCloak]: {
-        color:Color.Red,
-        cost: [{kind:Color.Red, amount:1}],
-        kind: Permanents.Enchantment,
-        defaultAttributes: null,
-        ability: {
-            targets: Target.Creature,
-            effect: {
-                atkUp: 2,
-                dmg:2,
-                sprite: IconIndex.Damage
-            }
-        },
-        sprite: CreatureSpriteIndex.FireCloak
-    },
     [CardType.FeatherCloak]: {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1}],
