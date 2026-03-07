@@ -1,5 +1,5 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
-import { CardType, NetworkEvent } from '../../enum'
+import { NetworkEvent } from '../../enum'
 import { onRecieveMessage, onRecievePlayer, onSetLobby, onStartMatch, onUpdateLands, onUpdateSave } from './Thunks'
 import { store } from '../..'
 import { emptyMana } from './Utils'
@@ -16,6 +16,8 @@ export const createOrJoinLobby = async (id?:string) => {
     let sendRemotePlayer = false
     if(!id) id = Phaser.Math.Between(100,999).toString()
     lobby = supabase.channel('crux_'+id)
+    lobby.on('broadcast' as any, { event: NetworkEvent.MoveCard }, (data)=>store.getState().scene.net_moveCard(data.payload))
+    lobby.on('broadcast' as any, { event: NetworkEvent.CancelAction }, ()=>store.getState().scene.net_cancelPendingAction())
     lobby.on('broadcast' as any, { event: NetworkEvent.TriggerAbility }, (data)=>store.getState().scene.net_triggerCardAbility(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.LandDeck }, (data)=>onUpdateLands(data.payload.lands))
     lobby.on('broadcast' as any, { event: NetworkEvent.TapLand }, (data)=>store.getState().scene.net_tapLand(data.payload))
@@ -52,6 +54,14 @@ export const sendEndTurn = (match:MatchState) => {
 
 export const sendAddCardEffect = (props:{cardId:string, worldX:number,worldY:number}) => {
     sendMessage(NetworkEvent.AddCard, props)
+}
+
+export const sendMoveCard = (props:{card:Card, tileX:number, tileY:number}) => {
+    sendMessage(NetworkEvent.MoveCard, props)
+}
+
+export const sendCancelAction = () => {
+    sendMessage(NetworkEvent.CancelAction, {})
 }
 
 export const sendLandTappedEffect = (land:Card) => {

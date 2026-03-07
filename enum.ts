@@ -32,8 +32,9 @@ export enum Direction {
 }
 
 export enum NetworkEvent {
-    Update='Update', Join='Join', Start='Start',EndTurn='EndTurn',
-    AddCard='AddCard',TapLand='TapLand',LandDeck='LandDeck',TriggerAbility='TriggerAbility'
+    Update='Update', Join='Join', Start='Start',EndTurn='EndTurn', CancelAction='CancelAction',
+    AddCard='AddCard',TapLand='TapLand',LandDeck='LandDeck',TriggerAbility='TriggerAbility',
+    MoveCard='MoveCard'
 }
 
 export enum SceneNames {

@@ -7,7 +7,7 @@ import CreatureSprite from "../sprites/CreatureSprite";
 import { canAfford, drawMarchingDashedRect, emptyMana, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, tapLand } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
-import { sendAddCardEffect, sendLandTappedEffect, sendTriggerCardAbility } from "../../common/Network";
+import { sendAddCardEffect, sendLandTappedEffect, sendMoveCard, sendTriggerCardAbility } from "../../common/Network";
 
 const TILE_DIM=32
 const FIELD_WIDTH=3
@@ -285,12 +285,6 @@ export default class MapScene extends Scene {
         })
 
         this.input.on('pointerdown', (event, GameObjects:Array<Phaser.GameObjects.GameObject>) => {
-            if (event.rightButtonDown()){
-                //TODO: move out to cancel button, needs warning when canceling pending effect
-                this.creaturePreview.destroy()
-                onShowAbilityPreview(null)
-                return onSelectCard(null)
-            }
             const state = store.getState()
             let tile = this.map?.getTileAtWorldXY(this.input.activePointer.worldX, this.input.activePointer.worldY, false, undefined, Layers.Earth)
             if(tile){
@@ -322,32 +316,66 @@ export default class MapScene extends Scene {
                         //card action: Mana producer
                         const card = state.saveFile.currentMatch.board.find(c=>c.id === sprite.id)
                         if(card){
+                            if(card.tapped) return //tapped cards can't be activated
                             const meta = getCardData(card)
-                            if(meta.ability.effect.addMana && !card.tapped && card.ownerId === me.id){
+                            if(meta.ability.effect.addMana && card.ownerId === me.id){
                                 if(networkActive) sendLandTappedEffect(card)
                                 else this.net_tapLand(card)
                             }
-                            if(meta.ability.trigger === Triggers.AtWill){
+                            if(meta.ability.trigger === Triggers.AtWill || card.attributes.includes(Modifier.Nimble)){
+                                if(card.attributes.includes(Modifier.Nimble)){
+                                    let tiles = []
+                                    tiles.push(this.map.getTileAt(card.tileX-1, card.tileY, false, Layers.Earth))
+                                    tiles.push(this.map.getTileAt(card.tileX+1, card.tileY, false, Layers.Earth))
+                                    tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
+                                }
+                                else this.showAbilityTargets(meta.ability)
                                 onSelectBoardCard(card)
                             }
                         }
                     }
                 }
                 else if(GameObjects.length === 0 && state.selectedCardId){
-                    //If not over anything, place creature or land in valid space
+                    //Empty space case, place creature or land in valid space
                     let card = me.hand.find(c=>c.id === state.selectedCardId)
-                    if(!card) card = state.saveFile.currentMatch.lands.find(l=>l.id === state.selectedCardId)
-                    const d = getCardData(card)
-                    if(d.kind === Permanents.Enchantment || d.kind === Permanents.Sorcery) return //Can only place lands & creatures in open spaces
-                    if(d.kind===Permanents.Land && me.hasPlayedLand) return //land cutoff
-                    if(this.validStartTile(tile, me.dir, d.kind === Permanents.Land)){
-                        if(card.attributes.includes(Modifier.Timid)){
+                    if(card){
+                        //handle placing CREATURE from hand in open space
+                        const d = getCardData(card)
+                        if(d.kind !== Permanents.Creature) return //Cannot place other types in open spaces
+                        if(card.attributes.includes(Modifier.Timid)){ //Exclude timids
                             if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === tile.x))
                                 return
                         }
-                        const props = {cardId:state.selectedCardId, worldX:tile.pixelX, worldY: tile.pixelY}
-                        if(networkActive) sendAddCardEffect(props)
-                        else this.net_addCard(props)
+                        if(this.validStartTile(tile, me.dir, false)){
+                            const props = {cardId:state.selectedCardId, worldX:tile.pixelX, worldY: tile.pixelY}
+                            if(networkActive) sendAddCardEffect(props)
+                            else this.net_addCard(props)
+                        }
+                        return
+                    }
+                    if(!card) card = state.saveFile.currentMatch.lands.find(l=>l.id === state.selectedCardId)
+                    if(card){
+                        //handle fresh LAND placement case
+                        if(me.hasPlayedLand) return //land cutoff
+                        if(this.validStartTile(tile, me.dir, true)){
+                            const props = {cardId:state.selectedCardId, worldX:tile.pixelX, worldY: tile.pixelY}
+                            if(networkActive) sendAddCardEffect(props)
+                            else this.net_addCard(props)
+                        }
+                        return
+                    }
+                    if(!card) card = state.saveFile.currentMatch.board.find(l=>l.id === state.selectedCardId)
+                    if(card){
+                        const d = getCardData(card)
+                        //handle MOVING a board CREATURE case
+                        if(d.kind !== Permanents.Creature || !card.attributes.includes(Modifier.Nimble)) return //Cannot displace other types
+                        if(tile.y===card.tileY && (tile.x === card.tileX-1||tile.x===card.tileX+1)){
+                            //If valid target proceed
+                            const props = { card, tileX:tile.x, tileY:tile.y }
+                            if(networkActive) sendMoveCard(props)
+                            else this.net_moveCard(props) //card on board are not discarded when triggered
+                            return
+                        }
                     }
                 }
             }
@@ -356,6 +384,19 @@ export default class MapScene extends Scene {
 
     //NET safe methods to perform side effects
     
+    net_moveCard(props:{card:Card, tileX:number, tileY:number}) {
+        const tile = this.map.getTileAt(props.tileX, props.tileY, false, Layers.Earth)
+        const spr = this.creatures.find(c=>c.id === props.card.id)
+        spr.setPosition(tile.pixelX, tile.pixelY)
+        onUpdateBoardCreature({...props.card, tileX: props.tileX, tileY: props.tileY, tapped: true})
+    }
+
+    net_cancelPendingAction(){
+        this.creaturePreview.destroy()
+        onShowAbilityPreview(null)
+        onSelectCard(null)
+    }
+
     net_triggerCardAbility(props:{card:Card, entityId:string, discard:boolean}){
         const state = store.getState()
         const card = props.card
@@ -499,6 +540,7 @@ export default class MapScene extends Scene {
                 if(data.ability.conditionalSpend){
                     if(!me.manaPool[data.ability.conditionalSpend]) return
                 }
+                this.showAbilityTargets(data.ability)
                 onSelectBoardCard(card)
             }
         }
