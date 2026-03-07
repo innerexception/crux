@@ -350,8 +350,8 @@ export default class MapScene extends Scene {
         const dat = getCardData(card)
         const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
         const targets = dat.ability.targets
-        const networkActive = state.saveFile.currentMatch.players.find(p=>p.isAI) ? false : true
-
+        onShowAbilityPreview(null)
+        
         if(targets === Target.CreaturesAndPlayers){
             this.applyGlobalEffect(card)
             if(discard) this.payAndDiscard(card)
@@ -460,6 +460,39 @@ export default class MapScene extends Scene {
         //TODO add exausted icon to card
     }
 
+    net_addCard = (props:{cardId:string, worldX:number,worldY:number}) => {
+        this.creaturePreview?.destroy()
+        onSelectCard(null)
+        let state = store.getState().saveFile
+        const me = state.currentMatch.players.find(p=>p.id === state.currentMatch.activePlayerId)
+        let card = me.hand.find(c=>c.id === props.cardId)
+        if(!card) card = state.currentMatch.lands.find(l=>l.id === props.cardId)
+        const data = getCardData(card)
+        if(data.kind === Permanents.Land) me.hasPlayedLand = true
+        this.creatures.push(new CreatureSprite(this, props.worldX,props.worldY, data.sprite, card.id, me.dir))
+        const t = this.map.getTileAtWorldXY(props.worldX,props.worldY,false, undefined, Layers.Earth)
+        onUpdateBoard(state.currentMatch.board.concat({...card, ownerId: me.id, tileX:t.x, tileY:t.y}))
+        onUpdatePlayer({...me, 
+            hand: me.hand.filter(c=>c.id !== props.cardId), 
+            manaPool: payCost(me.manaPool, data.cost)
+        })
+        state = store.getState().saveFile
+        if(data.kind === Permanents.Land){
+            onUpdateLands(state.currentMatch.lands.filter(l=>l.id!==props.cardId))
+        }
+        else if(data.kind === Permanents.Creature && data.ability){
+            if(!data.ability.trigger){
+                //OnEnter effects
+                if(data.ability.conditionalSpend){
+                    if(!me.manaPool[data.ability.conditionalSpend]) return
+                }
+                onSelectBoardCard(card)
+            }
+        }
+    }
+
+    //end NET safe methods
+
     targetPlayer(props:{player:PlayerState, card:Card}) {
         this.applyPlayerEffect(props.player, props.card)
         onSelectCard(null)
@@ -499,39 +532,6 @@ export default class MapScene extends Scene {
         creatures.forEach(creature=>this.applyCreatureSorcery({creature, sorcery: card}))
         
     }
-
-    net_addCard = (props:{cardId:string, worldX:number,worldY:number}) => {
-        this.creaturePreview?.destroy()
-        onSelectCard(null)
-        let state = store.getState().saveFile
-        const me = state.currentMatch.players.find(p=>p.id === state.currentMatch.activePlayerId)
-        let card = me.hand.find(c=>c.id === props.cardId)
-        if(!card) card = state.currentMatch.lands.find(l=>l.id === props.cardId)
-        const data = getCardData(card)
-        if(data.kind === Permanents.Land) me.hasPlayedLand = true
-        this.creatures.push(new CreatureSprite(this, props.worldX,props.worldY, data.sprite, card.id, me.dir))
-        const t = this.map.getTileAtWorldXY(props.worldX,props.worldY,false, undefined, Layers.Earth)
-        onUpdateBoard(state.currentMatch.board.concat({...card, ownerId: me.id, tileX:t.x, tileY:t.y}))
-        onUpdatePlayer({...me, 
-            hand: me.hand.filter(c=>c.id !== props.cardId), 
-            manaPool: payCost(me.manaPool, data.cost)
-        })
-        state = store.getState().saveFile
-        if(data.kind === Permanents.Land){
-            onUpdateLands(state.currentMatch.lands.filter(l=>l.id!==props.cardId))
-        }
-        else if(data.kind === Permanents.Creature && data.ability){
-            if(!data.ability.trigger){
-                //OnEnter effects
-                if(data.ability.conditionalSpend){
-                    if(!me.manaPool[data.ability.conditionalSpend]) return
-                }
-                onSelectBoardCard(card)
-            }
-        }
-    }
-
-    //end NET safe methods
 
     validTarget(entityId:string, sorcery:Card):boolean {
         const sorceryData = getCardData(sorcery)
@@ -700,14 +700,17 @@ export default class MapScene extends Scene {
         if(effect.defUp){
             creature.def+=effect.defUp
         }
+        if(effect.searchSorceryForTop){
+            if(me) onShowModal(Modal.PickNextSorcery)
+        }
         if(effect.cardToHandFromGY){
             if(me) onShowModal(Modal.ChooseFromGY)
         }
-        if(effect.destroy){
-            creature.def = 0
-        }
         if(effect.discard){
             if(me) onShowModal(Modal.ChooseDiscard)
+        }
+        if(effect.destroy){
+            creature.def = 0
         }
         if(effect.dmg){
             creature.def-=effect.dmg
@@ -728,9 +731,7 @@ export default class MapScene extends Scene {
         if(effect.pacifism){
             creature.moves = 0
         }
-        if(effect.searchSorceryForTop){
-            if(me) onShowModal(Modal.PickNextSorcery)
-        }
+        
         if(effect.untap){
             creature.tapped = false
         }
