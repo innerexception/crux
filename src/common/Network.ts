@@ -16,6 +16,7 @@ export const createOrJoinLobby = async (id?:string) => {
     let sendRemotePlayer = false
     if(!id) id = Phaser.Math.Between(100,999).toString()
     lobby = supabase.channel('crux_'+id)
+    lobby.on('broadcast' as any, { event: NetworkEvent.TriggerAbility }, (data)=>store.getState().scene.net_triggerCardAbility(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.LandDeck }, (data)=>onUpdateLands(data.payload.lands))
     lobby.on('broadcast' as any, { event: NetworkEvent.TapLand }, (data)=>store.getState().scene.net_tapLand(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.AddCard }, (data)=>store.getState().scene.net_addCard(data.payload))

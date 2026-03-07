@@ -151,6 +151,7 @@ export default class MapScene extends Scene {
 
     hideCardTargets() {
         this.g.clear()
+        onShowAbilityPreview(null)
     }
 
     showCardTargets = (card:Card) => {
@@ -158,7 +159,6 @@ export default class MapScene extends Scene {
         const state = store.getState()
         const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
         const dat = getCardData(card)
-        onShowAbilityPreview(dat.ability)
         if(dat.kind === Permanents.Land){
             if(me.dir === Direction.NORTH){
                 this.northLands.forEach(t=>{
@@ -278,6 +278,7 @@ export default class MapScene extends Scene {
 
         this.input.on('pointerdown', (event, GameObjects:Array<Phaser.GameObjects.GameObject>) => {
             if (event.rightButtonDown()){
+                //TODO: move out to cancel button, needs warning when canceling pending effect
                 this.creaturePreview.destroy()
                 onShowAbilityPreview(null)
                 return onSelectCard(null)

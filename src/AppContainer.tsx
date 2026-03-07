@@ -15,6 +15,7 @@ import Lobby from './components/modals/Lobby';
 import Deckbuilder from './components/Deckbuilder';
 import LookAtCodex from './components/modals/LookAtCodex';
 import CardDetailView from './components/CardDetailView';
+import AbilityPreview from './components/AbilityPreview';
 
 export default () => {
 
