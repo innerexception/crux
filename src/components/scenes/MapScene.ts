@@ -30,6 +30,7 @@ export default class MapScene extends Scene {
     southCreatures:Tilemaps.Tile[]
     playerNorth:GameObjects.Image
     playerSouth:GameObjects.Image
+    grid:Tilemaps.Tile[]
     
     constructor(config){
         super(config)
@@ -68,6 +69,7 @@ export default class MapScene extends Scene {
         const g = this.add.graphics().setDefaultStyles({ lineStyle: { width:2, color:0xffffff, alpha:0.5 }}).setDepth(7)
         const rect = new Geom.Rectangle(midTile.pixelX-(FIELD_WIDTH*TILE_DIM), midTile.pixelY-(FIELD_HEIGHT*TILE_DIM), FIELD_WIDTH*2*TILE_DIM, 5*TILE_DIM)
         drawMarchingDashedRect(g, rect)
+        this.grid = this.map.getTilesWithinShape(rect)
         const pn = match.players.find(p=>p.dir === Direction.NORTH)
         this.playerNorth?.destroy()
         this.playerNorth = new CreatureSprite(this, rect.centerX, rect.top-64, pn.playerSprite, pn.id, Direction.NORTH)
@@ -325,8 +327,10 @@ export default class MapScene extends Scene {
                             if(meta.ability?.trigger === Triggers.AtWill || card.attributes.includes(Modifier.Nimble)){
                                 if(card.attributes.includes(Modifier.Nimble)){
                                     let tiles = []
-                                    tiles.push(this.map.getTileAt(card.tileX-1, card.tileY, false, Layers.Earth)) //TODO: left/right tiles may be occupied, or Taunt may be in effect
-                                    tiles.push(this.map.getTileAt(card.tileX+1, card.tileY, false, Layers.Earth))
+                                    if(this.isEmptyTile(card.tileX-1, card.tileY))
+                                        tiles.push(this.map.getTileAt(card.tileX-1, card.tileY, false, Layers.Earth)) //TODO: left/right tiles may be occupied, or Taunt may be in effect
+                                    if(this.isEmptyTile(card.tileX+1, card.tileY))
+                                        tiles.push(this.map.getTileAt(card.tileX+1, card.tileY, false, Layers.Earth))
                                     tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
                                 }
                                 else this.showAbilityTargets(meta.ability)
@@ -370,18 +374,26 @@ export default class MapScene extends Scene {
                         //handle MOVING a board CREATURE case
                         if(d.kind !== Permanents.Creature || !card.attributes.includes(Modifier.Nimble)) return //Cannot displace other types
                         if(tile.y===card.tileY && (tile.x === card.tileX-1||tile.x===card.tileX+1)){
-                            //If valid target proceed
-                            const props = { card, tileX:tile.x, tileY:tile.y }
-                            if(networkActive) sendMoveCard(props)
-                            else this.net_moveCard(props) //card on board are not discarded when triggered
-                            onShowAbilityPreview(null)
-                            onSelectCard(null)
+                            if(this.isEmptyTile(tile.x, tile.y)){
+                                //If valid target proceed
+                                const props = { card, tileX:tile.x, tileY:tile.y }
+                                if(networkActive) sendMoveCard(props)
+                                else this.net_moveCard(props) //card on board are not discarded when triggered
+                                onShowAbilityPreview(null)
+                                onSelectCard(null)
+                            }
                             return
                         }
                     }
                 }
             }
         })
+    }
+
+    isEmptyTile(tileX:number, tileY:number){
+        if(store.getState().saveFile.currentMatch.board.find(c=>c.tileX === tileX && c.tileY === tileY)) 
+            return false
+        return this.grid.find(t=>t.x === tileX && t.y===tileY)
     }
 
     //NET safe methods to perform side effects
