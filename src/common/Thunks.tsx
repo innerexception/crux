@@ -6,6 +6,10 @@ import { getCardData } from "./CardUtils"
 import { sendEndTurn, sendLandDeck } from "./Network"
 import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
 
+export const onShowAbilityPreview = (ability:CardAbility) => {
+    store.dispatch({ type: UIReducerActions.SET_ABILITY, data:ability })
+}
+
 export const onSetLobby = (id:string) => {
     store.dispatch({ type: UIReducerActions.SET_LOBBY, data:id })
 }
