@@ -49,6 +49,7 @@ export default () => {
         <Viewport/>
         {state.activeModal !== Modal.NewGame && state.isLoaded && <DeckView/>}
         {state.inspectCardId && <div style={{position:'absolute', bottom:10, right:10, background:'black'}}><CardDetailView card={state.saveFile.currentMatch.board.find(c=>c.id === state.inspectCardId)}/></div>}
+        {state.previewAbility && <div style={{position:'absolute', top:10, left:10, background:'black'}}><AbilityPreview ability={state.previewAbility}/></div>}
       </div>
     </div>
   )
