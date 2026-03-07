@@ -1,7 +1,7 @@
 import { GameObjects } from "phaser"
 import { store } from "../../.."
-import { CreatureSpriteIndex, Direction, IconIndex, Layers, Permanents } from "../../../enum"
-import { getCard, getCardData } from "../../common/CardUtils"
+import { CreatureSpriteIndex, Direction, IconIndex, Layers } from "../../../enum"
+import { getCardData, resetCard } from "../../common/CardUtils"
 import { onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
 
@@ -78,7 +78,7 @@ export default class CreatureSprite extends GameObjects.Image {
         const state = store.getState().saveFile.currentMatch
         let creature = state.board.find(c=>c.id === this.id)
         let owner = state.players.find(p=>p.id === creature.ownerId)
-        onUpdatePlayer({...owner, hand: owner.hand.concat(getCard(owner.id, creature.kind, getCardData(creature)))}) //Enchants are removed
+        onUpdatePlayer({...owner, hand: owner.hand.concat(resetCard(creature))}) //Enchants are removed
         onUpdateBoard(state.board.filter(b=>b.id !== creature.id))
         this.destroy()
     }

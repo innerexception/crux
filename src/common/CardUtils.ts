@@ -23,11 +23,26 @@ export const defaultCards = (playerId:string):Card[] => {
     return Object.keys(Portal).map((c:CardType)=>getCard(playerId,c,Portal[c]))
 }
 
-export const getCard = (playerId:string,kind:CardType,c:CardMeta):Card => {
+const getCard = (playerId:string,kind:CardType,c:CardMeta):Card => {
     return {
         id: v4(),
         ownerId: playerId,
         kind,
+        tapped: false,
+        tileX:null,
+        tileY:null,
+        status:[],
+        atk: c.defaultAtk,
+        def: c.defaultDef,
+        moves: c.defaultMoves,
+        attributes: c.defaultAttributes || []
+    }
+}
+
+export const resetCard = (card:Card) => {
+    const c = getCardData(card)
+    return {
+        ...card,
         tapped: false,
         tileX:null,
         tileY:null,

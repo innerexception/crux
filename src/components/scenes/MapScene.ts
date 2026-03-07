@@ -451,20 +451,22 @@ export default class MapScene extends Scene {
         }
         
         const player = state.saveFile.currentMatch.players.find(p=>p.id === props.entityId)
-        if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
-            this.targetPlayer({player, card})
-            if(discard) this.payAndDiscard(card)
-            return
-        }
-        else if(targets === Target.Self && player.id === state.saveFile.myId){
-            this.targetPlayer({player, card})
-            if(discard) this.payAndDiscard(card)
-            return
-        }
-        else if(targets === Target.AllPlayers){
-            this.targetAllPlayers(card)
-            if(discard) this.payAndDiscard(card)
-            return
+        if(player){
+            if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
+                this.targetPlayer({player, card})
+                if(discard) this.payAndDiscard(card)
+                return
+            }
+            else if(targets === Target.Self && player.id === state.saveFile.myId){
+                this.targetPlayer({player, card})
+                if(discard) this.payAndDiscard(card)
+                return
+            }
+            else if(targets === Target.AllPlayers){
+                this.targetAllPlayers(card)
+                if(discard) this.payAndDiscard(card)
+                return
+            }
         }
         
         if(this.validTarget(props.entityId, card)){ //All other single targets
