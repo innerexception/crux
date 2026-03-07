@@ -1,7 +1,7 @@
 import Tooltip from 'rc-tooltip';
 import * as React from 'react'
 import { useSelector } from 'react-redux';
-import { onEndTurn, onSelectCreature, onShowModal, onUpdatePlayer } from '../common/Thunks';
+import { onEndTurn, onSelectCard, onShowModal, onUpdatePlayer } from '../common/Thunks';
 import { canAfford } from '../common/Utils';
 import { Button, CssIcon } from '../common/Shared';
 import { IconIndex, Modal, Permanents } from '../../enum';
@@ -42,7 +42,7 @@ export default () => {
     
 const CardPreview = (me:PlayerState, c:Card, selectedCardId:string) => {
     const dat = getCardData(c)
-    return <div onClick={canAfford(me.manaPool, c) ? ()=>onSelectCreature(c):null} 
+    return <div onClick={canAfford(me.manaPool, c) ? ()=>onSelectCard(c):null} 
                 style={{backgroundColor:'black',border: selectedCardId === c.id ? '1px solid' : 'none', marginRight:'5px', opacity: canAfford(me.manaPool, c) ? 1 : 0.5}}>
         <div style={{width:'120px', height:'25px', overflow:'hidden', border:'2px inset', fontSize:'16px', borderColor: colors[dat.color], paddingLeft:'5px', borderRadius:'5px'}}>
             <Tooltip overlay={<CardDetailView card={c}/>}>

@@ -51,7 +51,7 @@ export const onInspectCreature = (c:string) => {
     store.dispatch({ type: UIReducerActions.INSPECT_CARD, data: c })
 }
 
-export const onSelectCreature = (k:Card) => {
+export const onSelectCard = (k:Card) => {
     const state = store.getState()
     if(k){
         state.scene.startPreview(k)

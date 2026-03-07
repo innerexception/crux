@@ -31,11 +31,8 @@ export enum Direction {
 }
 
 export enum NetworkEvent {
-    Update='Update', Join='Join', Start='Start',EndTurn='EndTurn',PlaySorcery='PlaySorcery',
-    GlobalEffect='GlobalEffect',PlayerEffect='PlayerEffect',
-    AddCard='AddCard',TapLand='TapLand',AllPlayersEffect='AllPlayersEffect',
-    LandDeck='LandDeck',MultiCreatureEffect='MultiCreatureEffect',
-    TriggerAbility='TriggerAbility'
+    Update='Update', Join='Join', Start='Start',EndTurn='EndTurn',
+    AddCard='AddCard',TapLand='TapLand',LandDeck='LandDeck',TriggerAbility='TriggerAbility'
 }
 
 export enum SceneNames {

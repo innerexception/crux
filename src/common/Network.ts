@@ -16,14 +16,9 @@ export const createOrJoinLobby = async (id?:string) => {
     let sendRemotePlayer = false
     if(!id) id = Phaser.Math.Between(100,999).toString()
     lobby = supabase.channel('crux_'+id)
-    lobby.on('broadcast' as any, { event: NetworkEvent.MultiCreatureEffect }, (data)=>store.getState().scene.net_applyMultiCreatureEffect(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.LandDeck }, (data)=>onUpdateLands(data.payload.lands))
-    lobby.on('broadcast' as any, { event: NetworkEvent.PlaySorcery }, (data)=>store.getState().scene.net_applyCreatureSorcery(data.payload))
-    lobby.on('broadcast' as any, { event: NetworkEvent.AllPlayersEffect }, (data)=>store.getState().scene.net_targetAllPlayers(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.TapLand }, (data)=>store.getState().scene.net_tapLand(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.AddCard }, (data)=>store.getState().scene.net_addCard(data.payload))
-    lobby.on('broadcast' as any, { event: NetworkEvent.PlayerEffect }, (data)=>store.getState().scene.net_targetPlayer(data.payload))
-    lobby.on('broadcast' as any, { event: NetworkEvent.GlobalEffect }, (data)=>store.getState().scene.net_applyGlobalEffect(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.EndTurn }, (data)=>store.getState().scene.net_endTurn(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.Update }, (data)=>onRecieveMessage(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.Start }, ()=>onStartMatch(store.getState().saveFile, store.getState().joinedPlayer, host ? store.getState().saveFile.myId : store.getState().joinedPlayer.id))
@@ -50,18 +45,6 @@ export const sendStartMatch = async () => {
     await sendMessage(NetworkEvent.Start, {})
 }
 
-export const sendGlobalEffect = (card:Card) => {
-    sendMessage(NetworkEvent.GlobalEffect, card)
-}
-
-export const sendSomeCreaturesEffect = (props:{ card:Card, creatures:Card[]}) => {
-    sendMessage(NetworkEvent.MultiCreatureEffect, props)
-}
-
-export const sendTargetPlayerEffect = (props:{player:PlayerState, card:Card}) => {
-    sendMessage(NetworkEvent.PlayerEffect, props)
-}
-
 export const sendEndTurn = (match:MatchState) => {
     sendMessage(NetworkEvent.EndTurn, match)
 }
@@ -74,12 +57,8 @@ export const sendLandTappedEffect = (land:Card) => {
     sendMessage(NetworkEvent.TapLand, land)
 }
 
-export const sendAllPlayerEffect = (card:Card) => {
-    sendMessage(NetworkEvent.AllPlayersEffect, card)
-}
-
-export const sendCreatureSorceryEffect = (props:{creature:Card, sorcery:Card}) => {
-    sendMessage(NetworkEvent.PlaySorcery, props)
+export const sendTriggerCardAbility = (props:{card:Card, entityId:string, discard:boolean}) => {
+    sendMessage(NetworkEvent.TriggerAbility, props)
 }
 
 const sendMessage = async (event:NetworkEvent, data:any) => {
