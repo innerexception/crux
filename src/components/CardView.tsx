@@ -4,6 +4,7 @@ import { Button, CssIcon } from '../common/Shared';
 import { getCardData } from '../common/CardUtils';
 import { OtherIcons, IconIndex, Permanents, CreatureSpriteIndex, TargetsDesc, ModifierDesc, Color } from '../../enum';
 import Tooltip from 'rc-tooltip';
+import CardDetailView from './CardDetailView';
 
 export default (props:{card:Card}) => {
     
@@ -11,7 +12,7 @@ export default (props:{card:Card}) => {
 
     return (
         <div style={{width:'120px', height:'80px', border:'2px inset', fontSize:'16px', borderColor: colors[dat.color], paddingLeft:'5px', borderRadius:'5px'}}>
-            <Tooltip overlay={getCreatureDetail(dat, props.card)}>
+            <Tooltip overlay={<CardDetailView card={props.card}/>}>
                 <div style={{display:'flex', justifyContent:'space-between'}}>
                     <div style={{marginRight:'5px'}}>
                         <div>{props.card.kind}</div>
@@ -27,27 +28,6 @@ export default (props:{card:Card}) => {
     )
 }
     
-export const getCreatureDetail = (dat:CardMeta, card:Card) => 
-    <div style={{fontSize:'16px', borderColor: colors[dat.color]}}>
-       
-        <div style={{display:'flex', justifyContent:'space-between'}}>
-            <div style={{marginRight:'5px'}}>
-                <div style={{display:'flex', alignItems:'center'}}>
-                    <CssIcon spriteIndex={dat.sprite} noTooltip={true}/>
-                    {card.atk && <div style={{marginLeft:'5px'}}>{card.atk}/{card.def}</div>}
-                </div>
-            </div>
-        </div>
-        {dat.description && <div>{dat.description}</div>}
-        {card.attributes && card.attributes.map(a=><div>{ModifierDesc[a]}</div>)}
-        {dat.ability && <div>
-            <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Tap}/>} {renderCost(dat.ability.cost, dat.ability.effect?.dmgX)}</div>
-            {dat.ability.targets && <div>Affects: {TargetsDesc[dat.ability.targets]}</div>}
-            <div>{dat.ability.effect && renderEffect(dat.ability.effect)}</div>   
-        </div>}
-        {renderCost(dat.cost, dat.pumpColor ? true:false)}
-    </div>
-
 export const renderCost = (mana:ManaCost[], x:boolean) => {
     if(mana) return <div style={{display:'flex'}}>
         {mana.map(c=><div style={{display:'flex', alignItems:'center'}}><CssIcon noTooltip={true} spriteIndex={OtherIcons[c.kind]}/>{c.amount > 0 ? c.amount : '+'}</div>)}
@@ -56,8 +36,7 @@ export const renderCost = (mana:ManaCost[], x:boolean) => {
     return <span/>
 }
     
-
-const renderEffect = (effect:CardEffect) => 
+export const renderEffect = (effect:CardEffect) => 
     <div>
         {effect.duration && <div>For {effect.duration} turns: </div>}
         {effect.repeat && <div>{effect.repeat} times</div>}

@@ -193,6 +193,10 @@ export default class MapScene extends Scene {
     }
 
     showAbilityTargets = (ability:CardAbility) => {
+
+        //TODO: show pending ability
+        onShowAbilityPreview(ability)
+
         let tiles = []
         const state = store.getState()
         const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
