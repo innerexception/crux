@@ -2,7 +2,7 @@ import * as React from 'react'
 import AppStyles, { colors } from '../styles/AppStyles';
 import { Button, CssIcon } from '../common/Shared';
 import { getCardData } from '../common/CardUtils';
-import { IconIndex, TargetsDesc, ModifierDesc } from '../../enum';
+import { IconIndex, TargetsDesc, ModifierDesc, ColorIcons } from '../../enum';
 import { renderCost, renderEffect } from './CardView';
 
 export default (props:{card:Card}) => {
@@ -10,7 +10,7 @@ export default (props:{card:Card}) => {
     const dat = getCardData(props.card)
 
     return (
-        <div style={{fontSize:'16px', borderColor: colors[dat.color]}}>
+        <div style={{fontSize:'16px',border:'2px inset', borderColor: colors[dat.color], padding:'5px'}}>
             <div style={{display:'flex', justifyContent:'space-between'}}>
                 <div style={{marginRight:'5px'}}>
                     <div style={{display:'flex', alignItems:'center'}}>
@@ -24,6 +24,7 @@ export default (props:{card:Card}) => {
             {dat.ability && <div>
                 <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Tap}/>} {renderCost(dat.ability.cost, dat.ability.effect?.dmgX)}</div>
                 {dat.ability.targets && <div>Affects: {TargetsDesc[dat.ability.targets]}</div>}
+                {dat.ability.conditionalSpend && <div>If <CssIcon spriteIndex={ColorIcons[dat.ability.conditionalSpend]}/> was spent:</div>}
                 <div>{dat.ability.effect && renderEffect(dat.ability.effect)}</div>   
             </div>}
             {renderCost(dat.cost, dat.pumpColor ? true:false)}

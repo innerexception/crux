@@ -36,7 +36,7 @@ const getCard = (playerId:string,kind:CardType,c:CardMeta):Card => {
         atk: c.defaultAtk,
         def: c.defaultDef,
         moves: c.defaultMoves,
-        attributes: c.defaultAttributes
+        attributes: c.defaultAttributes || []
     }
 }
 

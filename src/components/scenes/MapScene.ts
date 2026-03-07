@@ -1,6 +1,6 @@
 import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
-import { Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Permanents, SceneNames, Target, Triggers } from "../../../enum";
+import { Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Modifier, Permanents, SceneNames, Target, Triggers } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
@@ -172,12 +172,20 @@ export default class MapScene extends Scene {
         else if(dat.kind === Permanents.Creature){
             if(me.dir === Direction.NORTH){
                 this.northCreatures.forEach(t=>{
+                    if(card.attributes.includes(Modifier.Timid)){
+                        if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === t.x))
+                            return
+                    }
                     drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
                 })
             }
             else this.southCreatures.forEach(t=>{
-                drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
-            })
+                    if(card.attributes.includes(Modifier.Timid)){
+                        if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === t.x))
+                            return
+                    }
+                    drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
+                })
         }
         else if(dat.kind === Permanents.Enchantment){
             let creatureTiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
@@ -333,6 +341,10 @@ export default class MapScene extends Scene {
                     if(d.kind === Permanents.Enchantment || d.kind === Permanents.Sorcery) return //Can only place lands & creatures in open spaces
                     if(d.kind===Permanents.Land && me.hasPlayedLand) return //land cutoff
                     if(this.validStartTile(tile, me.dir, d.kind === Permanents.Land)){
+                        if(card.attributes.includes(Modifier.Timid)){
+                            if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === tile.x))
+                                return
+                        }
                         const props = {cardId:state.selectedCardId, worldX:tile.pixelX, worldY: tile.pixelY}
                         if(networkActive) sendAddCardEffect(props)
                         else this.net_addCard(props)

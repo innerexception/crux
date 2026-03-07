@@ -2,7 +2,7 @@ import * as React from 'react'
 import AppStyles, { colors } from '../styles/AppStyles';
 import { Button, CssIcon } from '../common/Shared';
 import { getCardData } from '../common/CardUtils';
-import { OtherIcons, IconIndex, Permanents, CreatureSpriteIndex, TargetsDesc, ModifierDesc, Color } from '../../enum';
+import { ColorIcons, IconIndex, Permanents, CreatureSpriteIndex, TargetsDesc, ModifierDesc, Color } from '../../enum';
 import Tooltip from 'rc-tooltip';
 import CardDetailView from './CardDetailView';
 
@@ -30,8 +30,8 @@ export default (props:{card:Card}) => {
     
 export const renderCost = (mana:ManaCost[], x:boolean) => {
     if(mana) return <div style={{display:'flex'}}>
-        {mana.map(c=><div style={{display:'flex', alignItems:'center'}}><CssIcon noTooltip={true} spriteIndex={OtherIcons[c.kind]}/>{c.amount > 0 ? c.amount : '+'}</div>)}
-        {x && <div style={{display:'flex', alignItems:'center'}}><CssIcon noTooltip={true} spriteIndex={OtherIcons[Color.None]}/> X</div>}
+        {mana.map(c=><div style={{display:'flex', alignItems:'center'}}><CssIcon noTooltip={true} spriteIndex={ColorIcons[c.kind]}/>{c.amount > 0 ? c.amount : '+'}</div>)}
+        {x && <div style={{display:'flex', alignItems:'center'}}><CssIcon noTooltip={true} spriteIndex={ColorIcons[Color.None]}/> X</div>}
     </div>
     return <span/>
 }
@@ -62,7 +62,7 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.searchSorceryForTop && <div>Search your deck for a sorcery. It will be placed on top of your library.</div>}
         {effect.untap && <div>Untap target.</div>}
         {effect.addAttributes && <div>Creature gains {effect.addAttributes.join(' & ')}</div>}
-        {effect.addMana && <div>Add <CssIcon spriteIndex={OtherIcons[effect.addMana]}/></div>}
+        {effect.addMana && <div>Add <CssIcon spriteIndex={ColorIcons[effect.addMana]}/></div>}
         {effect.arrangeTop5Remove1 && <div>Look at enemy's top 5 and remove 1 from the fight</div>}
         {effect.creatureToHandFromGY && <div>Return target creature to your hand from your graveyard.</div>}
         {effect.creatureToHandFromLibrary && <div>Choose a creature from your library. Shuffle.</div>}

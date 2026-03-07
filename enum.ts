@@ -94,6 +94,15 @@ export enum Triggers {
     OnAttack,OnEnter,OnDeath,OnExit,InEnemyTerritory,AtWill
 }
 
+export const TriggerNames:Record<Triggers, string> = {
+    [Triggers.AtWill]: 'Once during your turn',
+    [Triggers.InEnemyTerritory]: 'When moved 2 or more',
+    [Triggers.OnAttack]:'When attacking',
+    [Triggers.OnDeath]:'When killed',
+    [Triggers.OnEnter]:'When summoned',
+    [Triggers.OnExit]:'When leaving the field'
+}
+
 export enum Modifier {
     Banding=1, //Adds adjacent creatures pwr/def during combat. Damage is assigned to non-banders first.
     ProtectionFromBlack,ProtectionFromWhite,ProtectionFromRed,ProtectionFromGreen,ProtectionFromBlue,
@@ -161,7 +170,7 @@ export const TargetsDesc:Record<Target,string> = {
     [Target.CreaturesAnyGraveyard]:'A Creature in any graveyard',
 }
 
-export const OtherIcons:Record<Color, IconIndex> = {
+export const ColorIcons:Record<Color, IconIndex> = {
     [Color.Red]:IconIndex.Red,
     [Color.Blue]:IconIndex.Blue,
     [Color.Green]:IconIndex.Green,
