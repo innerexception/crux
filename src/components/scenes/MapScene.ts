@@ -374,6 +374,8 @@ export default class MapScene extends Scene {
                             const props = { card, tileX:tile.x, tileY:tile.y }
                             if(networkActive) sendMoveCard(props)
                             else this.net_moveCard(props) //card on board are not discarded when triggered
+                            onShowAbilityPreview(null)
+                            onSelectCard(null)
                             return
                         }
                     }
