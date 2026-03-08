@@ -145,11 +145,18 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.HeroicSoldier]: {
         color:Color.White,
         defaultAtk: 1,
-        defaultDef: 2,
-        cost: [{kind:Color.White, amount:1}],
+        defaultDef: 1,
+        cost: [{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
-        ability: null,
+        ability: {
+            targets: Target.ThisCreature,
+            conditionalSpend: Color.White,
+            effect: {
+                defUp:1,
+                sprite: IconIndex.Buff
+            }
+        },
         sprite: CreatureSpriteIndex.HeroicSoldier
     },
     [CardType.FertileSoil]: {

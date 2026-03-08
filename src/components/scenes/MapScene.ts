@@ -223,6 +223,10 @@ export default class MapScene extends Scene {
             tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
                 .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
         }
+        if(ability.targets === Target.ThisCreature){
+            tiles = state.saveFile.currentMatch.board.filter(c=>c.id === store.getState().selectedCardId)
+                .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
+        }
         if(ability.targets === Target.CreaturesOrPlayers || ability.targets === Target.CreaturesAndPlayers){
             tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
                 .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
@@ -325,6 +329,7 @@ export default class MapScene extends Scene {
                                 else this.net_tapLand(card)
                             }
                             if(meta.ability?.trigger === Triggers.AtWill || card.attributes.includes(Modifier.Nimble)){
+                                onSelectBoardCard(card)
                                 if(card.attributes.includes(Modifier.Nimble)){
                                     let tiles = []
                                     if(this.isEmptyTile(card.tileX-1, card.tileY))
@@ -334,7 +339,7 @@ export default class MapScene extends Scene {
                                     tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
                                 }
                                 else this.showAbilityTargets(meta.ability)
-                                onSelectBoardCard(card)
+                               
                             }
                         }
                     }
@@ -489,8 +494,8 @@ export default class MapScene extends Scene {
 
         //reset player resources
         match.board.forEach(c=>{
-            if(c.ownerId === nextPlayer.id){
-                c.tapped = false
+            if(c.ownerId === current.id){
+                if(!c.status.find(s=>s.status.pacifism)) c.tapped = false
                 this.creatures.find(s=>c.id === s.id).untap()
                 //add/remove timed status effects
                 c.status.forEach(s=>s.duration--)
@@ -552,8 +557,8 @@ export default class MapScene extends Scene {
                 if(data.ability.conditionalSpend){
                     if(!me.manaPool[data.ability.conditionalSpend]) return
                 }
-                this.showAbilityTargets(data.ability)
                 onSelectBoardCard(card)
+                this.showAbilityTargets(data.ability)
             }
         }
     }
@@ -619,6 +624,9 @@ export default class MapScene extends Scene {
             }
             if(sorceryData.ability.targets === Target.CreaturesYouControl){
                 return creature.ownerId === sorcery.ownerId
+            }
+            if(sorceryData.ability.targets === Target.ThisCreature){
+                return creature.id === entityId
             }
         }
 
