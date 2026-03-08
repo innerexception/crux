@@ -32,6 +32,8 @@ export const onEndTurn = (match:MatchState) => {
 
 export const onUpdateBoardCreature = (cd:Card) => {
     const d = store.getState().saveFile.currentMatch.board.map(c=>c.id === cd.id ? cd : c)
+    const spr = store.getState().scene.creatures.find(c=>c.id === cd.id)
+    if(cd.tapped) spr.tap()
     onUpdateBoard(d)
 }
 

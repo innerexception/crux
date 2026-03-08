@@ -2,7 +2,7 @@ import * as React from 'react'
 import AppStyles, { colors } from '../styles/AppStyles';
 import { Button, CssIcon } from '../common/Shared';
 import { getCardData } from '../common/CardUtils';
-import { ColorIcons, IconIndex, Permanents, CreatureSpriteIndex, TargetsDesc, ModifierDesc, Color } from '../../enum';
+import { ColorIcons, Color } from '../../enum';
 import Tooltip from 'rc-tooltip';
 import CardDetailView from './CardDetailView';
 
@@ -56,7 +56,7 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.draw && <div>Draw a card.</div>}
         {effect.drawX && <div>Draw X cards.</div>}
         {effect.hpPerLand && <div>Gain {effect.hpUp} life for each {effect.hpPerLand}</div>}
-        {effect.pacifism && <div>Target may not move.</div>}
+        {effect.pacifism && <div>Targets may not move or use abilities.</div>}
         {effect.dmgX && <div>Deal X damage to target.</div>}
         {effect.destroy && <div>Put target into controller's graveyard.</div>}
         {effect.searchSorceryForTop && <div>Search your deck for a sorcery. It will be placed on top of your library.</div>}

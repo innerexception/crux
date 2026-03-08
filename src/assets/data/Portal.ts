@@ -133,8 +133,6 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.White, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
-            cost: [],
-            tap: false,
             targets: Target.AllCreatures,
             effect: {
                 duration: 1,

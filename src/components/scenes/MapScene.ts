@@ -499,6 +499,7 @@ export default class MapScene extends Scene {
         match.board.forEach(c=>{
             if(c.ownerId === nextPlayer.id){
                 c.tapped = false
+                this.creatures.find(s=>c.id === s.id).untap()
                 //add/remove timed status effects
                 c.status.forEach(s=>s.duration--)
                 c.status.forEach(s=>{
@@ -680,7 +681,7 @@ export default class MapScene extends Scene {
             creature.attributes=creature.attributes.filter(a=>!effect.status.addAttributes.includes(a))
         }
         if(effect.status.pacifism){
-            creature.moves=getCardData(creature).defaultMoves
+            creature.tapped = false
         }
     }
 
@@ -799,7 +800,7 @@ export default class MapScene extends Scene {
             }
         }
         if(effect.pacifism){
-            creature.moves = 0
+            creature.tapped = true
         }
         
         if(effect.untap){

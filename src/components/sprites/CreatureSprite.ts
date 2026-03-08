@@ -21,6 +21,14 @@ export default class CreatureSprite extends GameObjects.Image {
         this.setOrigin(0)
     }
 
+    tap(){
+        this.icon = this.scene.add.image(this.x, this.y, 'creatures', IconIndex.Tap)
+    }
+    untap(){
+        this.icon?.destroy()
+        this.icon = null
+    }
+
     tryMoveNext = async () => {
         const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
         const state = store.getState().saveFile.currentMatch
