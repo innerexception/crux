@@ -1,8 +1,19 @@
-import { CardType } from "../../enum";
+import { CardType, Permanents } from "../../enum";
 import{ v4 } from 'uuid'
 import { Portal } from "../assets/data/Portal";
 import { onUpdateBoardCreature, onUpdatePlayer } from "./Thunks";
 import { shuffle } from "./Utils";
+import { store } from "../..";
+
+export const getValidCreatureTargets = (ability:CardAbility) => {
+    const state = store.getState()
+    let creatures = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
+    if(ability.def3orLess) creatures = creatures.filter(c=>c.def<=3)
+    if(ability.withoutColor) creatures = creatures.filter(c=>getCardData(c).color !== ability.withoutColor)
+    if(ability.withColor) creatures = creatures.filter(c=>getCardData(c).color === ability.withColor)
+    if(ability.withAttribute) creatures = creatures.filter(c=>c.attributes.includes(ability.withAttribute))
+    return creatures
+}
 
 export const tapLand = (card:Card, me:PlayerState) => {
     const meta = getCardData(card)

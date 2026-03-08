@@ -48,6 +48,10 @@ interface CardAbility  {
     cost?: ManaCost[]
     tap?: boolean
     targets: import('./enum').Target
+    withoutColor?:import('./enum').Color //does not affect cards of this color
+    withColor?:import('./enum').Color //only affect cards of this color
+    withAttribute?: import('./enum').Modifier
+    def3orLess?:boolean //targets creatures with def 3 or less
     trigger?: import('./enum').Triggers //default is onEnter
     conditionalSpend?: import('./enum').Color //ability only triggers if this color was spent
     effect: CardEffect
@@ -60,7 +64,6 @@ interface CardEffect {
     dmgX?:boolean
     dmgAsCreaturePower?:true //Damage based on sacrificed creature power
     dmgAsYourDeserts?:boolean
-    def3orLess?:boolean //targets creatures with def 3 or less
     destroy?:boolean
     destroyAll?:boolean //all of target type
     destroy2Creatures?:boolean
@@ -80,7 +83,7 @@ interface CardEffect {
     discard?:number
     discardToDraw?:boolean //Discard any number to draw that number
     discardAllAndDraw?:boolean
-    pacifism?:boolean //Creatures you control do not move in their lanes
+    pacifism?:boolean //Tap targets for a duration
     pacifyAllOfPlayer?:boolean //Creatures and lands are tapped until next untap phase
     hpPerLand?:import('./enum').CardType //entire board
     hpUp?:number
@@ -88,11 +91,9 @@ interface CardEffect {
     hpPerAttacker?:boolean
     untap?:boolean
     tap?:boolean //tapped creatures do not advance, can't use abilities
-    ignoreColor?:import('./enum').Color //does not affect cards of this color
-    onlyColor?:import('./enum').Color //only affect cards of this color
-    withAttribute?: import('./enum').Modifier
     repeat?:number
-    pillaged?:boolean //does not untap
+    removeAttribute?: import('./enum').Modifier
+    snare?:boolean //does not untap
     searchSorceryForTop?:boolean
     searchCreatureForTop?:boolean
     searchCardForTop?:boolean

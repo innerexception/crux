@@ -174,14 +174,14 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.FertileSoil
     },
     [CardType.Hurricane]: {
-        color:Color.Blue,
+        color:Color.Green,
         cost: [{kind:Color.Green, amount:1}],
         pumpColor: Color.None,
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.CreaturesAndPlayers,
+            withAttribute: Modifier.Nimble,
             effect: {
-                withAttribute: Modifier.Nimble, //TODO
                 dmgX: true,
                 sprite: IconIndex.Damage
             }
@@ -917,9 +917,9 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.AllCreatures,
+            withoutColor:Color.White,
             effect: {
                 tap:true,
-                ignoreColor:Color.White,
                 sprite: IconIndex.Buff,
             }
         },
@@ -1165,9 +1165,9 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.Creature,
+            def3orLess: true,
             effect: {
                 destroy:true,
-                def3orLess: true,
                 sprite: IconIndex.Debuff,
             }
         },
@@ -1233,10 +1233,10 @@ export const Portal:Record<CardType, CardMeta> = {
         ability:{
             targets: Target.TappedCreatures,
             tap: true,
+            def3orLess: true,
             effect: {
                 sprite: IconIndex.Damage,
-                destroy: true,
-                def3orLess: true
+                destroy: true
             }
         }
     },
@@ -1328,10 +1328,10 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.AllCreatures,
+            def3orLess: true,
+            withColor: Color.Green,
             effect: {
                 destroy: true,
-                def3orLess: true,
-                onlyColor: Color.Green,
                 sprite: IconIndex.Damage,
             }
         },
@@ -1343,9 +1343,9 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.AllCreatures,
+            withAttribute: Modifier.Nimble,
             effect: {
                 dmg: 4,
-                withAttribute: Modifier.Nimble,
                 sprite: IconIndex.Damage,
             }
         },
@@ -1546,10 +1546,10 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.AllCreatures,
+            withColor: Color.White,
             effect: {
                 atkUp: 2,
                 duration: 1,
-                onlyColor: Color.White,
                 sprite: IconIndex.Buff,
             }
         },
@@ -1591,9 +1591,9 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.AllCreatures,
+            withColor: Color.White,
             effect: {
                 destroy: true,
-                onlyColor: Color.White,
                 sprite: IconIndex.Damage,
             }
         },
@@ -1630,10 +1630,10 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.Self,
+            withoutColor: Color.Black,
             effect: {
                 destroy2Creatures: true,
                 dmg: 5,
-                ignoreColor: Color.Black,
                 sprite: IconIndex.Damage,
             }
         },
@@ -1734,9 +1734,9 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.Lands,
+            withColor: Color.Blue,
             effect: {
                 destroyAll: true,
-                onlyColor: Color.Blue,
                 sprite: IconIndex.Damage,
             }
         },
@@ -1748,9 +1748,9 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.CreaturesYouControl,
+            withoutColor: Color.Black,
             effect: {
                 duration: 1,
-                onlyColor: Color.Black,
                 sprite: IconIndex.Damage,
                 addAttributes:[Modifier.Fearsome]
             }
@@ -1824,10 +1824,10 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.Lands,
+            withColor: Color.White,
             effect: {
                 sprite: IconIndex.Buff,
                 destroyAll: true,
-                onlyColor: Color.White
             }
         },
         sprite: CreatureSpriteIndex.Placeholder
@@ -2328,9 +2328,9 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         ability: {
             targets: Target.Creature,
+            withoutColor: Color.Black,
             effect: {
                 destroy: true,
-                ignoreColor: Color.Black,
                 sprite: IconIndex.Damage
             }
         }
