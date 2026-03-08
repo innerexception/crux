@@ -480,22 +480,14 @@ export default class MapScene extends Scene {
     net_endTurn = async (match:MatchState) => {
         const current = match.players.find(p=>p.id === match.activePlayerId)
         
-        //0. clear dead creatures
-        const rm = match.board.filter(c=>c.def <= 0)
-        rm.forEach(c=>this.tryRemoveCreature(c))
-        match = store.getState().saveFile.currentMatch
-
         //1. move creatures / resolve combats
         const mine = this.creatures.filter(c=>match.board.find(cr=>cr.id===c.id && cr.ownerId === current.id))
         for(let i=0;i<mine.length;i++){
             await mine[i].tryMoveNext()
         }
         match = store.getState().saveFile.currentMatch
-        //2. set next player
-        const nextPlayer = match.players.find(p=>p.id !== current.id)
-        onUpdateActivePlayer(nextPlayer.id)
 
-        //3.reset player resources
+        //reset player resources
         match.board.forEach(c=>{
             if(c.ownerId === nextPlayer.id){
                 c.tapped = false
@@ -510,6 +502,10 @@ export default class MapScene extends Scene {
             }
         })
         onUpdateBoard(Array.from(match.board))
+
+        //set next player
+        const nextPlayer = match.players.find(p=>p.id !== current.id)
+        onUpdateActivePlayer(nextPlayer.id)
         onUpdatePlayer({...nextPlayer,
             drawAllowed:1,
             hasPlayedLand:false,

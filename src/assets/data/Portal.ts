@@ -135,6 +135,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.AllCreatures,
             effect: {
+                duration: 1,
                 pacifism: true,
                 sprite: IconIndex.Debuff
             }
