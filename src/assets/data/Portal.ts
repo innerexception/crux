@@ -175,7 +175,7 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.Hurricane]: {
         color:Color.Blue,
-        cost: [{kind:Color.Blue, amount:1}],
+        cost: [{kind:Color.Green, amount:1}],
         pumpColor: Color.None,
         kind: Permanents.Sorcery,
         ability: {
@@ -192,10 +192,17 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         defaultAtk: 2,
         defaultDef: 1,
-        cost: [{kind:Color.Green, amount:1}],
+        cost: [{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
-        ability: null,
+        ability: {
+            targets: Target.ThisCreature,
+            conditionalSpend: Color.Green,
+            effect: {
+                sprite: IconIndex.Buff,
+                removeAttribute: Modifier.Timid
+            }
+        },
         defaultAttributes: [Modifier.Timid],
         sprite: CreatureSpriteIndex.ForestJackal
     },

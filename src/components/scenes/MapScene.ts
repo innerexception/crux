@@ -590,6 +590,7 @@ export default class MapScene extends Scene {
         }
         
         this.applyCreatureEffect(props.creature, dat.ability.effect)
+        this.hideCardTargets()
     }
 
     applyMultiCreatureEffect(props:{card:Card, creatures:Card[]}) {
