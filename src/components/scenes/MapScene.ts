@@ -219,7 +219,7 @@ export default class MapScene extends Scene {
             tiles = state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id && getCardData(c).kind === Permanents.Land)
                 .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
         }
-        if(ability.targets === Target.Creature){
+        if(ability.targets === Target.Creature || ability.targets === Target.AllCreatures){
             tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
                 .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
         }
@@ -808,6 +808,7 @@ export default class MapScene extends Scene {
         }
         if(creature.def <= 0) 
             this.tryRemoveCreature(creature)
+        else onUpdateBoardCreature(creature)
     }
 
     tryRemoveCreature (card:Card) {
