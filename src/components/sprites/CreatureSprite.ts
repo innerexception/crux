@@ -26,6 +26,7 @@ export default class CreatureSprite extends GameObjects.Image {
         const state = store.getState().saveFile.currentMatch
         let creature = state.board.find(c=>c.id === this.id)
         let owner = state.players.find(p=>p.id === creature.ownerId)
+        if(creature.tapped) return //Tapped creatures don't move
         for(let i=0;i<creature.moves;i++){
             //TODO: targets in range, and able to be targeted by us
             let next = this.scene.map.getTileAt(myTile.x, myTile.y+this.dir, false, Layers.Earth)
@@ -84,18 +85,20 @@ export default class CreatureSprite extends GameObjects.Image {
     }
 
     fight = async (target:Card) => {
-        //TODO: tapped creature deals no damage
         let thisCard = store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id)
         const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
             
         this.scene.flashIcon(myTile.pixelX, myTile.pixelY, IconIndex.Sword)
         
         //1. def - atk
-        const defHp = target.def - thisCard.atk
-        const atkHp = thisCard.def - target.atk
-        
-        if(defHp <= 0) this.scene.tryRemoveCreature(target)
-        if(atkHp <= 0) this.scene.tryRemoveCreature(thisCard)
+        if(!thisCard.tapped){
+            const defHp = target.def - thisCard.atk
+            if(defHp <= 0) this.scene.tryRemoveCreature(target)
+        }
+        if(!target.tapped){
+            const atkHp = thisCard.def - target.atk
+            if(atkHp <= 0) this.scene.tryRemoveCreature(thisCard)
+        }
     }
 
     destroy(){

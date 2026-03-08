@@ -598,7 +598,7 @@ export default class MapScene extends Scene {
         const players = store.getState().saveFile.currentMatch.players
         players.forEach(player=>this.applyPlayerEffect(player, card))
 
-        const creatures = store.getState().saveFile.currentMatch.board
+        const creatures = store.getState().saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
         creatures.forEach(creature=>this.applyCreatureSorcery({creature, sorcery: card}))
         
     }
@@ -805,6 +805,8 @@ export default class MapScene extends Scene {
         if(effect.untap){
             creature.tapped = false
         }
+        if(creature.def <= 0) 
+            this.tryRemoveCreature(creature)
     }
 
     tryRemoveCreature (card:Card) {
