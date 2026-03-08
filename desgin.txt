@@ -17,3 +17,5 @@ Turnbased
     -Dueling house -> next opponent battle
     -Spell shop (spend tp)
     -Builder's library (manage decks)
+
+Win condition: convert (remove) X toughness worth of creatures

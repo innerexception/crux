@@ -181,7 +181,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.CreaturesAndPlayers,
             effect: {
-                withAttribute: Modifier.Nimble,
+                withAttribute: Modifier.Nimble, //TODO
                 dmgX: true,
                 sprite: IconIndex.Damage
             }
