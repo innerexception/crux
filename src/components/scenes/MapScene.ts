@@ -404,6 +404,13 @@ export default class MapScene extends Scene {
             return 
         }
         
+        if(this.validSingleTarget(props.entityId, card)){ 
+            //All single targets
+            this.applySingleTargetEffect({creature: creatures.find(c=>c.id === props.entityId), sorcery:card})
+            if(discard) this.payAndDiscard(card)
+            return
+        }
+
         const player = state.saveFile.currentMatch.players.find(p=>p.id === props.entityId)
         if(player){
             if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
@@ -421,12 +428,6 @@ export default class MapScene extends Scene {
                 if(discard) this.payAndDiscard(card)
                 return
             }
-        }
-        
-        if(this.validSingleTarget(props.entityId, card)){ //All other single targets
-            this.applySingleTargetEffect({creature: creatures.find(c=>c.id === props.entityId), sorcery:card})
-            if(discard) this.payAndDiscard(card)
-            return
         }
     }
 
@@ -771,6 +772,9 @@ export default class MapScene extends Scene {
         }
         if(effect.addAttributes){
             creature.attributes = creature.attributes.concat(effect.addAttributes)
+        }
+        if(effect.removeAttribute){
+            creature.attributes = creature.attributes.filter(a=>a !== effect.removeAttribute)
         }
         if(effect.atkUp){
             creature.atk+=effect.atkUp
