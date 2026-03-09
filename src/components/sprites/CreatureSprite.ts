@@ -22,7 +22,7 @@ export default class CreatureSprite extends GameObjects.Image {
     }
 
     tap(){
-        this.icon = this.scene.add.image(this.x, this.y, 'creatures', IconIndex.Tap)
+        this.icon = this.scene.add.image(this.x, this.y+10, 'creatures', IconIndex.Tap)
     }
     untap(){
         this.icon?.destroy()

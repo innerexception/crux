@@ -216,10 +216,10 @@ export default class MapScene extends Scene {
             let tile = this.map?.getTileAtWorldXY(this.input.activePointer.worldX, this.input.activePointer.worldY, false, undefined, Layers.Earth)
             if(tile && gameObjects.length > 0){
                 const bld = gameObjects[0] as CreatureSprite
-                if(store.getState().saveFile.currentMatch.players.find(p=>p.id === bld.id)) return
                 const ctr = bld.getCenter()
                 this.selectIcon.setPosition(ctr.x, ctr.y)
                 this.selectIcon.setVisible(true)
+                if(store.getState().saveFile.currentMatch.players.find(p=>p.id === bld.id)) return
                 onInspectCreature(bld.id)
             }
             else if(tile) {
@@ -368,7 +368,6 @@ export default class MapScene extends Scene {
         const card = props.card
         const discard = props.discard
         const dat = getCardData(card)
-        const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
         const targets = dat.ability.targets
         onShowAbilityPreview(null)
         
@@ -394,7 +393,7 @@ export default class MapScene extends Scene {
         let creatures = getValidCreatureTargets(dat.ability)
 
         if(targets === Target.CreaturesAndPlayers){
-            this.applyGlobalEffect(card)
+            this.applyGlobalEffect(card, creatures)
             if(discard) this.payAndDiscard(card)
             return 
         }
@@ -405,7 +404,7 @@ export default class MapScene extends Scene {
             return 
         }
         else if(targets === Target.AllCreaturesYouControl){
-            const props = {creatures: creatures.filter(c=>c.ownerId === me.id), card}
+            const props = {creatures: creatures.filter(c=>c.ownerId === card.ownerId), card}
             this.applyMultiCreatureEffect(props)
             if(discard) this.payAndDiscard(props.card) 
             return 
@@ -600,13 +599,10 @@ export default class MapScene extends Scene {
         props.creatures.forEach(creature=>this.applySingleTargetEffect({creature, sorcery: props.card}))
     }
 
-    applyGlobalEffect(card:Card) {
+    applyGlobalEffect(card:Card, creatures:Card[]) {
         const players = store.getState().saveFile.currentMatch.players
         players.forEach(player=>this.applyPlayerEffect(player, card))
-
-        const creatures = store.getState().saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
         creatures.forEach(creature=>this.applySingleTargetEffect({creature, sorcery: card}))
-        
     }
 
     validSingleTarget(entityId:string, sorcery:Card):boolean {
@@ -825,11 +821,14 @@ export default class MapScene extends Scene {
     tryRemoveCreature (card:Card) {
         //TODO
         //3. death effects
+        const state = store.getState()
+        if(card.id === state.selectedCardId) onSelectCard(null)
+        if(card.id === state.inspectCardId) onInspectCreature(null)
         const spr = this.creatures.find(c=>c.id === card.id)
         spr.destroy()
-        let board = store.getState().saveFile.currentMatch.board
+        let board = state.saveFile.currentMatch.board
         onUpdateBoard(board.filter(c=>c.id !== card.id))
-        const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
+        const p = state.saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
         onUpdatePlayer({...p, discard: p.discard.concat(card)})
     }
 
