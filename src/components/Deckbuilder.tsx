@@ -48,6 +48,7 @@ export default () => {
                     <Button enabled={selectedColor!==Color.Green} text="Green" handler={()=>setSelectedColor(Color.Green)}/>
                     <Button enabled={selectedColor!==Color.Blue} text="Blue" handler={()=>setSelectedColor(Color.Blue)}/>
                     <Button enabled={selectedColor!==Color.White} text="White" handler={()=>setSelectedColor(Color.White)}/>
+                    <Button enabled={selectedColor!==Color.Black} text="Black" handler={()=>setSelectedColor(Color.Black)}/>
                     <Button enabled={selectedColor!==Color.None} text="None" handler={()=>setSelectedColor(Color.None)}/>
                 </div>
                 <div style={{display:'flex', flexWrap:'wrap', height:'200px', overflow:'auto', border:'1px solid', padding:'5px'}}>

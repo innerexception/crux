@@ -32,6 +32,7 @@ interface Card {
 
 interface CardMeta {
     color:import('./enum').Color
+    category?: import('./enum').Category
     defaultAtk?:number
     defaultDef?:number
     defaultMoves?:number
@@ -51,6 +52,7 @@ interface CardAbility  {
     withoutColor?:import('./enum').Color //does not affect cards of this color
     withColor?:import('./enum').Color //only affect cards of this color
     withAttribute?: import('./enum').Modifier
+    withCategory?: import('./enum').Category
     def3orLess?:boolean //targets creatures with def 3 or less
     trigger?: import('./enum').Triggers //default is onEnter
     conditionalSpend?: import('./enum').Color //ability only triggers if this color was spent

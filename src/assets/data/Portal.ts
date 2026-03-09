@@ -1,4 +1,4 @@
-import { CardType, Color, CreatureSpriteIndex, IconIndex, Modifier, Permanents, Target, Triggers } from "../../../enum";
+import { CardType, Category, Color, CreatureSpriteIndex, IconIndex, Modifier, Permanents, Target, Triggers } from "../../../enum";
 
 export const Portal:Record<CardType, CardMeta> = {
     [CardType.City]: {
@@ -200,13 +200,13 @@ export const Portal:Record<CardType, CardMeta> = {
             conditionalSpend: Color.Green,
             effect: {
                 sprite: IconIndex.Buff,
-                removeAttribute: Modifier.Timid
+                addAttributes: [Modifier.Haste]
             }
         },
         defaultAttributes: [Modifier.Timid],
         sprite: CreatureSpriteIndex.ForestJackal
     },
-    [CardType.Corvian]: {
+    [CardType.MessengerOwl]: {
         color:Color.Blue,
         defaultAtk: 1,
         defaultDef: 1,
@@ -236,14 +236,21 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Refreshment
     },
-    [CardType.BillyGoat]: {
+    [CardType.Bighorn]: {
         color:Color.Red,
         defaultAtk: 1,
         defaultDef: 1,
-        cost: [{kind:Color.Red, amount:1}],
+        cost: [{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
-        ability: null,
+        ability: {
+            targets: Target.ThisCreature,
+            conditionalSpend: Color.Red,
+            effect: {
+                sprite: IconIndex.Buff,
+                atkUp:1
+            }
+        },
         defaultAttributes:[Modifier.DesertWalk],
         sprite: CreatureSpriteIndex.BillyGoat
     },
@@ -251,10 +258,17 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         defaultAtk: 1,
         defaultDef: 1,
-        cost: [{kind:Color.Black, amount:1}],
+        cost: [{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
-        ability: null,
+        ability: {
+            targets: Target.ThisCreature,
+            conditionalSpend: Color.Black,
+            effect: {
+                sprite: IconIndex.Buff,
+                addAttributes:[Modifier.CityWalk]
+            }
+        },
         sprite: CreatureSpriteIndex.ScavengingRats
     },
     [CardType.Memoize]: {
@@ -283,15 +297,22 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Brainstorm
     },
-    [CardType.Goblin]: {
+    [CardType.GoblinScrounger]: {
         color:Color.Red,
         defaultAtk: 1,
         defaultDef: 1,
-        cost: [{kind:Color.Red, amount:1}],
+        cost: [{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
-        ability: null,
-        defaultAttributes:[Modifier.Haste],
+        ability: {
+            targets: Target.ThisCreature,
+            conditionalSpend: Color.Red,
+            effect: {
+                sprite: IconIndex.Buff,
+                addAttributes:[Modifier.Haste]
+            }
+        },
+        defaultAttributes:[Modifier.Timid],
         sprite: CreatureSpriteIndex.Goblin
     },
     [CardType.Necromancy]: {
@@ -325,10 +346,11 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.AttackingCreatures,
+            targets: Target.Creature,
+            withCategory: Category.Human,
             effect: {
-                destroy: true,
-                sprite: IconIndex.Damage
+                addAttributes:[Modifier.Toxic],
+                sprite: IconIndex.Damage 
             }
         },
         sprite: CreatureSpriteIndex.Knife
@@ -348,7 +370,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.AttackingCreatures,
+            targets: Target.AllCreatures,
             effect: {
                 dmg: 1,
                 sprite: IconIndex.Damage
@@ -470,7 +492,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Green, amount:1},{kind: Color.None, amount: 1}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.AttackingCreatures,
+            targets: Target.AllCreatures,
             effect: {
                 resetMovement: true,
                 sprite: IconIndex.Debuff

@@ -12,6 +12,7 @@ export const getValidCreatureTargets = (ability:CardAbility) => {
     if(ability.withoutColor) creatures = creatures.filter(c=>getCardData(c).color !== ability.withoutColor)
     if(ability.withColor) creatures = creatures.filter(c=>getCardData(c).color === ability.withColor)
     if(ability.withAttribute) creatures = creatures.filter(c=>c.attributes.includes(ability.withAttribute))
+    if(ability.withCategory) creatures = creatures.filter(c=>getCardData(c).category===ability.withCategory)
     return creatures
 }
 
@@ -97,11 +98,11 @@ export const getFreshLands = () => {
 
 export const goblinHordes = (playerId:string):Card[] => {
     return [
-        getCard(playerId, CardType.Goblin, Portal[CardType.Goblin]),
-        getCard(playerId, CardType.Goblin, Portal[CardType.Goblin]),
-        getCard(playerId, CardType.Goblin, Portal[CardType.Goblin]),
-        getCard(playerId, CardType.Goblin, Portal[CardType.Goblin]),
-        getCard(playerId, CardType.Goblin, Portal[CardType.Goblin])
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger])
     ]
 }
 

@@ -1,6 +1,6 @@
 import { GameObjects } from "phaser"
 import { store } from "../../.."
-import { CreatureSpriteIndex, Direction, IconIndex, Layers } from "../../../enum"
+import { CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier } from "../../../enum"
 import { getCardData, resetCard } from "../../common/CardUtils"
 import { onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
@@ -30,13 +30,15 @@ export default class CreatureSprite extends GameObjects.Image {
     }
 
     tryMoveNext = async () => {
-        const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
-        const state = store.getState().saveFile.currentMatch
+        let state = store.getState().saveFile.currentMatch
         let creature = state.board.find(c=>c.id === this.id)
         let owner = state.players.find(p=>p.id === creature.ownerId)
+        let haste = creature.attributes.includes(Modifier.Haste)
         if(creature.tapped) return //Tapped creatures don't move
-        for(let i=0;i<creature.moves;i++){
+        for(let i=0;i<creature.moves+(haste?1:0);i++){
             //TODO: targets in range, and able to be targeted by us
+            state = store.getState().saveFile.currentMatch
+            const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
             let next = this.scene.map.getTileAt(myTile.x, myTile.y+this.dir, false, Layers.Earth)
             if(this.scene.validEndTile(next, owner.dir, true)){
                 const enemy = state.players.find(p=>p.id !== creature.ownerId)
@@ -52,7 +54,16 @@ export default class CreatureSprite extends GameObjects.Image {
             const target = store.getState().saveFile.currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
             if(target){
                 if(target.ownerId !== creature.ownerId){
-                    await this.fight(target)
+                    const destroyTarget = creature.attributes.includes(Modifier.Toxic) && target.def <=3
+                    if(destroyTarget){
+                        this.scene.tryRemoveCreature(target)
+                    }
+                    const destroyThis = target.attributes.includes(Modifier.Toxic) && creature.def <=3
+                    if(destroyThis){
+                        this.scene.tryRemoveCreature(creature)
+                    }
+                    if(destroyTarget || destroyThis) return
+                    this.fight(target)
                 }
                 return
             }
@@ -92,7 +103,7 @@ export default class CreatureSprite extends GameObjects.Image {
         this.destroy()
     }
 
-    fight = async (target:Card) => {
+    fight = (target:Card) => {
         let thisCard = store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id)
         const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
             

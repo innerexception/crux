@@ -78,6 +78,10 @@ export enum Color {
     Red='red',Blue='blue',Green='green',Black='black',White='white',None='gray'
 }
 
+export enum Category {
+    Human='Human',Elemental='Elemental',Beast='Beast',Celestial='Celestial',Infernal='Infernal'
+}
+
 export enum Permanents {
     Land='Land',Creature='Creature',Enchantment='Enchantment',Sorcery='Sorcery'
 }
@@ -86,13 +90,13 @@ export enum Target {
     Self='Self',CreaturesYouControl='CreaturesYouControl',Creature='Creature',Lands='Lands',LandsYouControl='LandsYouControl',
     AllCreatures='AllCreatures',CreatureOrLand='CreatureOrLand',CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',
     CreaturesYourGraveyard='CreaturesYourGraveyard',YourGraveyard='YourGraveyard',
-    CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',AttackingCreatures='AttackingCreatures',
+    CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',
     AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl',ThisCreature='ThisCreature',TappedCreatures='TappedCreatures',
     CreatureAndLand='CreatureAndLand',CreaturesInLane='CreaturesInLane'
 }
 
 export enum Triggers {
-    OnAttack,OnEnter,OnDeath,OnExit,InEnemyTerritory,AtWill
+    OnAttack,OnEnter,OnDeath,OnExit,InEnemyTerritory,AtWill,OnCombat
 }
 
 export const TriggerNames:Record<Triggers, string> = {
@@ -101,7 +105,8 @@ export const TriggerNames:Record<Triggers, string> = {
     [Triggers.OnAttack]:'When attacking',
     [Triggers.OnDeath]:'When killed',
     [Triggers.OnEnter]:'When summoned',
-    [Triggers.OnExit]:'When leaving the field'
+    [Triggers.OnExit]:'When leaving the field',
+    [Triggers.OnCombat]:'During combat'
 }
 
 export enum Modifier {
@@ -117,7 +122,8 @@ export enum Modifier {
     Ranged, //Creature may tap to deal its power to another creature in lane, up to 2 squares away
     Defender, //Does not move during movement phase
     Vigilant, //Cannot be targeted by sorcery or enchantments
-    Fearsome //Creatures cannot be placed in this lane
+    Fearsome, //Creatures cannot be placed in this lane
+    Toxic //Creatures def 3 or less are destroyed in combat with this creature
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
@@ -145,7 +151,8 @@ export const ModifierDesc:Record<Modifier,string> = {
     [Modifier.ProtectionFromWhite]: 'Protection from Holy',
     [Modifier.Taunt]: 'Taunt',
     [Modifier.Fearsome]: 'Fearsome',
-    [Modifier.BlockerMaxPwr1]: 'Revered'
+    [Modifier.BlockerMaxPwr1]: 'Revered',
+    [Modifier.Toxic]: 'Toxic'
 }
 
 export const TargetsDesc:Record<Target,string> = {
@@ -161,7 +168,6 @@ export const TargetsDesc:Record<Target,string> = {
     [Target.Self]:'You',
     [Target.Players]:'A Player',
     [Target.Creature]:'A Creature',
-    [Target.AttackingCreatures]:'Attacking Creatures',
     [Target.CreaturesAndPlayers]:'All Creatures & Players',
     [Target.CreaturesOrPlayers]:'A Creature or Player',
     [Target.CreatureOrLand]:'A Creature or Land',
@@ -186,9 +192,9 @@ export enum CardType {
     Sandstorm='Sandstorm',FeatherCloak='FeatherCloak',
     SkyPirates='SkyPirates',HeroicSoldier='HeroicSoldier',Earthquake='Earthquake',
     PeaceTreaty='PeaceTreaty', FertileSoil='FertileSoil',Hurricane='Hurricane',
-    ForestJackal='JunglePanther',Corvian='Merfolk',Refreshment='Refreshment',
-    BillyGoat='BillyGoat', ScavengingRats='ScavengingRats',Memoize='Memoize',
-    Brainstorm='Brainstorm', Goblin='Goblin', Necromancy='Necromancy', FierySpear='FierySpear',
+    ForestJackal='ForestJackal',MessengerOwl='MessengerOwl',Refreshment='Refreshment',
+    Bighorn='BillyGoat', ScavengingRats='ScavengingRats',Memoize='Memoize',
+    Brainstorm='Brainstorm', GoblinScrounger='GoblinScrounger', Necromancy='Necromancy', FierySpear='FierySpear',
     DustStorm='DustStorm', Scry='Scry', ForestCall='ForestCall', Taunt='Taunt',
     WillowSpirit='WillowSpirit', FlashFlood='FlashFlood', VisitingGryphon='VisitingPegasus',
     AssassinKnife='AssassinKnife', MartyrPrayer='MartyrPrayer', RefuseDrone='RefuseDrone',

@@ -443,8 +443,10 @@ export default class MapScene extends Scene {
         //reset player resources
         match.board.forEach(c=>{
             if(c.ownerId === current.id){
-                if(!c.status.find(s=>s.status.pacifism)) c.tapped = false
-                this.creatures.find(s=>c.id === s.id).untap()
+                if(!c.status.find(s=>s.status.pacifism)){
+                    this.creatures.find(s=>c.id === s.id).untap()
+                    c.tapped = false
+                }
                 //add/remove timed status effects
                 c.status.forEach(s=>s.duration--)
                 c.status.forEach(s=>{
@@ -617,10 +619,6 @@ export default class MapScene extends Scene {
                 sorceryData.ability.targets === Target.CreaturesAndPlayers ||
                 sorceryData.ability.targets === Target.CreaturesOrPlayers){
                 return true
-            }
-            if(sorceryData.ability.targets === Target.AttackingCreatures){
-                const owner = store.getState().saveFile.currentMatch.players.find(p=>p.id === creature.ownerId)
-                return !this.validStartTile(this.map.getTileAt(creature.tileX, creature.tileY, false, Layers.Earth), owner.dir, false)
             }
             if(sorceryData.ability.targets === Target.CreaturesYouControl){
                 return creature.ownerId === sorcery.ownerId
@@ -812,6 +810,7 @@ export default class MapScene extends Scene {
         
         if(effect.untap){
             creature.tapped = false
+            this.creatures.find(s=>s.id === creature.id).untap()
         }
         if(creature.def <= 0) 
             this.tryRemoveCreature(creature)
