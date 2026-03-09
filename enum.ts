@@ -186,7 +186,7 @@ export enum CardType {
     Sandstorm='Sandstorm',FeatherCloak='FeatherCloak',
     SkyPirates='SkyPirates',HeroicSoldier='HeroicSoldier',Earthquake='Earthquake',
     PeaceTreaty='PeaceTreaty', FertileSoil='FertileSoil',Hurricane='Hurricane',
-    ForestJackal='JunglePanther',Merfolk='Merfolk',Refreshment='Refreshment',
+    ForestJackal='JunglePanther',Corvian='Merfolk',Refreshment='Refreshment',
     BillyGoat='BillyGoat', ScavengingRats='ScavengingRats',Memoize='Memoize',
     Brainstorm='Brainstorm', Goblin='Goblin', Necromancy='Necromancy', FierySpear='FierySpear',
     DustStorm='DustStorm', Scry='Scry', ForestCall='ForestCall', Taunt='Taunt',

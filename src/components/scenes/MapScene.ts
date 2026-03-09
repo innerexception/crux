@@ -372,6 +372,25 @@ export default class MapScene extends Scene {
         const targets = dat.ability.targets
         onShowAbilityPreview(null)
         
+        const player = state.saveFile.currentMatch.players.find(p=>p.id === props.entityId)
+        if(player){
+            if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
+                this.targetPlayer({player, card})
+                if(discard) this.payAndDiscard(card)
+                return
+            }
+            else if(targets === Target.Self && player.id === state.saveFile.myId){
+                this.targetPlayer({player, card})
+                if(discard) this.payAndDiscard(card)
+                return
+            }
+            else if(targets === Target.AllPlayers){
+                this.targetAllPlayers(card)
+                if(discard) this.payAndDiscard(card)
+                return
+            }
+        }
+
         let creatures = getValidCreatureTargets(dat.ability)
 
         if(targets === Target.CreaturesAndPlayers){
@@ -409,25 +428,6 @@ export default class MapScene extends Scene {
             this.applySingleTargetEffect({creature: creatures.find(c=>c.id === props.entityId), sorcery:card})
             if(discard) this.payAndDiscard(card)
             return
-        }
-
-        const player = state.saveFile.currentMatch.players.find(p=>p.id === props.entityId)
-        if(player){
-            if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
-                this.targetPlayer({player, card})
-                if(discard) this.payAndDiscard(card)
-                return
-            }
-            else if(targets === Target.Self && player.id === state.saveFile.myId){
-                this.targetPlayer({player, card})
-                if(discard) this.payAndDiscard(card)
-                return
-            }
-            else if(targets === Target.AllPlayers){
-                this.targetAllPlayers(card)
-                if(discard) this.payAndDiscard(card)
-                return
-            }
         }
     }
 
@@ -735,7 +735,7 @@ export default class MapScene extends Scene {
             const x = getColorlessRemain(caster.manaPool, c)
             targetPlayer.hp-=x
         }
-        if(effect.draw){
+        if(effect.draw && targetPlayer.deck.cards.length > 0){
             targetPlayer = {...targetPlayer, hand: targetPlayer.hand.concat(targetPlayer.deck.cards.shift()),deck:targetPlayer.deck}
         }
         if(effect.drawX){
@@ -801,7 +801,7 @@ export default class MapScene extends Scene {
             const x = getColorlessRemain(activePlayer.manaPool, creature)
             creature.def-=x
         }
-        if(effect.draw){
+        if(effect.draw && activePlayer.deck.cards.length > 0){
             activePlayer = {...activePlayer, hand: activePlayer.hand.concat(activePlayer.deck.cards.shift()),deck:activePlayer.deck}
         }
         if(effect.drawX){

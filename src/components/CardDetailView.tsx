@@ -2,7 +2,7 @@ import * as React from 'react'
 import AppStyles, { colors } from '../styles/AppStyles';
 import { Button, CssIcon } from '../common/Shared';
 import { getCardData } from '../common/CardUtils';
-import { IconIndex, TargetsDesc, ModifierDesc, ColorIcons } from '../../enum';
+import { IconIndex, TargetsDesc, ModifierDesc, ColorIcons, TriggerNames } from '../../enum';
 import { renderCost, renderEffect } from './CardView';
 
 export default (props:{card:Card}) => {
@@ -24,7 +24,12 @@ export default (props:{card:Card}) => {
             {dat.ability && <div>
                 <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Tap}/>} {renderCost(dat.ability.cost, dat.ability.effect?.dmgX)}</div>
                 {dat.ability.targets && <div>Affects: {TargetsDesc[dat.ability.targets]}</div>}
+                {dat.ability.def3orLess && <div>With defense 3 or less</div>}
+                {dat.ability.trigger ? <div>{TriggerNames[dat.ability.trigger]}</div>:<div>On entry,</div>}
                 {dat.ability.conditionalSpend && <div>If <CssIcon spriteIndex={ColorIcons[dat.ability.conditionalSpend]}/> was spent:</div>}
+                {dat.ability.withAttribute && <div>Targets must have {ModifierDesc[dat.ability.withAttribute]}</div>}
+                {dat.ability.withColor && <div>Targets only <CssIcon spriteIndex={ColorIcons[dat.ability.withColor]}/></div>}
+                {dat.ability.withoutColor && <div>Does not affect <CssIcon spriteIndex={ColorIcons[dat.ability.withoutColor]}/> targets</div>}
                 <div>{dat.ability.effect && renderEffect(dat.ability.effect)}</div>   
             </div>}
             {renderCost(dat.cost, dat.pumpColor ? true:false)}

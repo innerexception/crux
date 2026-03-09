@@ -206,15 +206,22 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes: [Modifier.Timid],
         sprite: CreatureSpriteIndex.ForestJackal
     },
-    [CardType.Merfolk]: {
+    [CardType.Corvian]: {
         color:Color.Blue,
         defaultAtk: 1,
         defaultDef: 1,
-        cost: [{kind:Color.Blue, amount:1}],
+        cost: [{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
-        ability: null,
-        sprite: CreatureSpriteIndex.Merfolk
+        ability: {
+            targets: Target.Self,
+            conditionalSpend: Color.Blue,
+            effect: {
+                sprite: IconIndex.Buff,
+                draw: 1
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
     },
     [CardType.Refreshment]: {
         color:Color.Green,

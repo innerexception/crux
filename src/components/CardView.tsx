@@ -2,7 +2,7 @@ import * as React from 'react'
 import AppStyles, { colors } from '../styles/AppStyles';
 import { Button, CssIcon } from '../common/Shared';
 import { getCardData } from '../common/CardUtils';
-import { ColorIcons, Color } from '../../enum';
+import { ColorIcons, Color, ModifierDesc } from '../../enum';
 import Tooltip from 'rc-tooltip';
 import CardDetailView from './CardDetailView';
 
@@ -61,7 +61,8 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.destroy && <div>Put target into controller's graveyard.</div>}
         {effect.searchSorceryForTop && <div>Search your deck for a sorcery. It will be placed on top of your library.</div>}
         {effect.untap && <div>Untap target.</div>}
-        {effect.addAttributes && <div>Creature gains {effect.addAttributes.join(' & ')}</div>}
+        {effect.addAttributes && <div>Creature gains {effect.addAttributes.map(m=>ModifierDesc[m]).join(' & ')}</div>}
+        {effect.removeAttribute && <div>Creature loses {ModifierDesc[effect.removeAttribute]}</div>}
         {effect.addMana && <div>Add <CssIcon spriteIndex={ColorIcons[effect.addMana]}/></div>}
         {effect.arrangeTop5Remove1 && <div>Look at enemy's top 5 and remove 1 from the fight</div>}
         {effect.creatureToHandFromGY && <div>Return target creature to your hand from your graveyard.</div>}
