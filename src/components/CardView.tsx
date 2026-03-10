@@ -18,7 +18,7 @@ export default (props:{card:Card}) => {
                         <div>{props.card.kind}</div>
                         <div style={{display:'flex', alignItems:'center'}}>
                             <CssIcon spriteIndex={dat.sprite} noTooltip={true}/>
-                            {props.card.atk && <div style={{marginLeft:'5px'}}>{props.card.atk}/{props.card.def}</div>}
+                            {(props.card.atk || props.card.def) && <div style={{marginLeft:'5px'}}>{props.card.atk}/{props.card.def}</div>}
                         </div>
                     </div>
                 </div>

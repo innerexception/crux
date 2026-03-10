@@ -128,7 +128,7 @@ export enum Modifier {
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
-    [Modifier.Defender]: 'Does not move',
+    [Modifier.Defender]: 'Defender',
     [Modifier.Banding]: 'Banding',
     [Modifier.Haste]: 'Haste',
     [Modifier.Ranged]: 'Ranged',
