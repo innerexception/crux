@@ -358,7 +358,7 @@ export default class MapScene extends Scene {
     }
 
     net_cancelPendingAction(){
-        this.creaturePreview.destroy()
+        this.creaturePreview?.destroy()
         onShowAbilityPreview(null)
         onSelectCard(null)
     }
@@ -388,9 +388,12 @@ export default class MapScene extends Scene {
                 if(discard) this.payAndDiscard(card)
                 return
             }
+            return //invalid player target
         }
 
         let creatures = getValidCreatureTargets(dat.ability)
+        const target = creatures.find(c=>c.id === props.entityId)
+        if(!target) return //invalid creature target
 
         if(targets === Target.CreaturesAndPlayers){
             this.applyGlobalEffect(card, creatures)
@@ -405,18 +408,21 @@ export default class MapScene extends Scene {
         }
         else if(targets === Target.AllCreaturesYouControl){
             const props = {creatures: creatures.filter(c=>c.ownerId === card.ownerId), card}
+            if(!props.creatures.find(c=>c.id === target.id)) return
             this.applyMultiCreatureEffect(props)
             if(discard) this.payAndDiscard(props.card) 
             return 
         }
         else if(targets === Target.TappedCreatures){
             const props = {creatures: creatures.filter(c=>c.tapped), card}
+            if(!props.creatures.find(c=>c.id === target.id)) return
             this.applyMultiCreatureEffect(props)
             if(discard) this.payAndDiscard(props.card)
             return 
         }
         else if(targets === Target.CreaturesInLane){
             const props = {creatures: creatures.filter(c=>c.tileX === card.tileX), card}
+            if(!props.creatures.find(c=>c.id === target.id)) return
             this.applyMultiCreatureEffect(props)
             if(discard) this.payAndDiscard(props.card)
             return 
@@ -424,7 +430,9 @@ export default class MapScene extends Scene {
         
         if(this.validSingleTarget(props.entityId, card)){ 
             //All single targets
-            this.applySingleTargetEffect({creature: creatures.find(c=>c.id === props.entityId), sorcery:card})
+            const props = {creature: creatures.find(c=>c.id === props.entityId), sorcery:card}
+            if(!props.creatures.find(c=>c.id === target.id)) return
+            this.applySingleTargetEffect(props)
             if(discard) this.payAndDiscard(card)
             return
         }

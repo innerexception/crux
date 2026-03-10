@@ -3,7 +3,7 @@ import { Modal, SceneNames, UIReducerActions } from "../../enum"
 import IntroScene from "../components/scenes/IntroScene"
 import MapScene from "../components/scenes/MapScene"
 import { getCardData } from "./CardUtils"
-import { sendEndTurn, sendLandDeck } from "./Network"
+import { sendCancelAction, sendEndTurn, sendLandDeck } from "./Network"
 import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
 
 export const onShowAbilityPreview = (ability:CardAbility) => {
@@ -107,6 +107,10 @@ export const onStartMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:
     if(startingPlayerId === s.myId){
         sendLandDeck(s.currentMatch.lands)
     }
+}
+
+export const onCancelAction = () =>{
+    sendCancelAction()
 }
 
 export const onShowModal = (modal:Modal, data?:ModalData) => {
