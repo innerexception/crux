@@ -347,7 +347,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.Creature,
-            withCategory: Category.Human,
+            //withCategory: Category.Human,
             effect: {
                 addAttributes:[Modifier.Toxic],
                 sprite: IconIndex.Damage 
@@ -1634,6 +1634,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:0,
         defaultDef:7,
         defaultMoves:0,
+        defaultAttributes: [Modifier.Defender],
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
@@ -2138,7 +2139,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes: [Modifier.Nimble],
+        defaultAttributes: [Modifier.Nimble, Modifier.Defender],
         ability:null
     },
     [CardType.Judgement]: {
@@ -2450,6 +2451,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:5,
         defaultDef:5,
         defaultMoves:0,
+        defaultAttributes: [Modifier.Defender],
         cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:4}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,

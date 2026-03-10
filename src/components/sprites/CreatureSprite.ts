@@ -57,10 +57,12 @@ export default class CreatureSprite extends GameObjects.Image {
                     const destroyTarget = creature.attributes.includes(Modifier.Toxic) && target.def <=3
                     if(destroyTarget){
                         this.scene.tryRemoveCreature(target)
+                        this.scene.flashIcon(myTile.pixelX, myTile.pixelY, IconIndex.Graveyard)
                     }
                     const destroyThis = target.attributes.includes(Modifier.Toxic) && creature.def <=3
                     if(destroyThis){
                         this.scene.tryRemoveCreature(creature)
+                        this.scene.flashIcon(myTile.pixelX, myTile.pixelY, IconIndex.Graveyard)
                     }
                     if(destroyTarget || destroyThis) return
                     this.fight(target)

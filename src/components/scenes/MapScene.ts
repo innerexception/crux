@@ -430,8 +430,8 @@ export default class MapScene extends Scene {
         
         if(this.validSingleTarget(props.entityId, card)){ 
             //All single targets
-            const props = {creature: creatures.find(c=>c.id === props.entityId), sorcery:card}
-            if(!props.creatures.find(c=>c.id === target.id)) return
+            const props = {creature: creatures.find(c=>c.id === target.id), sorcery:card}
+            if(!props.creature) return
             this.applySingleTargetEffect(props)
             if(discard) this.payAndDiscard(card)
             return
