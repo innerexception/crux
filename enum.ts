@@ -79,7 +79,8 @@ export enum Color {
 }
 
 export enum Category {
-    Human='Human',Elemental='Elemental',Beast='Beast',Celestial='Celestial',Infernal='Infernal'
+    Human='Human',Elemental='Elemental',Beast='Beast',Celestial='Celestial',Infernal='Infernal',
+    Beastkin='Beastkin'
 }
 
 export enum Permanents {
@@ -197,16 +198,16 @@ export enum CardType {
     Brainstorm='Brainstorm', GoblinScrounger='GoblinScrounger', Necromancy='Necromancy', FierySpear='FierySpear',
     DustStorm='DustStorm', Scry='Scry', ForestCall='ForestCall', Taunt='Taunt',
     WillowSpirit='WillowSpirit', FlashFlood='FlashFlood', VisitingGryphon='VisitingPegasus',
-    AssassinKnife='AssassinKnife', MartyrPrayer='MartyrPrayer', RefuseDrone='RefuseDrone',
+    AssassinKnife='AssassinKnife', MartyrPrayer='MartyrPrayer', Homonculus='Homonculus',
     Corvian='ElectricEel', FaithlessKnight='FaithlessKnight', 
     TracklessWilds='TracklessWilds', Defiance='Defiance', Pollution='Pollution', 
     HolyMonk='HolyMonk',LandReform='LandReform',GoblinSargeant='GoblinSargeant',
-    BlackBear='BlackBear',FatGoblin='FatGoblin',CatBurglar='CatBurglar',
+    BlackBear='BlackBear',Hobgoblin='Hobgoblin',CatBurglar='CatBurglar',
     FaithfulKnight='FaithfulKnight',DoubleFate='DoubleFate',Dementia='Dementia',
     Overgrowth='Overgrowth',Sprite='Sprite',NaturesPaths='NaturesPaths',
     Omen='Omen',Dragonling='Dragonling',Treant='Treant',Eruption='Eruption',DesertAsetic='DesertAsetic',
     HeavenlyDew='HeavenlyDew', SewerRats='SewerRats',Tremors='Tremors',Sunlight='Sunlight',
-    Steadfast='Steadfast',Crow='Crow',BloomingEarth='BloomingEarth',Truce='Truce',
+    Steadfast='Steadfast',Falconer='Falconer',BloomingEarth='BloomingEarth',Truce='Truce',
     TidePool='TidePool',TreeClimbers='TreeClimbers',FireHammer='FireHammer',
     CunningLure='CunningLure',AngelicTouch='AngelicTouch',DarkStare='DarkStare',
     FlashOfLight='FlashOfLight',StreetThugs='StreetThugs',BorderWatch='BorderWatch',

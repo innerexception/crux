@@ -453,7 +453,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.MartyrPrayer
     },
-    [CardType.RefuseDrone]: {
+    [CardType.Homonculus]: {
         color:Color.Black,
         defaultAtk: 1,
         defaultDef: 1,
@@ -556,13 +556,23 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.GoblinSargeant]: {
         color:Color.Red,
-        defaultAtk: 2,
+        defaultAtk: 1,
         defaultDef: 1,
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
         defaultAttributes:[],
-        ability: null,
+        ability: {
+            targets: Target.Creature,
+            withCategory: Category.Beastkin,
+            tap: true,
+            trigger: Triggers.AtWill,
+            effect: {
+                sprite: IconIndex.Buff,
+                atkUp:1,
+                defUp:1
+            }
+        },
         sprite: CreatureSpriteIndex.Goblin2
     },
     [CardType.BlackBear]: {
@@ -576,9 +586,9 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: null,
         sprite: CreatureSpriteIndex.Bear
     },
-    [CardType.FatGoblin]: {
+    [CardType.Hobgoblin]: {
         color:Color.Red,
-        defaultAtk: 2,
+        defaultAtk: 3,
         defaultDef: 2,
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
@@ -820,16 +830,16 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Armor
     },
-    [CardType.Crow]: {
+    [CardType.Falconer]: {
         color:Color.Blue,
         defaultAtk: 1,
         defaultDef: 2,
-        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount: 1}],
+        cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Creature,
         defaultAttributes:[Modifier.Nimble],
         defaultMoves: 1,
         ability: null,
-        sprite: CreatureSpriteIndex.Crow
+        sprite: CreatureSpriteIndex.Placeholder
     },
     [CardType.BloomingEarth]: {
         color:Color.Green,
@@ -960,7 +970,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:2,
         defaultDef:2,
         defaultMoves:1,
-        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultAttributes:[Modifier.CityWalk],
         sprite: CreatureSpriteIndex.Thug,
@@ -971,8 +981,9 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:1,
         defaultDef:4,
         defaultMoves:1,
-        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
+        defaultAttributes: [Modifier.Defender],
         sprite: CreatureSpriteIndex.Guard,
         ability:null
     },
@@ -1016,7 +1027,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:3,
         defaultDef:1,
         defaultMoves:1,
-        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         defaultAttributes:[Modifier.Nimble, Modifier.Timid],
@@ -1041,7 +1052,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:4,
         defaultDef:1,
         defaultMoves:1,
-        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.Red, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         defaultAttributes:[Modifier.Timid],
@@ -1144,7 +1155,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:2,
         defaultDef:1,
         defaultMoves:1,
-        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null,
