@@ -717,17 +717,20 @@ export default class MapScene extends Scene {
         // }
         //SOME Modal actions only happen on caster's client
         if(caster.id === state.myId){
-            if(effect.cardToHandFromGY){
-                onShowModal(Modal.ChooseFromGY, {targetPlayer})
-            }
-            if(effect.discard){
-                onShowModal(Modal.ChooseDiscard, {targetPlayer})
-            }
+            // if(effect.cardToHandFromGY){
+            //     onShowModal(Modal.ChooseFromGY, {targetPlayer})
+            // }
+            // if(effect.discard){
+            //     onShowModal(Modal.ChooseDiscard, {targetPlayer})
+            // }
+            // if(effect.searchSorceryForTop){
+            //     onShowModal(Modal.PickNextSorcery, {targetPlayer})
+            // }
             if(effect.lookAtTop3){
-                onShowModal(Modal.ViewDeckTop3, {targetPlayer})
+                onShowModal(Modal.ViewCards, {cards: targetPlayer.deck.cards.slice(0,3)})
             }
-            if(effect.searchSorceryForTop){
-                onShowModal(Modal.PickNextSorcery, {targetPlayer})
+            if(effect.lookAtHand){
+                onShowModal(Modal.ViewCards, {cards: targetPlayer.hand})
             }
         }
         if(effect.dmg){

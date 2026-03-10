@@ -13,9 +13,9 @@ import CPUDeck from './components/CPUDeck';
 import LandChoice from './components/modals/LandChoice';
 import Lobby from './components/modals/Lobby';
 import Deckbuilder from './components/Deckbuilder';
-import LookAtCodex from './components/modals/LookAtCodex';
 import CardDetailView from './components/CardDetailView';
 import AbilityPreview from './components/AbilityPreview';
+import LookAtCards from './components/modals/LookAtCards';
 
 export default () => {
 
@@ -34,7 +34,7 @@ export default () => {
       case Modal.ShowLandChoices: return <LandChoice/>
       case Modal.Lobby: return <Lobby/>
       case Modal.Deckbuilder: return <Deckbuilder/>
-      case Modal.ViewDeckTop3: return <LookAtCodex number={3}/>
+      case Modal.ViewCards: return <LookAtCards/>
       default: return <span/>
     }
   }

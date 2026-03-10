@@ -168,7 +168,7 @@ interface RState {
 }
 
 interface ModalData { 
-    targetPlayer: PlayerState
+    cards:Card[]
 } 
 
 interface SaveFile {

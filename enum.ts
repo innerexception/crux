@@ -24,7 +24,7 @@ export enum Modal {
     Deckbuilder='Deckbuilder',Graveyard='Graveyard',AnyGraveyard='AnyGraveyard',
     ChooseFromGY='ChooseFromGY',ChooseDiscard='ChooseDiscard',PickNextSorcery='PickNextSorcery',
     GameOver='GameOver',Winner='Winner',ShowLandChoices='ShowLandChoices',Lobby='Lobby',
-    ViewDeckTop3='ViewDeckTop3'
+    ViewCards='ViewCards'
 }
 
 export enum Direction {
