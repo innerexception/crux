@@ -16,6 +16,7 @@ import Deckbuilder from './components/Deckbuilder';
 import CardDetailView from './components/CardDetailView';
 import AbilityPreview from './components/AbilityPreview';
 import LookAtCards from './components/modals/LookAtCards';
+import SelectCreatureForTop from './components/modals/SelectCreatureForTop';
 
 export default () => {
 
@@ -35,6 +36,7 @@ export default () => {
       case Modal.Lobby: return <Lobby/>
       case Modal.Deckbuilder: return <Deckbuilder/>
       case Modal.ViewCards: return <LookAtCards/>
+      case Modal.SelectCreatureForTop: return <SelectCreatureForTop/>
       default: return <span/>
     }
   }

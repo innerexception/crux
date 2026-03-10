@@ -24,7 +24,7 @@ export enum Modal {
     Deckbuilder='Deckbuilder',Graveyard='Graveyard',AnyGraveyard='AnyGraveyard',
     ChooseFromGY='ChooseFromGY',ChooseDiscard='ChooseDiscard',PickNextSorcery='PickNextSorcery',
     GameOver='GameOver',Winner='Winner',ShowLandChoices='ShowLandChoices',Lobby='Lobby',
-    ViewCards='ViewCards'
+    ViewCards='ViewCards',SelectCreatureForTop='SelectCreatureForTop'
 }
 
 export enum Direction {
@@ -196,7 +196,7 @@ export enum CardType {
     ForestJackal='ForestJackal',MessengerOwl='MessengerOwl',Refreshment='Refreshment',
     Bighorn='BillyGoat', ScavengingRats='ScavengingRats',Memoize='Memoize',
     Brainstorm='Brainstorm', GoblinScrounger='GoblinScrounger', Necromancy='Necromancy', FierySpear='FierySpear',
-    DustStorm='DustStorm', Scry='Scry', ForestCall='ForestCall', Taunt='Taunt',
+    DustStorm='DustStorm', Scry='Scry', ForestCall='ForestCall', Insult='Insult',
     WillowSpirit='WillowSpirit', FlashFlood='FlashFlood', VisitingGryphon='VisitingPegasus',
     AssassinKnife='AssassinKnife', MartyrPrayer='MartyrPrayer', Homonculus='Homonculus',
     Corvian='ElectricEel', FaithlessKnight='FaithlessKnight', 

@@ -698,23 +698,9 @@ export default class MapScene extends Scene {
     applyPlayerEffect(targetPlayer:PlayerState, c:Card) {
         
         const effect = getCardData(c).ability.effect
-        const state = store.getState().saveFile
+        let state = store.getState().saveFile
         const caster = state.currentMatch.players.find(p=>p.id === c.ownerId)
-        //TODO
-        // if(effect.damageReflect){
-        //     const otherPlayer = store.getState().saveFile.currentMatch.players.find(p=>p.id !== c.ownerId)
-        //     otherPlayer.hp-=targetPlayer.dmgRecieved
-        //     onUpdatePlayer({...otherPlayer})
-        // }
-        // if(effect.creatureToHandFromGY){
-        //     onShowModal(Modal.ChooseCreatureFromGY)
-        // }
-        // if(effect.creatureToHandFromLibrary){
-        //     onShowModal(Modal.ChooseCreatureFromLibrary)
-        // }
-        // if(effect.arrangeTop5Remove1){
-        //     onShowModal(Modal.EnemyTop5Remove1)
-        // }
+        
         //SOME Modal actions only happen on caster's client
         if(caster.id === state.myId){
             // if(effect.cardToHandFromGY){
@@ -726,12 +712,40 @@ export default class MapScene extends Scene {
             // if(effect.searchSorceryForTop){
             //     onShowModal(Modal.PickNextSorcery, {targetPlayer})
             // }
+            if(effect.searchCreatureForTop){
+                onShowModal(Modal.SelectCreatureForTop)
+            }
             if(effect.lookAtTop3){
                 onShowModal(Modal.ViewCards, {cards: targetPlayer.deck.cards.slice(0,3)})
             }
             if(effect.lookAtHand){
                 onShowModal(Modal.ViewCards, {cards: targetPlayer.hand})
             }
+        }
+        if(effect.tauntPlayer){
+            const creatures = state.currentMatch.board.filter(c=>c.ownerId !== targetPlayer.id && getCardData(c).kind === Permanents.Creature && !c.attributes.includes(Modifier.Defender))
+            for(let creature of creatures){
+                state = store.getState().saveFile
+                //If creature has an enemy creature in lane
+                const enemy = state.currentMatch.board.find(c=>c.tileX === creature.tileX && creature.ownerId !== c.ownerId)
+                if(enemy){
+                    //Check for adjacent lane with no enemy creature
+                    const open = [-1,+1].find(i=>{
+                        if(this.isEmptyTile(creature.tileX+i, creature.tileY)){
+                            return state.currentMatch.board.find(c=>c.tileX === creature.tileX+i && creature.ownerId !== c.ownerId)
+                        }
+                    })
+                    if(open){
+                        //If exists, move creature there and tap
+                        this.net_moveCard({card:creature, tileX:creature.tileX+open, tileY:creature.tileY})
+                    }
+                    else {
+                        //Otherwise, return this creature to owners hand
+                        this.creatures.find(c=>c.id === creature.id).returnToHand()
+                    }
+                }
+            }
+            return
         }
         if(effect.dmg){
             targetPlayer.hp-=effect.dmg

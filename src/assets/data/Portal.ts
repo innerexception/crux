@@ -405,7 +405,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.ForestCall
     },
-    [CardType.Taunt]: {
+    [CardType.Insult]: {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Sorcery,
