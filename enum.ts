@@ -198,7 +198,7 @@ export enum CardType {
     DustStorm='DustStorm', Scry='Scry', ForestCall='ForestCall', Taunt='Taunt',
     WillowSpirit='WillowSpirit', FlashFlood='FlashFlood', VisitingGryphon='VisitingPegasus',
     AssassinKnife='AssassinKnife', MartyrPrayer='MartyrPrayer', RefuseDrone='RefuseDrone',
-    JellyFish='ElectricEel', FaithlessKnight='FaithlessKnight', 
+    Corvian='ElectricEel', FaithlessKnight='FaithlessKnight', 
     TracklessWilds='TracklessWilds', Defiance='Defiance', Pollution='Pollution', 
     HolyMonk='HolyMonk',LandReform='LandReform',GoblinSargeant='GoblinSargeant',
     BlackBear='BlackBear',FatGoblin='FatGoblin',CatBurglar='CatBurglar',

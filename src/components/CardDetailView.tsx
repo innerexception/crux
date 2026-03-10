@@ -28,9 +28,10 @@ export default (props:{card:Card}) => {
                 {dat.ability.targets && <div>Affects: {TargetsDesc[dat.ability.targets]}</div>}
                 {dat.ability.trigger ? <div>{TriggerNames[dat.ability.trigger]}</div>:<div>When played,</div>}
                 {dat.ability.conditionalSpend && <div>If <CssIcon spriteIndex={ColorIcons[dat.ability.conditionalSpend]}/> was spent:</div>}
-                {dat.ability.withAttribute && <div>Targets must have {ModifierDesc[dat.ability.withAttribute]}</div>}
+                {dat.ability.withAttribute && <div>Only {ModifierDesc[dat.ability.withAttribute]} affected</div>}
                 {dat.ability.def3orLess && <div>Target defense 3 or less</div>}
                 {dat.ability.withColor && <div>Targets only <CssIcon spriteIndex={ColorIcons[dat.ability.withColor]}/></div>}
+                {dat.ability.withoutAttribute && <div>{ModifierDesc[dat.ability.withoutAttribute]} immune</div>}
                 {dat.ability.withoutColor && <div>Does not affect <CssIcon spriteIndex={ColorIcons[dat.ability.withoutColor]}/> targets</div>}
                 <div>{dat.ability.effect && renderEffect(dat.ability.effect)}</div>   
             </div>}

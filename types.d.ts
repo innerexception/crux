@@ -50,6 +50,7 @@ interface CardAbility  {
     tap?: boolean
     targets: import('./enum').Target
     withoutColor?:import('./enum').Color //does not affect cards of this color
+    withoutAttribute?: import('./enum').Modifier
     withColor?:import('./enum').Color //only affect cards of this color
     withAttribute?: import('./enum').Modifier
     withCategory?: import('./enum').Category

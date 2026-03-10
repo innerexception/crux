@@ -355,7 +355,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Knife
     },
-    [CardType.JellyFish]: {
+    [CardType.Corvian]: {
         color:Color.Blue,
         defaultAtk: 2,
         defaultDef: 1,
@@ -363,7 +363,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         defaultMoves: 1,
         ability: null,
-        sprite: CreatureSpriteIndex.Jellyfish
+        sprite: CreatureSpriteIndex.Placeholder
     },
     [CardType.DustStorm]: {
         color:Color.Red,
@@ -371,6 +371,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.AllCreatures,
+            withoutAttribute: Modifier.Defender,
             effect: {
                 dmg: 1,
                 sprite: IconIndex.Damage

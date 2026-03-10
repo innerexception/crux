@@ -12,6 +12,7 @@ export const getValidCreatureTargets = (ability:CardAbility) => {
     if(ability.withoutColor) creatures = creatures.filter(c=>getCardData(c).color !== ability.withoutColor)
     if(ability.withColor) creatures = creatures.filter(c=>getCardData(c).color === ability.withColor)
     if(ability.withAttribute) creatures = creatures.filter(c=>c.attributes.includes(ability.withAttribute))
+    if(ability.withoutAttribute) creatures = creatures.filter(c=>!c.attributes.includes(ability.withoutAttribute))
     if(ability.withCategory) creatures = creatures.filter(c=>getCardData(c).category===ability.withCategory)
     return creatures
 }
