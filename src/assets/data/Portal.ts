@@ -228,7 +228,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Green, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.CreaturesYouControl,
+            targets: Target.CreatureYouControl,
             effect: {
                 untap: true,
                 sprite: IconIndex.Buff
@@ -410,7 +410,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Self,
+            targets: Target.AllOpponentCreatures,
             effect: {
                 tauntPlayer: true,
                 sprite: IconIndex.Buff
@@ -887,7 +887,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.CreaturesYouControl,
+            targets: Target.CreatureYouControl,
             effect: {
                 sprite: IconIndex.Buff,
                 addAttributes: [Modifier.Taunt]
@@ -1306,7 +1306,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:{
-            targets: Target.CreaturesYouControl,
+            targets: Target.CreatureYouControl,
             effect: {
                 destroyOnEnter: true,
                 sprite: IconIndex.Debuff
@@ -1354,7 +1354,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.CreaturesYouControl,
+            targets: Target.CreatureYouControl,
             effect: {
                 duration:1,
                 addAttributes:[Modifier.ForestWalk],
@@ -1656,7 +1656,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.CreaturesYouControl,
+            targets: Target.CreatureYouControl,
             effect: {
                 atkUp: 1,
                 defUp: 1,
@@ -1789,7 +1789,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:3},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.CreaturesYouControl,
+            targets: Target.CreatureYouControl,
             withoutColor: Color.Black,
             effect: {
                 duration: 1,

@@ -1,6 +1,6 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
 import { NetworkEvent } from '../../enum'
-import { onRecieveMessage, onRecievePlayer, onSetLobby, onStartMatch, onUpdateLands, onUpdateSave } from './Thunks'
+import { onRecieveMessage, onRecievePlayer, onSetLobby, onStartMatch, onTurnProcessing, onUpdateLands, onUpdateSave } from './Thunks'
 import { store } from '../..'
 import { emptyMana } from './Utils'
 import{ v4 } from 'uuid'
@@ -15,7 +15,7 @@ export const createOrJoinLobby = async (id?:string) => {
     const host = id ? false : true
     let sendRemotePlayer = false
     if(!id) id = Phaser.Math.Between(100,999).toString()
-    lobby = supabase.channel('crux_'+id)
+    lobby = supabase.channel('crux_'+id, { config: {broadcast: {ack: true}}})
     lobby.on('broadcast' as any, { event: NetworkEvent.MoveCard }, (data)=>store.getState().scene.net_moveCard(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.CancelAction }, ()=>store.getState().scene.net_cancelPendingAction())
     lobby.on('broadcast' as any, { event: NetworkEvent.TriggerAbility }, (data)=>store.getState().scene.net_triggerCardAbility(data.payload))
@@ -50,6 +50,7 @@ export const sendStartMatch = async () => {
 
 export const sendEndTurn = (match:MatchState) => {
     sendMessage(NetworkEvent.EndTurn, match)
+    onTurnProcessing(true)
 }
 
 export const sendAddCardEffect = (props:{cardId:string, worldX:number,worldY:number}) => {
@@ -73,7 +74,11 @@ export const sendTriggerCardAbility = (props:{card:Card, entityId:string, discar
 }
 
 const sendMessage = async (event:NetworkEvent, data:any) => {
-    await lobby.httpSend(event, data)
+    const ack = await lobby.httpSend(event, data)
+    if(!ack.success){
+        console.log('message failed to be sent: '+(ack as any).error)
+        setTimeout(()=>{sendMessage(event, data)},500)
+    }
 }
 
 const getMyPlayer = ():PlayerState => {

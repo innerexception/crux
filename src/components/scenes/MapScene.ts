@@ -2,7 +2,7 @@ import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
 import { Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Modifier, Permanents, SceneNames, Target, Triggers } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
-import { onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer } from "../../common/Thunks";
+import { onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onTurnProcessing, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
 import { canAfford, drawMarchingDashedRect, emptyMana, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, getValidCreatureTargets, tapLand } from "../../common/CardUtils";
@@ -192,7 +192,7 @@ export default class MapScene extends Scene {
         else if(dat.kind === Permanents.Enchantment){
             let creatureTiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
                     .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
-            if(dat.ability.targets === Target.CreaturesYouControl){
+            if(dat.ability.targets === Target.CreatureYouControl){
                 creatureTiles = state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id && getCardData(c).kind === Permanents.Creature)
                     .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
             }
@@ -413,6 +413,13 @@ export default class MapScene extends Scene {
             if(discard) this.payAndDiscard(props.card) 
             return 
         }
+        else if(targets === Target.AllOpponentCreatures){
+            const props = {creatures: creatures.filter(c=>c.ownerId !== card.ownerId), card}
+            if(!props.creatures.find(c=>c.id === target.id)) return
+            this.applyMultiCreatureEffect(props)
+            if(discard) this.payAndDiscard(props.card) 
+            return 
+        }
         else if(targets === Target.TappedCreatures){
             const props = {creatures: creatures.filter(c=>c.tapped), card}
             if(!props.creatures.find(c=>c.id === target.id)) return
@@ -469,6 +476,7 @@ export default class MapScene extends Scene {
         //set next player
         const nextPlayer = match.players.find(p=>p.id !== current.id)
         onUpdateActivePlayer(nextPlayer.id)
+        onTurnProcessing(false)
         onUpdatePlayer({...nextPlayer,
             drawAllowed:1,
             hasPlayedLand:false,
@@ -554,8 +562,12 @@ export default class MapScene extends Scene {
             tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerNorth.x, this.playerNorth.y, false, undefined, Layers.Earth))
             tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerSouth.x, this.playerSouth.y, false, undefined, Layers.Earth))
         }
-        if(ability.targets === Target.CreaturesYouControl){
+        if(ability.targets === Target.CreatureYouControl){
             tiles = creatures.filter(c=>c.ownerId === me.id && getCardData(c).kind === Permanents.Creature)
+                .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
+        }
+        if(ability.targets === Target.OpponentCreature || ability.targets === Target.AllOpponentCreatures){
+            tiles = creatures.filter(c=>c.ownerId !== me.id && getCardData(c).kind === Permanents.Creature)
                 .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
         }
         if(ability.targets === Target.CreaturesYourGraveyard || ability.targets === Target.YourGraveyard){
@@ -628,14 +640,16 @@ export default class MapScene extends Scene {
                 sorceryData.ability.targets === Target.CreaturesOrPlayers){
                 return true
             }
-            if(sorceryData.ability.targets === Target.CreaturesYouControl){
+            if(sorceryData.ability.targets === Target.CreatureYouControl){
                 return creature.ownerId === sorcery.ownerId
+            }
+            if(sorceryData.ability.targets === Target.OpponentCreature){
+                return creature.ownerId !== sorcery.ownerId
             }
             if(sorceryData.ability.targets === Target.ThisCreature){
                 return creature.id === entityId
             }
         }
-
     }
 
     validStartTile = (t:Tilemaps.Tile, dir:Direction, land:boolean) => {
@@ -722,31 +736,6 @@ export default class MapScene extends Scene {
                 onShowModal(Modal.ViewCards, {cards: targetPlayer.hand})
             }
         }
-        if(effect.tauntPlayer){
-            const creatures = state.currentMatch.board.filter(c=>c.ownerId !== targetPlayer.id && getCardData(c).kind === Permanents.Creature && !c.attributes.includes(Modifier.Defender))
-            for(let creature of creatures){
-                state = store.getState().saveFile
-                //If creature has an enemy creature in lane
-                const enemy = state.currentMatch.board.find(c=>c.tileX === creature.tileX && creature.ownerId !== c.ownerId)
-                if(enemy){
-                    //Check for adjacent lane with no enemy creature
-                    const open = [-1,+1].find(i=>{
-                        if(this.isEmptyTile(creature.tileX+i, creature.tileY)){
-                            return state.currentMatch.board.find(c=>c.tileX === creature.tileX+i && creature.ownerId !== c.ownerId)
-                        }
-                    })
-                    if(open){
-                        //If exists, move creature there and tap
-                        this.net_moveCard({card:creature, tileX:creature.tileX+open, tileY:creature.tileY})
-                    }
-                    else {
-                        //Otherwise, return this creature to owners hand
-                        this.creatures.find(c=>c.id === creature.id).returnToHand()
-                    }
-                }
-            }
-            return
-        }
         if(effect.dmg){
             targetPlayer.hp-=effect.dmg
         }
@@ -781,6 +770,29 @@ export default class MapScene extends Scene {
         const state = store.getState()
         let activePlayer = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.currentMatch.activePlayerId)
         let me = state.saveFile.currentMatch.activePlayerId === state.saveFile.myId
+
+        if(effect.tauntPlayer){
+            //If creature has an enemy creature in lane
+            const enemy = state.saveFile.currentMatch.board.find(c=>c.tileX === creature.tileX && creature.ownerId !== c.ownerId)
+            if(enemy){
+                //Check for adjacent lane with no enemy creature
+                const open = [-1,+1].find(i=>{
+                    if(this.isEmptyTile(creature.tileX+i, creature.tileY)){
+                        return state.saveFile.currentMatch.board.find(c=>c.tileX === creature.tileX+i && creature.ownerId !== c.ownerId)
+                    }
+                })
+                if(open){
+                    //If exists, move creature there and tap
+                    this.net_moveCard({card:creature, tileX:creature.tileX+open, tileY:creature.tileY})
+                }
+                else {
+                    //Otherwise, return this creature to owners hand
+                    this.creatures.find(c=>c.id === creature.id).returnToHand()
+                }
+            }
+            return
+        }
+
         if(effect.creatureToLibrary){
             this.tryRemoveCreature(creature)
             const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === creature.ownerId)
@@ -788,6 +800,7 @@ export default class MapScene extends Scene {
                 deck: {...p.deck, cards: p.deck.cards.concat(creature)},
                 discard: p.discard.filter(c=>c.id !== creature.id)
             })
+            return
         }
         if(effect.addAttributes){
             creature.attributes = creature.attributes.concat(effect.addAttributes)

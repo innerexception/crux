@@ -70,5 +70,8 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.creatureToLibrary && <div>Put this creature on top of your library.</div>}
         {effect.damageReflect && <div>Damage dealt to you is also dealt to the opposing player</div>}
         {effect.lookAtTop3 && <div>Look at the top 3 cards in target codex</div>}
+        {effect.lookAtHand && <div>Look at target's hand</div>}
+        {effect.tauntPlayer && <div>Opponent's non-defender creatures must move to an open lane.</div>}
+        
         {/* //TODO */}
     </div>

@@ -16,7 +16,8 @@ export enum UIReducerActions {
     NETWORK_MESSAGE='NETWORK_MESSAGE',
     SET_LOBBY='SET_LOBBY',
     PLAYER_JOIN='PLAYER_JOIN',
-    SET_ABILITY='SET_ABILITY'
+    SET_ABILITY='SET_ABILITY',
+    SET_PROCESSING='SET_PROCESSING'
 }
 
 export enum Modal {
@@ -88,10 +89,10 @@ export enum Permanents {
 }
 
 export enum Target {
-    Self='Self',CreaturesYouControl='CreaturesYouControl',Creature='Creature',Lands='Lands',LandsYouControl='LandsYouControl',
+    Self='Self',CreatureYouControl='CreatureYouControl',Creature='Creature',Lands='Lands',LandsYouControl='LandsYouControl',
     AllCreatures='AllCreatures',CreatureOrLand='CreatureOrLand',CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',
-    CreaturesYourGraveyard='CreaturesYourGraveyard',YourGraveyard='YourGraveyard',
-    CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',
+    CreaturesYourGraveyard='CreaturesYourGraveyard',YourGraveyard='YourGraveyard',OpponentCreature='OpponentCreature',
+    CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',AllOpponentCreatures='AllOpponentCreatures',
     AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl',ThisCreature='ThisCreature',TappedCreatures='TappedCreatures',
     CreatureAndLand='CreatureAndLand',CreaturesInLane='CreaturesInLane'
 }
@@ -172,10 +173,12 @@ export const TargetsDesc:Record<Target,string> = {
     [Target.CreaturesAndPlayers]:'All Creatures & Players',
     [Target.CreaturesOrPlayers]:'A Creature or Player',
     [Target.CreatureOrLand]:'A Creature or Land',
-    [Target.CreaturesYouControl]:'A Creature you control',
+    [Target.CreatureYouControl]:'A Creature you control',
     [Target.CreaturesYourGraveyard]:'A Creature in your graveyard',
     [Target.YourGraveyard]:'A card in your graveyard',
     [Target.CreaturesAnyGraveyard]:'A Creature in any graveyard',
+    [Target.OpponentCreature]:"An opponent's creature",
+    [Target.AllOpponentCreatures]:"All opponent's creatures"
 }
 
 export const ColorIcons:Record<Color, IconIndex> = {

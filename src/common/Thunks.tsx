@@ -23,11 +23,15 @@ export const onRecievePlayer = (data:PlayerState) => {
     store.dispatch({ type: UIReducerActions.PLAYER_JOIN, data })
 }
 
-export const onEndTurn = (match:MatchState) => {
+export const onEndTurn = async (match:MatchState) => {
     if(match.players.find(p=>p.isAI)){
-        store.getState().scene.net_endTurn(match)
+        await store.getState().scene.net_endTurn(match)
     }
     else sendEndTurn(match)
+}
+
+export const onTurnProcessing = (state:boolean) => {
+    store.dispatch({ type: UIReducerActions.SET_PROCESSING, data:state })
 }
 
 export const onUpdateBoardCreature = (cd:Card) => {

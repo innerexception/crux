@@ -27,8 +27,8 @@ export const tapLand = (card:Card, me:PlayerState) => {
 }
 
 export const getCardData = (c:Card) => {
+    if(!c) debugger
     if(Portal[c.kind]) return Portal[c.kind]
-    debugger
     return null
 }
 

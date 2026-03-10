@@ -27,6 +27,8 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
             return { ...state, saveFile: {...state.saveFile, currentMatch: action.data }}
         case UIReducerActions.SET_SCENE:
             return { ...state, scene: action.data }
+        case UIReducerActions.SET_PROCESSING:
+            return { ...state, turnProcessing: action.data }
         case UIReducerActions.PLAYER_JOIN:
             return { ...state, joinedPlayer: action.data }
         case UIReducerActions.SET_ABILITY:
@@ -58,7 +60,8 @@ const getInitialState = () => {
         selectedCardId: null,
         inspectCardId:'',
         currentDeckId:'',
-        lobbyId:''
+        lobbyId:'',
+        turnProcessing:false
     }
 }
 

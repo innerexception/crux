@@ -158,6 +158,7 @@ interface RState {
     activeModal: import('./enum').Modal
     modalData: ModalData
     isLoaded:boolean
+    turnProcessing:boolean
     saveFile:SaveFile
     lobbyId:string
     joinedPlayer: PlayerState

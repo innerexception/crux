@@ -12,7 +12,7 @@ import CardDetailView from './CardDetailView';
 export default () => {
 
     const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId))
-    const myTurn = useSelector((state:RState)=>state.saveFile.currentMatch.activePlayerId === state.saveFile.myId)
+    const myTurn = useSelector((state:RState)=>state.saveFile.currentMatch.activePlayerId === state.saveFile.myId && !state.turnProcessing)
     const lands = useSelector((state:RState)=>state.saveFile.currentMatch.board.filter(b=>b.ownerId === me.id && getCardData(b).kind === Permanents.Land))
     const selectedCardId = useSelector((state:RState)=>state.selectedCardId)
     const match = useSelector((state:RState)=>state.saveFile.currentMatch)
