@@ -8,6 +8,7 @@ import { IconIndex, Modal, Permanents } from '../../enum';
 import { getCardData } from '../common/CardUtils';
 import { colors } from '../styles/AppStyles';
 import CardDetailView from './CardDetailView';
+import { sendUpdate } from '../common/Network';
 
 export default () => {
 
@@ -23,6 +24,7 @@ export default () => {
             hand: me.hand.concat(me.deck.cards.shift()), 
             deck:me.deck
         })
+        sendUpdate()
     }
 
     return (

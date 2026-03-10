@@ -73,6 +73,10 @@ export const sendTriggerCardAbility = (props:{card:Card, entityId:string, discar
     sendMessage(NetworkEvent.TriggerAbility, props)
 }
 
+export const sendUpdate = () => {
+    sendMessage(NetworkEvent.Update, store.getState().saveFile.currentMatch)
+}
+
 const sendMessage = async (event:NetworkEvent, data:any) => {
     const ack = await lobby.httpSend(event, data)
     if(!ack.success){

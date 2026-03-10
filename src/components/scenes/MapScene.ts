@@ -359,6 +359,7 @@ export default class MapScene extends Scene {
 
     net_cancelPendingAction(){
         this.creaturePreview?.destroy()
+        this.g.clear()
         onShowAbilityPreview(null)
         onSelectCard(null)
     }
@@ -369,7 +370,7 @@ export default class MapScene extends Scene {
         const discard = props.discard
         const dat = getCardData(card)
         const targets = dat.ability.targets
-        onShowAbilityPreview(null)
+        this.net_cancelPendingAction()
         
         const player = state.saveFile.currentMatch.players.find(p=>p.id === props.entityId)
         if(player){
