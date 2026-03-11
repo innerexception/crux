@@ -220,13 +220,13 @@ export default class MapScene extends Scene {
                 this.selectIcon.setPosition(ctr.x, ctr.y)
                 this.selectIcon.setVisible(true)
                 if(store.getState().saveFile.currentMatch.players.find(p=>p.id === bld.id)) return
-                onInspectCreature(bld.id)
+                onInspectCreature(store.getState().saveFile.currentMatch.board.find(c=>c.id ===bld.id))
             }
             else if(tile) {
                 if(!this.selectedTile) this.selectedTile = tile
                 else if(this.selectedTile.x !== tile.x || this.selectedTile.y !== tile.y){
                     this.selectedTile = tile
-                    onInspectCreature(null)
+                    if(store.getState().inspectCard) onInspectCreature(null)
                     this.selectIcon.setVisible(false)
                 }
             }
@@ -903,7 +903,7 @@ export default class MapScene extends Scene {
         //3. death effects
         const state = store.getState()
         if(card.id === state.selectedCardId) onSelectCard(null)
-        if(card.id === state.inspectCardId) onInspectCreature(null)
+        if(card.id === state.inspectCard.id) onInspectCreature(null)
         const spr = this.creatures.find(c=>c.id === card.id)
         spr.destroy()
         let board = state.saveFile.currentMatch.board

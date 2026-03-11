@@ -57,7 +57,7 @@ export const onUpdatePlayer = (p:PlayerState) => {
     store.dispatch({ type: UIReducerActions.UPDATE_PLAYER, data: p })
 }
 
-export const onInspectCreature = (c:string) => {
+export const onInspectCreature = (c:Card) => {
     store.dispatch({ type: UIReducerActions.INSPECT_CARD, data: c })
 }
 
@@ -108,7 +108,7 @@ export const onStartMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:
     store.dispatch({ type: UIReducerActions.START_NEW_MATCH, data:s.currentMatch })
     const intro = store.getState().scene.scene.get(SceneNames.Intro) as IntroScene
     transitionOut(intro, SceneNames.Main, ()=>transitionIn(store.getState().scene))
-    if(startingPlayerId === s.myId){
+    if(startingPlayerId === s.myId && !opponent.isAI){
         sendLandDeck(s.currentMatch.lands)
     }
 }

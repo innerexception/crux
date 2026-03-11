@@ -164,7 +164,7 @@ interface RState {
     lobbyId:string
     joinedPlayer: PlayerState
     selectedSaveName: string
-    inspectCardId: string
+    inspectCard: Card
     selectedCardId: string
     scene: import('./src/components/scenes/MapScene').default
 }

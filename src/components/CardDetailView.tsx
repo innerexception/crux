@@ -12,7 +12,7 @@ export default (props:{card:Card}) => {
     const owner = useSelector((state:RState)=>state.saveFile.currentMatch?.players.find(p=>p.id === props.card.ownerId))
 
     return (
-        <div style={{fontSize:'16px',border:'2px inset', borderColor: colors[dat.color], padding:'5px'}}>
+        <div style={{fontSize:'16px',border:'2px inset', height:'100%', borderColor: colors[dat.color], padding:'5px'}}>
             <div style={{display:'flex', justifyContent:'space-between'}}>
                 <div style={{marginRight:'5px'}}>
                     <div style={{display:'flex', alignItems:'center'}}>

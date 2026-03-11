@@ -5,6 +5,7 @@ import { getCardData } from '../common/CardUtils';
 import { ColorIcons, Color, ModifierDesc } from '../../enum';
 import Tooltip from 'rc-tooltip';
 import CardDetailView from './CardDetailView';
+import { onInspectCreature } from '../common/Thunks';
 
 export default (props:{card:Card}) => {
     
@@ -12,17 +13,15 @@ export default (props:{card:Card}) => {
 
     return (
         <div style={{width:'120px', height:'80px', border:'2px inset', fontSize:'16px', borderColor: colors[dat.color], paddingLeft:'5px', borderRadius:'5px'}}>
-            <Tooltip overlay={<CardDetailView card={props.card}/>}>
-                <div style={{display:'flex', justifyContent:'space-between'}}>
-                    <div style={{marginRight:'5px'}}>
-                        <div>{props.card.kind}</div>
-                        <div style={{display:'flex', alignItems:'center'}}>
-                            <CssIcon spriteIndex={dat.sprite} noTooltip={true}/>
-                            {(props.card.atk || props.card.def) && <div style={{marginLeft:'5px'}}>{props.card.atk}/{props.card.def}</div>}
-                        </div>
+            <div onMouseEnter={()=>onInspectCreature(props.card)} onMouseLeave={()=>onInspectCreature(null)} style={{display:'flex', justifyContent:'space-between'}}>
+                <div style={{marginRight:'5px'}}>
+                    <div>{props.card.kind}</div>
+                    <div style={{display:'flex', alignItems:'center'}}>
+                        <CssIcon spriteIndex={dat.sprite} noTooltip={true}/>
+                        {(props.card.atk || props.card.def) && <div style={{marginLeft:'5px'}}>{props.card.atk}/{props.card.def}</div>}
                     </div>
                 </div>
-            </Tooltip>
+            </div>
             {renderCost(dat.cost, dat.pumpColor ? true:false)}
         </div>
     )

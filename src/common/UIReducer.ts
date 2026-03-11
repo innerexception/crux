@@ -18,7 +18,7 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
         case UIReducerActions.SAVE:
             return { ...state, selectedSaveName: action.data, activeModal: null }
         case UIReducerActions.INSPECT_CARD:
-            return { ...state, inspectCardId: action.data }
+            return { ...state, inspectCard: action.data }
         case UIReducerActions.SELECT_CARD:
             return { ...state, selectedCardId: action.data }
         case UIReducerActions.SET_LOBBY:
@@ -58,7 +58,7 @@ const getInitialState = () => {
         currentMatch: null,
         scene: null,
         selectedCardId: null,
-        inspectCardId:'',
+        inspectCard:null,
         currentDeckId:'',
         lobbyId:'',
         turnProcessing:false
