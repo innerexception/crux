@@ -145,12 +145,14 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     const player = state.saveFile.currentMatch.players.find(p=>p.id === props.entityId)
     if(player){
         if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
-            scene.targetPlayer({player, card})
+            scene.applyPlayerEffect(player, props.card)
+            onSelectCard(null)
             if(discard) scene.payAndDiscard(card)
             return
         }
-        else if(targets === Target.Self && player.id === state.saveFile.myId){
-            scene.targetPlayer({player, card})
+        else if(targets === Target.Self && player.id === state.saveFile.currentMatch.activePlayerId){
+            scene.applyPlayerEffect(player, props.card)
+            onSelectCard(null)
             if(discard) scene.payAndDiscard(card)
             return
         }

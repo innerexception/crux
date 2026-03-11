@@ -410,11 +410,6 @@ export default class MapScene extends Scene {
         tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
     }
 
-    targetPlayer(props:{player:PlayerState, card:Card}) {
-        this.applyPlayerEffect(props.player, props.card)
-        onSelectCard(null)
-    }
-
     targetAllPlayers(card:Card) {
         const players = store.getState().saveFile.currentMatch.players
         players.forEach(player=>this.applyPlayerEffect(player, card))
@@ -546,11 +541,15 @@ export default class MapScene extends Scene {
             }
         }
         if(effect.hpPerLand){
-            const forests = store.getState().saveFile.currentMatch.board.filter(c=>c.kind === effect.hpPerLand)
+            const forests = state.currentMatch.board.filter(c=>c.kind === effect.hpPerLand)
             targetPlayer.hp+=forests.length*effect.hpUp
         }
+        if(effect.hpPerAttacker){
+            const enemies = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.ownerId !== targetPlayer.id)
+            targetPlayer.hp+=enemies.length
+        }
         if(targetPlayer.hp <= 0){
-            if(targetPlayer.id === store.getState().saveFile.myId) onShowModal(Modal.GameOver)
+            if(targetPlayer.id === state.myId) onShowModal(Modal.GameOver)
             else onShowModal(Modal.Winner)
         }
         if(effect.addMana){
