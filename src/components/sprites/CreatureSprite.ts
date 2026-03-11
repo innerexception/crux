@@ -1,7 +1,7 @@
 import { GameObjects } from "phaser"
 import { store } from "../../.."
 import { CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier } from "../../../enum"
-import { getCardData, resetCard } from "../../common/CardUtils"
+import { getCardData, resetCard, validEndTile } from "../../common/CardUtils"
 import { onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
 
@@ -40,7 +40,7 @@ export default class CreatureSprite extends GameObjects.Image {
             state = store.getState().saveFile.currentMatch
             const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
             let next = this.scene.map.getTileAt(myTile.x, myTile.y+this.dir, false, Layers.Earth)
-            if(this.scene.validEndTile(next, owner.dir, true)){
+            if(validEndTile(next, owner.dir, true)){
                 const enemy = state.players.find(p=>p.id !== creature.ownerId)
                 onUpdatePlayer({...enemy, hp: enemy.hp-creature.atk})
                 this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Damage, '0xff0000', '-')

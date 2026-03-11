@@ -3,7 +3,7 @@ import { Modal, SceneNames, UIReducerActions } from "../../enum"
 import IntroScene from "../components/scenes/IntroScene"
 import MapScene from "../components/scenes/MapScene"
 import { getCardData } from "./CardUtils"
-import { sendCancelAction, sendEndTurn, sendLandDeck } from "./Network"
+import { net_cancelPendingAction, net_endTurn, sendCancelAction, sendEndTurn, sendLandDeck } from "./Network"
 import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
 
 export const onShowAbilityPreview = (ability:CardAbility) => {
@@ -25,7 +25,7 @@ export const onRecievePlayer = (data:PlayerState) => {
 
 export const onEndTurn = async (match:MatchState) => {
     if(match.players.find(p=>p.isAI)){
-        await store.getState().scene.net_endTurn(match)
+        await net_endTurn(match)
     }
     else sendEndTurn(match)
 }
@@ -115,7 +115,7 @@ export const onStartMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:
 
 export const onCancelAction = () =>{
     if(store.getState().saveFile.currentMatch.players.find(p=>p.isAI)){
-        store.getState().scene.net_cancelPendingAction()
+        net_cancelPendingAction()
     }
     else sendCancelAction()
 }
