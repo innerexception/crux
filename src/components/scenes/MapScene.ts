@@ -497,11 +497,11 @@ export default class MapScene extends Scene {
         }
     }
 
-    applyPlayerEffect(targetPlayer:PlayerState, c:Card) {
+    applyPlayerEffect(targetPlayer:PlayerState, card:Card) {
         
-        const effect = getCardData(c).ability.effect
+        const effect = getCardData(card).ability.effect
         let state = store.getState().saveFile
-        const caster = state.currentMatch.players.find(p=>p.id === c.ownerId)
+        const caster = state.currentMatch.players.find(p=>p.id === card.ownerId)
         
         //SOME Modal actions only happen on caster's client
         if(caster.id === state.myId){
@@ -524,18 +524,23 @@ export default class MapScene extends Scene {
                 onShowModal(Modal.ViewCards, {cards: targetPlayer.hand})
             }
         }
+        if(effect.discardAllAndDraw){
+            const handSize = targetPlayer.hand.length
+            targetPlayer.discard = targetPlayer.discard.concat(targetPlayer.hand.filter(c=>card.id !== c.id))
+            targetPlayer.hand = targetPlayer.deck.cards.splice(0,handSize)
+        }
         if(effect.dmg){
             targetPlayer.hp-=effect.dmg
         }
         if(effect.dmgX){
-            const x = getColorlessRemain(caster.manaPool, c)
+            const x = getColorlessRemain(caster.manaPool, card)
             targetPlayer.hp-=x
         }
         if(effect.draw && targetPlayer.deck.cards.length > 0){
             targetPlayer = {...targetPlayer, hand: targetPlayer.hand.concat(targetPlayer.deck.cards.shift()),deck:targetPlayer.deck}
         }
         if(effect.drawX){
-            const x = getColorlessRemain(caster.manaPool, c)
+            const x = getColorlessRemain(caster.manaPool, card)
             for(let i=0;i<x;i++){
                 targetPlayer = {...targetPlayer, hand: targetPlayer.hand.concat(targetPlayer.deck.cards.shift()),deck:targetPlayer.deck}
             }
@@ -573,6 +578,12 @@ export default class MapScene extends Scene {
         }
         if(effect.discard){
             if(me) onShowModal(Modal.ChooseDiscard)
+            return
+        }
+
+        if(effect.resetMovement){
+            const spr = this.creatures.find(c=>c.id === creature.id)
+            spr.resetPosition()
             return
         }
 
@@ -641,7 +652,6 @@ export default class MapScene extends Scene {
         if(effect.pacifism){
             creature.tapped = true
         }
-        
         if(effect.untap){
             creature.tapped = false
             this.creatures.find(s=>s.id === creature.id).untap()

@@ -89,9 +89,13 @@ export default class CreatureSprite extends GameObjects.Image {
         }
     }
 
-    reset () {
+    resetPosition () {
         const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
         const startTile = this.scene.map.getTileAt(myTile.x, this.dir === Direction.NORTH ? this.scene.northCreatures[0].y : this.scene.southCreatures[0].y, false, Layers.Earth)
+        
+        if(store.getState().saveFile.currentMatch.board.find(c=>c.tileX === startTile.x && c.tileY === startTile.y))
+            return this.returnToHand()
+        
         onUpdateBoardCreature({...store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id), tileY: startTile.y})
         this.setPosition(startTile.pixelX,startTile.pixelY)
     }

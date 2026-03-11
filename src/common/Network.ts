@@ -83,11 +83,13 @@ const sendMessage = async (event:NetworkEvent, data:any) => {
     try{
         const ack = await lobby.httpSend(event, data)
         if(!ack.success){
+            debugger
             console.log('message failed to be sent: '+(ack as any).error)
             setTimeout(()=>{sendMessage(event, data)},500)
         }
     }
     catch(e){
+        debugger
         console.log('message failed to be sent: '+e)
         setTimeout(()=>{sendMessage(event, data)},500)
     }
