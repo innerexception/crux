@@ -422,11 +422,18 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         defaultAtk: 1,
         defaultDef: 1,
-        cost: [{kind:Color.Green, amount:1}],
+        cost: [{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
         defaultAttributes:[Modifier.ForestWalk],
-        ability: null,
+        ability: {
+            targets: Target.LandsYouControl,
+            conditionalSpend: Color.Green,
+            effect: {
+                sprite: IconIndex.Buff,
+                transformInto: CardType.Forest
+            }
+        },
         sprite: CreatureSpriteIndex.Dryad
     },
     [CardType.VisitingGryphon]: {

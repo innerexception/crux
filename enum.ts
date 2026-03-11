@@ -94,7 +94,7 @@ export enum Target {
     CreaturesYourGraveyard='CreaturesYourGraveyard',YourGraveyard='YourGraveyard',OpponentCreature='OpponentCreature',
     CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',AllOpponentCreatures='AllOpponentCreatures',
     AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl',ThisCreature='ThisCreature',TappedCreatures='TappedCreatures',
-    CreatureAndLand='CreatureAndLand',CreaturesInLane='CreaturesInLane'
+    CreatureAndLand='CreatureAndLand',CreaturesInLane='CreaturesInLane',OpponentLand='OpponentLand'
 }
 
 export enum Triggers {
@@ -160,6 +160,7 @@ export const ModifierDesc:Record<Modifier,string> = {
 export const TargetsDesc:Record<Target,string> = {
     [Target.CreaturesInLane]: "Creatures in target's lane",
     [Target.LandsYouControl]: 'A Land you control',
+    [Target.OpponentLand]: "An opponent's land",
     [Target.ThisCreature]: 'This Creature',
     [Target.AllCreatures]: 'All Creatures',
     [Target.CreatureAndLand]: 'All Creatures & Lands',
@@ -200,7 +201,7 @@ export enum CardType {
     Bighorn='BillyGoat', ScavengingRats='ScavengingRats',Memoize='Memoize',
     Brainstorm='Brainstorm', GoblinScrounger='GoblinScrounger', Necromancy='Necromancy', FierySpear='FierySpear',
     DustStorm='DustStorm', Scry='Scry', ForestCall='ForestCall', Insult='Insult',
-    WillowSpirit='WillowSpirit', FlashFlood='FlashFlood', VisitingGryphon='VisitingPegasus',
+    WillowSpirit='WillowSpirit', FlashFlood='FlashFlood', VisitingGryphon='VisitingGryphon',
     AssassinKnife='AssassinKnife', MartyrPrayer='MartyrPrayer', Homonculus='Homonculus',
     Corvian='ElectricEel', FaithlessKnight='FaithlessKnight', 
     TracklessWilds='TracklessWilds', Defiance='Defiance', Pollution='Pollution', 
