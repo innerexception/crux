@@ -32,14 +32,18 @@ export const createOrJoinLobby = async (id?:string) => {
         if(player.id !== store.getState().saveFile.myId){
             onRecievePlayer(data.payload)
         }
-        if(host && !sendRemotePlayer) 
+        if(host && !sendRemotePlayer) {
+            console.log('broadcast player from host')
             await sendMessage(NetworkEvent.Join, getMyPlayer())
+        }
         sendRemotePlayer = true
     })
     .subscribe()
     onSetLobby(id)
-    if(!host)
+    if(!host){
+        console.log('broadcast player from visitor')
         await sendMessage(NetworkEvent.Join, getMyPlayer())
+    }
 }
 
 export const sendLandDeck = (lands:Card[]) => {
