@@ -114,7 +114,10 @@ export const onStartMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:
 }
 
 export const onCancelAction = () =>{
-    sendCancelAction()
+    if(store.getState().saveFile.currentMatch.players.find(p=>p.isAI)){
+        store.getState().scene.net_cancelPendingAction()
+    }
+    else sendCancelAction()
 }
 
 export const onShowModal = (modal:Modal, data?:ModalData) => {

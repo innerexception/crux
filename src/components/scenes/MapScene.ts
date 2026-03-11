@@ -80,7 +80,7 @@ export default class MapScene extends Scene {
 
         this.refresh(match)
         
-        this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.cameras.main.worldView.height)
+        this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
         this.cameras.main.centerToBounds()
     }
 
