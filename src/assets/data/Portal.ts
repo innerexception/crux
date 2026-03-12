@@ -550,7 +550,7 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.LandReform]: {
         color:Color.White,
-        cost: [{kind:Color.White, amount:2}],
+        cost: [{kind:Color.White, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.Self,

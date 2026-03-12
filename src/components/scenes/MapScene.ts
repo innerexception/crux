@@ -560,6 +560,11 @@ export default class MapScene extends Scene {
         if(effect.addMana){
             targetPlayer.manaPool[effect.addMana]++
         }
+        if(effect.drawIfFewerCards){
+            const mylands = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land && c.ownerId === caster.id).length
+            const yourlands = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land && c.ownerId !== caster.id).length
+            if(mylands<yourlands) targetPlayer.hasPlayedLand = false
+        }
         onUpdatePlayer({...targetPlayer})
     }
 
