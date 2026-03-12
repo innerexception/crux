@@ -80,7 +80,7 @@ interface CardEffect {
     draw?:number
     drawX?:boolean
     drawForDeserts?:boolean
-    draw3TemplesIfLessLand?:boolean
+    drawLandIfLess?:boolean
     drawIfFewerCards?:boolean
     drawForTappedOpponent?:boolean //draw 1 for each tapped creature of opponent
     discard?:number
@@ -90,6 +90,7 @@ interface CardEffect {
     pacifyAllOfPlayer?:boolean //Creatures and lands are tapped until next untap phase
     hpPerLand?:import('./enum').CardType //entire board
     hpUp?:number
+    hpUpOnExpire?:number //Hp added when effect ends
     hpToOwner?:number
     hpPerAttacker?:boolean
     untap?:boolean

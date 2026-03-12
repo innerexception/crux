@@ -43,7 +43,7 @@ export default class CreatureSprite extends GameObjects.Image {
             if(validEndTile(next, owner.dir, true)){
                 const enemy = state.players.find(p=>p.id !== creature.ownerId)
                 onUpdatePlayer({...enemy, hp: enemy.hp-creature.atk})
-                this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Damage, '0xff0000', '-')
+                this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Damage, '-')
                 const land = state.board.find(c=>c.tileX===next.x && c.tileY === next.y)
                 if(land){
                     this.scene.tryRemoveCreature(land)

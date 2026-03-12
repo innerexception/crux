@@ -662,16 +662,23 @@ export default class MapScene extends Scene {
     }
 
     tryRemoveCreature (card:Card) {
-        //TODO
-        //3. death effects
         const state = store.getState()
         if(card.id === state.selectedCardId) onSelectCard(null)
         if(card.id === state.inspectCard?.id) onInspectCreature(null)
         const spr = this.creatures.find(c=>c.id === card.id)
         spr.destroy()
+        
+        const p = state.saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
+        //3. death effects
+        if(card.attributes.includes(Modifier.Consecrate)){
+            p.hp+=3
+            if(p.dir === Direction.NORTH){
+                this.floatResource(this.playerNorth.x, this.playerNorth.y, IconIndex.Buff)
+            }
+            else this.floatResource(this.playerSouth.x, this.playerSouth.y, IconIndex.Buff)
+        }
         let board = state.saveFile.currentMatch.board
         onUpdateBoard(board.filter(c=>c.id !== card.id))
-        const p = state.saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
         onUpdatePlayer({...p, discard: p.discard.concat(card)})
     }
 
@@ -688,11 +695,11 @@ export default class MapScene extends Scene {
         this.input.setDefaultCursor('url('+assetUrl+'), pointer');
     }
 
-    floatResource = (x:number, y:number, index:IconIndex, color:string, text?:string) => {
+    floatResource = (x:number, y:number, index:IconIndex, text?:string) => {
         let icon = this.add.image(x, y, 'creatures', index).setDepth(4)
         let targets = [icon]
         if(text) {
-            let txt = this.add.text(x+7, y-8, text, {...FONT_DEFAULT, color}).setDepth(4).setStroke('0x000', 2)
+            let txt = this.add.text(x+7, y-8, text, {...FONT_DEFAULT}).setDepth(4).setStroke('0x000', 2)
             targets.push(txt as any)
         }
         this.tweens.add({

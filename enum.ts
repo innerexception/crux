@@ -63,7 +63,7 @@ export enum CreatureSpriteIndex {
     Wilderness=2164,Defiance=1882,Pollution=2132,Monk=4943,Law=2521,Goblin2=3962,Goblin3,Bear=4019,Knight=4371,
     Time=1972,Mind=3834,Giant=2212,Sprite=4035,Treant=4357,Crow=3945,Volcano=1952,Hammer=3118,Lure=2562,Scroll=2800,
     Armor=2117,Heal=2125,Sun=59,Rats=2180,DesertAsetic=2291,Dragonling=3827,Thug=3861,Guard=3897,Apprentice=3889,
-    Placeholder=4428,Knight2=3868,OldMage=4942,LadyMage=4948
+    Placeholder=4428,Knight2=3868,OldMage=4942,LadyMage=4948,Law2=2802
 
 }
 
@@ -125,10 +125,12 @@ export enum Modifier {
     Defender, //Does not move during movement phase
     Vigilant, //Cannot be targeted by sorcery or enchantments
     Fearsome, //Creatures cannot be placed in this lane
-    Toxic //Creatures def 3 or less are destroyed in combat with this creature
+    Toxic, //Creatures def 3 or less are destroyed in combat with this creature
+    Consecrate //When creature dies, gain 3 life
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
+    [Modifier.Consecrate]: 'Consecrated',
     [Modifier.Defender]: 'Defender',
     [Modifier.Banding]: 'Banding',
     [Modifier.Haste]: 'Haste',
@@ -205,7 +207,7 @@ export enum CardType {
     AssassinKnife='AssassinKnife', MartyrPrayer='MartyrPrayer', Homonculus='Homonculus',
     Corvian='ElectricEel', FaithlessKnight='FaithlessKnight', 
     TracklessWilds='TracklessWilds', Defiance='Defiance', Pollution='Pollution', 
-    HolyMonk='HolyMonk',LandReform='LandReform',GoblinSargeant='GoblinSargeant',
+    HolyMonk='HolyMonk',LandReform='LandReform',GoblinSargeant='GoblinSargeant',Consecrate='Consecrate',
     BlackBear='BlackBear',Hobgoblin='Hobgoblin',CatBurglar='CatBurglar',
     FaithfulKnight='FaithfulKnight',DoubleFate='DoubleFate',Dementia='Dementia',
     Overgrowth='Overgrowth',Sprite='Sprite',NaturesPaths='NaturesPaths',
