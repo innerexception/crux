@@ -3,6 +3,7 @@ import { CardType, Category, Color, CreatureSpriteIndex, IconIndex, Modifier, Pe
 export const Portal:Record<CardType, CardMeta> = {
     [CardType.City]: {
         color:Color.Black,
+        category: null,
         defaultAttributes: null,
         kind: Permanents.Land,
         ability: {
@@ -18,6 +19,7 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.Desert]: {
         color:Color.Red,
         defaultAttributes: null,
+        category: null,
         kind: Permanents.Land,
         ability: {
             targets: Target.Self,
@@ -32,6 +34,7 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.Forest]: {
         color:Color.Green,
         defaultAttributes: null,
+        category: null,
         kind: Permanents.Land,
         ability: {
             targets: Target.Self,
@@ -46,6 +49,7 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.Tower]: {
         color:Color.Blue,
         defaultAttributes: null,
+        category: null,
         kind: Permanents.Land,
         ability: {
             targets: Target.Self,
@@ -60,6 +64,7 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.Temple]: {
         color:Color.White,
         defaultAttributes: null,
+        category: null,
         kind: Permanents.Land,
         ability: {
             targets: Target.Self,
@@ -75,6 +80,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         defaultAtk: 1,
         defaultDef: 1,
+        category: Category.Human,
         cost: [{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
@@ -92,6 +98,7 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.FeatherCloak]: {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1}],
+        category: null,
         kind: Permanents.Enchantment,
         ability: {
             targets: Target.Creature,
@@ -105,6 +112,7 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.Sandstorm]: {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:1}],
+        category: null,
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.CreaturesOrPlayers,
@@ -119,6 +127,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:1}],
         kind: Permanents.Sorcery,
+        category: null,
         ability: {
             targets: Target.CreaturesAndPlayers,
             effect: {
@@ -130,6 +139,7 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.PeaceTreaty]: {
         color:Color.White,
+        category: null,
         cost: [{kind:Color.White, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
@@ -145,6 +155,7 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.HeroicSoldier]: {
         color:Color.White,
         defaultAtk: 1,
+        category: Category.Human,
         defaultDef: 1,
         cost: [{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
@@ -163,6 +174,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:1}],
         kind: Permanents.Sorcery,
+        category: null,
         ability: {
             targets: Target.Self,
             effect: {
@@ -177,6 +189,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:1}],
         pumpColor: Color.None,
+        category: null,
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.CreaturesAndPlayers,
@@ -192,6 +205,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         defaultAtk: 2,
         defaultDef: 1,
+        category: Category.Beast,
         cost: [{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
@@ -210,6 +224,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         defaultAtk: 1,
         defaultDef: 1,
+        category: Category.Beast,
         cost: [{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
@@ -227,6 +242,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:1}],
         kind: Permanents.Sorcery,
+        category:null,
         ability: {
             targets: Target.CreatureYouControl,
             effect: {
@@ -240,6 +256,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Red,
         defaultAtk: 1,
         defaultDef: 1,
+        category: Category.Beast,
         cost: [{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
@@ -258,6 +275,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         defaultAtk: 1,
         defaultDef: 1,
+        category: Category.Beast,
         cost: [{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
@@ -275,6 +293,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Sorcery,
+        category: null,
         ability: {
             targets: Target.Self,
             effect:{
@@ -286,6 +305,7 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.Brainstorm]: {
         color:Color.Blue,
+        category:null,
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
@@ -301,6 +321,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Red,
         defaultAtk: 1,
         defaultDef: 1,
+        category: Category.Beastkin,
         cost: [{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
@@ -319,6 +340,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:1}],
         kind: Permanents.Sorcery,
+        category: null,
         ability: {
             targets: Target.CreaturesYourGraveyard,
             effect: {
@@ -332,6 +354,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:1}],
         kind: Permanents.Sorcery,
+        category: null,
         ability: {
             targets: Target.CreaturesOrPlayers,
             effect: {
@@ -345,6 +368,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Sorcery,
+        category: null,
         ability: {
             targets: Target.Creature,
             //withCategory: Category.Human,
@@ -359,6 +383,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         defaultAtk: 2,
         defaultDef: 1,
+        category: Category.Beast,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
@@ -369,6 +394,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:1}],
         kind: Permanents.Sorcery,
+        category: null,
         ability: {
             targets: Target.AllCreatures,
             withoutAttribute: Modifier.Defender,
@@ -383,6 +409,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Sorcery,
+        category: null,
         ability: {
             targets: Target.Players,
             effect: {
@@ -396,6 +423,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:1}],
         kind: Permanents.Sorcery,
+        category: null,
         ability: {
             targets: Target.Self,
             effect: {
@@ -409,6 +437,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Sorcery,
+        category: null,
         ability: {
             targets: Target.AllOpponentCreatures,
             effect: {
@@ -422,6 +451,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         defaultAtk: 1,
         defaultDef: 1,
+        category: Category.Spirit,
         cost: [{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
@@ -440,6 +470,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.White,
         defaultAtk: 1,
         defaultDef: 2,
+        category: Category.Beastkin,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
@@ -451,6 +482,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.White,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Sorcery,
+        category: null,
         ability: {
             targets: Target.Self,
             effect: {
@@ -464,6 +496,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         defaultAtk: 1,
         defaultDef: 1,
+        category: Category.Infernal,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
@@ -475,6 +508,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         defaultAtk: 2,
         defaultDef: 2,
+        category: Category.Human,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
         defaultMoves: 1,
@@ -486,6 +520,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:1}],
         kind: Permanents.Sorcery,
+        category:null,
         ability: {
             targets: Target.AllPlayers,
             effect: {
@@ -543,6 +578,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultDef: 1,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
+        category: Category.Human,
         defaultMoves: 1,
         defaultAttributes:[Modifier.BlockerMaxPwr1],
         ability: null,
@@ -580,6 +616,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultDef: 1,
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
+        category: Category.Beastkin,
         defaultMoves: 1,
         defaultAttributes:[],
         ability: {
@@ -601,6 +638,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultDef: 2,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
+        category: Category.Beast,
         defaultMoves: 1,
         defaultAttributes:[],
         ability: null,
@@ -612,6 +650,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultDef: 2,
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
+        category: Category.Beastkin,
         defaultMoves: 1,
         defaultAttributes:[Modifier.Timid],
         ability: null,
@@ -621,8 +660,9 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         defaultAtk: 1,
         defaultDef: 1,
-        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount: 1}],
+        cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Creature,
+        category: Category.Spirit,
         defaultMoves: 1,
         defaultAttributes:[Modifier.Nimble],
         ability: {
@@ -640,6 +680,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultDef: 2,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
+        category: Category.Human,
         defaultMoves: 1,
         defaultAttributes:[],
         ability: null,
@@ -665,7 +706,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Players,
             effect: {
-                discard: 1,
+                discardAtRandom: 1,
                 sprite: IconIndex.Debuff
             }
         },
@@ -692,6 +733,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultDef: 1,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
+        category: Category.Spirit,
         defaultMoves: 1,
         defaultAttributes:[Modifier.Nimble],
         ability: null,
@@ -732,13 +774,14 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultDef: 1,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
+        category: Category.Beastkin,
         defaultMoves: 1,
         defaultAttributes:[Modifier.Nimble],
         ability: {
             targets: Target.Self,
             effect: {
                 draw: 1,
-                discard: 1,
+                discardAtRandom: 1,
                 sprite: IconIndex.Buff
             }
         },
@@ -750,6 +793,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultDef: 4,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
+        category: Category.Elemental,
         defaultMoves: 1,
         ability: {
             targets: Target.Self,
@@ -777,6 +821,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.White,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
+        category: Category.Human,
         ability: {
             targets: Target.Self,
             effect: {
@@ -1340,7 +1385,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Players,
             effect: {
-                discard: 2,
+                discardAtRandom: 2,
                 sprite: IconIndex.Buff,
             }
         },
@@ -1424,7 +1469,7 @@ export const Portal:Record<CardType, CardMeta> = {
             trigger: Triggers.OnDeath,
             targets: Target.AllPlayers,
             effect: {
-                discard:1,
+                discardAtRandom:1,
                 sprite: IconIndex.Debuff
             }
         }
@@ -2024,7 +2069,7 @@ export const Portal:Record<CardType, CardMeta> = {
             targets: Target.Self,
             effect: {
                 sprite: IconIndex.Damage,
-                discard: 1
+                discardAtRandom: 1
             }
         }
     },
@@ -2194,7 +2239,7 @@ export const Portal:Record<CardType, CardMeta> = {
             targets: Target.Self,
             effect: {
                 draw: 7,
-                discard: 5,
+                discardAtRandom: 5,
                 sprite: IconIndex.Buff,
             }
         },
@@ -2594,7 +2639,7 @@ export const Portal:Record<CardType, CardMeta> = {
             targets: Target.Players,
             effect: {
                 sprite: IconIndex.Debuff,
-                discard: 1
+                discardAtRandom: 1
             }
         }
     },

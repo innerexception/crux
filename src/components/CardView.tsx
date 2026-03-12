@@ -50,7 +50,7 @@ export const renderEffect = (effect:CardEffect) =>
         </div>
         }
         {effect.cardToHandFromGY && <div>Return target card to your hand.</div>}
-        {effect.discard && <div>Discard target card from your hand.</div>}
+        {effect.discardAtRandom && <div>Discard a card at random.</div>}
         {effect.dmg && <div>Deal {effect.dmg} to target.</div>}
         {effect.draw && <div>Draw a card.</div>}
         {effect.drawX && <div>Draw X cards.</div>}

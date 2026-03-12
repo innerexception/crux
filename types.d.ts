@@ -83,7 +83,7 @@ interface CardEffect {
     drawLandIfLess?:boolean
     drawIfFewerCards?:boolean
     drawForTappedOpponent?:boolean //draw 1 for each tapped creature of opponent
-    discard?:number
+    discardAtRandom?:number
     discardToDraw?:boolean //Discard any number to draw that number
     discardAllAndDraw?:boolean
     pacifism?:boolean //Tap targets for a duration

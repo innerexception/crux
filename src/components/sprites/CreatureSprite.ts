@@ -1,9 +1,10 @@
 import { GameObjects } from "phaser"
 import { store } from "../../.."
-import { CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier } from "../../../enum"
-import { getCardData, resetCard, validEndTile } from "../../common/CardUtils"
+import { CardType, CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier } from "../../../enum"
+import { getCardData, getLandAtEndOfLane, resetCard, validEndTile } from "../../common/CardUtils"
 import { onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
+import { net_moveCard } from "../../common/Network"
 
 export default class CreatureSprite extends GameObjects.Image {
 
@@ -65,6 +66,26 @@ export default class CreatureSprite extends GameObjects.Image {
                         this.scene.flashIcon(myTile.pixelX, myTile.pixelY, IconIndex.Graveyard)
                     }
                     if(destroyTarget || destroyThis) return
+
+                    const land = getLandAtEndOfLane(this.dir, myTile.x, myTile.y)
+                    if(land){
+                        let swaps = false
+                        if(target.attributes.includes(Modifier.CityWalk) && land.kind === CardType.City)
+                            swaps = true
+                        if(target.attributes.includes(Modifier.ForestWalk) && land.kind === CardType.Forest)
+                            swaps = true
+                        if(target.attributes.includes(Modifier.DesertWalk) && land.kind === CardType.Desert)
+                            swaps = true
+                        if(target.attributes.includes(Modifier.TowerWalk) && land.kind === CardType.Tower)
+                            swaps = true
+                        if(target.attributes.includes(Modifier.TempleWalk) && land.kind === CardType.Temple)
+                            swaps = true
+                        if(swaps){
+                            net_moveCard({card: target, tileX: myTile.x, tileY: myTile.y})
+                            net_moveCard({card: creature, tileX: target.tileX, tileY: target.tileY})
+                            return
+                        }
+                    }
                     this.fight(target)
                 }
                 return

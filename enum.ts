@@ -81,7 +81,7 @@ export enum Color {
 
 export enum Category {
     Human='Human',Elemental='Elemental',Beast='Beast',Celestial='Celestial',Infernal='Infernal',
-    Beastkin='Beastkin'
+    Beastkin='Beastkin',Spirit='Spirit'
 }
 
 export enum Permanents {

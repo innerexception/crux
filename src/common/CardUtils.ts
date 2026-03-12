@@ -1,10 +1,19 @@
-import { CardType, Direction, Permanents, Target } from "../../enum";
+import { CardType, Direction, Layers, Permanents, Target } from "../../enum";
 import{ v4 } from 'uuid'
 import { Portal } from "../assets/data/Portal";
 import { onUpdateBoardCreature, onUpdatePlayer } from "./Thunks";
 import { shuffle } from "./Utils";
 import { store } from "../..";
 import { Tilemaps } from "phaser";
+
+export const getLandAtEndOfLane = (d:Direction, tileX:number, tileY:number) => {
+    const map = store.getState().scene.map
+    let t = map.getTileAt(tileX, tileY, false, Layers.Earth)
+    while(!validEndTile(t, d, true)){
+        t = map.getTileAt(t.x, t.y+d, false, Layers.Earth)
+    }
+    return store.getState().saveFile.currentMatch.board.find(c=>c.tileX === t.x && c.tileY === t.y)
+}
 
 export const getValidCreatureTargets = (ability:CardAbility) => {
     const state = store.getState()

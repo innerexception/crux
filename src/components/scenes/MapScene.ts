@@ -523,6 +523,12 @@ export default class MapScene extends Scene {
             if(effect.lookAtHand){
                 onShowModal(Modal.ViewCards, {cards: targetPlayer.hand})
             }
+            if(effect.searchSorceryForTop){
+                onShowModal(Modal.PickNextSorcery)
+            }
+            if(effect.cardToHandFromGY){
+                onShowModal(Modal.ChooseFromGY)
+            }
         }
         if(effect.discardAllAndDraw){
             const handSize = targetPlayer.hand.length
@@ -565,27 +571,16 @@ export default class MapScene extends Scene {
             const yourlands = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land && c.ownerId !== caster.id).length
             if(mylands<yourlands) targetPlayer.hasPlayedLand = false
         }
+        if(effect.discardAtRandom){
+            targetPlayer.discard.unshift(targetPlayer.hand.splice(Phaser.Math.Between(0,targetPlayer.hand.length-1), 1)[0])
+        }
         onUpdatePlayer({...targetPlayer})
     }
 
     applyCreatureEffect(creature:Card, effect:CardEffect) {
         const state = store.getState()
         let activePlayer = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.currentMatch.activePlayerId)
-        let me = state.saveFile.currentMatch.activePlayerId === state.saveFile.myId
-
-        if(effect.searchSorceryForTop){
-            if(me) onShowModal(Modal.PickNextSorcery)
-            return
-        }
-        if(effect.cardToHandFromGY){
-            if(me) onShowModal(Modal.ChooseFromGY)
-            return
-        }
-        if(effect.discard){
-            if(me) onShowModal(Modal.ChooseDiscard)
-            return
-        }
-
+        
         if(effect.resetMovement){
             const spr = this.creatures.find(c=>c.id === creature.id)
             spr.resetPosition()
