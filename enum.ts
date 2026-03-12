@@ -95,7 +95,7 @@ export enum Target {
     CreaturesYourGraveyard='CreaturesYourGraveyard',YourGraveyard='YourGraveyard',OpponentCreature='OpponentCreature',
     CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',AllOpponentCreatures='AllOpponentCreatures',
     AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl',ThisCreature='ThisCreature',TappedCreatures='TappedCreatures',
-    CreatureAndLand='CreatureAndLand',CreaturesInLane='CreaturesInLane',OpponentLand='OpponentLand'
+    CreatureAndLand='CreatureAndLand',CreaturesInLane='CreaturesInLane',OpponentLand='OpponentLand',TappedCreature='TappedCreature'
 }
 
 export enum Triggers {
@@ -127,10 +127,12 @@ export enum Modifier {
     Vigilant, //Cannot be targeted by sorcery or enchantments
     Fearsome, //Creatures cannot be placed in this lane
     Toxic, //Creatures def 3 or less are destroyed in combat with this creature
-    Consecrate //When creature dies, gain 3 life
+    Consecrate, //When creature dies, gain 3 life
+    Undying //When dead, returns to hand
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
+    [Modifier.Undying]: 'Undying',
     [Modifier.Consecrate]: 'Consecrated',
     [Modifier.Defender]: 'Defender',
     [Modifier.Banding]: 'Banding',
@@ -161,6 +163,7 @@ export const ModifierDesc:Record<Modifier,string> = {
 }
 
 export const TargetsDesc:Record<Target,string> = {
+    [Target.TappedCreature]: "A tapped creature",
     [Target.CreaturesInLane]: "Creatures in target's lane",
     [Target.LandsYouControl]: 'A Land you control',
     [Target.OpponentLand]: "An opponent's land",
@@ -215,20 +218,20 @@ export enum CardType {
     Omen='Omen',Dragonling='Dragonling',Treant='Treant',Eruption='Eruption',DesertAsetic='DesertAsetic',
     HeavenlyDew='HeavenlyDew', SewerRats='SewerRats',Tremors='Tremors',Sunlight='Sunlight',
     Steadfast='Steadfast',Falconer='Falconer',BloomingEarth='BloomingEarth',Truce='Truce',
-    TidePool='TidePool',TreeClimbers='TreeClimbers',FireHammer='FireHammer',
+    OminousSigns='OminousSigns',TreeClimbers='TreeClimbers',FireHammer='FireHammer',
     CunningLure='CunningLure',AngelicTouch='AngelicTouch',DarkStare='DarkStare',
     FlashOfLight='FlashOfLight',StreetThugs='StreetThugs',BorderWatch='BorderWatch',
     SorcererApprentice='SorcererApprentice',MountedPaladin='MountedPaladin',
     SpiritCloud='SpiritCloud', PowerWordUnsummon='PowerWordUnsummon', TwistedGiant='TwistedGiant',
-    CruelContract='CruelContract',CruelMaster='CruelMaster', DoubleCast='DoubleCast',
+    DeceptiveContract='DeceptiveContract',CruelMaster='CruelMaster', DoubleCast='DoubleCast',
     JungleCat='JungleCat',Ranger='Ranger',Roaches='Roaches', IceStorm='IceStorm',
     ShadowForm='ShadowForm', FireImp='FireImp', Cycle='Cycle', Gorilla='Gorilla',
     CullWeaklings='CullWeaklings', Justice='Justice', ArmoredTortoise='ArmoredTortoise',
     ContractKiller='ContractKilling', Longbowmen='Longbowmen', Assassin='Assassin',
-    SeaJelly='SeaJelly', Mercenary='Mercenary', Hypnotize='Hypnotize', MinotaurServant='MinotaurServant',
+    Sophist='Sophist', Mercenary='Mercenary', Hypnotize='Hypnotize', MinotaurServant='MinotaurServant',
     ForceOfWill='ForceOfWill', ForestSense='ForestSense', ForestFires='ForestFires',
     Hailstorm='Hailstorm', CursedToad='CursedToad', PSIWarrior='PSIWarrior',LabSpecimen='LabSpecimen',
-    Cougar='Cougar',AcidRain='AcidRain',Unicorn='Unicorn',SetDisciple='SetDisciple',
+    Cougar='Cougar',AcidRain='AcidRain',Unicorn='Unicorn',CultLeader='CultLeader',
     FieldMarshal='FieldMarshal', LavaFlow='LavaFlow', HolySymbol='HolySymbol', Premonition='Premonition',
     BurrowingWurm='BurrowingWurm', Slow='Slow', Gardener='Gardener', RighteousCharge='RighteousCharge',
     DebtCollection='DebtCollection', VenerableMonk='VenerableMonk', Collectivization='Collectivization',

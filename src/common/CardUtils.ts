@@ -15,8 +15,9 @@ export const getLandAtEndOfLane = (d:Direction, tileX:number, tileY:number) => {
     return store.getState().saveFile.currentMatch.board.find(c=>c.tileX === t.x && c.tileY === t.y)
 }
 
-export const getValidCreatureTargets = (ability:CardAbility) => {
+export const getValidCreatureTargets = (ability:CardAbility, card?:Card) => {
     const state = store.getState()
+    const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
     let creatures = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
     if(ability.def3orLess) creatures = creatures.filter(c=>c.def<=3)
     if(ability.withoutColor) creatures = creatures.filter(c=>getCardData(c).color !== ability.withoutColor)
@@ -24,6 +25,15 @@ export const getValidCreatureTargets = (ability:CardAbility) => {
     if(ability.withAttribute) creatures = creatures.filter(c=>c.attributes.includes(ability.withAttribute))
     if(ability.withoutAttribute) creatures = creatures.filter(c=>!c.attributes.includes(ability.withoutAttribute))
     if(ability.withCategory) creatures = creatures.filter(c=>getCardData(c).category===ability.withCategory)
+
+    if(card && ability.targets === Target.CreaturesInLane) creatures = creatures.filter(c=>c.tileX === card.tileX)
+    if(ability.targets === Target.TappedCreatures || ability.targets === Target.TappedCreature) creatures = creatures.filter(c=>c.tapped)
+    if(ability.targets === Target.ThisCreature) creatures = creatures.filter(c=>c.id === store.getState().selectedCardId)
+    if(ability.targets === Target.CreatureYouControl || ability.targets === Target.AllCreaturesYouControl) creatures = creatures.filter(c=>c.ownerId === me.id)
+    if(ability.targets === Target.OpponentCreature || ability.targets === Target.AllOpponentCreatures){
+        creatures = creatures.filter(c=>c.ownerId !== me.id)
+    }
+
     return creatures
 }
 
@@ -48,6 +58,9 @@ export const validSingleTarget = (entityId:string, sorcery:Card):boolean => {
         }
         if(sorceryData.ability.targets === Target.ThisCreature){
             return creature.id === entityId
+        }
+        if(sorceryData.ability.targets === Target.TappedCreature){
+            return creature.tapped
         }
     }
 }

@@ -145,9 +145,10 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     const discard = props.discard
     const dat = getCardData(card)
     const targets = dat.ability.targets
+    
+    let creatures = getValidCreatureTargets(dat.ability, card)
     net_cancelPendingAction()
     
-    let creatures = getValidCreatureTargets(dat.ability)
     if(targets === Target.AllCreaturesAndPlayers){
         scene.applyGlobalEffect(card, creatures)
         if(discard) scene.payAndDiscard(card)
@@ -193,35 +194,15 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     const target = creatures.find(c=>c.id === props.entityId)
     if(!target) return //invalid creature target
 
-    if(targets === Target.AllCreatures){
+    if(targets === Target.AllCreatures ){
         const props = {creatures, card}
         scene.applyMultiCreatureEffect(props)
         if(discard) scene.payAndDiscard(props.card)
         return 
     }
-    else if(targets === Target.AllCreaturesYouControl){
-        const props = {creatures: creatures.filter(c=>c.ownerId === card.ownerId), card}
-        if(!props.creatures.find(c=>c.id === target.id)) return
-        scene.applyMultiCreatureEffect(props)
-        if(discard) scene.payAndDiscard(props.card) 
-        return 
-    }
-    else if(targets === Target.AllOpponentCreatures){
-        const props = {creatures: creatures.filter(c=>c.ownerId !== card.ownerId), card}
-        if(!props.creatures.find(c=>c.id === target.id)) return
-        scene.applyMultiCreatureEffect(props)
-        if(discard) scene.payAndDiscard(props.card) 
-        return 
-    }
-    else if(targets === Target.TappedCreatures){
-        const props = {creatures: creatures.filter(c=>c.tapped), card}
-        if(!props.creatures.find(c=>c.id === target.id)) return
-        scene.applyMultiCreatureEffect(props)
-        if(discard) scene.payAndDiscard(props.card)
-        return 
-    }
-    else if(targets === Target.CreaturesInLane){
-        const props = {creatures: creatures.filter(c=>c.tileX === card.tileX), card}
+    else if(targets === Target.CreaturesInLane || targets === Target.TappedCreatures || 
+        targets === Target.AllOpponentCreatures || targets === Target.AllCreaturesYouControl) {
+        const props = {creatures, card}
         if(!props.creatures.find(c=>c.id === target.id)) return
         scene.applyMultiCreatureEffect(props)
         if(discard) scene.payAndDiscard(props.card)
@@ -249,9 +230,13 @@ export const net_endTurn = async (match:MatchState) => {
     }
     match = store.getState().saveFile.currentMatch
 
+    //set next player
+    const nextPlayer = match.players.find(p=>p.id !== current.id)
+    onUpdateActivePlayer(nextPlayer.id)
+    
     //reset player resources
     match.board.forEach(c=>{
-        if(c.ownerId === current.id){
+        if(c.ownerId === nextPlayer.id){
             if(!c.status.find(s=>s.status.pacifism)){
                 scene.creatures.find(s=>c.id === s.id).untap()
                 c.tapped = false
@@ -267,9 +252,6 @@ export const net_endTurn = async (match:MatchState) => {
     })
     onUpdateBoard(Array.from(match.board))
 
-    //set next player
-    const nextPlayer = match.players.find(p=>p.id !== current.id)
-    onUpdateActivePlayer(nextPlayer.id)
     onTurnProcessing(false)
     onUpdatePlayer({...nextPlayer,
         drawAllowed:1,

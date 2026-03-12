@@ -72,7 +72,6 @@ interface CardEffect {
     destroy2Creatures?:boolean
     destroyForest?:boolean
     destroyTower?:boolean
-    destroyOnEnter?:boolean //destroy a land you control
     duration?: number //777 = until discarded
     atkUp?:number
     defUp?:number
@@ -109,6 +108,7 @@ interface CardEffect {
     arrangeTop5Remove1?:boolean
     addAttributes?: import('./enum').Modifier[]
     sprite: import('./enum').IconIndex
+    destroyOrReturnThis?:boolean //destroy a creature you control or return this to your
     returnToHand?:boolean
     returnToBattle?:boolean
     playExtraLand?:boolean

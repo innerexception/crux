@@ -12,7 +12,7 @@ export default () => {
     const joinedPlayer = useSelector((s:RState)=>s.joinedPlayer)
     const [joinLobbyId, setLobbyId] = React.useState('')
     const [hosting, setIsHost] = React.useState(false)
-    const [interval, setEvent] = React.useState(null as NodeJS.Timeout)
+    const [interval, setEvent] = React.useState(null)
 
     React.useEffect(()=>{
         setEvent(setInterval(()=>sendJoin(), 1000))

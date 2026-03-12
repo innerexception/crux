@@ -145,7 +145,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.AllCreatures,
             effect: {
-                duration: 1,
+                duration: 2, //2 = beginning of turn after next turn, 1 = beginning of next turn
                 pacifism: true,
                 sprite: IconIndex.Debuff
             }
@@ -934,7 +934,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Scroll
     },
-    [CardType.TidePool]: {
+    [CardType.OminousSigns]: {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
@@ -1058,11 +1058,12 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:1,
         defaultDef:1,
         defaultMoves:1,
-        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.Blue, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Apprentice,
         ability:{
             targets:Target.CreaturesOrPlayers,
+            trigger: Triggers.AtWill,
             tap:true,
             effect:{
                 dmg:1,
@@ -1124,7 +1125,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes:[Modifier.Timid],
         ability: null
     },
-    [CardType.CruelContract]: {
+    [CardType.DeceptiveContract]: {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:3}],
         kind: Permanents.Sorcery,
@@ -1194,14 +1195,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        ability: {
-            targets: Target.ThisCreature,
-            trigger: Triggers.OnDeath,
-            effect:{
-                returnToHand: true,
-                sprite: IconIndex.Buff
-            }
-        }
+        defaultAttributes: [Modifier.Undying]
     },
     [CardType.IceStorm]: {
         color:Color.Blue,
@@ -1236,7 +1230,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:{
-            targets: Target.ThisCreature,
+            targets: Target.Creature,
             effect: {
                 dmg: 2,
                 sprite: IconIndex.Damage
@@ -1261,7 +1255,8 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:3,
         defaultDef:2,
         defaultMoves:1,
-        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
+        category: Category.Beast,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null
@@ -1298,7 +1293,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:1,
         defaultDef:4,
         defaultMoves:1,
-        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null
@@ -1339,6 +1334,7 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         ability:{
             targets: Target.TappedCreatures,
+            trigger: Triggers.AtWill,
             tap: true,
             def3orLess: true,
             effect: {
@@ -1347,12 +1343,12 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         }
     },
-    [CardType.SeaJelly]: {
+    [CardType.Sophist]: {
         color:Color.Blue,
         defaultAtk:2,
-        defaultDef:2,
+        defaultDef:1,
         defaultMoves:1,
-        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:{
@@ -1374,7 +1370,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability:{
             targets: Target.CreatureYouControl,
             effect: {
-                destroyOnEnter: true,
+                destroyOrReturnThis: true,
                 sprite: IconIndex.Debuff
             }
         }
@@ -1397,14 +1393,14 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:2,
         defaultDef:3,
         defaultMoves:1,
-        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:1}],
+        category: Category.Beastkin,
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
-        ability:null
+        sprite: CreatureSpriteIndex.Placeholder
     },
     [CardType.ForceOfWill]: {
         color:Color.Blue,
-        cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:1},],
+        cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.TappedCreatures,
@@ -1491,7 +1487,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:3,
         defaultDef:2,
         defaultMoves:1,
-        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:1}],
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null
@@ -1501,7 +1497,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:2,
         defaultDef:2,
         defaultMoves:1,
-        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:1}],
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         defaultAttributes:[Modifier.Haste],
@@ -1525,17 +1521,17 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:2,
         defaultDef:3,
         defaultMoves:1,
-        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null
     },
-    [CardType.SetDisciple]: {
+    [CardType.CultLeader]: {
         color:Color.Black,
         defaultAtk:3,
         defaultDef:3,
         defaultMoves:1,
-        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:{
@@ -1557,6 +1553,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability:{
             tap: true,
             targets: Target.Creature,
+            trigger: Triggers.AtWill,
             effect:{
                 duration: 1,
                 atkUp: 2,
@@ -1616,7 +1613,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability:{
             targets: Target.Lands,
             effect:{
-                destroyOnEnter: true,
+                destroyForest: true,
                 sprite: IconIndex.Buff
             }
         }
