@@ -32,65 +32,53 @@ export default class CreatureSprite extends GameObjects.Image {
 
     tryMoveNext = async () => {
         let state = store.getState().saveFile.currentMatch
-        let creature = state.board.find(c=>c.id === this.id)
-        let owner = state.players.find(p=>p.id === creature.ownerId)
-        let haste = creature.attributes.includes(Modifier.Haste)
-        if(creature.tapped) return //Tapped creatures don't move
-        for(let i=0;i<creature.moves+(haste?1:0);i++){
+        let thisCreature = state.board.find(c=>c.id === this.id)
+        let owner = state.players.find(p=>p.id === thisCreature.ownerId)
+        let haste = thisCreature.attributes.includes(Modifier.Haste)
+        if(thisCreature.tapped) return //Tapped creatures don't move
+        for(let i=0;i<thisCreature.moves+(haste?1:0);i++){
             //TODO: targets in range, and able to be targeted by us
             state = store.getState().saveFile.currentMatch
             const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
             let next = this.scene.map.getTileAt(myTile.x, myTile.y+this.dir, false, Layers.Earth)
             if(validEndTile(next, owner.dir, true)){
-                const enemy = state.players.find(p=>p.id !== creature.ownerId)
-                onUpdatePlayer({...enemy, hp: enemy.hp-creature.atk})
+                const enemy = state.players.find(p=>p.id !== thisCreature.ownerId)
+                onUpdatePlayer({...enemy, hp: enemy.hp-thisCreature.atk})
                 this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Damage, '-')
                 const land = state.board.find(c=>c.tileX===next.x && c.tileY === next.y)
                 if(land){
                     this.scene.tryRemoveCreature(land)
-                    this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Sword, '0xff0000')
+                    this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Sword)
                 }        
                 return this.returnToHand()
             }
             const target = store.getState().saveFile.currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
             if(target){
-                if(target.ownerId !== creature.ownerId){
-                    const destroyTarget = creature.attributes.includes(Modifier.Toxic) && target.def <=3
+                if(target.ownerId !== thisCreature.ownerId){
+                    const destroyTarget = thisCreature.attributes.includes(Modifier.Toxic) && target.def <=3
                     if(destroyTarget){
                         this.scene.tryRemoveCreature(target)
                         this.scene.flashIcon(myTile.pixelX, myTile.pixelY, IconIndex.Graveyard)
                     }
-                    const destroyThis = target.attributes.includes(Modifier.Toxic) && creature.def <=3
+                    const destroyThis = target.attributes.includes(Modifier.Toxic) && thisCreature.def <=3
                     if(destroyThis){
-                        this.scene.tryRemoveCreature(creature)
+                        this.scene.tryRemoveCreature(thisCreature)
                         this.scene.flashIcon(myTile.pixelX, myTile.pixelY, IconIndex.Graveyard)
                     }
                     if(destroyTarget || destroyThis) return
 
-                    const land = getLandAtEndOfLane(this.dir, myTile.x, myTile.y)
-                    if(land){
-                        let swaps = false
-                        if(target.attributes.includes(Modifier.CityWalk) && land.kind === CardType.City)
-                            swaps = true
-                        if(target.attributes.includes(Modifier.ForestWalk) && land.kind === CardType.Forest)
-                            swaps = true
-                        if(target.attributes.includes(Modifier.DesertWalk) && land.kind === CardType.Desert)
-                            swaps = true
-                        if(target.attributes.includes(Modifier.TowerWalk) && land.kind === CardType.Tower)
-                            swaps = true
-                        if(target.attributes.includes(Modifier.TempleWalk) && land.kind === CardType.Temple)
-                            swaps = true
-                        if(swaps){
-                            net_moveCard({card: target, tileX: myTile.x, tileY: myTile.y})
-                            net_moveCard({card: creature, tileX: target.tileX, tileY: target.tileY})
-                            return
-                        }
+                    if(this.shouldSwap(thisCreature, this.dir) || this.shouldSwap(target, this.dir*-1)){
+                        net_moveCard({card: target, tileX: myTile.x, tileY: myTile.y})
+                        net_moveCard({card: thisCreature, tileX: target.tileX, tileY: target.tileY})
+                        return
                     }
+
                     this.fight(target)
                 }
                 return
             }
-            if(creature)
+
+            if(thisCreature)
                 await new Promise((resolve)=>{
                     this.scene.tweens.add({
                         targets: this,    
@@ -108,6 +96,24 @@ export default class CreatureSprite extends GameObjects.Image {
                     })
                 })
         }
+    }
+
+    shouldSwap(creature:Card, dir:Direction){
+        const land = getLandAtEndOfLane(dir, creature.tileX, creature.tileY)
+        let swaps = false
+        if(land){
+            if(creature.attributes.includes(Modifier.CityWalk) && land.kind === CardType.City)
+                swaps = true
+            if(creature.attributes.includes(Modifier.ForestWalk) && land.kind === CardType.Forest)
+                swaps = true
+            if(creature.attributes.includes(Modifier.DesertWalk) && land.kind === CardType.Desert)
+                swaps = true
+            if(creature.attributes.includes(Modifier.TowerWalk) && land.kind === CardType.Tower)
+                swaps = true
+            if(creature.attributes.includes(Modifier.TempleWalk) && land.kind === CardType.Temple)
+                swaps = true
+        }
+        return swaps
     }
 
     resetPosition () {

@@ -41,6 +41,8 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
             return { ...state, saveFile: {...state.saveFile, currentMatch: {...state.saveFile.currentMatch, lands: action.data }}}
         case UIReducerActions.UPDATE_PLAYER:
             return { ...state, saveFile: {...state.saveFile, currentMatch: {...state.saveFile.currentMatch, players: state.saveFile.currentMatch.players.map(p=>p.id === action.data.id ? {...action.data} : p)}}}
+        case UIReducerActions.SET_NET_ACK:
+            return { ...state, netAck: action.data }
         default:
             return state
     }
@@ -61,7 +63,8 @@ const getInitialState = () => {
         inspectCard:null,
         currentDeckId:'',
         lobbyId:'',
-        turnProcessing:false
+        turnProcessing:false,
+        netAck:true
     }
 }
 

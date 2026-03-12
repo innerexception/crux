@@ -1,6 +1,6 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
 import { IconIndex, Layers, NetworkEvent, Permanents, Target } from '../../enum'
-import { onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSelectCard, onSetLobby, onShowAbilityPreview, onStartMatch, onTurnProcessing, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from './Thunks'
+import { onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSelectCard, onSetActionAcknowledge, onSetLobby, onShowAbilityPreview, onStartMatch, onTurnProcessing, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from './Thunks'
 import { store } from '../..'
 import { emptyMana, payCost } from './Utils'
 import{ v4 } from 'uuid'
@@ -85,17 +85,21 @@ export const sendUpdate = () => {
 
 const sendMessage = async (event:NetworkEvent, data:any) => {
     try{
+        onSetActionAcknowledge(false)
         const ack = await lobby.httpSend(event, data)
         if(!ack.success){
             debugger
             console.log('message failed to be sent: '+(ack as any).error)
-            setTimeout(()=>{sendMessage(event, data)},500)
+            setTimeout(()=>{sendMessage(event, data)},1000)
+        }
+        else {
+            onSetActionAcknowledge(true)
         }
     }
     catch(e){
         debugger
         console.log('message failed to be sent: '+e)
-        setTimeout(()=>{sendMessage(event, data)},500)
+        setTimeout(()=>{sendMessage(event, data)},1000)
     }
 }
 
@@ -289,7 +293,7 @@ export const net_tapLand = (card:Card) => {
     const me = store.getState().saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
     tapLand(card, me)
     const sprite = scene.creatures.find(c=>c.id === card.id)
-    scene.floatResource(sprite.x, sprite.y, IconIndex.Mana, '#ff0000')
+    scene.floatResource(sprite.x, sprite.y, IconIndex.Mana)
     //TODO add exausted icon to card
 }
 

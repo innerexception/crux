@@ -625,6 +625,7 @@ export const Portal:Record<CardType, CardMeta> = {
             tap: true,
             trigger: Triggers.AtWill,
             effect: {
+                duration: 1,
                 sprite: IconIndex.Buff,
                 atkUp:1,
                 defUp:1

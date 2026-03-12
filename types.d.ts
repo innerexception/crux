@@ -156,6 +156,7 @@ interface MatchState {
 }
 
 interface RState {
+    netAck:boolean
     previewAbility: CardAbility
     activeModal: import('./enum').Modal
     modalData: ModalData
