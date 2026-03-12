@@ -32,18 +32,13 @@ export const createOrJoinLobby = async (id?:string) => {
         if(player.id !== store.getState().saveFile.myId){
             onRecievePlayer(data.payload)
         }
-        if(host && !sendRemotePlayer) {
-            console.log('broadcast player from host')
-            await sendMessage(NetworkEvent.Join, getMyPlayer())
-        }
-        sendRemotePlayer = true
     })
     .subscribe()
     onSetLobby(id)
-    if(!host){
-        console.log('broadcast player from visitor')
-        await sendMessage(NetworkEvent.Join, getMyPlayer())
-    }
+}
+
+export const sendJoin = () => {
+    lobby?.httpSend(NetworkEvent.Join, getMyPlayer())
 }
 
 export const sendLandDeck = (lands:Card[]) => {
@@ -152,6 +147,13 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     const targets = dat.ability.targets
     net_cancelPendingAction()
     
+    let creatures = getValidCreatureTargets(dat.ability)
+    if(targets === Target.AllCreaturesAndPlayers){
+        scene.applyGlobalEffect(card, creatures)
+        if(discard) scene.payAndDiscard(card)
+        return 
+    }
+
     const player = state.saveFile.currentMatch.players.find(p=>p.id === props.entityId)
     if(player){
         if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
@@ -188,17 +190,10 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
         return //invalid land target
     }
     
-
-    let creatures = getValidCreatureTargets(dat.ability)
     const target = creatures.find(c=>c.id === props.entityId)
     if(!target) return //invalid creature target
 
-    if(targets === Target.CreaturesAndPlayers){
-        scene.applyGlobalEffect(card, creatures)
-        if(discard) scene.payAndDiscard(card)
-        return 
-    }
-    else if(targets === Target.AllCreatures){
+    if(targets === Target.AllCreatures){
         const props = {creatures, card}
         scene.applyMultiCreatureEffect(props)
         if(discard) scene.payAndDiscard(props.card)

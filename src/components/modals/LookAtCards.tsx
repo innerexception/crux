@@ -1,17 +1,29 @@
 import * as React from 'react'
 import AppStyles from '../../styles/AppStyles';
-import { onShowModal } from '../../common/Thunks';
+import { onShowModal, onUpdatePlayer } from '../../common/Thunks';
 import { useSelector } from 'react-redux';
 import CardView from '../CardView';
 import { Button } from '../../common/Shared';
+import { sendUpdate } from '../../common/Network';
 
 export default () => {
-    const cards = useSelector((state:RState)=>state.modalData.cards)
+    const data = useSelector((state:RState)=>state.modalData)
+    const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId))
+
+    const addCardToHand = (c:Card) => {
+        onUpdatePlayer({...me, 
+            hand: me.hand.concat(c), 
+            deck: {...me.deck, cards: me.deck.cards.filter(d=>d.id !== c.id)}
+        })
+        sendUpdate()
+        onShowModal(null)
+    }
+
     return (
         <div style={{...AppStyles.modal, margin:'auto', width:'420px'}}>
-            <div style={{textAlign:'center', marginBottom:'0.5em'}}>VIEW HAND</div>
+            <div style={{textAlign:'center', marginBottom:'0.5em'}}>VIEWING {data.choose && "(choose 1)"}</div>
             <div style={{display:'flex', flexWrap:'wrap', marginBottom:'0.5em'}}>
-                {cards.map(c=><div><CardView card={c}/></div>)}
+                {data.cards.map(c=><div onClick={data.choose ? ()=>addCardToHand(c):null}><CardView card={c}/></div>)}
             </div>
             <Button enabled={true} text="Close" handler={()=>onShowModal(null)}/>
         </div>

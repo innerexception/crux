@@ -378,7 +378,7 @@ export default class MapScene extends Scene {
             tiles = creatures.filter(c=>c.id === store.getState().selectedCardId)
                 .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
         }
-        if(ability.targets === Target.CreaturesOrPlayers || ability.targets === Target.CreaturesAndPlayers){
+        if(ability.targets === Target.CreaturesOrPlayers || ability.targets === Target.AllCreaturesAndPlayers){
             tiles = creatures.map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
             tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerNorth.x, this.playerNorth.y, false, undefined, Layers.Earth))
             tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerSouth.x, this.playerSouth.y, false, undefined, Layers.Earth))
@@ -520,6 +520,9 @@ export default class MapScene extends Scene {
             if(effect.lookAtTop3){
                 onShowModal(Modal.ViewCards, {cards: targetPlayer.deck.cards.slice(0,3)})
             }
+            if(effect.lookAtTop3Choose1){
+                onShowModal(Modal.ViewCards, {cards: targetPlayer.deck.cards.slice(0,3), choose: 1})
+            }
             if(effect.lookAtHand){
                 onShowModal(Modal.ViewCards, {cards: targetPlayer.hand})
             }
@@ -529,6 +532,9 @@ export default class MapScene extends Scene {
             if(effect.cardToHandFromGY){
                 onShowModal(Modal.ChooseFromGY)
             }
+        }
+        if(effect.playExtraLand){
+            targetPlayer.hasPlayedLand = false
         }
         if(effect.discardAllAndDraw){
             const handSize = targetPlayer.hand.length
@@ -541,6 +547,9 @@ export default class MapScene extends Scene {
         if(effect.dmgX){
             const x = getColorlessRemain(caster.manaPool, card)
             targetPlayer.hp-=x
+        }
+        if(effect.hpUp){
+            targetPlayer.hp+=effect.hpUp
         }
         if(effect.draw && targetPlayer.deck.cards.length > 0){
             targetPlayer = {...targetPlayer, hand: targetPlayer.hand.concat(targetPlayer.deck.cards.shift()),deck:targetPlayer.deck}
@@ -650,6 +659,9 @@ export default class MapScene extends Scene {
             }
         }
         if(effect.pacifism){
+            creature.tapped = true
+        }
+        if(effect.tap){
             creature.tapped = true
         }
         if(effect.untap){

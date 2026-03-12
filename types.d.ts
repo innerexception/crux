@@ -119,6 +119,7 @@ interface CardEffect {
     shuffle?:boolean
     putForestInPlay?:boolean
     lookAtTop3?:boolean
+    lookAtTop3Choose1?:boolean
     lookAtHand?:boolean
     extraTurn?:boolean //extra turn and then you lose 
     hp3perBlackCreature?:boolean
@@ -173,6 +174,7 @@ interface RState {
 
 interface ModalData { 
     cards:Card[]
+    choose?: number
 } 
 
 interface SaveFile {

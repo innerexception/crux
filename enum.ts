@@ -91,7 +91,7 @@ export enum Permanents {
 
 export enum Target {
     Self='Self',CreatureYouControl='CreatureYouControl',Creature='Creature',Lands='Lands',LandsYouControl='LandsYouControl',
-    AllCreatures='AllCreatures',CreatureOrLand='CreatureOrLand',CreaturesAndPlayers='CreaturesAndPlayers',Players='Players',
+    AllCreatures='AllCreatures',CreatureOrLand='CreatureOrLand',AllCreaturesAndPlayers='AllCreaturesAndPlayers',Players='Players',
     CreaturesYourGraveyard='CreaturesYourGraveyard',YourGraveyard='YourGraveyard',OpponentCreature='OpponentCreature',
     CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',AllOpponentCreatures='AllOpponentCreatures',
     AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl',ThisCreature='ThisCreature',TappedCreatures='TappedCreatures',
@@ -174,7 +174,7 @@ export const TargetsDesc:Record<Target,string> = {
     [Target.Self]:'You',
     [Target.Players]:'A Player',
     [Target.Creature]:'A Creature',
-    [Target.CreaturesAndPlayers]:'All Creatures & Players',
+    [Target.AllCreaturesAndPlayers]:'All Creatures & Players',
     [Target.CreaturesOrPlayers]:'A Creature or Player',
     [Target.CreatureOrLand]:'A Creature or Land',
     [Target.CreatureYouControl]:'A Creature you control',

@@ -3,7 +3,7 @@ import { Button, CssIcon } from '../../common/Shared';
 import { onSetLobby, onShowModal } from '../../common/Thunks';
 import AppStyles from '../../styles/AppStyles';
 import { useSelector } from 'react-redux';
-import { createOrJoinLobby, sendStartMatch } from '../../common/Network';
+import { createOrJoinLobby, sendJoin, sendStartMatch } from '../../common/Network';
 import { Modal } from '../../../enum';
 
 export default () => {
@@ -12,6 +12,11 @@ export default () => {
     const joinedPlayer = useSelector((s:RState)=>s.joinedPlayer)
     const [joinLobbyId, setLobbyId] = React.useState('')
     const [hosting, setIsHost] = React.useState(false)
+    const [interval, setEvent] = React.useState(null as NodeJS.Timeout)
+
+    React.useEffect(()=>{
+        setEvent(setInterval(()=>sendJoin(), 1000))
+    },[])
 
     return (
         <div style={{...AppStyles.modal, margin:'auto', width:'auto', border:'none'}}>
@@ -30,7 +35,7 @@ export default () => {
                     {lobbyId ? 
                     <div style={{marginRight:'1em', display:'flex', alignItems:'center'}}>Session ID: {lobbyId}</div> : 
                     <Button enabled={true} handler={()=>{createOrJoinLobby(); setIsHost(true)}} style={{border:'1px solid white', padding:'5px'}} text="Host"/>}
-                    <Button text="Begin" enabled={joinedPlayer && hosting} handler={()=>sendStartMatch()} style={{border:'1px solid white', padding:'5px'}}/>
+                    <Button text="Begin" enabled={joinedPlayer && hosting} handler={()=>{clearInterval(interval); sendStartMatch()}} style={{border:'1px solid white', padding:'5px'}}/>
                     <Button text="Cancel" enabled={true} handler={()=>{onSetLobby('');onShowModal(Modal.NewGame)}} style={{border:'1px solid white', padding:'5px'}}/>
                 </div>
             </div>

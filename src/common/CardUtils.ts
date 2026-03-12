@@ -36,7 +36,7 @@ export const validSingleTarget = (entityId:string, sorcery:Card):boolean => {
     }
     if(cdat.kind === Permanents.Creature){
         if(sorceryData.ability.targets === Target.Creature || 
-            sorceryData.ability.targets === Target.CreaturesAndPlayers ||
+            sorceryData.ability.targets === Target.AllCreaturesAndPlayers ||
             sorceryData.ability.targets === Target.CreaturesOrPlayers){
             return true
         }
