@@ -2560,7 +2560,7 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.SulfurRain]: {
         color:Color.Red,
-        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:4}],
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:2}],
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.Lands,

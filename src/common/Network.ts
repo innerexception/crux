@@ -134,6 +134,12 @@ export const net_cancelPendingAction= () => {
     const scene = store.getState().scene
     scene.creaturePreview?.destroy()
     scene.g.clear()
+    if(store.getState().repeatCount){
+        //If cancelled mid-cast, lose remaining casts
+        const state = store.getState().saveFile.currentMatch
+        const player = state.players.find(p=>p.id === state.activePlayerId)
+        scene.payAndDiscard(player.hand.find(c=>c.id === store.getState().selectedCardId))
+    }
     onShowAbilityPreview(null)
     onSelectCard(null)
 }
@@ -153,6 +159,26 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
         if(discard) scene.payAndDiscard(card)
         return 
     }
+
+    if(dat.ability.effect.repeat){
+        if(state.repeatCount==null){
+            onSetRepeatingCardAbility(dat.ability.effect.repeat-1)
+            state.scene.showSorceryAbilityTargets(dat.ability, card)
+        }
+        else if(state.repeatCount > 1){
+            onSetRepeatingCardAbility(state.repeatCount-1)
+            state.scene.showSorceryAbilityTargets(dat.ability, card)
+        }
+        else{
+            if(discard) scene.payAndDiscard(props.card)
+            onSetRepeatingCardAbility(null)
+            net_cancelPendingAction()
+        }
+    }
+    else{
+        if(discard) scene.payAndDiscard(props.card)
+        net_cancelPendingAction()
+    } 
 
     const player = state.saveFile.currentMatch.players.find(p=>p.id === props.entityId)
     if(player){
@@ -198,25 +224,6 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
         scene.applySingleTargetCreatureEffect({creature: target, sorcery:card})
     }
     
-    if(dat.ability.effect.repeat){
-        if(state.repeatCount==null){
-            onSetRepeatingCardAbility(dat.ability.effect.repeat-1)
-            state.scene.showSorceryAbilityTargets(dat.ability, card)
-        }
-        else if(state.repeatCount > 1){
-            onSetRepeatingCardAbility(state.repeatCount-1)
-            state.scene.showSorceryAbilityTargets(dat.ability, card)
-        }
-        else{
-            if(discard) scene.payAndDiscard(props.card)
-            onSetRepeatingCardAbility(null)
-            net_cancelPendingAction()
-        }
-    }
-    else{
-        if(discard) scene.payAndDiscard(props.card)
-        net_cancelPendingAction()
-    } 
 }
 
 export const net_endTurn = async (match:MatchState) => {
