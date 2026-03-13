@@ -128,10 +128,12 @@ export enum Modifier {
     Fearsome, //Creatures cannot be placed in this lane
     Toxic, //Creatures def 3 or less are destroyed in combat with this creature
     Consecrate, //When creature dies, gain 3 life
-    Undying //When dead, returns to hand
+    Undying, //When dead, returns to hand,
+    BeeSting //Tap to deal 1 to target creature instead of producing mana
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
+    [Modifier.BeeSting]: 'Swarming',
     [Modifier.Undying]: 'Undying',
     [Modifier.Consecrate]: 'Consecrated',
     [Modifier.Defender]: 'Defender',
@@ -229,7 +231,7 @@ export enum CardType {
     CullWeaklings='CullWeaklings', Justice='Justice', ArmoredTortoise='ArmoredTortoise',
     ContractKiller='ContractKilling', Longbowmen='Longbowmen', Assassin='Assassin',
     Sophist='Sophist', Mercenary='Mercenary', Hypnotize='Hypnotize', MinotaurServant='MinotaurServant',
-    ForceOfWill='ForceOfWill', ForestSense='ForestSense', ForestFires='ForestFires',
+    ForceOfWill='ForceOfWill', ForestSense='ForestSense', Pathfinding='Pathfinding',
     Hailstorm='Hailstorm', CursedToad='CursedToad', PSIWarrior='PSIWarrior',LabSpecimen='LabSpecimen',
     Cougar='Cougar',AcidRain='AcidRain',Unicorn='Unicorn',CultLeader='CultLeader',
     FieldMarshal='FieldMarshal', LavaFlow='LavaFlow', HolySymbol='HolySymbol', Premonition='Premonition',
@@ -238,19 +240,19 @@ export enum CardType {
     GraniteWall='GraniteWall', BattlePrayer='BattlePrayer', Conspiracy='Conspiracy', AirDrake='AirDrake',
     Blizzard='Blizzard', WoodElf='WoodElf', Anaconda='Anaconda', Reckoning='Reckoning', BeeSwarm='BeeSwarm',
     Boggart='Boggart', VolcanicVent='VolcanicVent', Resurrection='Resurrection', Hippo='Hippo',
-    DesertDrake='DesertDrake', Fear='Fear', SecretCache='SecretCache', LastGasp='LastGasp',
+    DustDevil='DesertDrake', Fear='Fear', SecretCache='SecretCache', LastGasp='LastGasp',
     AshCloud='AshCloud', FootSoldier='FootSoldier',Lightning='Lightning',SquidLord='SquidLord',
-    GiantSpider='GiantSpider',Graverobber='Graverobber', HilltopGiant='HilltopGiant', Troll='Troll',
+    GiantSpider='GiantSpider',Graverobber='Graverobber', LivingStones='LivingStones', RockTroll='RockTroll',
     LizardWarrior='LizardWarrior', CircleOfLife='CircleOfLife', WayOfPeace='WayOfPeace',
-    MongolHorde='MongolHorde', Minotaur='Minotaur', RowanTreant='RowanTreant', VeteranExorcist='VeteranExorcist', 
+    NomadicRaiders='NomadicRaiders', Minotaur='Minotaur', RowanTreant='RowanTreant', VeteranExorcist='VeteranExorcist', 
     MasterTactician='MasterTactician', Addict='Addict', ProtoDrake='ProtoDrake', ElderGriffin='ElderGriffin',
     SavannaLion='SavannaLion', FlashOfInsight='FlashOfInsight', Shambler='Shambler', Retribution='Retribution',
     SwordWall='SwordWall', Judgement='Judgement', CollectiveMemory='CollectiveMemory', SteadfastMonk='SteadfastMonk',
-    VampireSpawn='VampireSpawn', Redistribution='Redistribution', Riot='Riot', RhinoCharge='RhinoCharge',
-    SealFate='SealFate', Salamander='Salamander', Cyclops='Cyclops', LavaAxe='LavaAxe', PyroFlow='PyroFlow',
-    DeepSprings='DeepSprings', YoungDruid='YoungDruid', TreeSpirits='TreeSpirits', RedwoodTreant='RedwoodTreant',
-    WitchDoctor='WitchDoctor', LifeSteal='LifeSteal', Grizzly='Grizzly', GuardianAngel='GuardianAngel',
-    Cherubim='Cherubim', WhiteDragon='WhiteDragon', BlueDragon='BlueDragon', Megoladon='Megoladon', ChaosServant='ChaosServant',
+    SavyPolitico='SavyPolitico', Redistribution='Redistribution', Riot='Riot', RhinoCharge='RhinoCharge',
+    SealFate='SealFate', Salamander='Salamander', WanderingSpirit='WanderingSpirit', LavaAxe='LavaAxe', PyroFlow='PyroFlow',
+    DeepSprings='DeepSprings', WerewolfRaider='WerewolfRaider', TreeSpirits='TreeSpirits', RedwoodTreant='RedwoodTreant',
+    HoodooHealer='HoodooHealer', LifeSteal='LifeSteal', Grizzly='Grizzly', GuardianAngel='GuardianAngel',
+    ShroudedApostle='ShroudedApostle', Phoenix='Phoenix', BlueDragon='BlueDragon', Megoladon='Megoladon', DeepOne='DeepOne',
     SulfurRain='SulfurRain', Thunderhorse='Thunderhorse', RedDragon='RedDragon', Archangel='Archangel',
     Comet='Comet', Genie='Genie', ObsidianGargoyle='ObsidianGargoyle', Firestorm='Firestorm', Financier='Financier',
     ElephantCharge='ElephantCharge', FireHydra='FireHydra', Leviathan='Leviathan'
