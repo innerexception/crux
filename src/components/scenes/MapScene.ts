@@ -368,7 +368,7 @@ export default class MapScene extends Scene {
         const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
 
         if(ability.targets === Target.CreaturesYourGraveyard || ability.targets === Target.YourGraveyard){
-            return onShowModal(Modal.Graveyard)
+            return onShowModal(Modal.ViewCards, { cards: me.discard, chooseType: ability.targets === Target.CreaturesYourGraveyard ? Permanents.Creature : null})
         }
         if(ability.targets === Target.CreaturesAnyGraveyard){
             return onShowModal(Modal.AnyGraveyard) //TODO
@@ -505,9 +505,6 @@ export default class MapScene extends Scene {
         
         //SOME Modal actions only happen on caster's client
         if(caster.id === state.myId){
-            if(effect.searchCreatureForTop){
-                onShowModal(Modal.SelectCreatureForTop)
-            }
             if(effect.lookAtTop3){
                 onShowModal(Modal.ViewCards, {cards: targetPlayer.deck.cards.slice(0,3)})
             }
@@ -528,6 +525,9 @@ export default class MapScene extends Scene {
             }
             if(effect.cardToHandFromGY){
                 onShowModal(Modal.ChooseFromGY)
+            }
+            if(effect.sorceryToHandFromGY){
+                onShowModal(Modal.PickNextCard, {cards: targetPlayer.discard, chooseType: Permanents.Sorcery })
             }
         }
         if(effect.playExtraLand){
@@ -645,15 +645,6 @@ export default class MapScene extends Scene {
             }
         }
 
-        if(effect.creatureToLibrary){
-            this.tryRemoveCreature(creature)
-            const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === creature.ownerId)
-            onUpdatePlayer({...p, 
-                deck: {...p.deck, cards: p.deck.cards.concat(creature)},
-                discard: p.discard.filter(c=>c.id !== creature.id)
-            })
-            return
-        }
         if(effect.addAttributes){
             creature.attributes = creature.attributes.concat(effect.addAttributes)
         }

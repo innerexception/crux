@@ -5,10 +5,9 @@ import { useSelector } from 'react-redux';
 import CardView from '../CardView';
 import { Button } from '../../common/Shared';
 import { getCardData } from '../../common/CardUtils';
-import { Permanents } from '../../../enum';
 
 export default () => {
-    const cards = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId).deck.cards.filter(c=>getCardData(c).kind === Permanents.Creature))
+    const cards = useSelector((state:RState)=>state.modalData.cards.filter(c=>state.modalData.chooseType ? getCardData(c).kind === state.modalData.chooseType:true))
     const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId))
 
     const moveToTop = (c:Card) => {
@@ -20,7 +19,7 @@ export default () => {
 
     return (
         <div style={{...AppStyles.modal, margin:'auto', width:'420px'}}>
-            <div style={{textAlign:'center', marginBottom:'0.5em'}}>CHOOSE CREATURE FROM CODEX</div>
+            <div style={{textAlign:'center', marginBottom:'0.5em'}}>CHOOSE NEXT</div>
             <div style={{display:'flex', flexWrap:'wrap', marginBottom:'0.5em'}}>
                 {cards.map(c=><div onClick={()=>moveToTop(c)}><CardView card={c}/></div>)}
             </div>

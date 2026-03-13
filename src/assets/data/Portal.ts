@@ -288,7 +288,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.ScavengingRats
     },
-    [CardType.Memoize]: {
+    [CardType.Memorize]: {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Sorcery,
@@ -1138,9 +1138,9 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
-    [CardType.CruelMaster]: {
+    [CardType.Taskmaster]: {
         color:Color.Black,
-        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1},],
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.Self,
@@ -1637,7 +1637,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Creature,
             effect: {
-                creatureToLibrary: true,
+                returnToHand: true,
                 sprite: IconIndex.Debuff,
             }
         },
@@ -2197,7 +2197,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
-    [CardType.Shambler]: {
+    [CardType.CartelEnforcer]: {
         color:Color.Black,
         defaultAtk:3,
         defaultDef:2,
@@ -2205,14 +2205,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        ability: {
-            targets: Target.ThisCreature,
-            trigger: Triggers.OnDeath,
-            effect: {
-                sprite: IconIndex.Buff,
-                creatureToLibrary: true
-            }
-        },
+        defaultAttributes:[Modifier.Undying]
     },
     [CardType.Retribution]: {
         color:Color.White,

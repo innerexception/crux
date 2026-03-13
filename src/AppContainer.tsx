@@ -6,9 +6,7 @@ import NewGame from './components/modals/NewGame';
 import StatusBar from './components/StatusBar';
 import Options from './components/modals/Options';
 import DeckView from './components/DeckView';
-import CardView from './components/CardView';
 import Sidebar from './components/Sidebar';
-import Graveyard from './components/modals/Graveyard';
 import CPUDeck from './components/CPUDeck';
 import LandChoice from './components/modals/LandChoice';
 import Lobby from './components/modals/Lobby';
@@ -16,7 +14,7 @@ import Deckbuilder from './components/Deckbuilder';
 import CardDetailView from './components/CardDetailView';
 import AbilityPreview from './components/AbilityPreview';
 import LookAtCards from './components/modals/LookAtCards';
-import SelectCreatureForTop from './components/modals/SelectCreatureForTop';
+import PickNextCard from './components/modals/PickNextCard';
 
 export default () => {
 
@@ -32,12 +30,11 @@ export default () => {
     switch(state.activeModal){
       case Modal.NewGame: return <NewGame/>
       case Modal.Options: return <Options/>
-      case Modal.Graveyard: return <Graveyard/>
       case Modal.ShowLandChoices: return <LandChoice/>
       case Modal.Lobby: return <Lobby/>
       case Modal.Deckbuilder: return <Deckbuilder/>
       case Modal.ViewCards: return <LookAtCards/>
-      case Modal.SelectCreatureForTop: return <SelectCreatureForTop/>
+      case Modal.PickNextCard: return <PickNextCard/>
       default: return <span/>
     }
   }

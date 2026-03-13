@@ -101,10 +101,9 @@ interface CardEffect {
     searchCreatureForTop?:boolean
     searchCardForTop?:boolean
     searchForLand?: import('./enum').CardType //Goes into play instantly
+    sorceryToHandFromGY?:boolean
     creatureToHandFromLibrary?:boolean
     cardToHandFromGY?:boolean
-    creatureToLibrary?:boolean //from board to top of owner library
-    sorceryToHandFromGY?:boolean
     creatureToHandFromGY?:boolean
     arrangeTop5Remove1?:boolean
     addAttributes?: import('./enum').Modifier[]

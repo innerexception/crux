@@ -23,7 +23,7 @@ export enum UIReducerActions {
 
 export enum Modal {
     NewGame='ng',SelectSave='SelectSave',Options='Options',SelectLoad='SelectLoad',
-    Deckbuilder='Deckbuilder',Graveyard='Graveyard',AnyGraveyard='AnyGraveyard',
+    Deckbuilder='Deckbuilder',AnyGraveyard='AnyGraveyard',
     ChooseFromGY='ChooseFromGY',ChooseDiscard='ChooseDiscard',PickNextCard='PickNextSorcery',
     GameOver='GameOver',Winner='Winner',ShowLandChoices='ShowLandChoices',Lobby='Lobby',
     ViewCards='ViewCards',SelectCreatureForTop='SelectCreatureForTop'
@@ -208,7 +208,7 @@ export enum CardType {
     SkyPirates='SkyPirates',HeroicSoldier='HeroicSoldier',Earthquake='Earthquake',
     PeaceTreaty='PeaceTreaty', FertileSoil='FertileSoil',Hurricane='Hurricane',
     ForestJackal='ForestJackal',MessengerOwl='MessengerOwl',Refreshment='Refreshment',
-    Bighorn='BillyGoat', ScavengingRats='ScavengingRats',Memoize='Memoize',
+    Bighorn='BillyGoat', ScavengingRats='ScavengingRats',Memorize='Memorize',
     Brainstorm='Brainstorm', GoblinScrounger='GoblinScrounger', Necromancy='Necromancy', FierySpear='FierySpear',
     DustStorm='DustStorm', Scry='Scry', ForestCall='ForestCall', Insult='Insult',
     WillowSpirit='WillowSpirit', FlashFlood='FlashFlood', VisitingGryphon='VisitingGryphon',
@@ -227,7 +227,7 @@ export enum CardType {
     FlashOfLight='FlashOfLight',StreetThugs='StreetThugs',BorderWatch='BorderWatch',
     SorcererApprentice='SorcererApprentice',MountedPaladin='MountedPaladin',
     SpiritCloud='SpiritCloud', Banish='Banish', TwistedGiant='TwistedGiant',
-    DeceptiveContract='DeceptiveContract',CruelMaster='CruelMaster', DoubleCast='DoubleCast',
+    DeceptiveContract='DeceptiveContract',Taskmaster='Taskmaster', DoubleCast='DoubleCast',
     DruidicWarrior='DruidicWarrior',DruidicAmbusher='DruidicAmbusher',Roaches='Roaches', Thunderclap='Thunderclap',
     ShadowForm='ShadowForm', FireImp='FireImp', Cycle='Cycle', Gorilla='Gorilla',
     CullWeaklings='CullWeaklings', Justice='Justice', ArmoredTortoise='ArmoredTortoise',
@@ -248,7 +248,7 @@ export enum CardType {
     LizardWarrior='LizardWarrior', CircleOfLife='CircleOfLife', WayOfPeace='WayOfPeace',
     NomadicRaiders='NomadicRaiders', Minotaur='Minotaur', RowanTreant='RowanTreant', VeteranExorcist='VeteranExorcist', 
     MasterTactician='MasterTactician', Addict='Addict', ProtoDrake='ProtoDrake', ElderGriffin='ElderGriffin',
-    SavannaLion='SavannaLion', FlashOfInsight='FlashOfInsight', Shambler='Shambler', Retribution='Retribution',
+    SavannaLion='SavannaLion', FlashOfInsight='FlashOfInsight', CartelEnforcer='CartelEnforcer', Retribution='Retribution',
     SwordWall='SwordWall', Judgement='Judgement', CollectiveMemory='CollectiveMemory', SteadfastMonk='SteadfastMonk',
     SavyPolitico='SavyPolitico', Redistribution='Redistribution', Riot='Riot', RhinoCharge='RhinoCharge',
     SealFate='SealFate', Salamander='Salamander', WanderingSpirit='WanderingSpirit', LavaAxe='LavaAxe', PyroFlow='PyroFlow',
