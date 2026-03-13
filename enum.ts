@@ -255,7 +255,7 @@ export enum CardType {
     DeepSprings='DeepSprings', WerewolfRaider='WerewolfRaider', TreeSpirits='TreeSpirits', RedwoodTreant='RedwoodTreant',
     HoodooHealer='HoodooHealer', LifeSteal='LifeSteal', Grizzly='Grizzly', GuardianAngel='GuardianAngel',
     ShroudedApostle='ShroudedApostle', Phoenix='Phoenix', BlueDragon='BlueDragon', Megoladon='Megoladon',
-    SulfurRain='SulfurRain', Thunderhorse='Thunderhorse', RedDragon='RedDragon', Archangel='Archangel',
+    SulfurRain='SulfurRain', Derecho='Thunderhorse', RedDragon='RedDragon', Archangel='Archangel',
     Comet='Comet', Genie='Genie', ObsidianGargoyle='ObsidianGargoyle', Firestorm='Firestorm', Financier='Financier',
     ElephantCharge='ElephantCharge', FireHydra='FireHydra', Leviathan='Leviathan',ChaosServant='ChaosServant',
     VexingRiddle='VexingRiddle'

@@ -2579,16 +2579,17 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
-    [CardType.Thunderhorse]: {
+    [CardType.Derecho]: {
         color:Color.Red,
         defaultAtk:5,
         defaultDef:5,
-        defaultMoves:2,
+        defaultMoves:1,
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:5}],
+        defaultAttributes:[Modifier.Haste],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability: {
-            targets: Target.AllCreatures,
+            targets: Target.CreaturesInLane,
             effect: {
                 sprite: IconIndex.Damage,
                 tap: true
@@ -2673,7 +2674,7 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.Financier]: {
         color:Color.Black,
-        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:5}],
+        cost: [{kind:Color.Black, amount:3},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.CreaturesOrPlayers,
