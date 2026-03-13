@@ -1099,7 +1099,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes:[Modifier.Nimble, Modifier.Timid],
         ability: null
     },
-    [CardType.PowerWordUnsummon]: {
+    [CardType.Banish]: {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Sorcery,
@@ -1165,7 +1165,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
-    [CardType.JungleCat]: {
+    [CardType.DruidicWarrior]: {
         color:Color.Green,
         defaultAtk:2,
         defaultDef:3,
@@ -1176,12 +1176,13 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes:[Modifier.ForestWalk],
         ability: null
     },
-    [CardType.Ranger]: {
+    [CardType.DruidicAmbusher]: {
         color:Color.Green,
         defaultAtk:4,
         defaultDef:1,
         defaultMoves:1,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
+        defaultAttributes:[Modifier.Ranged],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability: null
@@ -1196,9 +1197,9 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         defaultAttributes: [Modifier.Undying]
     },
-    [CardType.IceStorm]: {
+    [CardType.Thunderclap]: {
         color:Color.Blue,
-        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2},],
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.AllOpponentCreatures,
@@ -1399,7 +1400,7 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.ForceOfWill]: {
         color:Color.Blue,
-        cost: [{kind:Color.Blue, amount:1}],
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.TappedCreatures,
@@ -1600,6 +1601,19 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
+    [CardType.VexingRiddle]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2},],
+        kind: Permanents.Enchantment,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                addAttributes:[Modifier.Defender],
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
     [CardType.BurrowingWurm]: {
         color:Color.Green,
         defaultAtk:4,
@@ -1629,7 +1643,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
-    [CardType.Gardener]: {
+    [CardType.Gardening]: {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
@@ -1707,7 +1721,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultDef:7,
         defaultMoves:0,
         defaultAttributes: [Modifier.Defender],
-        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null
@@ -1886,12 +1900,12 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
-    [CardType.Hippo]: {
+    [CardType.DruidicScholar]: {
         color:Color.Green,
         defaultAtk:3,
         defaultDef:3,
         defaultMoves:1,
-        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:3}],
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null,
@@ -1964,7 +1978,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:3,
         defaultDef:3,
         defaultMoves:1,
-        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:3}],
+        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null,
@@ -2541,6 +2555,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
+        category: Category.Infernal,
         ability: {
             targets: Target.Self,
             effect: {

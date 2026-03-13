@@ -129,10 +129,12 @@ export enum Modifier {
     Toxic, //Creatures def 3 or less are destroyed in combat with this creature
     Consecrate, //When creature dies, gain 3 life
     Undying, //When dead, returns to hand,
-    BeeSting //Tap to deal 1 to target creature instead of producing mana
+    BeeSting, //Tap to deal 1 to target creature instead of producing mana
+    SlowReturn //Placed on top of deck when destroyed
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
+    [Modifier.SlowReturn]: 'Echo',
     [Modifier.BeeSting]: 'Swarming',
     [Modifier.Undying]: 'Undying',
     [Modifier.Consecrate]: 'Consecrated',
@@ -224,9 +226,9 @@ export enum CardType {
     CunningLure='CunningLure',AngelicTouch='AngelicTouch',DarkStare='DarkStare',
     FlashOfLight='FlashOfLight',StreetThugs='StreetThugs',BorderWatch='BorderWatch',
     SorcererApprentice='SorcererApprentice',MountedPaladin='MountedPaladin',
-    SpiritCloud='SpiritCloud', PowerWordUnsummon='PowerWordUnsummon', TwistedGiant='TwistedGiant',
+    SpiritCloud='SpiritCloud', Banish='Banish', TwistedGiant='TwistedGiant',
     DeceptiveContract='DeceptiveContract',CruelMaster='CruelMaster', DoubleCast='DoubleCast',
-    JungleCat='JungleCat',Ranger='Ranger',Roaches='Roaches', IceStorm='IceStorm',
+    DruidicWarrior='DruidicWarrior',DruidicAmbusher='DruidicAmbusher',Roaches='Roaches', Thunderclap='Thunderclap',
     ShadowForm='ShadowForm', FireImp='FireImp', Cycle='Cycle', Gorilla='Gorilla',
     CullWeaklings='CullWeaklings', Justice='Justice', ArmoredTortoise='ArmoredTortoise',
     ContractKiller='ContractKilling', Longbowmen='Longbowmen', Assassin='Assassin',
@@ -235,11 +237,11 @@ export enum CardType {
     Hailstorm='Hailstorm', CursedToad='CursedToad', PSIWarrior='PSIWarrior',LabSpecimen='LabSpecimen',
     Cougar='Cougar',AcidRain='AcidRain',Unicorn='Unicorn',CultLeader='CultLeader',
     FieldMarshal='FieldMarshal', LavaFlow='LavaFlow', HolySymbol='HolySymbol', Premonition='Premonition',
-    BurrowingWurm='BurrowingWurm', Slow='Slow', Gardener='Gardener', RighteousCharge='RighteousCharge',
+    BurrowingWurm='BurrowingWurm', Slow='Slow', Gardening='Gardening', RighteousCharge='RighteousCharge',
     DebtCollection='DebtCollection', VenerableMonk='VenerableMonk', Collectivization='Collectivization',
     GraniteWall='GraniteWall', BattlePrayer='BattlePrayer', Conspiracy='Conspiracy', AirDrake='AirDrake',
     Blizzard='Blizzard', WoodElf='WoodElf', Anaconda='Anaconda', Reckoning='Reckoning', BeeSwarm='BeeSwarm',
-    Boggart='Boggart', VolcanicVent='VolcanicVent', Resurrection='Resurrection', Hippo='Hippo',
+    Boggart='Boggart', VolcanicVent='VolcanicVent', Resurrection='Resurrection', DruidicScholar='DruidicScholar',
     DustDevil='DesertDrake', Fear='Fear', SecretCache='SecretCache', LastGasp='LastGasp',
     AshCloud='AshCloud', FootSoldier='FootSoldier',Lightning='Lightning',SquidLord='SquidLord',
     GiantSpider='GiantSpider',Graverobber='Graverobber', LivingStones='LivingStones', RockTroll='RockTroll',
@@ -252,8 +254,9 @@ export enum CardType {
     SealFate='SealFate', Salamander='Salamander', WanderingSpirit='WanderingSpirit', LavaAxe='LavaAxe', PyroFlow='PyroFlow',
     DeepSprings='DeepSprings', WerewolfRaider='WerewolfRaider', TreeSpirits='TreeSpirits', RedwoodTreant='RedwoodTreant',
     HoodooHealer='HoodooHealer', LifeSteal='LifeSteal', Grizzly='Grizzly', GuardianAngel='GuardianAngel',
-    ShroudedApostle='ShroudedApostle', Phoenix='Phoenix', BlueDragon='BlueDragon', Megoladon='Megoladon', DeepOne='DeepOne',
+    ShroudedApostle='ShroudedApostle', Phoenix='Phoenix', BlueDragon='BlueDragon', Megoladon='Megoladon',
     SulfurRain='SulfurRain', Thunderhorse='Thunderhorse', RedDragon='RedDragon', Archangel='Archangel',
     Comet='Comet', Genie='Genie', ObsidianGargoyle='ObsidianGargoyle', Firestorm='Firestorm', Financier='Financier',
-    ElephantCharge='ElephantCharge', FireHydra='FireHydra', Leviathan='Leviathan'
+    ElephantCharge='ElephantCharge', FireHydra='FireHydra', Leviathan='Leviathan',ChaosServant='ChaosServant',
+    VexingRiddle='VexingRiddle'
 }

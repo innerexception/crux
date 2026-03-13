@@ -5,7 +5,7 @@ import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
 import { canAfford, drawMarchingDashedRect, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
-import { getCardData, getValidCreatureTargets, validStartTile } from "../../common/CardUtils";
+import { getCardData, getValidCreatureTargets, resetCard, validStartTile } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
 import { net_addCard, net_endTurn, net_moveCard, net_tapLand, net_triggerCardAbility, sendAddCardEffect, sendLandTappedEffect, sendMoveCard, sendTriggerCardAbility } from "../../common/Network";
 
@@ -609,6 +609,23 @@ export default class MapScene extends Scene {
             return
         }
 
+        if(effect.returnToHand){
+            return this.creatures.find(c=>c.id === creature.id).returnToHand()
+        }
+
+        if(effect.returnToBattle){
+            let owner = state.saveFile.currentMatch.players.find(p=>p.id === creature.ownerId)
+            const t = this.getEmptyStartTile(owner)
+            if(!t){
+                onUpdatePlayer({...owner, discard: owner.discard.filter(c=>c.id !== creature.id), hand: owner.hand.concat(resetCard(creature))})
+            }
+            else {
+                this.creatures.push(new CreatureSprite(this, t.pixelX,t.pixelY, getCardData(creature).sprite, creature.id, owner.dir))
+                onUpdateBoard(state.saveFile.currentMatch.board.concat({...resetCard(creature), tileX:t.x, tileY:t.y}))
+                onUpdatePlayer({...owner, discard: owner.discard.filter(c=>c.id !== creature.id)})
+            }
+        }
+
         if(effect.creatureToLibrary){
             this.tryRemoveCreature(creature)
             const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === creature.ownerId)
@@ -682,6 +699,12 @@ export default class MapScene extends Scene {
         }
         if(card.attributes.includes(Modifier.Undying)){
             spr.returnToHand()
+            return
+        }
+        if(card.attributes.includes(Modifier.SlowReturn)){
+            let board = state.saveFile.currentMatch.board
+            onUpdateBoard(board.filter(c=>c.id !== card.id))
+            onUpdatePlayer({...p, deck: {...p.deck, cards: p.deck.cards.concat(card)}})
             return
         }
         let board = state.saveFile.currentMatch.board
