@@ -100,6 +100,7 @@ interface CardEffect {
     searchSorceryForTop?:boolean
     searchCreatureForTop?:boolean
     searchCardForTop?:boolean
+    searchForLand?: import('./enum').CardType //Goes into play instantly
     creatureToHandFromLibrary?:boolean
     cardToHandFromGY?:boolean
     creatureToLibrary?:boolean //from board to top of owner library
@@ -112,7 +113,6 @@ interface CardEffect {
     returnToHand?:boolean
     returnToBattle?:boolean
     playExtraLand?:boolean
-    searchForForest?:boolean //Goes into play instantly
     taunt?:boolean //creatures may not leave this creature's lane
     tauntPlayer?:boolean //new creatures must be placed in an open lane
     resetMovement?:boolean //send all targets to starting tiles
@@ -175,6 +175,7 @@ interface RState {
 interface ModalData { 
     cards:Card[]
     choose?: number
+    chooseType?: import('./enum').Permanents
 } 
 
 interface SaveFile {

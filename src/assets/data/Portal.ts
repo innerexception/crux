@@ -1645,12 +1645,12 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.Gardening]: {
         color:Color.Green,
-        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2},],
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1},],
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.Self,
             effect: {
-                searchForForest: true,
+                searchForLand: CardType.Forest,
                 sprite: IconIndex.Buff,
             }
         },
@@ -1780,19 +1780,19 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
-    [CardType.WoodElf]: {
+    [CardType.DruidLoremaster]: {
         color:Color.Green,
         defaultAtk:1,
         defaultDef:1,
         defaultMoves:1,
-        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:{
             targets: Target.Self,
             effect: {
                 sprite: IconIndex.Buff,
-                searchForForest: true,
+                searchForLand: CardType.Forest,
                 shuffle: true
             }
         }

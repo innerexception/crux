@@ -1,6 +1,6 @@
 import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
-import { Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Modifier, Permanents, SceneNames, Target, Triggers } from "../../../enum";
+import { CardType, Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Modifier, Permanents, SceneNames, Target, Triggers } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
@@ -141,13 +141,23 @@ export default class MapScene extends Scene {
         net_endTurn(store.getState().saveFile.currentMatch)
     }
 
-    getEmptyStartTile (p:PlayerState) {
+    getEmptyStartTile (p:PlayerState, land?:boolean) {
         const mine = store.getState().saveFile.currentMatch.board.filter(c=>c.ownerId === p.id)
-        if(p.dir === Direction.NORTH){
-            return this.northCreatures.find(t=>!mine.find(c=>c.tileX === t.x && c.tileY === t.y))
+        if(land){
+            if(p.dir === Direction.NORTH){
+                return this.northLands.find(t=>!mine.find(c=>c.tileX === t.x && c.tileY === t.y))
+            }
+            else {
+                return this.southLands.find(t=>!mine.find(c=>c.tileX === t.x && c.tileY === t.y))
+            }
         }
         else {
-            return this.southCreatures.find(t=>!mine.find(c=>c.tileX === t.x && c.tileY === t.y))
+            if(p.dir === Direction.NORTH){
+                return this.northCreatures.find(t=>!mine.find(c=>c.tileX === t.x && c.tileY === t.y))
+            }
+            else {
+                return this.southCreatures.find(t=>!mine.find(c=>c.tileX === t.x && c.tileY === t.y))
+            }
         }
     }
 
@@ -380,6 +390,14 @@ export default class MapScene extends Scene {
             return tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
         }
 
+        if(ability.targets === Target.Self){
+            if(me.dir === Direction.NORTH)
+                tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerNorth.x, this.playerNorth.y, false, undefined, Layers.Earth))
+            else
+                tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerSouth.x, this.playerSouth.y, false, undefined, Layers.Earth))
+            return tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
+        }
+
         let creatures = getValidCreatureTargets(ability, boardCard)
         tiles = creatures.map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
 
@@ -389,12 +407,6 @@ export default class MapScene extends Scene {
             tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerSouth.x, this.playerSouth.y, false, undefined, Layers.Earth))
         }
         
-        if(ability.targets === Target.Self){
-            if(me.dir === Direction.NORTH)
-                tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerNorth.x, this.playerNorth.y, false, undefined, Layers.Earth))
-            else
-                tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerSouth.x, this.playerSouth.y, false, undefined, Layers.Earth))
-        }
         tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
     }
 
@@ -493,15 +505,6 @@ export default class MapScene extends Scene {
         
         //SOME Modal actions only happen on caster's client
         if(caster.id === state.myId){
-            // if(effect.cardToHandFromGY){
-            //     onShowModal(Modal.ChooseFromGY, {targetPlayer})
-            // }
-            // if(effect.discard){
-            //     onShowModal(Modal.ChooseDiscard, {targetPlayer})
-            // }
-            // if(effect.searchSorceryForTop){
-            //     onShowModal(Modal.PickNextSorcery, {targetPlayer})
-            // }
             if(effect.searchCreatureForTop){
                 onShowModal(Modal.SelectCreatureForTop)
             }
@@ -515,7 +518,13 @@ export default class MapScene extends Scene {
                 onShowModal(Modal.ViewCards, {cards: targetPlayer.hand})
             }
             if(effect.searchSorceryForTop){
-                onShowModal(Modal.PickNextSorcery)
+                onShowModal(Modal.PickNextCard, {cards: targetPlayer.deck.cards, chooseType: Permanents.Sorcery })
+            }
+            if(effect.searchCardForTop){
+                onShowModal(Modal.PickNextCard, {cards: targetPlayer.deck.cards })
+            }
+            if(effect.searchCreatureForTop){
+                onShowModal(Modal.PickNextCard, {cards: targetPlayer.deck.cards, chooseType: Permanents.Creature })
             }
             if(effect.cardToHandFromGY){
                 onShowModal(Modal.ChooseFromGY)
@@ -572,6 +581,16 @@ export default class MapScene extends Scene {
             for(let i=0; i<effect.discardAtRandom;i++){
                 if(targetPlayer.hand.length > 0) 
                     targetPlayer.discard.unshift(targetPlayer.hand.splice(Phaser.Math.Between(0,targetPlayer.hand.length-1), 1)[0])
+            }
+        }
+        if(effect.searchForLand){
+            const forest = state.currentMatch.lands.find(f=>f.kind === effect.searchForLand)
+            if(forest){
+                const t = this.getEmptyStartTile(targetPlayer, true)
+                if(t){
+                    this.creatures.push(new CreatureSprite(this, t.pixelX,t.pixelY, getCardData(forest).sprite, forest.id, targetPlayer.dir))
+                    onUpdateBoard(state.currentMatch.board.concat({...forest, ownerId: targetPlayer.id, tileX:t.x, tileY:t.y}))
+                }
             }
         }
         onUpdatePlayer({...targetPlayer})

@@ -24,7 +24,7 @@ export enum UIReducerActions {
 export enum Modal {
     NewGame='ng',SelectSave='SelectSave',Options='Options',SelectLoad='SelectLoad',
     Deckbuilder='Deckbuilder',Graveyard='Graveyard',AnyGraveyard='AnyGraveyard',
-    ChooseFromGY='ChooseFromGY',ChooseDiscard='ChooseDiscard',PickNextSorcery='PickNextSorcery',
+    ChooseFromGY='ChooseFromGY',ChooseDiscard='ChooseDiscard',PickNextCard='PickNextSorcery',
     GameOver='GameOver',Winner='Winner',ShowLandChoices='ShowLandChoices',Lobby='Lobby',
     ViewCards='ViewCards',SelectCreatureForTop='SelectCreatureForTop'
 }
@@ -240,7 +240,7 @@ export enum CardType {
     BurrowingWurm='BurrowingWurm', Slow='Slow', Gardening='Gardening', RighteousCharge='RighteousCharge',
     DebtCollection='DebtCollection', VenerableMonk='VenerableMonk', Collectivization='Collectivization',
     GraniteWall='GraniteWall', BattlePrayer='BattlePrayer', Conspiracy='Conspiracy', AirDrake='AirDrake',
-    Blizzard='Blizzard', WoodElf='WoodElf', Anaconda='Anaconda', Reckoning='Reckoning', BeeSwarm='BeeSwarm',
+    Blizzard='Blizzard', DruidLoremaster='DruidLoremaster', Anaconda='Anaconda', Reckoning='Reckoning', BeeSwarm='BeeSwarm',
     Boggart='Boggart', VolcanicVent='VolcanicVent', Resurrection='Resurrection', DruidicScholar='DruidicScholar',
     DustDevil='DesertDrake', Fear='Fear', SecretCache='SecretCache', LastGasp='LastGasp',
     AshCloud='AshCloud', FootSoldier='FootSoldier',Lightning='Lightning',SquidLord='SquidLord',
