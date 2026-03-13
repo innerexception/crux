@@ -6,6 +6,10 @@ import { getCardData } from "./CardUtils"
 import { net_cancelPendingAction, net_endTurn, sendCancelAction, sendEndTurn, sendLandDeck } from "./Network"
 import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
 
+export const onSetRepeatingCardAbility = (times:number) => {
+    store.dispatch({ type: UIReducerActions.SET_REPEAT, data:times })
+}
+
 export const onSetActionAcknowledge = (state:boolean) => {
     store.dispatch({ type: UIReducerActions.SET_NET_ACK, data:state })
 }

@@ -1,6 +1,6 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
 import { IconIndex, Layers, NetworkEvent, Permanents, Target } from '../../enum'
-import { onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSelectCard, onSetActionAcknowledge, onSetLobby, onShowAbilityPreview, onStartMatch, onTurnProcessing, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from './Thunks'
+import { onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSelectCard, onSetActionAcknowledge, onSetLobby, onSetRepeatingCardAbility, onShowAbilityPreview, onStartMatch, onTurnProcessing, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from './Thunks'
 import { store } from '../..'
 import { emptyMana, payCost } from './Utils'
 import{ v4 } from 'uuid'
@@ -147,7 +147,6 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     const targets = dat.ability.targets
     
     let creatures = getValidCreatureTargets(dat.ability, card)
-    net_cancelPendingAction()
     
     if(targets === Target.AllCreaturesAndPlayers){
         scene.applyGlobalEffect(card, creatures)
@@ -158,21 +157,16 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     const player = state.saveFile.currentMatch.players.find(p=>p.id === props.entityId)
     if(player){
         if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
-            scene.applyPlayerEffect(player, props.card)
-            onSelectCard(null)
+            scene.applyPlayerEffect(player, card)
             if(discard) scene.payAndDiscard(card)
-            return
         }
         else if(targets === Target.Self && player.id === state.saveFile.currentMatch.activePlayerId){
             scene.applyPlayerEffect(player, props.card)
-            onSelectCard(null)
             if(discard) scene.payAndDiscard(card)
-            return
         }
         else if(targets === Target.AllPlayers){
             scene.targetAllPlayers(card)
             if(discard) scene.payAndDiscard(card)
-            return
         }
         return //invalid player target
     }
@@ -194,29 +188,35 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     const target = creatures.find(c=>c.id === props.entityId)
     if(!target) return //invalid creature target
 
-    if(targets === Target.AllCreatures ){
-        const props = {creatures, card}
-        scene.applyMultiCreatureEffect(props)
-        if(discard) scene.payAndDiscard(props.card)
-        return 
-    }
-    else if(targets === Target.CreaturesInLane || targets === Target.TappedCreatures || 
-        targets === Target.AllOpponentCreatures || targets === Target.AllCreaturesYouControl) {
-        const props = {creatures, card}
-        if(!props.creatures.find(c=>c.id === target.id)) return
-        scene.applyMultiCreatureEffect(props)
-        if(discard) scene.payAndDiscard(props.card)
-        return 
+    if(targets === Target.AllCreatures || targets === Target.CreaturesInLane || targets === Target.TappedCreatures || 
+        targets === Target.AllOpponentCreatures || targets === Target.AllCreaturesYouControl){
+        scene.applyMultiCreatureEffect({creatures, card})
     }
     
     if(validSingleTarget(props.entityId, card)){ 
         //All single targets
-        const props = {creature: creatures.find(c=>c.id === target.id), sorcery:card}
-        if(!props.creature) return
-        scene.applySingleTargetCreatureEffect(props)
-        if(discard) scene.payAndDiscard(card)
-        return
+        scene.applySingleTargetCreatureEffect({creature: target, sorcery:card})
     }
+    
+    if(dat.ability.effect.repeat){
+        if(state.repeatCount==null){
+            onSetRepeatingCardAbility(dat.ability.effect.repeat-1)
+            state.scene.showSorceryAbilityTargets(dat.ability, card)
+        }
+        else if(state.repeatCount > 1){
+            onSetRepeatingCardAbility(state.repeatCount-1)
+            state.scene.showSorceryAbilityTargets(dat.ability, card)
+        }
+        else{
+            if(discard) scene.payAndDiscard(props.card)
+            onSetRepeatingCardAbility(null)
+            net_cancelPendingAction()
+        }
+    }
+    else{
+        if(discard) scene.payAndDiscard(props.card)
+        net_cancelPendingAction()
+    } 
 }
 
 export const net_endTurn = async (match:MatchState) => {

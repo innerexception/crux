@@ -156,6 +156,7 @@ interface MatchState {
 }
 
 interface RState {
+    repeatCount:number
     netAck:boolean
     previewAbility: CardAbility
     activeModal: import('./enum').Modal

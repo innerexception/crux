@@ -18,7 +18,8 @@ export enum UIReducerActions {
     PLAYER_JOIN='PLAYER_JOIN',
     SET_ABILITY='SET_ABILITY',
     SET_PROCESSING='SET_PROCESSING',
-    SET_NET_ACK='SET_NET_ACK'
+    SET_NET_ACK='SET_NET_ACK',
+    SET_REPEAT='SET_REPEAT'
 }
 
 export enum Modal {

@@ -7,7 +7,7 @@ import CreatureSprite from "../sprites/CreatureSprite";
 import { canAfford, drawMarchingDashedRect, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, getValidCreatureTargets, resetCard, validStartTile } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
-import { net_addCard, net_endTurn, net_moveCard, net_tapLand, net_triggerCardAbility, sendAddCardEffect, sendLandTappedEffect, sendMoveCard, sendTriggerCardAbility } from "../../common/Network";
+import { net_addCard, net_cancelPendingAction, net_endTurn, net_moveCard, net_tapLand, net_triggerCardAbility, sendAddCardEffect, sendLandTappedEffect, sendMoveCard, sendTriggerCardAbility } from "../../common/Network";
 
 const TILE_DIM=32
 const FIELD_WIDTH=3
@@ -463,8 +463,9 @@ export default class MapScene extends Scene {
     }
 
     payAndDiscard(card:Card){
-        this.creaturePreview?.destroy()
-        onSelectCard(null)
+        if(!store.getState().repeatCount){
+            net_cancelPendingAction()
+        }
         const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
         const data = getCardData(card)
         let colorless = null

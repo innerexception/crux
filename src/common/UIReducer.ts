@@ -43,6 +43,8 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
             return { ...state, saveFile: {...state.saveFile, currentMatch: {...state.saveFile.currentMatch, players: state.saveFile.currentMatch.players.map(p=>p.id === action.data.id ? {...action.data} : p)}}}
         case UIReducerActions.SET_NET_ACK:
             return { ...state, netAck: action.data }
+        case UIReducerActions.SET_REPEAT:
+            return { ...state, repeatCount: action.data }
         default:
             return state
     }
@@ -50,6 +52,7 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
 
 const getInitialState = () => {
     return {
+        repeatCount: null,
         previewAbility: null,
         activeModal: null,
         modalData: null,
