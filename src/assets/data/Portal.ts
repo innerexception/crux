@@ -2531,12 +2531,12 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         ability: null
     },
-    [CardType.DeepOne]: {
+    [CardType.ChaosServant]: {
         color:Color.Black,
         defaultAtk:6,
         defaultDef:5,
         defaultMoves:1,
-        cost: [{kind:Color.Black, amount:3},{kind:Color.None, amount:3}],
+        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability: {
@@ -2624,12 +2624,12 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes:[Modifier.Nimble],
         ability: null
     },
-    [CardType.BlackDragon]: {
+    [CardType.ObsidianGargoyle]: {
         color:Color.Black,
         defaultAtk:5,
         defaultDef:4,
         defaultMoves:1,
-        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:5}],
+        cost: [{kind:Color.Black, amount:3},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         defaultAttributes:[Modifier.Nimble],
