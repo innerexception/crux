@@ -1636,7 +1636,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
-    [CardType.Gardening]: {
+    [CardType.HiddenGrove]: {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1},],
         kind: Permanents.Sorcery,
@@ -1862,7 +1862,7 @@ export const Portal:Record<CardType, CardMeta> = {
             effect: {
                 duration: 1,
                 sprite: IconIndex.Damage,
-                addAttributes:[Modifier.Fearsome]
+                addAttributes:[Modifier.Unblockable]
             }
         },
         sprite: CreatureSpriteIndex.Placeholder

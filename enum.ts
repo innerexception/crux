@@ -242,7 +242,7 @@ export enum CardType {
     Hailstorm='Hailstorm', CursedToad='CursedToad', PSIWarrior='PSIWarrior',LabSpecimen='LabSpecimen',
     Cougar='Cougar',AcidRain='AcidRain',Unicorn='Unicorn',CultLeader='CultLeader',
     FieldMarshal='FieldMarshal', LavaFlow='LavaFlow', HolySymbol='HolySymbol', Premonition='Premonition',
-    BurrowingWurm='BurrowingWurm', Slow='Slow', Gardening='Gardening', RighteousCharge='RighteousCharge',
+    BurrowingWurm='BurrowingWurm', Slow='Slow', HiddenGrove='HiddenGrove', RighteousCharge='RighteousCharge',
     DebtCollection='DebtCollection', VenerableMonk='VenerableMonk', Collectivization='Collectivization',
     GraniteWall='GraniteWall', BattlePrayer='BattlePrayer', Conspiracy='Conspiracy', AirDrake='AirDrake',
     Blizzard='Blizzard', DruidLoremaster='DruidLoremaster', Anaconda='Anaconda', Reckoning='Reckoning', BeeSwarm='BeeSwarm',
