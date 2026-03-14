@@ -308,10 +308,27 @@ export default class MapScene extends Scene {
                         //handle placing CREATURE from hand in open space
                         const d = getCardData(card)
                         if(d.kind !== Permanents.Creature) return //Cannot place other types in open spaces
-                        if(card.attributes.includes(Modifier.Timid)){ //Exclude timids
+                        if(card.attributes.includes(Modifier.Timid)){ //Exclude specials
                             if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === tile.x))
                                 return
                         }
+                        if(card.attributes.includes(Modifier.CityAffinity)){
+                            if(!state.saveFile.currentMatch.board.find(c=>c.kind === CardType.City && c.tileX === tile.x))
+                                return
+                        }
+                        if(card.attributes.includes(Modifier.DesertAffinity)){
+                            if(!state.saveFile.currentMatch.board.find(c=>c.kind === CardType.Desert && c.tileX === tile.x))
+                                return
+                        }
+                        if(card.attributes.includes(Modifier.ForestAffinity)){
+                            if(!state.saveFile.currentMatch.board.find(c=>c.kind === CardType.Forest && c.tileX === tile.x))
+                                return
+                        }
+                        if(card.attributes.includes(Modifier.SanctuaryAffinity)){
+                            if(!state.saveFile.currentMatch.board.find(c=>c.kind === CardType.Temple && c.tileX === tile.x))
+                                return
+                        }
+            
                         if(validStartTile(tile, me.dir, false)){
                             const props = {cardId:state.selectedCardId, worldX:tile.pixelX, worldY: tile.pixelY}
                             if(networkActive) sendAddCardEffect(props)
@@ -398,15 +415,18 @@ export default class MapScene extends Scene {
             return tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
         }
 
+        if(ability.targets === Target.Players || ability.targets === Target.AllPlayers){
+            tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerNorth.x, this.playerNorth.y, false, undefined, Layers.Earth))
+            tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerSouth.x, this.playerSouth.y, false, undefined, Layers.Earth))
+            return tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
+        }
+        
         let creatures = getValidCreatureTargets(ability, boardCard)
         tiles = creatures.map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
-
-        if(ability.targets === Target.CreaturesOrPlayers || ability.targets === Target.AllCreaturesAndPlayers || 
-            ability.targets === Target.Players || ability.targets === Target.AllPlayers){
+        if(ability.targets === Target.CreaturesOrPlayers || ability.targets === Target.AllCreaturesAndPlayers){
             tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerNorth.x, this.playerNorth.y, false, undefined, Layers.Earth))
             tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerSouth.x, this.playerSouth.y, false, undefined, Layers.Earth))
         }
-        
         tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
     }
 
@@ -677,12 +697,14 @@ export default class MapScene extends Scene {
         }
         if(effect.draw && activePlayer.deck.cards.length > 0){
             activePlayer = {...activePlayer, hand: activePlayer.hand.concat(activePlayer.deck.cards.shift()),deck:activePlayer.deck}
+            onUpdatePlayer(activePlayer)
         }
         if(effect.drawX){
             const x = getColorlessRemain(activePlayer.manaPool, creature)
             for(let i=0;i<x;i++){
                 activePlayer = {...activePlayer, hand: activePlayer.hand.concat(activePlayer.deck.cards.shift()),deck:activePlayer.deck}
             }
+            onUpdatePlayer(activePlayer)
         }
         if(effect.pacifism){
             creature.tapped = true
@@ -694,6 +716,12 @@ export default class MapScene extends Scene {
             creature.tapped = false
             this.creatures.find(s=>s.id === creature.id).untap()
         }
+
+        if(effect.casterDmg){
+            activePlayer.hp-=effect.casterDmg
+            onUpdatePlayer(activePlayer)
+        }
+
         if(creature.def <= 0) 
             this.tryRemoveCreature(creature)
         else onUpdateBoardCreature(creature)

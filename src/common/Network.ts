@@ -185,15 +185,12 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     if(player){
         if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
             scene.applyPlayerEffect(player, card)
-            if(discard) scene.payAndDiscard(card)
         }
         else if(targets === Target.Self && player.id === state.saveFile.currentMatch.activePlayerId){
             scene.applyPlayerEffect(player, props.card)
-            if(discard) scene.payAndDiscard(card)
         }
         else if(targets === Target.AllPlayers){
             scene.targetAllPlayers(card)
-            if(discard) scene.payAndDiscard(card)
         }
         return //invalid player target
     }

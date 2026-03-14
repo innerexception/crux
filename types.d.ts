@@ -63,13 +63,13 @@ interface CardAbility  {
 interface CardEffect {
     addMana?:import('./enum').Color
     dmg?:number
+    casterDmg?:number
     damageReflect?:boolean //Damage done to player is applied to creature owner as well
     dmgX?:boolean
     dmgAsCreaturePower?:true //Damage based on sacrificed creature power
     dmgAsYourDeserts?:boolean
     destroy?:boolean
     destroyAll?:boolean //all of target type
-    destroy2Creatures?:boolean
     destroyForest?:boolean
     destroyTower?:boolean
     duration?: number //777 = until discarded

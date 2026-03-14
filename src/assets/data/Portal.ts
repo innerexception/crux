@@ -1753,11 +1753,12 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:1},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Self,
+            targets: Target.Creature,
             withoutColor: Color.Black,
             effect: {
-                destroy2Creatures: true,
-                dmg: 5,
+                repeat: 2,
+                destroy: true,
+                casterDmg: 3,
                 sprite: IconIndex.Damage,
             }
         },
