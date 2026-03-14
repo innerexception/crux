@@ -209,7 +209,7 @@ export default class MapScene extends Scene {
             creatureTiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
         }
         else if(dat.kind === Permanents.Sorcery){
-            this.showSorceryAbilityTargets(dat.ability)
+            this.showSorceryAbilityTargets(dat.ability, card)
         }
     }
 
@@ -358,7 +358,7 @@ export default class MapScene extends Scene {
         return this.grid.find(t=>t.x === tileX && t.y===tileY)
     }
 
-    showSorceryAbilityTargets = (ability:CardAbility, boardCard?:Card) => {
+    showSorceryAbilityTargets = (ability:CardAbility, boardCard:Card) => {
 
         //TODO: show pending ability
         onShowAbilityPreview(ability)
@@ -493,6 +493,9 @@ export default class MapScene extends Scene {
         if(effect.status.addAttributes){
             creature.attributes=creature.attributes.filter(a=>!effect.status.addAttributes.includes(a))
         }
+        if(effect.status.removeAttribute){
+            creature.attributes.push(effect.status.removeAttribute)
+        }
         if(effect.status.pacifism){
             creature.tapped = false
         }
@@ -530,6 +533,10 @@ export default class MapScene extends Scene {
             if(effect.sorceryToHandFromGY){
                 onShowModal(Modal.PickNextCard, {cards: targetPlayer.discard, chooseType: Permanents.Sorcery })
             }
+        }
+        if(effect.hp3perBlackCreature){
+            const blacks = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && getCardData(c).color === Color.Black)
+            targetPlayer.hp+=blacks.length*3
         }
         if(effect.playExtraLand){
             targetPlayer.hasPlayedLand = false

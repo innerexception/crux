@@ -1,4 +1,4 @@
-import { CardType, Direction, Layers, Permanents, Target } from "../../enum";
+import { CardType, Color, Direction, Layers, Modifier, Permanents, Target } from "../../enum";
 import{ v4 } from 'uuid'
 import { Portal } from "../assets/data/Portal";
 import { onUpdateBoardCreature, onUpdatePlayer } from "./Thunks";
@@ -15,7 +15,7 @@ export const getLandAtEndOfLane = (d:Direction, tileX:number, tileY:number) => {
     return store.getState().saveFile.currentMatch.board.find(c=>c.tileX === t.x && c.tileY === t.y)
 }
 
-export const getValidCreatureTargets = (ability:CardAbility, card?:Card) => {
+export const getValidCreatureTargets = (ability:CardAbility, card:Card) => {
     const state = store.getState()
     const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
     let creatures = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
@@ -26,14 +26,32 @@ export const getValidCreatureTargets = (ability:CardAbility, card?:Card) => {
     if(ability.withoutAttribute) creatures = creatures.filter(c=>!c.attributes.includes(ability.withoutAttribute))
     if(ability.withCategory) creatures = creatures.filter(c=>getCardData(c).category===ability.withCategory)
 
-    if(card && ability.targets === Target.CreaturesInLane) creatures = creatures.filter(c=>c.tileX === card.tileX)
     if(ability.targets === Target.TappedCreatures || ability.targets === Target.TappedCreature) creatures = creatures.filter(c=>c.tapped)
     if(ability.targets === Target.ThisCreature) creatures = creatures.filter(c=>c.id === store.getState().selectedCardId)
     if(ability.targets === Target.CreatureYouControl || ability.targets === Target.AllCreaturesYouControl) creatures = creatures.filter(c=>c.ownerId === me.id)
     if(ability.targets === Target.OpponentCreature || ability.targets === Target.AllOpponentCreatures){
         creatures = creatures.filter(c=>c.ownerId !== me.id)
     }
+    if(ability.targets === Target.CreaturesInLane) 
+        creatures = creatures.filter(c=>c.tileX === card.tileX)
 
+    const color = getCardData(card).color
+    if(color === Color.Black){
+        creatures = creatures.filter(c=>!c.attributes.includes(Modifier.ProtectionFromBlack))
+    }
+    if(color === Color.Red){
+        creatures = creatures.filter(c=>!c.attributes.includes(Modifier.ProtectionFromRed))
+    }
+    if(color === Color.Blue){
+        creatures = creatures.filter(c=>!c.attributes.includes(Modifier.ProtectionFromBlue))
+    }
+    if(color === Color.White){
+        creatures = creatures.filter(c=>!c.attributes.includes(Modifier.ProtectionFromWhite))
+    }
+    if(color === Color.Green){
+        creatures = creatures.filter(c=>!c.attributes.includes(Modifier.ProtectionFromGreen))
+    }
+    
     return creatures
 }
 

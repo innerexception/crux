@@ -310,7 +310,7 @@ export const net_addCard = (props:{cardId:string, worldX:number,worldY:number}) 
                 if(!me.manaPool[data.ability.conditionalSpend]) return
             }
             onSelectBoardCard(card)
-            scene.showSorceryAbilityTargets(data.ability)
+            scene.showSorceryAbilityTargets(data.ability, card)
         }
     }
 }

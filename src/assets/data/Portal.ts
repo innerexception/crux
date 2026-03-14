@@ -880,7 +880,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Sun
     },
-    [CardType.Steadfast]: {
+    [CardType.HoldTheLine]: {
         color:Color.White,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
@@ -947,15 +947,29 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Flood
     },
-    [CardType.TreeClimbers]: {
+    [CardType.GuerillaTactics]: {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
-        kind: Permanents.Sorcery,
+        kind: Permanents.Enchantment,
         ability: {
             targets: Target.CreatureYouControl,
             effect: {
                 sprite: IconIndex.Buff,
                 addAttributes: [Modifier.Taunt]
+            }
+        },
+        sprite: CreatureSpriteIndex.FertileSoil
+    },
+    [CardType.Fog]: {
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.AllCreatures,
+            effect: {
+                sprite: IconIndex.Debuff,
+                removeAttribute: Modifier.Nimble,
+                duration: 2
             }
         },
         sprite: CreatureSpriteIndex.FertileSoil
@@ -1683,7 +1697,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:2,
         defaultDef:2,
         defaultMoves:1,
-        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:{

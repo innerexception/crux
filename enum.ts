@@ -226,8 +226,8 @@ export enum CardType {
     Overgrowth='Overgrowth',Sprite='Sprite',NaturesPaths='NaturesPaths',
     Omen='Omen',Dragonling='Dragonling',Treant='Treant',Eruption='Eruption',DesertAsetic='DesertAsetic',
     HeavenlyDew='HeavenlyDew', SewerRats='SewerRats',Tremors='Tremors',Sunlight='Sunlight',
-    Steadfast='Steadfast',Falconer='Falconer',BloomingEarth='BloomingEarth',Truce='Truce',
-    OminousSigns='OminousSigns',TreeClimbers='TreeClimbers',FireHammer='FireHammer',
+    HoldTheLine='HoldTheLine',Falconer='Falconer',BloomingEarth='BloomingEarth',Truce='Truce',
+    OminousSigns='OminousSigns',GuerillaTactics='GuerillaTactics',FireHammer='FireHammer',
     CunningLure='CunningLure',AngelicTouch='AngelicTouch',DarkStare='DarkStare',
     FlashOfLight='FlashOfLight',StreetThugs='StreetThugs',BorderWatch='BorderWatch',
     SorcererApprentice='SorcererApprentice',MountedPaladin='MountedPaladin',
@@ -263,5 +263,5 @@ export enum CardType {
     SulfurRain='SulfurRain', Derecho='Thunderhorse', RedDragon='RedDragon', Archangel='Archangel',
     Comet='Comet', Genie='Genie', ObsidianGargoyle='ObsidianGargoyle', Firestorm='Firestorm', Financier='Financier',
     ElephantCharge='ElephantCharge', FireHydra='FireHydra', Leviathan='Leviathan',ChaosServant='ChaosServant',
-    VexingRiddle='VexingRiddle'
+    VexingRiddle='VexingRiddle',Fog='Fog'
 }
