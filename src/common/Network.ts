@@ -176,10 +176,6 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
             net_cancelPendingAction()
         }
     }
-    else{
-        if(discard) scene.payAndDiscard(props.card)
-        net_cancelPendingAction()
-    } 
 
     const player = state.saveFile.currentMatch.players.find(p=>p.id === props.entityId)
     if(player){
@@ -192,7 +188,6 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
         else if(targets === Target.AllPlayers){
             scene.targetAllPlayers(card)
         }
-        return //invalid player target
     }
 
     let land = state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Land && c.id === props.entityId)
@@ -206,22 +201,25 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
         if(targets === Target.OpponentLand){
             scene.applyMultiLandEffect(props.card, state.saveFile.currentMatch.board.filter(l=>getCardData(l).kind === Permanents.Land && l.ownerId !== card.ownerId))
         }
-        return //invalid land target
     }
     
-    const target = creatures.find(c=>c.id === props.entityId)
-    if(!target) return //invalid creature target
+    const creature = creatures.find(c=>c.id === props.entityId)
+    if(creature) {
+        if(targets === Target.AllCreatures || targets === Target.CreaturesInLane || targets === Target.TappedCreatures || 
+            targets === Target.AllOpponentCreatures || targets === Target.AllCreaturesYouControl){
+            scene.applyMultiCreatureEffect({creatures, card})
+        }
+        
+        if(validSingleTarget(props.entityId, card)){ 
+            //All single targets
+            scene.applySingleTargetCreatureEffect({creature: creature, sorcery:card})
+        }
+    }
 
-    if(targets === Target.AllCreatures || targets === Target.CreaturesInLane || targets === Target.TappedCreatures || 
-        targets === Target.AllOpponentCreatures || targets === Target.AllCreaturesYouControl){
-        scene.applyMultiCreatureEffect({creatures, card})
+    if(!dat.ability.effect.repeat && (player||land||creature)){
+        if(discard) scene.payAndDiscard(props.card)
+        net_cancelPendingAction()
     }
-    
-    if(validSingleTarget(props.entityId, card)){ 
-        //All single targets
-        scene.applySingleTargetCreatureEffect({creature: target, sorcery:card})
-    }
-    
 }
 
 export const net_endTurn = async (match:MatchState) => {

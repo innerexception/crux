@@ -2331,7 +2331,7 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.SealFate]: {
         color:Color.Blue,
-        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:4},],
+        cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.Players,

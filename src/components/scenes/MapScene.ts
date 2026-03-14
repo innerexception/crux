@@ -385,7 +385,7 @@ export default class MapScene extends Scene {
         const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
 
         if(ability.targets === Target.CreaturesYourGraveyard || ability.targets === Target.YourGraveyard){
-            return onShowModal(Modal.ViewCards, { cards: me.discard, chooseType: ability.targets === Target.CreaturesYourGraveyard ? Permanents.Creature : null})
+            return onShowModal(Modal.ViewCards, { cards: me.discard, chooseType: ability.targets === Target.CreaturesYourGraveyard ? Permanents.Creature : null, targetPlayerId: me.id})
         }
         if(ability.targets === Target.CreaturesAnyGraveyard){
             return onShowModal(Modal.AnyGraveyard) //TODO
@@ -530,28 +530,31 @@ export default class MapScene extends Scene {
         //SOME Modal actions only happen on caster's client
         if(caster.id === state.myId){
             if(effect.lookAtTop3){
-                onShowModal(Modal.ViewCards, {cards: targetPlayer.deck.cards.slice(0,3)})
+                onShowModal(Modal.ViewCards, {cards: targetPlayer.deck.cards.slice(0,3), targetPlayerId:targetPlayer.id})
+            }
+            if(effect.arrangeTop5Remove1){
+                onShowModal(Modal.ViewCards, {cards: targetPlayer.deck.cards.slice(0,5), discard: 1, targetPlayerId:targetPlayer.id})
             }
             if(effect.lookAtTop3Choose1){
-                onShowModal(Modal.ViewCards, {cards: targetPlayer.deck.cards.slice(0,3), choose: 1})
+                onShowModal(Modal.ViewCards, {cards: targetPlayer.deck.cards.slice(0,3), keep: 1, targetPlayerId:targetPlayer.id})
             }
             if(effect.lookAtHand){
-                onShowModal(Modal.ViewCards, {cards: targetPlayer.hand})
+                onShowModal(Modal.ViewCards, {cards: targetPlayer.hand, targetPlayerId:targetPlayer.id})
             }
             if(effect.searchSorceryForTop){
-                onShowModal(Modal.PickNextCard, {cards: targetPlayer.deck.cards, chooseType: Permanents.Sorcery })
+                onShowModal(Modal.PickNextCard, {cards: targetPlayer.deck.cards, chooseType: Permanents.Sorcery, targetPlayerId:targetPlayer.id })
             }
             if(effect.searchCardForTop){
-                onShowModal(Modal.PickNextCard, {cards: targetPlayer.deck.cards })
+                onShowModal(Modal.PickNextCard, {cards: targetPlayer.deck.cards, targetPlayerId:targetPlayer.id })
             }
             if(effect.searchCreatureForTop){
-                onShowModal(Modal.PickNextCard, {cards: targetPlayer.deck.cards, chooseType: Permanents.Creature })
+                onShowModal(Modal.PickNextCard, {cards: targetPlayer.deck.cards, chooseType: Permanents.Creature, targetPlayerId:targetPlayer.id })
             }
             if(effect.cardToHandFromGY){
                 onShowModal(Modal.ChooseFromGY)
             }
             if(effect.sorceryToHandFromGY){
-                onShowModal(Modal.PickNextCard, {cards: targetPlayer.discard, chooseType: Permanents.Sorcery })
+                onShowModal(Modal.PickNextCard, {cards: targetPlayer.discard, chooseType: Permanents.Sorcery, targetPlayerId:targetPlayer.id })
             }
         }
         if(effect.drawForDeserts){

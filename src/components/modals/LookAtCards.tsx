@@ -8,7 +8,7 @@ import { sendUpdate } from '../../common/Network';
 
 export default () => {
     const data = useSelector((state:RState)=>state.modalData)
-    const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId))
+    const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.modalData.targetPlayerId))
 
     const addCardToHand = (c:Card) => {
         onUpdatePlayer({...me, 
@@ -19,11 +19,26 @@ export default () => {
         onShowModal(null)
     }
 
+    const discardCard = (c:Card) => {
+        onUpdatePlayer({...me, 
+            hand: me.hand.filter(c=>c.id !== c.id), 
+            discard: me.discard.concat(c)
+        })
+        sendUpdate()
+        onShowModal(null)
+    }
+
+    const getHandler = (c:Card) => {
+        if(data.keep) return ()=>addCardToHand(c)
+        if(data.discard) return ()=>discardCard(c)
+        return null
+    }
+
     return (
         <div style={{...AppStyles.modal, margin:'auto', width:'420px'}}>
-            <div style={{textAlign:'center', marginBottom:'0.5em'}}>VIEWING {data.choose && "(choose 1)"}</div>
+            <div style={{textAlign:'center', marginBottom:'0.5em'}}>VIEWING {data.keep && "(choose 1)"}</div>
             <div style={{display:'flex', flexWrap:'wrap', marginBottom:'0.5em'}}>
-                {data.cards.map(c=><div onClick={data.choose ? ()=>addCardToHand(c):null}><CardView card={c}/></div>)}
+                {data.cards.map(c=><div onClick={getHandler(c)}><CardView card={c}/></div>)}
             </div>
             <Button enabled={true} text="Close" handler={()=>onShowModal(null)}/>
         </div>
