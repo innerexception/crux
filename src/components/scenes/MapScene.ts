@@ -525,7 +525,7 @@ export default class MapScene extends Scene {
         
         const effect = getCardData(card).ability.effect
         let state = store.getState().saveFile
-        const caster = state.currentMatch.players.find(p=>p.id === card.ownerId)
+        let caster = state.currentMatch.players.find(p=>p.id === card.ownerId)
         
         //SOME Modal actions only happen on caster's client
         if(caster.id === state.myId){
@@ -553,6 +553,14 @@ export default class MapScene extends Scene {
             if(effect.sorceryToHandFromGY){
                 onShowModal(Modal.PickNextCard, {cards: targetPlayer.discard, chooseType: Permanents.Sorcery })
             }
+        }
+        if(effect.drawForDeserts){
+            const deserts = state.currentMatch.board.filter(c=>c.kind === CardType.Desert)
+            for(let i=0;i<deserts.length;i++){
+                if(caster.deck.cards.length > 0) 
+                    caster = {...caster, hand: caster.hand.concat(caster.deck.cards.shift()),deck:caster.deck}
+            }
+            onUpdatePlayer({...caster})
         }
         if(effect.hp3perBlackCreature){
             const blacks = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && getCardData(c).color === Color.Black)
@@ -582,7 +590,8 @@ export default class MapScene extends Scene {
         if(effect.drawX){
             const x = getColorlessRemain(caster.manaPool, card)
             for(let i=0;i<x;i++){
-                targetPlayer = {...targetPlayer, hand: targetPlayer.hand.concat(targetPlayer.deck.cards.shift()),deck:targetPlayer.deck}
+                if(targetPlayer.deck.cards.length > 0) 
+                    targetPlayer = {...targetPlayer, hand: targetPlayer.hand.concat(targetPlayer.deck.cards.shift()),deck:targetPlayer.deck}
             }
         }
         if(effect.hpPerLand){

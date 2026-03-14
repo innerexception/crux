@@ -228,7 +228,7 @@ export enum CardType {
     HeavenlyDew='HeavenlyDew', SewerRats='SewerRats',Tremors='Tremors',Sunlight='Sunlight',
     HoldTheLine='HoldTheLine',Falconer='Falconer',BloomingEarth='BloomingEarth',Truce='Truce',
     OminousSigns='OminousSigns',GuerillaTactics='GuerillaTactics',FireHammer='FireHammer',
-    CunningLure='CunningLure',AngelicTouch='AngelicTouch',DarkStare='DarkStare',
+    CunningLure='CunningLure',AngelicTouch='AngelicTouch',PiercingStare='PiercingStare',
     FlashOfLight='FlashOfLight',StreetThugs='StreetThugs',BorderWatch='BorderWatch',
     SorcererApprentice='SorcererApprentice',MountedPaladin='MountedPaladin',
     SpiritCloud='SpiritCloud', Banish='Banish', TwistedGiant='TwistedGiant',

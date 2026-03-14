@@ -1016,7 +1016,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Lure
     },
-    [CardType.DarkStare]: {
+    [CardType.PiercingStare]: {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Sorcery,
