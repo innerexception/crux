@@ -64,6 +64,7 @@ interface CardEffect {
     addMana?:import('./enum').Color
     dmg?:number
     casterDmg?:number
+    casterHpUp?:number
     damageReflect?:boolean //Damage done to player is applied to creature owner as well
     dmgX?:boolean
     dmgAsCreaturePower?:true //Damage based on sacrificed creature power

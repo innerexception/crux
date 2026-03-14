@@ -1686,7 +1686,7 @@ export const Portal:Record<CardType, CardMeta> = {
             targets: Target.Players,
             effect: {
                 dmg: 2,
-                hpUp: 2,
+                casterHpUp: 2,
                 sprite: IconIndex.Buff,
             }
         },

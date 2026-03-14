@@ -569,6 +569,10 @@ export default class MapScene extends Scene {
             const blacks = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && getCardData(c).color === Color.Black)
             targetPlayer.hp+=blacks.length*3
         }
+        if(effect.casterHpUp){
+            caster.hp+=effect.casterHpUp
+            onUpdatePlayer({...caster})
+        }
         if(effect.playExtraLand){
             targetPlayer.hasPlayedLand = false
         }
