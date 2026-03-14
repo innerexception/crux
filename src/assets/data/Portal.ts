@@ -1458,17 +1458,10 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:1,
         defaultDef:1,
         defaultMoves:1,
-        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        ability: {
-            trigger: Triggers.OnDeath,
-            targets: Target.AllPlayers,
-            effect: {
-                discardAtRandom:1,
-                sprite: IconIndex.Debuff
-            }
-        }
+        defaultAttributes: [Modifier.DementiaCloud]
     },
     [CardType.PSIWarrior]: {
         color:Color.Blue,
@@ -1479,7 +1472,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null,
-        defaultAttributes: [Modifier.Fearsome]
+        defaultAttributes: [Modifier.Unblockable]
     },
     [CardType.LabSpecimen]: {
         color:Color.Black,

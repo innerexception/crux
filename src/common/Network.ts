@@ -127,6 +127,7 @@ export const net_moveCard = (props:{card:Card, tileX:number, tileY:number}) => {
     const tile = scene.map.getTileAt(props.tileX, props.tileY, false, Layers.Earth)
     const spr = scene.creatures.find(c=>c.id === props.card.id)
     spr.setPosition(tile.pixelX, tile.pixelY)
+    spr.icon?.destroy()
     onUpdateBoardCreature({...props.card, tileX: props.tileX, tileY: props.tileY, tapped: true})
 }
 

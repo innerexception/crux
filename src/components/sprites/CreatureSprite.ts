@@ -39,6 +39,8 @@ export default class CreatureSprite extends GameObjects.Image {
         for(let i=0;i<thisCreature.moves+(haste?1:0);i++){
             //TODO: targets in range, and able to be targeted by us
             state = store.getState().saveFile.currentMatch
+            thisCreature = state.board.find(c=>c.id === this.id)
+            if(!thisCreature) return
             const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
             let next = this.scene.map.getTileAt(myTile.x, myTile.y+this.dir, false, Layers.Earth)
             if(validEndTile(next, owner.dir, true)){
@@ -78,27 +80,27 @@ export default class CreatureSprite extends GameObjects.Image {
                 return
             }
 
-            if(thisCreature)
-                await new Promise((resolve)=>{
-                    this.scene.tweens.add({
-                        targets: this,    
-                        x: next.pixelX,
-                        y: next.pixelY,
-                        ease: 'Stepped',
-                        easeParams: [2],
-                        duration: 500,
-                        onComplete: ()=>{
-                            let unitTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
-                            const creature = store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id)
-                            onUpdateBoardCreature({...creature, tileX:unitTile.x, tileY:unitTile.y})
-                            resolve(1)
-                        }
-                    })
+            await new Promise((resolve)=>{
+                this.scene.tweens.add({
+                    targets: this,    
+                    x: next.pixelX,
+                    y: next.pixelY,
+                    ease: 'Stepped',
+                    easeParams: [2],
+                    duration: 500,
+                    onComplete: ()=>{
+                        let unitTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
+                        const creature = store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id)
+                        onUpdateBoardCreature({...creature, tileX:unitTile.x, tileY:unitTile.y})
+                        resolve(1)
+                    }
                 })
+            })
         }
     }
 
     shouldSwap(creature:Card, dir:Direction){
+        if(creature.attributes.includes(Modifier.Unblockable)) return true
         const land = getLandAtEndOfLane(dir, creature.tileX, creature.tileY)
         let swaps = false
         if(land){

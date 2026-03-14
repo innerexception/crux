@@ -131,10 +131,14 @@ export enum Modifier {
     Consecrate, //When creature dies, gain 3 life
     Undying, //When dead, returns to hand,
     BeeSting, //Tap to deal 1 to target creature instead of producing mana
-    SlowReturn //Placed on top of deck when destroyed
+    SlowReturn, //Placed on top of deck when destroyed
+    DementiaCloud, //discard 1 card on death
+    Unblockable
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
+    [Modifier.Unblockable]: 'Ethereal',
+    [Modifier.DementiaCloud]: 'Fumes',
     [Modifier.SlowReturn]: 'Echo',
     [Modifier.BeeSting]: 'Swarming',
     [Modifier.Undying]: 'Undying',

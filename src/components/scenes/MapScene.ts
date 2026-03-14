@@ -718,6 +718,15 @@ export default class MapScene extends Scene {
             onUpdatePlayer({...p, deck: {...p.deck, cards: p.deck.cards.concat(card)}})
             return
         }
+        if(card.attributes.includes(Modifier.DementiaCloud)){
+            state.saveFile.currentMatch.players.forEach(pp=>{
+                pp.discard.unshift(pp.hand.splice(Phaser.Math.Between(0,pp.hand.length-1), 1)[0])
+                onUpdatePlayer({...pp})
+            })
+            onUpdateBoard(store.getState().saveFile.currentMatch.board.filter(c=>c.id !== card.id))
+            onUpdatePlayer({...state.saveFile.currentMatch.players.find(p=>p.id === card.ownerId), discard: p.discard.concat(card)})
+            return
+        }
         let board = state.saveFile.currentMatch.board
         onUpdateBoard(board.filter(c=>c.id !== card.id))
         onUpdatePlayer({...p, discard: p.discard.concat(card)})
