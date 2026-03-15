@@ -1074,6 +1074,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Blue, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Apprentice,
+        defaultAttributes:[Modifier.TowerAffinity],
         ability:{
             targets:Target.CreaturesOrPlayers,
             trigger: Triggers.AtWill,
@@ -2729,10 +2730,9 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:5,
         defaultDef:6,
         defaultMoves:1,
-        cost: [{kind:Color.Blue, amount:3},{kind:Color.None, amount:3}],
+        cost: [{kind:Color.Blue, amount:3},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes:[Modifier.Haste],
         ability: {
             targets: Target.Self,
             trigger: Triggers.OnCombat,

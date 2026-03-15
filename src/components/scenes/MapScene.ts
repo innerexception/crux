@@ -184,25 +184,13 @@ export default class MapScene extends Scene {
         else if(dat.kind === Permanents.Creature){
             if(me.dir === Direction.NORTH){
                 this.northCreatures.forEach(t=>{
-                    if(card.attributes.includes(Modifier.Timid)){
-                        if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === t.x))
-                            return
-                    }
-                    if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === t.x && c.attributes.includes(Modifier.Fearsome))){
-                        return
-                    }
-                    drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
+                    if(this.canPlaceCreatureHere(card, t))
+                        drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
                 })
             }
             else this.southCreatures.forEach(t=>{
-                    if(card.attributes.includes(Modifier.Timid)){
-                        if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === t.x))
-                            return
-                    }
-                    if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === t.x && c.attributes.includes(Modifier.Fearsome))){
-                        return
-                    }
-                    drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
+                    if(this.canPlaceCreatureHere(card, t))
+                        drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
                 })
         }
         else if(dat.kind === Permanents.Enchantment){
@@ -217,6 +205,34 @@ export default class MapScene extends Scene {
         else if(dat.kind === Permanents.Sorcery){
             this.showSorceryAbilityTargets(dat.ability, card)
         }
+    }
+
+    canPlaceCreatureHere(card:Card, t:Tilemaps.Tile) {
+        const creatures = store.getState().saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
+        if(card.attributes.includes(Modifier.Timid)){
+            if(creatures.find(c=>c.tileX === t.x))
+                return false
+        }
+        if(creatures.find(c=>c.tileX === t.x && c.attributes.includes(Modifier.Fearsome))){
+            return false
+        }
+        const laneLands = store.getState().saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land && c.tileX === t.x)
+        if(card.attributes.includes(Modifier.TowerAffinity) && !laneLands.find(l=>l.kind === CardType.Tower)){
+            return false
+        }
+        if(card.attributes.includes(Modifier.CityAffinity) && !laneLands.find(l=>l.kind === CardType.City)){
+            return false
+        }
+        if(card.attributes.includes(Modifier.DesertAffinity) && !laneLands.find(l=>l.kind === CardType.Desert)){
+            return false
+        }
+        if(card.attributes.includes(Modifier.ForestAffinity) && !laneLands.find(l=>l.kind === CardType.Forest)){
+            return false
+        }
+        if(card.attributes.includes(Modifier.SanctuaryAffinity) && !laneLands.find(l=>l.kind === CardType.Temple)){
+            return false
+        }
+        return true
     }
 
     createSelectIcon = () => {
@@ -314,29 +330,7 @@ export default class MapScene extends Scene {
                         //handle placing CREATURE from hand in open space
                         const d = getCardData(card)
                         if(d.kind !== Permanents.Creature) return //Cannot place other types in open spaces
-                        if(card.attributes.includes(Modifier.Timid)){ //Exclude specials
-                            if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === tile.x))
-                                return
-                        }
-                        if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === tile.x && c.attributes.includes(Modifier.Fearsome))){
-                            return
-                        }
-                        if(card.attributes.includes(Modifier.CityAffinity)){
-                            if(!state.saveFile.currentMatch.board.find(c=>c.kind === CardType.City && c.tileX === tile.x))
-                                return
-                        }
-                        if(card.attributes.includes(Modifier.DesertAffinity)){
-                            if(!state.saveFile.currentMatch.board.find(c=>c.kind === CardType.Desert && c.tileX === tile.x))
-                                return
-                        }
-                        if(card.attributes.includes(Modifier.ForestAffinity)){
-                            if(!state.saveFile.currentMatch.board.find(c=>c.kind === CardType.Forest && c.tileX === tile.x))
-                                return
-                        }
-                        if(card.attributes.includes(Modifier.SanctuaryAffinity)){
-                            if(!state.saveFile.currentMatch.board.find(c=>c.kind === CardType.Temple && c.tileX === tile.x))
-                                return
-                        }
+                        if(!this.canPlaceCreatureHere(card, tile)) return
             
                         if(validStartTile(tile, me.dir, false)){
                             const props = {cardId:state.selectedCardId, worldX:tile.pixelX, worldY: tile.pixelY}

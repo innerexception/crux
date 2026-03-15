@@ -71,7 +71,6 @@ interface CardEffect {
     dmgAsYourDeserts?:boolean
     destroy?:boolean
     destroyForest?:boolean
-    destroyTower?:boolean
     duration?: number //777 = until discarded
     atkUp?:number
     defUp?:number

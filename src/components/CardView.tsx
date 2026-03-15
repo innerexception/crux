@@ -49,7 +49,7 @@ export const renderEffect = (effect:CardEffect) =>
             </div>
         </div>
         }
-        {effect.cardToHandFromGY && <div>Return target card to your hand.</div>}
+        {effect.cardToHandFromGY && <div>Return target card to your hand from your graveyard</div>}
         {effect.discardAtRandom && <div>Discard a card at random.</div>}
         {effect.dmg && <div>Deal {effect.dmg} to target.</div>}
         {effect.draw && <div>Draw a card.</div>}
@@ -63,13 +63,24 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.addAttributes && <div>Creature gains {effect.addAttributes.map(m=>ModifierDesc[m]).join(' & ')}</div>}
         {effect.removeAttribute && <div>Creature loses {ModifierDesc[effect.removeAttribute]}</div>}
         {effect.addMana && <div>Add <CssIcon spriteIndex={ColorIcons[effect.addMana]}/></div>}
-        {effect.arrangeTop5Remove1 && <div>Look at enemy's top 5 and remove 1 from the fight</div>}
+        {effect.arrangeTop5Remove1 && <div>Look at enemy's top 5 and put 1 in their graveyard</div>}
         {effect.creatureToHandFromGY && <div>Return target creature to your hand from your graveyard.</div>}
         {effect.creatureToHandFromLibrary && <div>Choose a creature from your library. Shuffle.</div>}
         {effect.damageReflect && <div>Damage dealt to you is also dealt to the opposing player</div>}
         {effect.lookAtTop3 && <div>Look at the top 3 cards in target codex</div>}
         {effect.lookAtHand && <div>Look at target's hand</div>}
         {effect.tauntPlayer && <div>Opponent's non-defender creatures must move to an open lane.</div>}
-        
+        {effect.casterDmg && <div>Deal {effect.casterDmg} to yourself</div>}
+        {effect.casterHpUp && <div>You gain {effect.casterHpUp} life</div>}
+        {effect.creatureToHandFromGY && <div>Return target creature to your hand from your graveyard</div>}
+        {effect.creatureToHandFromLibrary && <div>Choose a creature from your codex and add it to your hand</div>}
+        {effect.damageReflect && <div>Damage dealt to you this round is also dealt to opponent</div>}
+        {effect.destroyForest && <div>Destroy a forest you control</div>}
+        {effect.destroyOrReturnThis && <div>Destroy target creature you control, or return this to your hand.</div>}
+        {effect.discard && <div>Choose and discard a card.</div>}
+        {effect.discardAllAndDraw && <div>Discard all cards and draw that many cards.</div>}
+        {effect.discardToDraw && <div>Discard X cards and draw X cards</div>}
+        {effect.dmgAsCreaturePower && <div>Deal damage to target equal to creature's power</div>}
+        {effect.dmgAsYourDeserts && <div>Deal damage to target equal to deserts in play</div>}
         {/* //TODO */}
     </div>

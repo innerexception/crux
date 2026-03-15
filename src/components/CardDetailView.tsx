@@ -24,7 +24,7 @@ export default (props:{card:Card}) => {
             {dat.description && <div>{dat.description}</div>}
             {props.card.attributes && props.card.attributes.map(a=><div>{ModifierDesc[a]}</div>)}
             {dat.ability && <div>
-                <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Tap}/>} {renderCost(dat.ability.cost, dat.ability.effect?.dmgX)}</div>
+                <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Activate}/>} {renderCost(dat.ability.cost, dat.ability.effect?.dmgX)}</div>
                 {dat.ability.targets && <div>Affects: {TargetsDesc[dat.ability.targets]} 
                     {dat.ability.withAttribute?" with "+ModifierDesc[dat.ability.withAttribute]:''}
                     {dat.ability.withoutAttribute ? " without "+ModifierDesc[dat.ability.withoutAttribute]:''}
