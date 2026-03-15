@@ -257,7 +257,7 @@ export enum CardType {
     MasterTactician='MasterTactician', Addict='Addict', ProtoDrake='ProtoDrake', ElderGriffin='ElderGriffin',
     SavannaLion='SavannaLion', FlashOfInsight='FlashOfInsight', CartelEnforcer='CartelEnforcer', Retribution='Retribution',
     SwordWall='SwordWall', Judgement='Judgement', CollectiveMemory='CollectiveMemory', SteadfastMonk='SteadfastMonk',
-    SavyPolitico='SavyPolitico', Redistribution='Redistribution', Riot='Riot', RhinoCharge='RhinoCharge',
+    SavyPolitico='SavyPolitico', Meritocracy='Meritocracy', Riot='Riot', RhinoCharge='RhinoCharge',
     SealFate='SealFate', Salamander='Salamander', WanderingSpirit='WanderingSpirit', LavaAxe='LavaAxe', PyroFlow='PyroFlow',
     DeepSprings='DeepSprings', WerewolfRaider='WerewolfRaider', TreeSpirits='TreeSpirits', RedwoodTreant='RedwoodTreant',
     HoodooHealer='HoodooHealer', LifeSteal='LifeSteal', Grizzly='Grizzly', GuardianAngel='GuardianAngel',

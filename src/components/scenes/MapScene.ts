@@ -621,10 +621,19 @@ export default class MapScene extends Scene {
         if(effect.addMana){
             targetPlayer.manaPool[effect.addMana]++
         }
-        if(effect.drawIfFewerCards){
+        if(effect.drawLandIfLess){
             const mylands = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land && c.ownerId === caster.id).length
             const yourlands = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land && c.ownerId !== caster.id).length
             if(mylands<yourlands) targetPlayer.hasPlayedLand = false
+        }
+        if(effect.drawIfFewerCards){
+            if(caster.hand.length < targetPlayer.hand.length){
+                for(let i=0;i<targetPlayer.hand.length-caster.hand.length;i++){
+                    if(caster.deck.cards.length > 0) 
+                        caster = {...caster, hand: caster.hand.concat(caster.deck.cards.shift()),deck:caster.deck}
+                }
+                onUpdatePlayer({...caster})
+            }
         }
         if(effect.discardAtRandom){
             for(let i=0; i<effect.discardAtRandom;i++){

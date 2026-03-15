@@ -2134,7 +2134,7 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         ability: {
             targets: Target.Creature,
-            trigger: Triggers.OnAttack,
+            trigger: Triggers.AtWill,
             effect: {
                 tap: true,
                 sprite:IconIndex.Debuff
@@ -2288,12 +2288,12 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes: [Modifier.Nimble],
         ability:null
     },
-    [CardType.Redistribution]: {
+    [CardType.Meritocracy]: {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:3},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Self,
+            targets: Target.Players,
             effect: {
                 drawIfFewerCards: true,
                 sprite: IconIndex.Buff,
