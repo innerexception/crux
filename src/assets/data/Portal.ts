@@ -2260,7 +2260,7 @@ export const Portal:Record<CardType, CardMeta> = {
             targets: Target.Self,
             effect: {
                 draw: 7,
-                discardAtRandom: 5,
+                discard: 5,
                 sprite: IconIndex.Buff,
             }
         },
@@ -2618,19 +2618,6 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         defaultAttributes:[Modifier.Nimble, Modifier.Vigilant],
         ability: null
-    },
-    [CardType.Comet]: {
-        color:Color.Red,
-        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:5}],
-        kind: Permanents.Sorcery,
-        ability: {
-            targets: Target.CreatureAndLand,
-            effect: {
-                destroy: true,
-                sprite: IconIndex.Damage,
-            }
-        },
-        sprite: CreatureSpriteIndex.Placeholder
     },
     [CardType.Genie]: {
         color:Color.Blue,

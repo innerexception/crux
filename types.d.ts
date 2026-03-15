@@ -77,6 +77,7 @@ interface CardEffect {
     defUp?:number
     whenDamaged?:boolean //procs when damage is applied to this creature
     draw?:number
+    discard?:number
     drawX?:boolean
     drawForDeserts?:boolean
     drawLandIfLess?:boolean

@@ -531,6 +531,9 @@ export default class MapScene extends Scene {
         
         //SOME Modal actions only happen on caster's client
         if(caster.id === state.myId){
+            if(effect.discard){
+                onShowModal(Modal.ViewCards, {cards: targetPlayer.hand, discard: effect.discard, targetPlayerId:targetPlayer.id})
+            }
             if(effect.lookAtTop3){
                 onShowModal(Modal.ViewCards, {cards: targetPlayer.deck.cards.slice(0,3), targetPlayerId:targetPlayer.id})
             }
