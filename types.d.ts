@@ -112,7 +112,6 @@ interface CardEffect {
     returnToHand?:boolean
     returnToBattle?:boolean
     playExtraLand?:boolean
-    taunt?:boolean //creatures may not leave this creature's lane
     tauntPlayer?:boolean //new creatures must be placed in an open lane
     resetMovement?:boolean //send all targets to starting tiles
     shuffle?:boolean

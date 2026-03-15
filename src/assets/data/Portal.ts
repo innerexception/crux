@@ -574,7 +574,7 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.HolyMonk]: {
         color:Color.White,
         defaultAtk: 1,
-        defaultDef: 1,
+        defaultDef: 2,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount: 1}],
         kind: Permanents.Creature,
         category: Category.Human,
@@ -994,7 +994,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Creature,
             effect: {
-                taunt: true,
+                addAttributes:[Modifier.Taunt],
                 sprite: IconIndex.Buff,
             }
         },
@@ -2373,9 +2373,9 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: null,
         defaultAttributes: [Modifier.Timid]
     },
-    [CardType.LavaAxe]: {
+    [CardType.MagmaBurst]: {
         color:Color.Red,
-        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:4},],
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.Players,
@@ -2386,7 +2386,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
-    [CardType.PyroFlow]: {
+    [CardType.ShiftingSands]: {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:3},],
         kind: Permanents.Sorcery,
@@ -2690,15 +2690,22 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
-    [CardType.ElephantCharge]: {
+    [CardType.FeralSpirit]: {
         color:Color.Green,
         defaultAtk:8,
         defaultDef:5,
-        defaultMoves:2,
-        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:6}],
+        defaultMoves:1,
+        cost: [{kind:Color.Green, amount:3},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        ability: null
+        defaultAttributes:[Modifier.Fearsome],
+        ability: {
+            targets: Target.AllOpponentCreatures,
+            effect: {
+                tauntPlayer: true,
+                sprite: IconIndex.Buff
+            }
+        },
     },
     [CardType.FireHydra]: {
         color:Color.Red,
