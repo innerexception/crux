@@ -1,6 +1,6 @@
 import { GameObjects } from "phaser"
 import { store } from "../../.."
-import { CardType, CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier } from "../../../enum"
+import { CardType, Color, CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier, Triggers } from "../../../enum"
 import { getCardData, getLandAtEndOfLane, resetCard, validEndTile } from "../../common/CardUtils"
 import { onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
@@ -75,6 +75,13 @@ export default class CreatureSprite extends GameObjects.Image {
                         return
                     }
 
+                    if(getCardData(target).ability.trigger === Triggers.OnCombat){
+                        this.scene.applySingleTargetCreatureEffect({creature: target, sorcery: target})
+                    }
+                    if(getCardData(thisCreature).ability.trigger === Triggers.OnCombat){
+                        this.scene.applySingleTargetCreatureEffect({creature: thisCreature, sorcery: thisCreature})
+                    }
+
                     this.fight(target)
                 }
                 return
@@ -146,13 +153,42 @@ export default class CreatureSprite extends GameObjects.Image {
         
         //1. def - atk
         if(!thisCard.tapped){
-            const defHp = target.def - thisCard.atk
-            if(defHp <= 0) this.scene.tryRemoveCreature(target)
+            if(this.hasProtectionFrom(target, thisCard)){
+                console.log('noop')
+            }
+            else {
+                const defHp = target.def - thisCard.atk
+                if(defHp <= 0) this.scene.tryRemoveCreature(target)
+            }
         }
         if(!target.tapped){
-            const atkHp = thisCard.def - target.atk
-            if(atkHp <= 0) this.scene.tryRemoveCreature(thisCard)
+            if(this.hasProtectionFrom(thisCard, target)){
+                console.log('noop')
+            }
+            else {
+                const atkHp = thisCard.def - target.atk
+                if(atkHp <= 0) this.scene.tryRemoveCreature(thisCard)
+            }
         }
+    }
+
+    hasProtectionFrom(c:Card, cc:Card) {
+        if(cc.attributes.includes(Modifier.ProtectionFromBlack) && getCardData(c).color === Color.Black){
+            return true
+        }
+        if(cc.attributes.includes(Modifier.ProtectionFromBlue) && getCardData(c).color === Color.Blue){
+            return true
+        }
+        if(cc.attributes.includes(Modifier.ProtectionFromGreen) && getCardData(c).color === Color.Green){
+            return true
+        }
+        if(cc.attributes.includes(Modifier.ProtectionFromRed) && getCardData(c).color === Color.Red){
+            return true
+        }
+        if(cc.attributes.includes(Modifier.ProtectionFromWhite) && getCardData(c).color === Color.White){
+            return true
+        }
+        return false
     }
 
     destroy(){

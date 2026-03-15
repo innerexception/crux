@@ -188,6 +188,9 @@ export default class MapScene extends Scene {
                         if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === t.x))
                             return
                     }
+                    if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === t.x && c.attributes.includes(Modifier.Fearsome))){
+                        return
+                    }
                     drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
                 })
             }
@@ -195,6 +198,9 @@ export default class MapScene extends Scene {
                     if(card.attributes.includes(Modifier.Timid)){
                         if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === t.x))
                             return
+                    }
+                    if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === t.x && c.attributes.includes(Modifier.Fearsome))){
+                        return
                     }
                     drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle)
                 })
@@ -311,6 +317,9 @@ export default class MapScene extends Scene {
                         if(card.attributes.includes(Modifier.Timid)){ //Exclude specials
                             if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === tile.x))
                                 return
+                        }
+                        if(state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Creature && c.tileX === tile.x && c.attributes.includes(Modifier.Fearsome))){
+                            return
                         }
                         if(card.attributes.includes(Modifier.CityAffinity)){
                             if(!state.saveFile.currentMatch.board.find(c=>c.kind === CardType.City && c.tileX === tile.x))
@@ -735,7 +744,8 @@ export default class MapScene extends Scene {
         if(effect.drawX){
             const x = getColorlessRemain(activePlayer.manaPool, creature)
             for(let i=0;i<x;i++){
-                activePlayer = {...activePlayer, hand: activePlayer.hand.concat(activePlayer.deck.cards.shift()),deck:activePlayer.deck}
+                if(activePlayer.deck.cards.length > 0)
+                    activePlayer = {...activePlayer, hand: activePlayer.hand.concat(activePlayer.deck.cards.shift()),deck:activePlayer.deck}
             }
             onUpdatePlayer(activePlayer)
         }

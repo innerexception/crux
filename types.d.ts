@@ -75,7 +75,6 @@ interface CardEffect {
     duration?: number //777 = until discarded
     atkUp?:number
     defUp?:number
-    whenDamaged?:boolean //procs when damage is applied to this creature
     draw?:number
     discard?:number
     drawX?:boolean

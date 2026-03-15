@@ -579,7 +579,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         category: Category.Human,
         defaultMoves: 1,
-        defaultAttributes:[Modifier.BlockerMaxPwr1],
+        defaultAttributes:[Modifier.Fearsome],
         ability: null,
         sprite: CreatureSpriteIndex.Monk
     },
@@ -1088,16 +1088,16 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.White,
         defaultAtk:2,
         defaultDef:2,
-        defaultMoves:2,
+        defaultMoves:1,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Knight2,
         ability:{
             targets:Target.ThisCreature,
+            trigger:Triggers.OnCombat,
             effect:{ 
                 defUp:3,
                 duration:1,
-                whenDamaged: true,
                 sprite: IconIndex.Buff
             }
         }
@@ -1496,6 +1496,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
+        defaultAttributes:[Modifier.Fearsome,Modifier.Timid],
         ability:null
     },
     [CardType.Cougar]: {
@@ -1530,7 +1531,8 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        ability:null
+        ability:null,
+        defaultAttributes:[Modifier.ProtectionFromBlack]
     },
     [CardType.CultLeader]: {
         color:Color.Black,
@@ -1546,7 +1548,8 @@ export const Portal:Record<CardType, CardMeta> = {
                 dmg: 3,
                 sprite: IconIndex.Damage
             }
-        }
+        },
+        defaultAttributes:[Modifier.ProtectionFromWhite]
     },
     [CardType.FieldMarshal]: {
         color:Color.White,
@@ -2718,17 +2721,17 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         defaultAtk:5,
         defaultDef:6,
-        defaultMoves:3,
+        defaultMoves:1,
         cost: [{kind:Color.Blue, amount:3},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes:[Modifier.Taunt],
+        defaultAttributes:[Modifier.Haste],
         ability: {
             targets: Target.Self,
-            trigger: Triggers.OnAttack,
+            trigger: Triggers.OnCombat,
             effect: {
                 sprite: IconIndex.Damage,
-                destroyTower: true
+                draw:1
             }
         }
     },

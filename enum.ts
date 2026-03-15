@@ -122,7 +122,6 @@ export enum Modifier {
     DesertWalk, ForestWalk, CityWalk, TowerWalk, TempleWalk, //Opposing land type means this will move over any creature it moves onto instead of triggering combat
     DesertAffinity, ForestAffinity, CityAffinity, TowerAffinity, SanctuaryAffinity, //May only be placed in a lane with this land type
     Haste, //Moves an extra time during movement phase unless combat occurs
-    BlockerMaxPwr1, //Non-defender creatures with pwr>1 may not be placed in this lane 
     Taunt, //Creatures may not leave this creature's lane.
     Ranged, //Creature may tap to deal its power to another creature in lane, up to 2 squares away
     Defender, //Does not move during movement phase
@@ -168,7 +167,6 @@ export const ModifierDesc:Record<Modifier,string> = {
     [Modifier.ProtectionFromWhite]: 'Protection from Holy',
     [Modifier.Taunt]: 'Taunt',
     [Modifier.Fearsome]: 'Fearsome',
-    [Modifier.BlockerMaxPwr1]: 'Revered',
     [Modifier.Toxic]: 'Toxic'
 }
 
