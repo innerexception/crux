@@ -195,11 +195,18 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
         if(targets === Target.Lands){
             scene.applyLandEffect(props.card, land)
         }
+        let lands = state.saveFile.currentMatch.board.filter(l=>getCardData(l).kind === Permanents.Land)
+        if(dat.ability.withColor){
+            lands = lands.filter(l=>getCardData(l).color === dat.ability.withColor)
+        }
         if(targets === Target.LandsYouControl){
-            scene.applyMultiLandEffect(props.card, state.saveFile.currentMatch.board.filter(l=>getCardData(l).kind === Permanents.Land && l.ownerId === card.ownerId))
+            scene.applyMultiLandEffect(props.card, lands.filter(l=>l.ownerId === card.ownerId))
         }
         if(targets === Target.OpponentLand){
-            scene.applyMultiLandEffect(props.card, state.saveFile.currentMatch.board.filter(l=>getCardData(l).kind === Permanents.Land && l.ownerId !== card.ownerId))
+            scene.applyMultiLandEffect(props.card, lands.filter(l=>l.ownerId !== card.ownerId))
+        }
+        if(targets === Target.AllLands){
+            scene.applyMultiLandEffect(props.card, lands)
         }
     }
     

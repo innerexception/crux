@@ -387,26 +387,28 @@ export default class MapScene extends Scene {
         if(ability.targets === Target.CreaturesYourGraveyard || ability.targets === Target.YourGraveyard){
             return onShowModal(Modal.ViewCards, { cards: me.discard, chooseType: ability.targets === Target.CreaturesYourGraveyard ? Permanents.Creature : null, targetPlayerId: me.id})
         }
-        if(ability.targets === Target.CreaturesAnyGraveyard){
-            return onShowModal(Modal.AnyGraveyard) //TODO
+
+        let lands = state.saveFile.currentMatch.board.filter(l=>getCardData(l).kind === Permanents.Land)
+        if(ability.withColor){
+            lands = lands.filter(l=>getCardData(l).color === ability.withColor)
         }
 
-        if(ability.targets === Target.Lands){
-            tiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land)
-                .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
+        if(ability.targets === Target.Lands || ability.targets === Target.AllLands){
+            
+            tiles = lands.map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
             return tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
         }
         if(ability.targets === Target.LandsYouControl){
-            tiles = state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id && getCardData(c).kind === Permanents.Land)
+            tiles = lands.filter(c=>c.ownerId === me.id)
                 .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
             return tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
         }
         if(ability.targets === Target.OpponentLand){
-            tiles = state.saveFile.currentMatch.board.filter(c=>c.ownerId !== me.id && getCardData(c).kind === Permanents.Land)
+            tiles = lands.filter(c=>c.ownerId !== me.id)
                 .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
             return tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
         }
-
+        
         if(ability.targets === Target.Self){
             if(me.dir === Direction.NORTH)
                 tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerNorth.x, this.playerNorth.y, false, undefined, Layers.Earth))
@@ -551,6 +553,9 @@ export default class MapScene extends Scene {
                 onShowModal(Modal.PickNextCard, {cards: targetPlayer.deck.cards, chooseType: Permanents.Creature, targetPlayerId:targetPlayer.id })
             }
             if(effect.cardToHandFromGY){
+                onShowModal(Modal.ViewCards, {cards: targetPlayer.discard, keep: 1, targetPlayerId:targetPlayer.id})
+            }
+            if(effect.creatureToHandFromGY){
                 onShowModal(Modal.ViewCards, {cards: targetPlayer.discard, chooseType: Permanents.Creature, keep: 1, targetPlayerId:targetPlayer.id})
             }
             if(effect.sorceryToHandFromGY){

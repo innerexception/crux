@@ -341,9 +341,9 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Sorcery,
         category: null,
         ability: {
-            targets: Target.CreaturesYourGraveyard,
+            targets: Target.Self,
             effect: {
-                cardToHandFromGY: true,
+                creatureToHandFromGY: true,
                 sprite: IconIndex.Buff
             }
         },
@@ -1568,7 +1568,7 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         }
     },
-    [CardType.LavaFlow]: {
+    [CardType.Sinkhole]: {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
@@ -1821,9 +1821,9 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:3},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Lands,
+            targets: Target.AllLands,
             effect: {
-                destroyAll: true,
+                destroy: true,
                 sprite: IconIndex.Damage,
             }
         },
@@ -1858,10 +1858,10 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:3},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Lands,
+            targets: Target.AllLands,
             withColor: Color.Blue,
             effect: {
-                destroyAll: true,
+                destroy: true,
                 sprite: IconIndex.Damage,
             }
         },
@@ -1949,11 +1949,11 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:3},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Lands,
+            targets: Target.AllLands,
             withColor: Color.White,
             effect: {
                 sprite: IconIndex.Buff,
-                destroyAll: true,
+                destroy: true,
             }
         },
         sprite: CreatureSpriteIndex.Placeholder
@@ -2682,6 +2682,19 @@ export const Portal:Record<CardType, CardMeta> = {
             effect: {
                 dmg: 4,
                 hpUp: 4,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.Erosion]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Lands,
+            effect: {
+                transformInto: CardType.Desert,
                 sprite: IconIndex.Damage,
             }
         },

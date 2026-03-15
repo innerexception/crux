@@ -96,7 +96,8 @@ export enum Target {
     CreaturesYourGraveyard='CreaturesYourGraveyard',YourGraveyard='YourGraveyard',OpponentCreature='OpponentCreature',
     CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',AllOpponentCreatures='AllOpponentCreatures',
     AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl',ThisCreature='ThisCreature',TappedCreatures='TappedCreatures',
-    CreatureAndLand='CreatureAndLand',CreaturesInLane='CreaturesInLane',OpponentLand='OpponentLand',TappedCreature='TappedCreature'
+    CreatureAndLand='CreatureAndLand',CreaturesInLane='CreaturesInLane',OpponentLand='OpponentLand',TappedCreature='TappedCreature',
+    AllLands='AllLands'
 }
 
 export enum Triggers {
@@ -172,6 +173,7 @@ export const ModifierDesc:Record<Modifier,string> = {
 }
 
 export const TargetsDesc:Record<Target,string> = {
+    [Target.AllLands]: "All lands",
     [Target.TappedCreature]: "A tapped creature",
     [Target.CreaturesInLane]: "Creatures in target's lane",
     [Target.LandsYouControl]: 'A Land you control',
@@ -241,7 +243,7 @@ export enum CardType {
     ForceOfWill='ForceOfWill', ForestSense='ForestSense', Pathfinding='Pathfinding',
     Hailstorm='Hailstorm', CursedToad='CursedToad', PSIWarrior='PSIWarrior',LabSpecimen='LabSpecimen',
     Cougar='Cougar',AcidRain='AcidRain',Unicorn='Unicorn',CultLeader='CultLeader',
-    FieldMarshal='FieldMarshal', LavaFlow='LavaFlow', HolySymbol='HolySymbol', Premonition='Premonition',
+    FieldMarshal='FieldMarshal', Sinkhole='Sinkhole', HolySymbol='HolySymbol', Premonition='Premonition',
     BurrowingWurm='BurrowingWurm', Slow='Slow', HiddenGrove='HiddenGrove', RighteousCharge='RighteousCharge',
     DebtCollection='DebtCollection', VenerableMonk='VenerableMonk', Collectivization='Collectivization',
     GraniteWall='GraniteWall', BattlePrayer='BattlePrayer', Conspiracy='Conspiracy', AirDrake='AirDrake',
@@ -263,5 +265,5 @@ export enum CardType {
     SulfurRain='SulfurRain', Derecho='Thunderhorse', RedDragon='RedDragon', Archangel='Archangel',
     Comet='Comet', Genie='Genie', ObsidianGargoyle='ObsidianGargoyle', Firestorm='Firestorm', Financier='Financier',
     ElephantCharge='ElephantCharge', FireHydra='FireHydra', Leviathan='Leviathan',ChaosServant='ChaosServant',
-    VexingRiddle='VexingRiddle',Fog='Fog'
+    VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion'
 }

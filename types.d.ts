@@ -70,7 +70,6 @@ interface CardEffect {
     dmgAsCreaturePower?:true //Damage based on sacrificed creature power
     dmgAsYourDeserts?:boolean
     destroy?:boolean
-    destroyAll?:boolean //all of target type
     destroyForest?:boolean
     destroyTower?:boolean
     duration?: number //777 = until discarded
