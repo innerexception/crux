@@ -551,7 +551,7 @@ export default class MapScene extends Scene {
                 onShowModal(Modal.PickNextCard, {cards: targetPlayer.deck.cards, chooseType: Permanents.Creature, targetPlayerId:targetPlayer.id })
             }
             if(effect.cardToHandFromGY){
-                onShowModal(Modal.ChooseFromGY)
+                onShowModal(Modal.ViewCards, {cards: targetPlayer.discard, chooseType: Permanents.Creature, keep: 1, targetPlayerId:targetPlayer.id})
             }
             if(effect.sorceryToHandFromGY){
                 onShowModal(Modal.PickNextCard, {cards: targetPlayer.discard, chooseType: Permanents.Sorcery, targetPlayerId:targetPlayer.id })
