@@ -264,6 +264,6 @@ export enum CardType {
     ShroudedApostle='ShroudedApostle', Phoenix='Phoenix', BlueDragon='BlueDragon', Megoladon='Megoladon',
     SulfurRain='SulfurRain', Derecho='Thunderhorse', RedDragon='RedDragon', Archangel='Archangel',
     Genie='Genie', ObsidianGargoyle='ObsidianGargoyle', Firestorm='Firestorm', Financier='Financier',
-    ElephantCharge='ElephantCharge', FireHydra='FireHydra', Leviathan='Leviathan',ChaosServant='ChaosServant',
+    ElephantCharge='ElephantCharge', FireHydra='FireHydra', KnowledgeAssimilator='KnowledgeAssimilator',ChaosServant='ChaosServant',
     VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion'
 }

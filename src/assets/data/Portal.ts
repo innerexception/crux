@@ -2714,14 +2714,15 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         }
     },
-    [CardType.Leviathan]: {
+    [CardType.KnowledgeAssimilator]: {
         color:Color.Blue,
-        defaultAtk:9,
-        defaultDef:9,
+        defaultAtk:5,
+        defaultDef:6,
         defaultMoves:3,
-        cost: [{kind:Color.Blue, amount:3},{kind:Color.None, amount:6}],
+        cost: [{kind:Color.Blue, amount:3},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
+        defaultAttributes:[Modifier.Taunt],
         ability: {
             targets: Target.Self,
             trigger: Triggers.OnAttack,
