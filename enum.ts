@@ -62,19 +62,19 @@ export enum CreatureSpriteIndex {
     ForestJackal=4102,Merfolk=3956,Refreshment=2218,BillyGoat=4163,ScavengingRats=4115,Memoize=1964,Brainstorm=2028,
     Necromancy=2095,FierySpear=1997,Sanctuary=93,Player1=4979,CityMage=4881,Knife=2882,Jellyfish=4104,
     ForestCall=2170,Taunt=2153,Dryad=3814,Gryphon=3846,MartyrPrayer=2083,Imp=4717,Brigand=4975,Flood=1481,
-    Wilderness=2164,Defiance=1882,Pollution=2132,Monk=4943,Law=2521,Goblin2=3860,Goblin3,Bear=4091,Knight=4371,
+    Wilderness=2164,Defiance=1882,Pollution=2132,Monk=4943,Law=2521,Goblin2=3860,Goblin3=3962,Bear=4091,Knight=4371,
     Time=1972,Mind=3834,Giant=2212,Sprite=4035,Treant=4357,Crow=3945,Volcano=1952,Hammer=3118,Lure=2562,Scroll=2800,
     Armor=2117,Heal=2125,Sun=59,Rats=2180,DesertAsetic=2291,Dragonling=3827,Thug=3910,Guard=4904,Apprentice=3889,
     Placeholder=4428,Knight2=4990,OldMage=4942,LadyMage=4948,Law2=2802,MessengerOwl=4060,Corvian=3874,MercenaryKnight=4233,
     Falconer=4048,SpiritCloud=4379,TwistedGiant=3822,DruidicWarrior=4358,DruidicAmbusher=3955,Roaches=4070,ShadowForm=4749,
-    FireImp=3951,Gorilla=4023,ArmoredTortoise=4139,Longbowmen=3783
+    FireImp=3951,Gorilla=4023,ArmoredTortoise=4139,Longbowmen=3783,Scry=1982,Blizzard=2031
 }
 
 export const PlayerAvatars = [CreatureSpriteIndex.Player1, CreatureSpriteIndex.CityMage, CreatureSpriteIndex.OldMage, CreatureSpriteIndex.LadyMage]
 
 export enum IconIndex {
     Mana=16, Options=1759, Close=37, Cancel=1734, Ok=1735, Quit=115,Sword=1902,Save=1935,
-    Damage=3302,Tap=3733,Red=2649,Blue=2667,Green=2674,Black=2663,White=2678,Gray=2736,
+    Damage=3302,Tap=3733,Red=2649,Blue=2667,Green=2674,Black=2663,White=2678,Gray=2666,
     Graveyard=45,Draw=86,Buff=3521,Debuff=3507,Activate=3609,CreateLand=2024
 }
 

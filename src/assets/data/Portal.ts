@@ -416,7 +416,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Debuff
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.Scry
     },
     [CardType.ForestCall]: {
         color:Color.Green,
@@ -915,7 +915,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Buff
             }
         },
-        sprite: CreatureSpriteIndex.FertileSoil
+        sprite: CreatureSpriteIndex.Placeholder
     },
     [CardType.Truce]: {
         color:Color.White,
@@ -957,7 +957,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 addAttributes: [Modifier.Taunt]
             }
         },
-        sprite: CreatureSpriteIndex.FertileSoil
+        sprite: CreatureSpriteIndex.Placeholder
     },
     [CardType.Fog]: {
         color:Color.Green,
@@ -971,7 +971,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 duration: 2
             }
         },
-        sprite: CreatureSpriteIndex.FertileSoil
+        sprite: CreatureSpriteIndex.Placeholder
     },
     [CardType.FireHammer]: {
         color:Color.Red,
@@ -1789,7 +1789,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Damage,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.Blizzard
     },
     [CardType.DruidLoremaster]: {
         color:Color.Green,
