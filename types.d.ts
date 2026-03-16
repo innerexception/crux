@@ -85,10 +85,8 @@ interface CardEffect {
     discardToDraw?:boolean //Discard any number to draw that number
     discardAllAndDraw?:boolean
     pacifism?:boolean //Tap targets for a duration
-    pacifyAllOfPlayer?:boolean //Creatures and lands are tapped until next untap phase
     hpPerLand?:import('./enum').CardType //entire board
     hpUp?:number
-    hpUpOnExpire?:number //Hp added when effect ends
     hpToOwner?:number
     hpPerAttacker?:boolean
     untap?:boolean
@@ -114,7 +112,6 @@ interface CardEffect {
     tauntPlayer?:boolean //new creatures must be placed in an open lane
     resetMovement?:boolean //send all targets to starting tiles
     shuffle?:boolean
-    putForestInPlay?:boolean
     lookAtTop3?:boolean
     lookAtTop3Choose1?:boolean
     lookAtHand?:boolean

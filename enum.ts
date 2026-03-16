@@ -223,7 +223,7 @@ export enum CardType {
     HolyMonk='HolyMonk',LandReform='LandReform',GoblinSargeant='GoblinSargeant',Consecrate='Consecrate',
     BlackBear='BlackBear',Hobgoblin='Hobgoblin',CatBurglar='CatBurglar',
     FaithfulKnight='FaithfulKnight',DoubleFate='DoubleFate',Dementia='Dementia',
-    Overgrowth='Overgrowth',Sprite='Sprite',NaturesPaths='NaturesPaths',
+    Overgrowth='Overgrowth',Sprite='Sprite',Gardening='Gardening',
     Omen='Omen',Dragonling='Dragonling',Treant='Treant',Eruption='Eruption',DesertAsetic='DesertAsetic',
     HeavenlyDew='HeavenlyDew', SewerRats='SewerRats',Tremors='Tremors',Sunlight='Sunlight',
     HoldTheLine='HoldTheLine',Falconer='Falconer',BloomingEarth='BloomingEarth',Truce='Truce',

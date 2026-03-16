@@ -739,15 +739,14 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: null,
         sprite: CreatureSpriteIndex.Sprite
     },
-    [CardType.NaturesPaths]: {
+    [CardType.Gardening]: {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.Self,
             effect: {
-                putForestInPlay: true,
-                shuffle: true,
+                searchForLand: CardType.Forest,
                 sprite: IconIndex.Buff
             }
         },
