@@ -794,7 +794,7 @@ export const Portal:Record<CardType, CardMeta> = {
         category: Category.Elemental,
         defaultMoves: 1,
         ability: {
-            canCancel: true,
+            required: true,
             targets: Target.LandsYouControl,
             withColor: Color.Green,
             maxOfOne: true,
@@ -1636,7 +1636,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.BurrowingWurm,
         ability:{
-            canCancel: true,
+            required: true,
             targets: Target.LandsYouControl,
             withColor: Color.Green,
             maxOfOne: true,
@@ -2437,7 +2437,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.SpiritsOfWorldTree,
         ability: {
-            canCancel: true,
+            required: true,
             targets: Target.LandsYouControl,
             withColor: Color.Green,
             maxOfOne: true,

@@ -1,4 +1,3 @@
-import Tooltip from 'rc-tooltip';
 import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { onCancelAction, onEndTurn, onSelectCard, onShowModal, onUpdatePlayer, onInspectCreature } from '../common/Thunks';
@@ -15,7 +14,15 @@ export default () => {
     const myTurn = useSelector((state:RState)=>state.saveFile.currentMatch.activePlayerId === state.saveFile.myId && !state.turnProcessing)
     const lands = useSelector((state:RState)=>state.saveFile.currentMatch.board.filter(b=>b.ownerId === me.id && getCardData(b).kind === Permanents.Land))
     const selectedCardId = useSelector((state:RState)=>state.selectedCardId)
+    const activeAbility = useSelector((state:RState)=>state.previewAbility)
     const match = useSelector((state:RState)=>state.saveFile.currentMatch)
+
+    const canCancel = () => {
+        if(!myTurn) return false
+        if(!selectedCardId) return false
+        if(activeAbility?.required) return false
+        return true
+    }
 
     const drawNext = () => {
         onUpdatePlayer({...me, 
@@ -33,7 +40,7 @@ export default () => {
                 {me.hand.map(c=>CardPreview(me, c, selectedCardId))}
             </div>
             <div style={{display:'flex', justifyContent:'flex-end', marginTop:'10px'}}>
-                <Button icon={IconIndex.Cancel} enabled={myTurn && selectedCardId ? true:false} text="Cancel" handler={()=>onCancelAction()}/>
+                <Button icon={IconIndex.Cancel} enabled={canCancel()} text="Cancel" handler={()=>onCancelAction()}/>
                 <Button icon={IconIndex.Draw} enabled={myTurn && me.deck.cards.length>0 && me.drawAllowed > 0} text="Draw" handler={()=>drawNext()}/>
                 <Button icon={IconIndex.CreateLand} enabled={myTurn && (!me.hasPlayedLand) && lands.length<6} text="Create Land" handler={()=>onShowModal(Modal.ShowLandChoices)}/>
                 <Button icon={IconIndex.Graveyard} enabled={myTurn && me.discard.length>0} text="Graveyard" handler={()=>onShowModal(Modal.ViewCards, {cards: me.discard, targetPlayerId: me.id})}/>

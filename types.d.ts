@@ -48,7 +48,7 @@ interface CardMeta {
 interface CardAbility  {
     cost?: ManaCost[]
     tap?: boolean
-    canCancel?:boolean
+    required?:boolean
     targets: import('./enum').Target
     withoutColor?:import('./enum').Color //does not affect cards of this color
     withoutAttribute?: import('./enum').Modifier
