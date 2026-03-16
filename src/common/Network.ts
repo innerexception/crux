@@ -190,24 +190,13 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
         }
     }
 
-    let land = state.saveFile.currentMatch.board.find(c=>getCardData(c).kind === Permanents.Land && c.id === props.entityId)
+    let lands = getValidLandTargets(dat.ability, card)
+    const land = lands.find(c=>c.id === props.entityId)
     if(land){
         if(targets === Target.Lands){
             scene.applyLandEffect(props.card, land)
         }
-        let lands = state.saveFile.currentMatch.board.filter(l=>getCardData(l).kind === Permanents.Land)
-        if(dat.ability.withColor){
-            lands = lands.filter(l=>getCardData(l).color === dat.ability.withColor)
-        }
-        if(targets === Target.LandsYouControl){
-            scene.applyMultiLandEffect(props.card, lands.filter(l=>l.ownerId === card.ownerId))
-        }
-        if(targets === Target.OpponentLand){
-            scene.applyMultiLandEffect(props.card, lands.filter(l=>l.ownerId !== card.ownerId))
-        }
-        if(targets === Target.AllLands){
-            scene.applyMultiLandEffect(props.card, lands)
-        }
+        else scene.applyMultiLandEffect(props.card, lands)
     }
     
     const creature = creatures.find(c=>c.id === props.entityId)
@@ -227,6 +216,25 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
         if(discard) scene.payAndDiscard(props.card)
         net_cancelPendingAction()
     }
+}
+
+const getValidLandTargets = (ability:CardAbility, card:Card) => {
+
+    let lands = store.getState().saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land)
+
+    if(ability.withColor){
+        lands = lands.filter(l=>getCardData(l).color === ability.withColor)
+    }
+    if(ability.targets === Target.LandsYouControl){
+        lands = lands.filter(l=>l.ownerId === card.ownerId)
+    }
+    if(ability.targets === Target.OpponentLand){
+        lands = lands.filter(l=>l.ownerId !== card.ownerId)
+    }
+    if(ability.maxOfOne){
+        lands = [lands[0]]
+    }
+    return lands
 }
 
 export const net_endTurn = async (match:MatchState) => {

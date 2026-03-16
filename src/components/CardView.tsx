@@ -79,7 +79,6 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.creatureToHandFromGY && <div>Return target creature to your hand from your graveyard</div>}
         {effect.creatureToHandFromLibrary && <div>Choose a creature from your codex and add it to your hand</div>}
         {effect.damageReflect && <div>Damage dealt to you this round is also dealt to opponent</div>}
-        {effect.destroyForest && <div>Destroy a forest you control</div>}
         {effect.destroyOrReturnThis && <div>Destroy target creature you control, or return this to your hand.</div>}
         {effect.discard && <div>Choose and discard a card.</div>}
         {effect.discardAllAndDraw && <div>Discard all cards and draw that many cards.</div>}

@@ -794,9 +794,12 @@ export const Portal:Record<CardType, CardMeta> = {
         category: Category.Elemental,
         defaultMoves: 1,
         ability: {
-            targets: Target.Self,
-            effect: {
-                destroyForest: true,
+            canCancel: true,
+            targets: Target.LandsYouControl,
+            withColor: Color.Green,
+            maxOfOne: true,
+            effect:{
+                destroy: true,
                 sprite: IconIndex.Buff
             }
         },
@@ -1631,11 +1634,14 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.BurrowingWurm,
         ability:{
-            targets: Target.Lands,
+            canCancel: true,
+            targets: Target.LandsYouControl,
+            withColor: Color.Green,
+            maxOfOne: true,
             effect:{
-                destroyForest: true,
+                destroy: true,
                 sprite: IconIndex.Buff
             }
         }
@@ -2309,12 +2315,12 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:3,
         defaultDef:3,
         defaultMoves:1,
-        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:4}],
+        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.Riot,
         ability: {
             targets: Target.ThisCreature,
-            trigger: Triggers.InEnemyTerritory,
+            whenAttackingLand: CardType.City,
             effect: {
                 sprite: IconIndex.Buff,
                 atkUp: 2
@@ -2422,20 +2428,23 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         ability: null
     },
-    [CardType.TreeSpirits]: {
+    [CardType.SpiritsOfWorldTree]: {
         color:Color.Green,
         defaultAtk:8,
         defaultDef:8,
         defaultMoves:1,
         cost: [{kind:Color.Green, amount:3},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.SpiritsOfWorldTree,
         ability: {
-            targets: Target.Self,
+            canCancel: true,
+            targets: Target.LandsYouControl,
+            withColor: Color.Green,
+            maxOfOne: true,
             effect: {
                 sprite: IconIndex.Damage,
-                destroyForest: true,
-                repeat: 3
+                destroy: true,
+                repeat: 2
             }
         }
     },

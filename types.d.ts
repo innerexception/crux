@@ -48,12 +48,15 @@ interface CardMeta {
 interface CardAbility  {
     cost?: ManaCost[]
     tap?: boolean
+    canCancel?:boolean
     targets: import('./enum').Target
     withoutColor?:import('./enum').Color //does not affect cards of this color
     withoutAttribute?: import('./enum').Modifier
     withColor?:import('./enum').Color //only affect cards of this color
     withAttribute?: import('./enum').Modifier
     withCategory?: import('./enum').Category
+    whenAttackingLand?: import('./enum').CardType
+    maxOfOne?:boolean //Max targets affected
     def3orLess?:boolean //targets creatures with def 3 or less
     trigger?: import('./enum').Triggers //default is onEnter
     conditionalSpend?: import('./enum').Color //ability only triggers if this color was spent
@@ -70,7 +73,6 @@ interface CardEffect {
     dmgAsCreaturePower?:true //Damage based on sacrificed creature power
     dmgAsYourDeserts?:boolean
     destroy?:boolean
-    destroyForest?:boolean
     duration?: number //777 = until discarded
     atkUp?:number
     defUp?:number

@@ -22,6 +22,7 @@ export const getValidCreatureTargets = (ability:CardAbility, card:Card) => {
     if(ability.def3orLess) creatures = creatures.filter(c=>c.def<=3)
     if(ability.withoutColor) creatures = creatures.filter(c=>getCardData(c).color !== ability.withoutColor)
     if(ability.withColor) creatures = creatures.filter(c=>getCardData(c).color === ability.withColor)
+    if(ability.whenAttackingLand) creatures = creatures.filter(c=>c.kind === ability.whenAttackingLand)
     if(ability.withAttribute) creatures = creatures.filter(c=>c.attributes.includes(ability.withAttribute))
     if(ability.withoutAttribute) creatures = creatures.filter(c=>!c.attributes.includes(ability.withoutAttribute))
     if(ability.withCategory) creatures = creatures.filter(c=>getCardData(c).category===ability.withCategory)
@@ -52,6 +53,10 @@ export const getValidCreatureTargets = (ability:CardAbility, card:Card) => {
         creatures = creatures.filter(c=>!c.attributes.includes(Modifier.ProtectionFromGreen))
     }
     
+    if(ability.maxOfOne){
+        return [creatures[0]]
+    }
+
     return creatures
 }
 
