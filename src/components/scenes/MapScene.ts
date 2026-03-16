@@ -821,6 +821,18 @@ export default class MapScene extends Scene {
             onUpdatePlayer({...state.saveFile.currentMatch.players.find(p=>p.id === card.ownerId), discard: p.discard.concat(card)})
             return
         }
+        
+        if(card.kind === CardType.SandElemental){
+            const lland = state.saveFile.currentMatch.board.find(c=>c.tileX === card.tileX && getCardData(c).kind === Permanents.Land)
+            if(lland){
+                this.tryRemoveCreature(lland)
+            }
+            onUpdateBoard(store.getState().saveFile.currentMatch.board.filter(c=>c.id !== card.id))
+            onUpdatePlayer({...state.saveFile.currentMatch.players.find(p=>p.id === card.ownerId), discard: p.discard.concat(card)})
+            return
+        }
+
+
         let board = state.saveFile.currentMatch.board
         onUpdateBoard(board.filter(c=>c.id !== card.id))
         onUpdatePlayer({...p, discard: p.discard.concat(card)})

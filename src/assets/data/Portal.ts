@@ -1406,7 +1406,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
-    [CardType.MinotaurServant]: {
+    [CardType.DrometaurSpearhand]: {
         color:Color.Red,
         defaultAtk:2,
         defaultDef:3,
@@ -1414,7 +1414,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:1}],
         category: Category.Beastkin,
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.DrometaurSpearhand
     },
     [CardType.ForceOfWill]: {
         color:Color.Blue,
@@ -2334,9 +2334,9 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:4,
         defaultDef:4,
         defaultMoves:1,
-        cost: [{kind:Color.Green, amount:2},{kind:Color.None, amount:3}],
+        cost: [{kind:Color.Green, amount:2},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.RhinoCharge,
         ability: null,
         defaultAttributes:[Modifier.Fearsome]
     },
@@ -2353,14 +2353,14 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
-    [CardType.Salamander]: {
+    [CardType.SandElemental]: {
         color:Color.Red,
         defaultAtk:3,
         defaultDef:1,
         defaultMoves:1,
-        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:4}],
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.SandElemental,
         ability: {
             targets: Target.Lands,
             trigger: Triggers.OnDeath,
@@ -2611,15 +2611,15 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         }
     },
-    [CardType.RedDragon]: {
+    [CardType.BallLightning]: {
         color:Color.Red,
         defaultAtk:4,
         defaultDef:4,
         defaultMoves:2,
-        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:5}],
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes:[Modifier.Nimble],
+        sprite: CreatureSpriteIndex.BallLightning,
+        defaultAttributes:[Modifier.Nimble, Modifier.Haste],
         ability: null
     },
     [CardType.Archangel]: {
@@ -2661,7 +2661,7 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         }
     },
-    [CardType.Firestorm]: {
+    [CardType.Comet]: {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:5}],
         kind: Permanents.Sorcery,

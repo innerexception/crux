@@ -71,7 +71,7 @@ export const getAIPlayer = ():PlayerState => {
 }
 
 export const canAfford = (mana:Record<Color,number>, c:Card) => {
-    if(c.kind === CardType.MercenaryCaptain){
+    if(c.kind === CardType.MercenaryCaptain || c.kind === CardType.CircleOfLife){
         if(!store.getState().saveFile.currentMatch.board.find(cc=>getCardData(cc).kind === Permanents.Creature && cc.ownerId === c.ownerId)){
             return false
         }

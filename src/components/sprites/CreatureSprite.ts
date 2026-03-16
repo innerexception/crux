@@ -33,6 +33,7 @@ export default class CreatureSprite extends GameObjects.Image {
     tryMoveNext = async () => {
         let state = store.getState().saveFile.currentMatch
         let thisCreature = state.board.find(c=>c.id === this.id)
+        if(!thisCreature) return
         let owner = state.players.find(p=>p.id === thisCreature.ownerId)
         let haste = thisCreature.attributes.includes(Modifier.Haste)
         if(thisCreature.tapped) return //Tapped creatures don't move

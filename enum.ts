@@ -68,7 +68,7 @@ export enum CreatureSpriteIndex {
     Placeholder=4428,Knight2=4990,OldMage=4942,LadyMage=4948,Law2=2802,MessengerOwl=4060,Corvian=3874,MercenaryKnight=4233,
     Falconer=4048,SpiritCloud=4379,TwistedGiant=3822,DruidicWarrior=4358,DruidicAmbusher=3955,Roaches=4070,ShadowForm=4749,
     FireImp=3951,Gorilla=4023,ArmoredTortoise=4139,Longbowmen=3783,Scry=1982,Blizzard=2031,Riot=3902,SpiritsOfWorldTree=6038,
-    BurrowingWurm=4075,MercenaryCaptain=3854
+    BurrowingWurm=4075,MercenaryCaptain=3854,DrometaurSpearhand=3984,SandElemental=1214,RhinoCharge=4047,BallLightning=4378
 }
 
 export const PlayerAvatars = [CreatureSpriteIndex.Player1, CreatureSpriteIndex.CityMage, CreatureSpriteIndex.OldMage, CreatureSpriteIndex.LadyMage]
@@ -239,7 +239,7 @@ export enum CardType {
     ShadowForm='ShadowForm', FireImp='FireImp', Cycle='Cycle', Gorilla='Gorilla',
     CullWeaklings='CullWeaklings', Justice='Justice', ArmoredTortoise='ArmoredTortoise',
     ContractKiller='ContractKilling', Longbowmen='Longbowmen', Assassin='Assassin',
-    Sophist='Sophist', MercenaryCaptain='MercenaryCaptain', Hypnotize='Hypnotize', MinotaurServant='MinotaurServant',
+    Sophist='Sophist', MercenaryCaptain='MercenaryCaptain', Hypnotize='Hypnotize', DrometaurSpearhand='DrometaurSpearhand',
     ForceOfWill='ForceOfWill', ForestSense='ForestSense', Pathfinding='Pathfinding',
     Hailstorm='Hailstorm', CursedToad='CursedToad', PSIWarrior='PSIWarrior',LabSpecimen='LabSpecimen',
     Cougar='Cougar',AcidRain='AcidRain',Unicorn='Unicorn',CultLeader='CultLeader',
@@ -258,12 +258,12 @@ export enum CardType {
     SavannaLion='SavannaLion', FlashOfInsight='FlashOfInsight', CartelEnforcer='CartelEnforcer', Retribution='Retribution',
     SwordWall='SwordWall', Judgement='Judgement', CollectiveMemory='CollectiveMemory', SteadfastMonk='SteadfastMonk',
     SavyPolitico='SavyPolitico', Meritocracy='Meritocracy', Riot='Riot', RhinoCharge='RhinoCharge',
-    SealFate='SealFate', Salamander='Salamander', WanderingSpirit='WanderingSpirit', MagmaBurst='MagmaBurst', ShiftingSands='ShiftingSands',
+    SealFate='SealFate', SandElemental='SandElemental', WanderingSpirit='WanderingSpirit', MagmaBurst='MagmaBurst', ShiftingSands='ShiftingSands',
     DeepSprings='DeepSprings', WerewolfRaider='WerewolfRaider', SpiritsOfWorldTree='TreeSpirits', RedwoodTreant='RedwoodTreant',
     HoodooHealer='HoodooHealer', LifeSteal='LifeSteal', Grizzly='Grizzly', GuardianAngel='GuardianAngel',
     ShroudedApostle='ShroudedApostle', Phoenix='Phoenix', BlueDragon='BlueDragon', Megoladon='Megoladon',
-    SulfurRain='SulfurRain', Derecho='Thunderhorse', RedDragon='RedDragon', Archangel='Archangel',
-    Genie='Genie', ObsidianGargoyle='ObsidianGargoyle', Firestorm='Firestorm', Financier='Financier',
+    SulfurRain='SulfurRain', Derecho='Thunderhorse', BallLightning='BallLightning', Archangel='Archangel',
+    Genie='Genie', ObsidianGargoyle='ObsidianGargoyle', Comet='Comet', Financier='Financier',
     FeralSpirit='FeralSpirit', FireHydra='FireHydra', KnowledgeAssimilator='KnowledgeAssimilator',ChaosServant='ChaosServant',
     VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion'
 }
