@@ -235,7 +235,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 draw: 1
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.MessengerOwl
     },
     [CardType.Refreshment]: {
         color:Color.Green,
@@ -387,7 +387,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         defaultMoves: 1,
         ability: null,
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.Corvian
     },
     [CardType.DustStorm]: {
         color:Color.Red,
@@ -402,7 +402,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Damage
             }
         },
-        sprite: CreatureSpriteIndex.Sandstorm
+        sprite: CreatureSpriteIndex.Placeholder
     },
     [CardType.Scry]: {
         color:Color.Blue,
@@ -416,7 +416,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Debuff
             }
         },
-        sprite: CreatureSpriteIndex.Brainstorm
+        sprite: CreatureSpriteIndex.Placeholder
     },
     [CardType.ForestCall]: {
         color:Color.Green,
@@ -503,7 +503,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: null,
         sprite: CreatureSpriteIndex.Imp
     },
-    [CardType.FaithlessKnight]: {
+    [CardType.MercenaryKnight]: {
         color:Color.Black,
         defaultAtk: 2,
         defaultDef: 2,
@@ -513,7 +513,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves: 1,
         defaultAttributes:[Modifier.Timid],
         ability: null,
-        sprite: CreatureSpriteIndex.Brigand
+        sprite: CreatureSpriteIndex.MercenaryKnight
     },
     [CardType.FlashFlood]: {
         color:Color.Red,
@@ -902,7 +902,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes:[Modifier.Nimble],
         defaultMoves: 1,
         ability: null,
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.Falconer
     },
     [CardType.BloomingEarth]: {
         color:Color.Green,
@@ -997,7 +997,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Buff,
             }
         },
-        sprite: CreatureSpriteIndex.Lure
+        sprite: CreatureSpriteIndex.Placeholder
     },
     [CardType.AngelicTouch]: {
         color:Color.White,
@@ -1013,7 +1013,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Buff,
             }
         },
-        sprite: CreatureSpriteIndex.Lure
+        sprite: CreatureSpriteIndex.Placeholder
     },
     [CardType.PiercingStare]: {
         color:Color.Blue,
@@ -1027,7 +1027,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Buff,
             }
         },
-        sprite: CreatureSpriteIndex.Lure
+        sprite: CreatureSpriteIndex.Placeholder
     },
     [CardType.FlashOfLight]: {
         color:Color.White,
@@ -1041,7 +1041,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Buff,
             }
         },
-        sprite: CreatureSpriteIndex.Lure
+        sprite: CreatureSpriteIndex.Placeholder
     },
     [CardType.StreetThugs]: {
         color:Color.Black,
@@ -1109,7 +1109,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.SpiritCloud,
         defaultAttributes:[Modifier.Nimble, Modifier.Timid],
         ability: null
     },
@@ -1134,7 +1134,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Red, amount:2}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.TwistedGiant,
         defaultAttributes:[Modifier.Timid],
         ability: null
     },
@@ -1186,7 +1186,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.DruidicWarrior,
         defaultAttributes:[Modifier.ForestWalk],
         ability: null
     },
@@ -1198,7 +1198,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
         defaultAttributes:[Modifier.Ranged],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.DruidicAmbusher,
         ability: null
     },
     [CardType.Roaches]: {
@@ -1208,7 +1208,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.Roaches,
         defaultAttributes: [Modifier.Undying]
     },
     [CardType.Thunderclap]: {
@@ -1231,7 +1231,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.ShadowForm,
         ability:null,
         defaultAttributes:[Modifier.Nimble] 
     },
@@ -1242,7 +1242,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.FireImp,
         ability:{
             targets: Target.Creature,
             effect: {
@@ -1272,7 +1272,7 @@ export const Portal:Record<CardType, CardMeta> = {
         category: Category.Beast,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.Gorilla,
         ability:null
     },
     [CardType.CullWeaklings]: {
@@ -1309,7 +1309,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.ArmoredTortoise,
         ability:null
     },
     [CardType.ContractKiller]: {
@@ -1333,7 +1333,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.Longbowmen,
         defaultAttributes:[Modifier.Ranged],
         ability:null
     },
