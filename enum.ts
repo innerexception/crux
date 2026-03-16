@@ -68,7 +68,7 @@ export enum CreatureSpriteIndex {
     Placeholder=4428,Knight2=4990,OldMage=4942,LadyMage=4948,Law2=2802,MessengerOwl=4060,Corvian=3874,MercenaryKnight=4233,
     Falconer=4048,SpiritCloud=4379,TwistedGiant=3822,DruidicWarrior=4358,DruidicAmbusher=3955,Roaches=4070,ShadowForm=4749,
     FireImp=3951,Gorilla=4023,ArmoredTortoise=4139,Longbowmen=3783,Scry=1982,Blizzard=2031,Riot=3902,SpiritsOfWorldTree=6038,
-    BurrowingWurm=4075
+    BurrowingWurm=4075,MercenaryCaptain=3854
 }
 
 export const PlayerAvatars = [CreatureSpriteIndex.Player1, CreatureSpriteIndex.CityMage, CreatureSpriteIndex.OldMage, CreatureSpriteIndex.LadyMage]
@@ -80,7 +80,7 @@ export enum IconIndex {
 }
 
 export enum Color {
-    Red='red',Blue='blue',Green='green',Black='black',White='white',None='gray'
+    Red='red',Blue='blue',Green='green',Black='gray',White='white',None='black'
 }
 
 export enum Category {
@@ -239,7 +239,7 @@ export enum CardType {
     ShadowForm='ShadowForm', FireImp='FireImp', Cycle='Cycle', Gorilla='Gorilla',
     CullWeaklings='CullWeaklings', Justice='Justice', ArmoredTortoise='ArmoredTortoise',
     ContractKiller='ContractKilling', Longbowmen='Longbowmen', Assassin='Assassin',
-    Sophist='Sophist', Mercenary='Mercenary', Hypnotize='Hypnotize', MinotaurServant='MinotaurServant',
+    Sophist='Sophist', MercenaryCaptain='MercenaryCaptain', Hypnotize='Hypnotize', MinotaurServant='MinotaurServant',
     ForceOfWill='ForceOfWill', ForestSense='ForestSense', Pathfinding='Pathfinding',
     Hailstorm='Hailstorm', CursedToad='CursedToad', PSIWarrior='PSIWarrior',LabSpecimen='LabSpecimen',
     Cougar='Cougar',AcidRain='AcidRain',Unicorn='Unicorn',CultLeader='CultLeader',

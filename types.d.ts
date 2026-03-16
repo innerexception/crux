@@ -71,7 +71,7 @@ interface CardEffect {
     damageReflect?:boolean //Damage done to player is applied to creature owner as well
     dmgX?:boolean
     dmgAsCreaturePower?:true //Damage based on sacrificed creature power
-    dmgAsYourDeserts?:boolean
+    dmgAsDeserts?:boolean
     destroy?:boolean
     duration?: number //777 = until discarded
     atkUp?:number
@@ -101,13 +101,12 @@ interface CardEffect {
     searchCardForTop?:boolean
     searchForLand?: import('./enum').CardType //Goes into play instantly
     sorceryToHandFromGY?:boolean
-    creatureToHandFromLibrary?:boolean
+    creatureToHandFromCodex?:boolean
     cardToHandFromGY?:boolean
     creatureToHandFromGY?:boolean
     arrangeTop5Remove1?:boolean
     addAttributes?: import('./enum').Modifier[]
     sprite: import('./enum').IconIndex
-    destroyOrReturnThis?:boolean //destroy a creature you control or return this to your
     returnToHand?:boolean
     returnToBattle?:boolean
     playExtraLand?:boolean

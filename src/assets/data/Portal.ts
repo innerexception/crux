@@ -863,7 +863,7 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Creature,
             effect: {
-                dmgAsYourDeserts: true,
+                dmgAsDeserts: true,
                 sprite: IconIndex.Damage
             }
         },
@@ -1376,18 +1376,19 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         }
     },
-    [CardType.Mercenary]: {
+    [CardType.MercenaryCaptain]: {
         color:Color.Black,
         defaultAtk:4,
         defaultDef:4,
         defaultMoves:1,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.MercenaryCaptain,
         ability:{
             targets: Target.CreatureYouControl,
+            required: true,
             effect: {
-                destroyOrReturnThis: true,
+                destroy: true,
                 sprite: IconIndex.Debuff
             }
         }
@@ -2063,10 +2064,11 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.Creature,
+            required: true,
             effect: {
                 destroy: true,
                 sprite: IconIndex.Damage,
-                creatureToHandFromLibrary: true
+                creatureToHandFromCodex: true
             }
         },
         sprite: CreatureSpriteIndex.Placeholder
@@ -2729,7 +2731,7 @@ export const Portal:Record<CardType, CardMeta> = {
             targets: Target.Creature,
             effect: {
                 sprite: IconIndex.Damage,
-                dmgAsYourDeserts: true
+                dmgAsDeserts: true
             }
         }
     },

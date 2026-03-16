@@ -1,9 +1,10 @@
 import { GameObjects, Geom, Scene } from "phaser"
-import { Color, CreatureSpriteIndex, Direction, Layers, Permanents } from "../../enum"
+import { CardType, Color, CreatureSpriteIndex, Direction, Layers, Permanents } from "../../enum"
 import MapScene from "../components/scenes/MapScene"
 import { getAIDeck, getCardData, getFreshLands } from "./CardUtils"
 import { SAVE_NAMES } from "./UIReducer"
 import{ v4 } from 'uuid'
+import { store } from "../.."
 
 export const emptyMana = {
     [Color.Black]:0,
@@ -70,6 +71,11 @@ export const getAIPlayer = ():PlayerState => {
 }
 
 export const canAfford = (mana:Record<Color,number>, c:Card) => {
+    if(c.kind === CardType.MercenaryCaptain){
+        if(!store.getState().saveFile.currentMatch.board.find(cc=>getCardData(cc).kind === Permanents.Creature && cc.ownerId === c.ownerId)){
+            return false
+        }
+    }
     const cost = getCardData(c).cost
     if(cost){
         const colorlessCost = cost.find(c=>c.kind === Color.None)

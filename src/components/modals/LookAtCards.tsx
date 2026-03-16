@@ -9,13 +9,16 @@ import { sendUpdate } from '../../common/Network';
 export default () => {
     const data = useSelector((state:RState)=>state.modalData)
     const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.modalData.targetPlayerId))
+    const match = useSelector((state:RState)=>state.saveFile.currentMatch)
 
     const addCardToHand = (c:Card) => {
         onUpdatePlayer({...me, 
             hand: me.hand.concat(c), 
             deck: {...me.deck, cards: me.deck.cards.filter(d=>d.id !== c.id)}
         })
-        sendUpdate()
+        if(!match.players.find(p=>p.isAI))
+            sendUpdate()
+
         onShowModal(null)
     }
 
@@ -24,7 +27,9 @@ export default () => {
             hand: me.hand.filter(c=>c.id !== c.id), 
             discard: me.discard.concat(c)
         })
-        sendUpdate()
+        if(!match.players.find(p=>p.isAI))
+            sendUpdate()
+
         onShowModal(null)
     }
 

@@ -69,7 +69,6 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.addMana && <div>Add <CssIcon spriteIndex={ColorIcons[effect.addMana]}/></div>}
         {effect.arrangeTop5Remove1 && <div>Look at enemy's top 5 and put 1 in their graveyard</div>}
         {effect.creatureToHandFromGY && <div>Return target creature to your hand from your graveyard.</div>}
-        {effect.creatureToHandFromLibrary && <div>Choose a creature from your library. Shuffle.</div>}
         {effect.damageReflect && <div>Damage dealt to you is also dealt to the opposing player</div>}
         {effect.lookAtTop3 && <div>Look at the top 3 cards in target codex</div>}
         {effect.lookAtHand && <div>Look at target's hand</div>}
@@ -77,14 +76,13 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.casterDmg && <div>Deal {effect.casterDmg} to yourself</div>}
         {effect.casterHpUp && <div>You gain {effect.casterHpUp} life</div>}
         {effect.creatureToHandFromGY && <div>Return target creature to your hand from your graveyard</div>}
-        {effect.creatureToHandFromLibrary && <div>Choose a creature from your codex and add it to your hand</div>}
+        {effect.creatureToHandFromCodex && <div>Choose a creature from your codex and add it to your hand</div>}
         {effect.damageReflect && <div>Damage dealt to you this round is also dealt to opponent</div>}
-        {effect.destroyOrReturnThis && <div>Destroy target creature you control, or return this to your hand.</div>}
         {effect.discard && <div>Choose and discard a card.</div>}
         {effect.discardAllAndDraw && <div>Discard all cards and draw that many cards.</div>}
         {effect.discardToDraw && <div>Discard X cards and draw X cards</div>}
         {effect.dmgAsCreaturePower && <div>Deal damage to target equal to creature's power</div>}
-        {effect.dmgAsYourDeserts && <div>Deal damage to target equal to deserts in play</div>}
+        {effect.dmgAsDeserts && <div>Deal damage to target equal to deserts in play</div>}
         {effect.extraTurn && <div>Take another turn. Then you lose the game.</div>}
         {effect.hp3perBlackCreature && <div>Gain 3 life per City creature in play</div>}
         {effect.hpPerAttacker && <div>Gain 1 life per non-defender creature opponent controls</div>}

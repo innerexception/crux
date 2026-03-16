@@ -473,7 +473,7 @@ export default class MapScene extends Scene {
             onUpdateBoardCreature({...props.creature})
         }
         
-        this.applyCreatureEffect(props.creature, dat.ability.effect)
+        this.applyCreatureEffect(props.creature, props.sorcery)
         this.hideCardTargets()
     }
 
@@ -564,6 +564,9 @@ export default class MapScene extends Scene {
             if(effect.creatureToHandFromGY){
                 onShowModal(Modal.ViewCards, {cards: targetPlayer.discard, chooseType: Permanents.Creature, keep: 1, targetPlayerId:targetPlayer.id})
             }
+            if(effect.creatureToHandFromCodex){
+                onShowModal(Modal.ViewCards, {cards: targetPlayer.deck.cards, chooseType: Permanents.Creature, keep: 1, targetPlayerId:targetPlayer.id})
+            }
             if(effect.sorceryToHandFromGY){
                 onShowModal(Modal.PickNextCard, {cards: targetPlayer.discard, chooseType: Permanents.Sorcery, targetPlayerId:targetPlayer.id })
             }
@@ -598,6 +601,10 @@ export default class MapScene extends Scene {
         if(effect.dmgX){
             const x = getColorlessRemain(caster.manaPool, card)
             targetPlayer.hp-=x
+        }
+        if(effect.dmgAsDeserts){
+            const deserts = state.currentMatch.board.filter(c=>c.kind === CardType.Desert)
+            targetPlayer.hp-=deserts.length
         }
         if(effect.hpUp){
             targetPlayer.hp+=effect.hpUp
@@ -660,16 +667,22 @@ export default class MapScene extends Scene {
         onUpdatePlayer({...targetPlayer})
     }
 
-    applyCreatureEffect(creature:Card, effect:CardEffect) {
+    applyCreatureEffect(creature:Card, sorcery:Card) {
         const state = store.getState()
         let activePlayer = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.currentMatch.activePlayerId)
+        let caster = state.saveFile.currentMatch.players.find(p=>p.id === sorcery.ownerId)
+        const effect = getCardData(sorcery).ability.effect
         
         if(effect.resetMovement){
             const spr = this.creatures.find(c=>c.id === creature.id)
             spr.resetPosition()
             return
         }
-
+        if(caster.id === state.saveFile.myId){
+            if(effect.creatureToHandFromCodex){
+                onShowModal(Modal.ViewCards, {cards: caster.deck.cards, chooseType: Permanents.Creature, keep: 1, targetPlayerId:caster.id})
+            }
+        }
         if(effect.tauntPlayer){
             //If creature has an enemy creature in lane
             const enemy = state.saveFile.currentMatch.board.find(c=>c.tileX === creature.tileX && creature.ownerId !== c.ownerId)
@@ -694,6 +707,11 @@ export default class MapScene extends Scene {
 
         if(effect.returnToHand){
             return this.creatures.find(c=>c.id === creature.id).returnToHand()
+        }
+
+        if(effect.hpToOwner){
+            let owner = state.saveFile.currentMatch.players.find(p=>p.id === creature.ownerId)
+            onUpdatePlayer({...owner, hp: owner.hp+effect.hpToOwner})
         }
 
         if(effect.returnToBattle){
@@ -730,6 +748,10 @@ export default class MapScene extends Scene {
         if(effect.dmgX){
             const x = getColorlessRemain(activePlayer.manaPool, creature)
             creature.def-=x
+        }
+        if(effect.dmgAsDeserts){
+            const deserts = state.saveFile.currentMatch.board.filter(c=>c.kind === CardType.Desert)
+            creature.def-=deserts.length
         }
         if(effect.draw && activePlayer.deck.cards.length > 0){
             activePlayer = {...activePlayer, hand: activePlayer.hand.concat(activePlayer.deck.cards.shift()),deck:activePlayer.deck}
