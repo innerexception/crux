@@ -163,7 +163,6 @@ export default class CreatureSprite extends GameObjects.Image {
             
         this.scene.flashIcon(myTile.pixelX, myTile.pixelY, IconIndex.Sword)
         
-        //1. def - atk
         if(!thisCard.tapped){
             if(this.hasProtectionFrom(target, thisCard)){
                 console.log('noop')
@@ -176,6 +175,9 @@ export default class CreatureSprite extends GameObjects.Image {
                         onUpdatePlayer({...owner})
                     }
                     this.scene.tryRemoveCreature(target)
+                    if(thisCard.attributes.includes(Modifier.Retribution)){
+                        this.scene.tryRemoveCreature(thisCard)
+                    }
                 } 
             }
         }
@@ -185,7 +187,16 @@ export default class CreatureSprite extends GameObjects.Image {
             }
             else {
                 const atkHp = thisCard.def - target.atk
-                if(atkHp <= 0) this.scene.tryRemoveCreature(thisCard)
+                if(atkHp <= 0){
+                    if(getCardData(target).ability?.effect.casterHpUpOnKill){
+                        owner.hp+=getCardData(target).ability?.effect.casterHpUpOnKill
+                        onUpdatePlayer({...owner})
+                    }
+                    this.scene.tryRemoveCreature(thisCard)
+                    if(target.attributes.includes(Modifier.Retribution)){
+                        this.scene.tryRemoveCreature(target)
+                    }
+                } 
             }
         }
     }

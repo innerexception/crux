@@ -2234,7 +2234,8 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.AllCreatures,
             effect: {
-                retribution: true,
+                duration:1,
+                addAttributes:[Modifier.Retribution],
                 sprite: IconIndex.Damage,
             }
         },

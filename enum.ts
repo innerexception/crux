@@ -137,10 +137,12 @@ export enum Modifier {
     SlowReturn, //Placed on top of deck when destroyed
     DementiaCloud, //discard 1 card on death
     Unblockable,
-    GreenProducer
+    GreenProducer,
+    Retribution
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
+    [Modifier.Retribution]: 'Retribution',
     [Modifier.GreenProducer]: 'Greening',
     [Modifier.Unblockable]: 'Ethereal',
     [Modifier.DementiaCloud]: 'Fumes',

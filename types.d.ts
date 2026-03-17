@@ -124,7 +124,6 @@ interface CardEffect {
     hp3perBlackCreature?:boolean
     lightningSpecial?:boolean
     transformInto?: import('./enum').CardType
-    retribution?:boolean //creatures that destroy a creature during the next combat are destroyed
 }
 
 interface Deck {

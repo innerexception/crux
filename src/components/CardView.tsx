@@ -92,7 +92,6 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.lookAtTop3Choose1 && <div>Look at the top 3 card of your codex and choose one to put into your hand</div>}
         {effect.playExtraLand && <div>You may play another land this turn</div>}
         {effect.resetMovement && <div>Send all creatures back to their starting tiles</div>}
-        {effect.retribution && <div>Destroy all creatures that destroy a creature during the next combat</div>}
         {effect.returnToBattle && <div>Return target creature from your graveyard to the battle</div>}
         {effect.returnToHand && <div>Return target creature to owner's hand</div>}
         {effect.shuffle && <div>Shuffle your codex</div>}
