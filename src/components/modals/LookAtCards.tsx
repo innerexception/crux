@@ -1,10 +1,11 @@
 import * as React from 'react'
 import AppStyles from '../../styles/AppStyles';
-import { onShowModal, onUpdatePlayer } from '../../common/Thunks';
+import { onSelectCard, onShowModal, onUpdateBoard, onUpdatePlayer } from '../../common/Thunks';
 import { useSelector } from 'react-redux';
 import CardView from '../CardView';
 import { Button } from '../../common/Shared';
-import { sendUpdate } from '../../common/Network';
+import { net_addCard, sendAddCardEffect, sendUpdate } from '../../common/Network';
+import { store } from '../../..';
 
 export default () => {
     const data = useSelector((state:RState)=>state.modalData)
@@ -22,6 +23,11 @@ export default () => {
         onShowModal(null)
     }
 
+    const addCardToBoard = (c:Card) => {
+        onSelectCard(c)
+        onShowModal(null)
+    }
+
     const discardCard = (c:Card) => {
         onUpdatePlayer({...me, 
             hand: me.hand.filter(c=>c.id !== c.id), 
@@ -36,6 +42,7 @@ export default () => {
     const getHandler = (c:Card) => {
         if(data.keep) return ()=>addCardToHand(c)
         if(data.discard) return ()=>discardCard(c)
+        if(data.play) return ()=>addCardToBoard(c)
         return null
     }
 

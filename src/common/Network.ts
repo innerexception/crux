@@ -54,7 +54,7 @@ export const sendEndTurn = (match:MatchState) => {
     onTurnProcessing(true)
 }
 
-export const sendAddCardEffect = (props:{cardId:string, worldX:number,worldY:number}) => {
+export const sendAddCardEffect = (props:{cardId:string, worldX:number,worldY:number, fromGY?:boolean}) => {
     sendMessage(NetworkEvent.AddCard, props)
 }
 
@@ -74,8 +74,8 @@ export const sendTriggerCardAbility = (props:{card:Card, entityId:string, discar
     sendMessage(NetworkEvent.TriggerAbility, props)
 }
 
-export const sendUpdate = () => {
-    sendMessage(NetworkEvent.Update, store.getState().saveFile.currentMatch)
+export const sendUpdate = (refresh?:boolean) => {
+    sendMessage(NetworkEvent.Update, {match: store.getState().saveFile.currentMatch, refresh})
 }
 
 const sendMessage = async (event:NetworkEvent, data:any) => {
@@ -292,23 +292,31 @@ export const net_tapLand = (card:Card) => {
     //TODO add exausted icon to card
 }
 
-export const net_addCard = (props:{cardId:string, worldX:number,worldY:number}) => {
+export const net_addCard = (props:{cardId:string, worldX:number,worldY:number, fromGY?:boolean}) => {
     const scene = store.getState().scene
     scene.creaturePreview?.destroy()
     onSelectCard(null)
     let state = store.getState().saveFile
     const me = state.currentMatch.players.find(p=>p.id === state.currentMatch.activePlayerId)
     let card = me.hand.find(c=>c.id === props.cardId)
+    if(props.fromGY) card = me.discard.find(c=>c.id === props.cardId)
     if(!card) card = state.currentMatch.lands.find(l=>l.id === props.cardId)
     const data = getCardData(card)
     if(data.kind === Permanents.Land) me.hasPlayedLand = true
     scene.creatures.push(new CreatureSprite(scene, props.worldX,props.worldY, data.sprite, card.id, me.dir))
     const t = scene.map.getTileAtWorldXY(props.worldX,props.worldY,false, undefined, Layers.Earth)
     onUpdateBoard(state.currentMatch.board.concat({...card, ownerId: me.id, tileX:t.x, tileY:t.y}))
-    onUpdatePlayer({...me, 
-        hand: me.hand.filter(c=>c.id !== props.cardId), 
-        manaPool: payCost(me.manaPool, data.cost)
-    })
+    if(props.fromGY){
+        onUpdatePlayer({...me, 
+            discard: me.discard.filter(c=>c.id !== props.cardId)
+        })
+    }
+    else {
+        onUpdatePlayer({...me, 
+            hand: me.hand.filter(c=>c.id !== props.cardId), 
+            manaPool: payCost(me.manaPool, data.cost)
+        })
+    }
     state = store.getState().saveFile
     if(data.kind === Permanents.Land){
         onUpdateLands(state.currentMatch.lands.filter(l=>l.id!==props.cardId))

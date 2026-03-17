@@ -367,6 +367,21 @@ export default class MapScene extends Scene {
                             return
                         }
                     }
+                    if(!card){
+                        const owner = state.saveFile.currentMatch.players.find(p=>p.discard.find(c=>c.id === state.selectedCardId))
+                        card = owner.discard.find(c=>c.id === state.selectedCardId)
+                        if(card){
+                            //placing card from GY
+                            this.creaturePreview?.destroy()
+                            if(!this.canPlaceCreatureHere(card, tile)) return
+                            if(validStartTile(tile, me.dir, false)){
+                                const props = {cardId:state.selectedCardId, worldX:tile.pixelX, worldY: tile.pixelY, fromGY: true}
+                                if(networkActive) sendAddCardEffect(props)
+                                else net_addCard(props)
+                            }
+                            return
+                        }
+                    } 
                 }
             }
         })
@@ -388,7 +403,11 @@ export default class MapScene extends Scene {
         const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
 
         if(ability.targets === Target.CreaturesYourGraveyard || ability.targets === Target.YourGraveyard){
-            return onShowModal(Modal.ViewCards, { cards: me.discard, chooseType: ability.targets === Target.CreaturesYourGraveyard ? Permanents.Creature : null, targetPlayerId: me.id})
+            
+            let modalProps:ModalData = { cards: me.discard, chooseType: ability.targets === Target.CreaturesYourGraveyard ? Permanents.Creature : null, targetPlayerId: me.id}
+            if(ability.effect.returnToHand) modalProps.keep = 1
+            if(ability.effect.returnToBattle) modalProps.play = true
+            return onShowModal(Modal.ViewCards, modalProps)
         }
 
         let lands = state.saveFile.currentMatch.board.filter(l=>getCardData(l).kind === Permanents.Land)

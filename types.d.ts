@@ -171,7 +171,8 @@ interface RState {
 interface ModalData { 
     cards:Card[]
     targetPlayerId:string
-    keep?: number
+    keep?:number
+    play?:boolean
     discard?: number
     chooseType?: import('./enum').Permanents
 } 
