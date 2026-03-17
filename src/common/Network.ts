@@ -15,7 +15,6 @@ export const createOrJoinLobby = async (id?:string) => {
         lobby.unsubscribe()
     }
     const host = id ? false : true
-    let sendRemotePlayer = false
     if(!id) id = Phaser.Math.Between(100,999).toString()
     lobby = supabase.channel('crux_'+id, { config: {broadcast: {ack: true}}})
     lobby.on('broadcast' as any, { event: NetworkEvent.DamageCard }, (data)=>net_damageCard(data.payload))
@@ -217,13 +216,11 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     
     const creature = creatures.find(c=>c.id === props.entityId)
     if(creature) {
-        if(!dat.ability.maxOfOne){
-            if(targets === Target.AllCreatures || targets === Target.CreaturesInLane || targets === Target.TappedCreatures || 
-                targets === Target.AllOpponentCreatures || targets === Target.AllCreaturesYouControl){
-                scene.applyMultiCreatureEffect({creatures, card})
-            }
+        if(targets === Target.AllCreatures || targets === Target.CreaturesInLane || targets === Target.TappedCreatures || 
+            targets === Target.AllOpponentCreatures || targets === Target.AllCreaturesYouControl){
+            scene.applyMultiCreatureEffect({creatures: dat.ability.maxOfOne ? [creature]:creatures, card})
         }
-        if(validSingleTarget(props.entityId, card) || dat.ability.maxOfOne){ 
+        else if(validSingleTarget(props.entityId, card)){ 
             //All single targets
             scene.applySingleTargetCreatureEffect({creature: creature, sorcery:card})
         }
@@ -328,7 +325,8 @@ export const net_addCard = (props:{cardId:string, worldX:number,worldY:number, f
         }
     } 
     scene.creatures.push(new CreatureSprite(scene, props.worldX,props.worldY, data.sprite, card.id, me.dir))
-    onUpdateBoard(state.currentMatch.board.concat({...card, ownerId: me.id, tileX:t.x, tileY:t.y}))
+    card = {...card, ownerId: me.id, tileX:t.x, tileY:t.y}
+    onUpdateBoard(state.currentMatch.board.concat(card))
     if(props.fromGY){
         onUpdatePlayer({...me, 
             discard: me.discard.filter(c=>c.id !== props.cardId)

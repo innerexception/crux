@@ -42,7 +42,7 @@ export default () => {
             <div style={{display:'flex', justifyContent:'flex-end', marginTop:'10px'}}>
                 <Button icon={IconIndex.Cancel} enabled={canCancel()} text="Cancel" handler={()=>onCancelAction()}/>
                 <Button icon={IconIndex.Draw} enabled={myTurn && me.deck.cards.length>0 && me.drawAllowed > 0} text="Draw" handler={()=>drawNext()}/>
-                <Button icon={IconIndex.CreateLand} enabled={myTurn && (!me.hasPlayedLand) && lands.length<6} text="Create Land" handler={()=>onShowModal(Modal.ShowLandChoices)}/>
+                <Button icon={IconIndex.CreateLand} enabled={myTurn && (!me.hasPlayedLand)} text="Create Land" handler={()=>onShowModal(Modal.ShowLandChoices)}/>
                 <Button icon={IconIndex.Graveyard} enabled={myTurn && me.discard.length>0} text="Graveyard" handler={()=>onShowModal(Modal.ViewCards, {cards: me.discard, targetPlayerId: me.id})}/>
                 <Button enabled={myTurn} text="End Turn" icon={IconIndex.Quit} handler={()=>onEndTurn(match)}/>
             </div>

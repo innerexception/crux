@@ -34,7 +34,7 @@ export const getValidCreatureTargets = (ability:CardAbility, card:Card) => {
         creatures = creatures.filter(c=>c.ownerId !== me.id)
     }
     if(ability.targets === Target.CreaturesInLane) 
-        creatures = creatures.filter(c=>c.tileX === card.tileX)
+        creatures = creatures.filter(c=>c.tileX === card.tileX && c.id !== card.id)
 
     const color = getCardData(card).color
     if(color === Color.Black){
@@ -61,9 +61,6 @@ export const validSingleTarget = (entityId:string, sorcery:Card):boolean => {
     const sorceryData = getCardData(sorcery)
     const creature = store.getState().saveFile.currentMatch.board.find(c=>c.id === entityId)
     const cdat = getCardData(creature)
-    if(cdat.kind === Permanents.Land){
-        return sorceryData.ability.targets === Target.Lands
-    }
     if(cdat.kind === Permanents.Creature){
         if(sorceryData.ability.targets === Target.Creature || 
             sorceryData.ability.targets === Target.AllCreaturesAndPlayers ||

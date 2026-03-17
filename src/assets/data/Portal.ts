@@ -2108,7 +2108,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Red,
         defaultAtk:3,
         defaultDef:3,
-        defaultMoves:2,
+        defaultMoves:1,
         cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
@@ -2669,9 +2669,9 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         }
     },
-    [CardType.Comet]: {
-        color:Color.Red,
-        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:5}],
+    [CardType.Escaton]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:4}],
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.AllCreaturesAndPlayers,
@@ -2722,6 +2722,20 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
+    [CardType.LavaBeam]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:3},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                destroyCreaturesInLane: true,
+                playerDamage: 4,
+                sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
     [CardType.FeralSpirit]: {
         color:Color.Green,
         defaultAtk:8,
@@ -2743,8 +2757,8 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Red,
         defaultAtk:6,
         defaultDef:6,
-        defaultMoves:2,
-        cost: [{kind:Color.Red, amount:3},{kind:Color.None, amount:6}],
+        defaultMoves:1,
+        cost: [{kind:Color.Red, amount:3},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         defaultAttributes: [Modifier.Nimble],
@@ -2770,6 +2784,22 @@ export const Portal:Record<CardType, CardMeta> = {
             effect: {
                 sprite: IconIndex.Damage,
                 draw:1
+            }
+        }
+    },
+    [CardType.LizardMage]: {
+        color:Color.Red,
+        defaultAtk:3,
+        defaultDef:3,
+        defaultMoves:1,
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:1}],
+        kind: Permanents.Creature,
+        sprite: CreatureSpriteIndex.LizardMage,
+        ability: {
+            targets: Target.CreaturesInLane,
+            effect: {
+                sprite: IconIndex.Damage,
+                dmg: 1
             }
         }
     },

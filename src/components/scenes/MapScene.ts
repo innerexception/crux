@@ -813,6 +813,7 @@ export default class MapScene extends Scene {
         if(effect.destroy){
             creature.def = 0
         }
+        
         if(effect.dmg){
             creature.def-=effect.dmg
         }
@@ -823,6 +824,13 @@ export default class MapScene extends Scene {
         if(effect.dmgAsDeserts){
             const deserts = state.saveFile.currentMatch.board.filter(c=>c.kind === CardType.Desert)
             creature.def-=deserts.length
+        }
+        if(effect.playerDamage){
+            caster.hp-=effect.playerDamage
+            onUpdatePlayer(caster)
+            const other = state.saveFile.currentMatch.players.find(p=>p.id !== caster.id)
+            other.hp-=effect.playerDamage
+            onUpdatePlayer(other)
         }
         if(effect.draw){
             for(let i=0;i<effect.draw;i++){
@@ -853,6 +861,12 @@ export default class MapScene extends Scene {
         if(effect.casterDmg){
             activePlayer.hp-=effect.casterDmg
             onUpdatePlayer(activePlayer)
+        }
+
+        if(effect.destroyCreaturesInLane){
+            const targets = state.saveFile.currentMatch.board.filter(c=>c.tileX === creature.tileX)
+            targets.forEach(t=>this.tryRemoveCreature(t))
+            return
         }
 
         if(creature.def <= 0) 
