@@ -76,10 +76,10 @@ export default class CreatureSprite extends GameObjects.Image {
                         return
                     }
 
-                    if(getCardData(target).ability.trigger === Triggers.OnCombat){
+                    if(getCardData(target).ability?.trigger === Triggers.OnCombat){
                         this.scene.applySingleTargetCreatureEffect({creature: target, sorcery: target})
                     }
-                    if(getCardData(thisCreature).ability.trigger === Triggers.OnCombat){
+                    if(getCardData(thisCreature).ability?.trigger === Triggers.OnCombat){
                         this.scene.applySingleTargetCreatureEffect({creature: thisCreature, sorcery: thisCreature})
                     }
 

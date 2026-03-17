@@ -902,7 +902,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultDef: 2,
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Creature,
-        defaultAttributes:[Modifier.Nimble],
+        defaultAttributes:[Modifier.Ranged],
         defaultMoves: 1,
         ability: null,
         sprite: CreatureSpriteIndex.Falconer
@@ -1198,7 +1198,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:4,
         defaultDef:1,
         defaultMoves:1,
-        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.Green, amount:2}],
         defaultAttributes:[Modifier.Ranged],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.DruidicAmbusher,
@@ -1334,7 +1334,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:2,
         defaultDef:2,
         defaultMoves:1,
-        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Longbowmen,
         defaultAttributes:[Modifier.Ranged],
@@ -2701,6 +2701,19 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
+    [CardType.DivineReach]: {
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                addAttributes: [Modifier.Ranged],
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
     [CardType.FeralSpirit]: {
         color:Color.Green,
         defaultAtk:8,
@@ -2752,4 +2765,5 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         }
     },
+    
 }

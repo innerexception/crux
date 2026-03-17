@@ -18,6 +18,7 @@ export const createOrJoinLobby = async (id?:string) => {
     let sendRemotePlayer = false
     if(!id) id = Phaser.Math.Between(100,999).toString()
     lobby = supabase.channel('crux_'+id, { config: {broadcast: {ack: true}}})
+    lobby.on('broadcast' as any, { event: NetworkEvent.DamageCard }, (data)=>net_damageCard(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.MoveCard }, (data)=>net_moveCard(data.payload))
     lobby.on('broadcast' as any, { event: NetworkEvent.CancelAction }, ()=>net_cancelPendingAction())
     lobby.on('broadcast' as any, { event: NetworkEvent.TriggerAbility }, (data)=>net_triggerCardAbility(data.payload))
@@ -60,6 +61,10 @@ export const sendAddCardEffect = (props:{cardId:string, worldX:number,worldY:num
 
 export const sendMoveCard = (props:{card:Card, tileX:number, tileY:number}) => {
     sendMessage(NetworkEvent.MoveCard, props)
+}
+
+export const sendDamageCard = (props:{target:Card, attacker:Card}) => {
+    sendMessage(NetworkEvent.DamageCard, props)
 }
 
 export const sendCancelAction = () => {
@@ -119,6 +124,17 @@ const getMyPlayer = ():PlayerState => {
         hasPlayedLand: false,
         drawAllowed: 1,
         playerSprite: s.playerSprite
+    }
+}
+
+export const net_damageCard = (props:{target:Card, attacker:Card}) => {
+    props.target.def -= props.attacker.atk
+    const scene = store.getState().scene
+    const spr = scene.creatures.find(c=>c.id === props.target.id)
+    scene.floatResource(spr.x, spr.y, IconIndex.Sword)
+    onUpdateBoardCreature({...props.attacker, tapped: true})
+    if(props.target.def<=0){
+        scene.tryRemoveCreature(props.target)
     }
 }
 

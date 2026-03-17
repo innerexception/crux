@@ -37,7 +37,7 @@ export enum Direction {
 export enum NetworkEvent {
     Update='Update', Join='Join', Start='Start',EndTurn='EndTurn', CancelAction='CancelAction',
     AddCard='AddCard',TapLand='TapLand',LandDeck='LandDeck',TriggerAbility='TriggerAbility',
-    MoveCard='MoveCard'
+    MoveCard='MoveCard',DamageCard='DamageCard'
 }
 
 export enum SceneNames {
@@ -125,7 +125,7 @@ export enum Modifier {
     DesertAffinity, ForestAffinity, CityAffinity, TowerAffinity, SanctuaryAffinity, //May only be placed in a lane with this land type
     Haste, //Moves an extra time during movement phase unless combat occurs
     Taunt, //Creatures may not leave this creature's lane.
-    Ranged, //Creature may tap to deal its power to another creature in lane, up to 2 squares away
+    Ranged, //Creature may tap to deal its power to another creature in lane, exactly 2 squares away
     Defender, //Does not move during movement phase
     Vigilant, //Cannot be targeted by sorcery or enchantments
     Fearsome, //Creatures cannot be placed in this lane
@@ -265,5 +265,5 @@ export enum CardType {
     SulfurRain='SulfurRain', Derecho='Thunderhorse', BallLightning='BallLightning', Archangel='Archangel',
     Genie='Genie', ObsidianGargoyle='ObsidianGargoyle', Comet='Comet', Financier='Financier',
     FeralSpirit='FeralSpirit', FireHydra='FireHydra', KnowledgeAssimilator='KnowledgeAssimilator',ChaosServant='ChaosServant',
-    VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion'
+    VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion',DivineReach='DivineReach'
 }

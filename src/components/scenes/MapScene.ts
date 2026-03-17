@@ -7,7 +7,7 @@ import CreatureSprite from "../sprites/CreatureSprite";
 import { canAfford, drawMarchingDashedRect, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, getValidCreatureTargets, resetCard, validStartTile } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
-import { net_addCard, net_cancelPendingAction, net_endTurn, net_moveCard, net_tapLand, net_triggerCardAbility, sendAddCardEffect, sendLandTappedEffect, sendMoveCard, sendTriggerCardAbility } from "../../common/Network";
+import { net_addCard, net_cancelPendingAction, net_damageCard, net_endTurn, net_moveCard, net_tapLand, net_triggerCardAbility, sendAddCardEffect, sendDamageCard, sendLandTappedEffect, sendMoveCard, sendTriggerCardAbility } from "../../common/Network";
 
 const TILE_DIM=32
 const FIELD_WIDTH=3
@@ -292,6 +292,18 @@ export default class MapScene extends Scene {
                         //card activation from board
                         card = state.saveFile.currentMatch.board.find(c=>c.id === state.selectedCardId)
                         if(card){
+                            if(card.attributes.includes(Modifier.Ranged)){
+                                const target = this.map.getTileAt(card.tileX, card.tileY+(2*me.dir), false, Layers.Earth)
+                                const targetCreature = state.saveFile.currentMatch.board.find(c=>c.tileX === target.x && c.tileY === target.y)
+                                if(targetCreature){
+                                    const props = {target:targetCreature, attacker:card}
+                                    if(networkActive) sendDamageCard(props)
+                                    else net_damageCard(props)
+                                    onShowAbilityPreview(null)
+                                    onSelectCard(null)
+                                }
+                                return
+                            }
                             const props = {card, entityId:sprite.id, discard:false}
                             if(networkActive) sendTriggerCardAbility(props)
                             else net_triggerCardAbility(props) //card on board are not discarded when triggered
@@ -308,7 +320,7 @@ export default class MapScene extends Scene {
                                 if(networkActive) sendLandTappedEffect(card)
                                 else net_tapLand(card)
                             }
-                            if(meta.ability?.trigger === Triggers.AtWill || card.attributes.includes(Modifier.Nimble)){
+                            if(meta.ability?.trigger === Triggers.AtWill || card.attributes.includes(Modifier.Nimble) || card.attributes.includes(Modifier.Ranged)){
                                 onSelectBoardCard(card)
                                 if(card.attributes.includes(Modifier.Nimble)){
                                     let tiles = []
@@ -316,6 +328,11 @@ export default class MapScene extends Scene {
                                         tiles.push(this.map.getTileAt(card.tileX-1, card.tileY, false, Layers.Earth)) //TODO: Taunt may be in effect
                                     if(this.isEmptyTile(card.tileX+1, card.tileY))
                                         tiles.push(this.map.getTileAt(card.tileX+1, card.tileY, false, Layers.Earth))
+                                    tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
+                                }
+                                else if(card.attributes.includes(Modifier.Ranged)){
+                                    let tiles = []
+                                    tiles.push(this.map.getTileAt(card.tileX, card.tileY+(2*me.dir), false, Layers.Earth))
                                     tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
                                 }
                                 else this.showSorceryAbilityTargets(meta.ability, card)
@@ -353,18 +370,20 @@ export default class MapScene extends Scene {
                     if(!card) card = state.saveFile.currentMatch.board.find(l=>l.id === state.selectedCardId)
                     if(card){
                         const d = getCardData(card)
-                        //handle MOVING a board CREATURE case
-                        if(d.kind !== Permanents.Creature || !card.attributes.includes(Modifier.Nimble)) return //Cannot displace other types
-                        if(tile.y===card.tileY && (tile.x === card.tileX-1||tile.x===card.tileX+1)){
-                            if(this.isEmptyTile(tile.x, tile.y)){
-                                //If valid target proceed
-                                const props = { card, tileX:tile.x, tileY:tile.y }
-                                if(networkActive) sendMoveCard(props)
-                                else net_moveCard(props) //card on board are not discarded when triggered
-                                onShowAbilityPreview(null)
-                                onSelectCard(null)
+                        //handle NIMBLE or RANGED board CREATURE case
+                        if(d.kind !== Permanents.Creature) return //Cannot displace other types
+                        if(card.attributes.includes(Modifier.Nimble)){
+                            if(tile.y===card.tileY && (tile.x === card.tileX-1||tile.x===card.tileX+1)){
+                                if(this.isEmptyTile(tile.x, tile.y)){
+                                    //If valid target proceed
+                                    const props = { card, tileX:tile.x, tileY:tile.y }
+                                    if(networkActive) sendMoveCard(props)
+                                    else net_moveCard(props)
+                                    onShowAbilityPreview(null)
+                                    onSelectCard(null)
+                                }
+                                return
                             }
-                            return
                         }
                     }
                     if(!card){
