@@ -1604,7 +1604,7 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.Premonition]: {
         color:Color.Blue,
-        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2},],
+        cost: [{kind:Color.Blue, amount:2}],
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.Self,
@@ -2676,13 +2676,13 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.Financier]: {
         color:Color.Black,
-        cost: [{kind:Color.Black, amount:3},{kind:Color.None, amount:1}],
+        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:2}],
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.CreaturesOrPlayers,
             effect: {
-                dmg: 4,
-                hpUp: 4,
+                dmg: 3,
+                casterHpUp: 3,
                 sprite: IconIndex.Damage,
             }
         },

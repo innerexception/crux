@@ -590,6 +590,14 @@ export default class MapScene extends Scene {
                 onShowModal(Modal.PickNextCard, {cards: targetPlayer.discard, chooseType: Permanents.Sorcery, targetPlayerId:targetPlayer.id })
             }
         }
+        if(effect.drawForTappedOpponent){
+            const tapped = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.tapped && c.ownerId !== targetPlayer.id)
+            for(let i=0;i<tapped.length;i++){
+                if(caster.deck.cards.length > 0) 
+                    caster = {...caster, hand: caster.hand.concat(caster.deck.cards.shift()),deck:caster.deck}
+            }
+            onUpdatePlayer({...caster})
+        }
         if(effect.drawForDeserts){
             const deserts = state.currentMatch.board.filter(c=>c.kind === CardType.Desert)
             for(let i=0;i<deserts.length;i++){
