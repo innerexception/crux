@@ -109,6 +109,19 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.FeatherCloak
     },
+    [CardType.StingingWinds]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:1}],
+        kind: Permanents.Enchantment,
+        ability: {
+            targets: Target.Lands,
+            effect: {
+                addAttributes: [Modifier.StingingWinds],
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
     [CardType.Sandstorm]: {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:1}],

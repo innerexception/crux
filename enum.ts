@@ -138,10 +138,12 @@ export enum Modifier {
     DementiaCloud, //discard 1 card on death
     Unblockable,
     GreenProducer,
-    Retribution
+    Retribution,
+    StingingWinds //If a creature enters this lane, it gains haste. If it leaves it loses haste.
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
+    [Modifier.StingingWinds]:'Stinging Winds',
     [Modifier.Retribution]: 'Retribution',
     [Modifier.GreenProducer]: 'Greening',
     [Modifier.Unblockable]: 'Ethereal',
@@ -272,5 +274,5 @@ export enum CardType {
     Genie='Genie', ObsidianGargoyle='ObsidianGargoyle', Escaton='Escaton', Financier='Financier',
     FeralSpirit='FeralSpirit', FireHydra='FireHydra', KnowledgeAssimilator='KnowledgeAssimilator',ChaosServant='ChaosServant',
     VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion',DivineReach='DivineReach',Stylite='Stylite',LizardMage='LizardMage',
-    LavaBeam='LavaBeam',Contemplation='Contemplation',HiddenOasis='HiddenOasis'
+    LavaBeam='LavaBeam',Contemplation='Contemplation',HiddenOasis='HiddenOasis',StingingWinds='StingingWinds'
 }
