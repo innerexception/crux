@@ -1,18 +1,20 @@
 import * as React from 'react'
 import AppStyles from '../../styles/AppStyles';
-import { onSelectCard, onShowModal, onUpdateBoard, onUpdatePlayer } from '../../common/Thunks';
+import { onSelectCard, onShowModal, onUpdatePlayer } from '../../common/Thunks';
 import { useSelector } from 'react-redux';
 import CardView from '../CardView';
 import { Button } from '../../common/Shared';
-import { net_addCard, sendAddCardEffect, sendUpdate } from '../../common/Network';
-import { store } from '../../..';
+import { sendUpdate } from '../../common/Network';
 
 export default () => {
     const data = useSelector((state:RState)=>state.modalData)
     const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.modalData.targetPlayerId))
     const match = useSelector((state:RState)=>state.saveFile.currentMatch)
+    const [count, setCount] = React.useState(1)
+
 
     const addCardToHand = (c:Card) => {
+        setCount(count+1)
         onUpdatePlayer({...me, 
             hand: me.hand.concat(c), 
             deck: {...me.deck, cards: me.deck.cards.filter(d=>d.id !== c.id)}
@@ -20,7 +22,8 @@ export default () => {
         if(!match.players.find(p=>p.isAI))
             sendUpdate()
 
-        onShowModal(null)
+        if(count >= data.keep)
+            onShowModal(null)
     }
 
     const addCardToBoard = (c:Card) => {
@@ -29,14 +32,16 @@ export default () => {
     }
 
     const discardCard = (c:Card) => {
+        setCount(count+1)
         onUpdatePlayer({...me, 
-            hand: me.hand.filter(c=>c.id !== c.id), 
+            hand: me.hand.filter(cc=>cc.id !== c.id), 
             discard: me.discard.concat(c)
         })
         if(!match.players.find(p=>p.isAI))
             sendUpdate()
 
-        onShowModal(null)
+        if(count >= data.discard)
+            onShowModal(null)
     }
 
     const getHandler = (c:Card) => {

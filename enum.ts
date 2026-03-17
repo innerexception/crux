@@ -68,7 +68,8 @@ export enum CreatureSpriteIndex {
     Placeholder=4428,Knight2=4990,OldMage=4942,LadyMage=4948,Law2=2802,MessengerOwl=4060,Corvian=3874,MercenaryKnight=4233,
     Falconer=4048,SpiritCloud=4379,TwistedGiant=3822,DruidicWarrior=4358,DruidicAmbusher=3955,Roaches=4070,ShadowForm=4749,
     FireImp=3951,Gorilla=4023,ArmoredTortoise=4139,Longbowmen=3783,Scry=1982,Blizzard=2031,Riot=3902,SpiritsOfWorldTree=6038,
-    BurrowingWurm=4075,MercenaryCaptain=3854,DrometaurSpearhand=3984,SandElemental=1214,RhinoCharge=4047,BallLightning=4378
+    BurrowingWurm=4075,MercenaryCaptain=3854,DrometaurSpearhand=3984,SandElemental=1214,RhinoCharge=4047,BallLightning=4378,
+    Stylite=4601,Archangel=4363
 }
 
 export const PlayerAvatars = [CreatureSpriteIndex.Player1, CreatureSpriteIndex.CityMage, CreatureSpriteIndex.OldMage, CreatureSpriteIndex.LadyMage]
@@ -226,7 +227,7 @@ export enum CardType {
     BlackBear='BlackBear',Hobgoblin='Hobgoblin',CatBurglar='CatBurglar',
     FaithfulKnight='FaithfulKnight',DoubleFate='DoubleFate',Dementia='Dementia',
     Overgrowth='Overgrowth',Sprite='Sprite',Gardening='Gardening',
-    Omen='Omen',Dragonling='Dragonling',Treant='Treant',Eruption='Eruption',DesertAsetic='DesertAsetic',
+    Omen='Omen',Dragonling='Dragonling',Treant='Treant',Eruption='Eruption',DesertAscetic='DesertAsetic',
     HeavenlyDew='HeavenlyDew', SewerRats='SewerRats',Tremors='Tremors',Sunlight='Sunlight',
     HoldTheLine='HoldTheLine',Falconer='Falconer',BloomingEarth='BloomingEarth',Truce='Truce',
     OminousSigns='OminousSigns',GuerillaTactics='GuerillaTactics',FireHammer='FireHammer',
@@ -256,7 +257,7 @@ export enum CardType {
     NomadicRaiders='NomadicRaiders', Minotaur='Minotaur', RowanTreant='RowanTreant', VeteranExorcist='VeteranExorcist', 
     MasterTactician='MasterTactician', Addict='Addict', ProtoDrake='ProtoDrake', ElderGriffin='ElderGriffin',
     SavannaLion='SavannaLion', FlashOfInsight='FlashOfInsight', CartelEnforcer='CartelEnforcer', Retribution='Retribution',
-    SwordWall='SwordWall', Judgement='Judgement', CollectiveMemory='CollectiveMemory', SteadfastMonk='SteadfastMonk',
+    SwordWall='SwordWall', Judgement='Judgement', CollectiveMemory='CollectiveMemory',
     SavyPolitico='SavyPolitico', Meritocracy='Meritocracy', Riot='Riot', RhinoCharge='RhinoCharge',
     SealFate='SealFate', SandElemental='SandElemental', WanderingSpirit='WanderingSpirit', MagmaBurst='MagmaBurst', ShiftingSands='ShiftingSands',
     DeepSprings='DeepSprings', WerewolfRaider='WerewolfRaider', SpiritsOfWorldTree='TreeSpirits', RedwoodTreant='RedwoodTreant',
@@ -265,5 +266,5 @@ export enum CardType {
     SulfurRain='SulfurRain', Derecho='Thunderhorse', BallLightning='BallLightning', Archangel='Archangel',
     Genie='Genie', ObsidianGargoyle='ObsidianGargoyle', Comet='Comet', Financier='Financier',
     FeralSpirit='FeralSpirit', FireHydra='FireHydra', KnowledgeAssimilator='KnowledgeAssimilator',ChaosServant='ChaosServant',
-    VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion',DivineReach='DivineReach'
+    VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion',DivineReach='DivineReach',Stylite='Stylite'
 }

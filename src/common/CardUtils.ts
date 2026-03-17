@@ -18,7 +18,7 @@ export const getLandAtEndOfLane = (d:Direction, tileX:number, tileY:number) => {
 export const getValidCreatureTargets = (ability:CardAbility, card:Card) => {
     const state = store.getState()
     const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
-    let creatures = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
+    let creatures = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && !c.attributes.includes(Modifier.Vigilant))
     if(ability.def3orLess) creatures = creatures.filter(c=>c.def<=3)
     if(ability.withoutColor) creatures = creatures.filter(c=>getCardData(c).color !== ability.withoutColor)
     if(ability.withColor) creatures = creatures.filter(c=>getCardData(c).color === ability.withColor)
@@ -53,10 +53,7 @@ export const getValidCreatureTargets = (ability:CardAbility, card:Card) => {
         creatures = creatures.filter(c=>!c.attributes.includes(Modifier.ProtectionFromGreen))
     }
     
-    if(ability.maxOfOne){
-        return [creatures[0]]
-    }
-
+    
     return creatures
 }
 

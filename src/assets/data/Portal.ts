@@ -818,7 +818,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Volcano
     },
-    [CardType.DesertAsetic]: {
+    [CardType.DesertAscetic]: {
         color:Color.White,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
@@ -1636,6 +1636,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.BurrowingWurm,
+        defaultAttributes:[Modifier.Vigilant],
         ability:{
             required: true,
             targets: Target.LandsYouControl,
@@ -1897,7 +1898,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Players,
+            targets: Target.CreatureYouControl,
             effect: {
                 dmgAsCreaturePower: true,
                 sprite: IconIndex.Damage
@@ -2265,7 +2266,7 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.CollectiveMemory]: {
         color:Color.Blue,
-        cost: [{kind:Color.Blue, amount:3},{kind:Color.None, amount:2},],
+        cost: [{kind:Color.Blue, amount:3},{kind:Color.None, amount:1},],
         kind: Permanents.Sorcery,
         ability: {
             targets: Target.Self,
@@ -2277,15 +2278,15 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
-    [CardType.SteadfastMonk]: {
+    [CardType.Stylite]: {
         color:Color.White,
         defaultAtk:2,
         defaultDef:5,
         defaultMoves:1,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes: [Modifier.Vigilant],
+        sprite: CreatureSpriteIndex.Stylite,
+        defaultAttributes: [Modifier.Vigilant, Modifier.Defender],
         ability:null
     },
     [CardType.SavyPolitico]: {
@@ -2626,12 +2627,19 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.White,
         defaultAtk:5,
         defaultDef:5,
-        defaultMoves:2,
-        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:5}],
+        defaultMoves:1,
+        cost: [{kind:Color.White, amount:2},{kind:Color.None, amount:4}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.Archangel,
         defaultAttributes:[Modifier.Nimble, Modifier.Vigilant],
-        ability: null
+        ability: {
+            trigger: Triggers.OnCombat,
+            targets: Target.Self,
+            effect: {
+                sprite: IconIndex.Buff,
+                casterHpUpOnKill: 3
+            }
+        }
     },
     [CardType.Genie]: {
         color:Color.Blue,

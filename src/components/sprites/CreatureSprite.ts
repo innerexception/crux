@@ -1,6 +1,6 @@
 import { GameObjects } from "phaser"
 import { store } from "../../.."
-import { CardType, Color, CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier, Triggers } from "../../../enum"
+import { CardType, Color, CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier, Target, Triggers } from "../../../enum"
 import { getCardData, getLandAtEndOfLane, resetCard, validEndTile } from "../../common/CardUtils"
 import { onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
@@ -77,10 +77,20 @@ export default class CreatureSprite extends GameObjects.Image {
                     }
 
                     if(getCardData(target).ability?.trigger === Triggers.OnCombat){
-                        this.scene.applySingleTargetCreatureEffect({creature: target, sorcery: target})
+                        const targets =getCardData(target).ability.targets
+                        if(targets === Target.ThisCreature)
+                            this.scene.applySingleTargetCreatureEffect({creature: target, sorcery: target})
+                        else if(targets === Target.Self){
+                            this.scene.applyPlayerEffect(owner, target)
+                        }
                     }
                     if(getCardData(thisCreature).ability?.trigger === Triggers.OnCombat){
-                        this.scene.applySingleTargetCreatureEffect({creature: thisCreature, sorcery: thisCreature})
+                        const targets =getCardData(thisCreature).ability.targets
+                        if(targets === Target.ThisCreature)
+                            this.scene.applySingleTargetCreatureEffect({creature: thisCreature, sorcery: thisCreature})
+                        else if(targets === Target.Self){
+                            this.scene.applyPlayerEffect(owner, thisCreature)
+                        }
                     }
 
                     this.fight(target)
@@ -148,6 +158,7 @@ export default class CreatureSprite extends GameObjects.Image {
 
     fight = (target:Card) => {
         let thisCard = store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id)
+        let owner = store.getState().saveFile.currentMatch.players.find(p=>p.id === thisCard.ownerId)
         const myTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
             
         this.scene.flashIcon(myTile.pixelX, myTile.pixelY, IconIndex.Sword)
@@ -159,7 +170,13 @@ export default class CreatureSprite extends GameObjects.Image {
             }
             else {
                 const defHp = target.def - thisCard.atk
-                if(defHp <= 0) this.scene.tryRemoveCreature(target)
+                if(defHp <= 0){
+                    if(getCardData(thisCard).ability?.effect.casterHpUpOnKill){
+                        owner.hp+=getCardData(thisCard).ability?.effect.casterHpUpOnKill
+                        onUpdatePlayer({...owner})
+                    }
+                    this.scene.tryRemoveCreature(target)
+                } 
             }
         }
         if(!target.tapped){

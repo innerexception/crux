@@ -209,7 +209,7 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     let lands = getValidLandTargets(dat.ability, card)
     const land = lands.find(c=>c.id === props.entityId)
     if(land){
-        if(targets === Target.Lands){
+        if(targets === Target.Lands || dat.ability.maxOfOne){
             scene.applyLandEffect(props.card, land)
         }
         else scene.applyMultiLandEffect(props.card, lands)
@@ -217,12 +217,13 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     
     const creature = creatures.find(c=>c.id === props.entityId)
     if(creature) {
-        if(targets === Target.AllCreatures || targets === Target.CreaturesInLane || targets === Target.TappedCreatures || 
-            targets === Target.AllOpponentCreatures || targets === Target.AllCreaturesYouControl){
-            scene.applyMultiCreatureEffect({creatures, card})
+        if(!dat.ability.maxOfOne){
+            if(targets === Target.AllCreatures || targets === Target.CreaturesInLane || targets === Target.TappedCreatures || 
+                targets === Target.AllOpponentCreatures || targets === Target.AllCreaturesYouControl){
+                scene.applyMultiCreatureEffect({creatures, card})
+            }
         }
-        
-        if(validSingleTarget(props.entityId, card)){ 
+        if(validSingleTarget(props.entityId, card) || dat.ability.maxOfOne){ 
             //All single targets
             scene.applySingleTargetCreatureEffect({creature: creature, sorcery:card})
         }
@@ -247,9 +248,7 @@ const getValidLandTargets = (ability:CardAbility, card:Card) => {
     if(ability.targets === Target.OpponentLand){
         lands = lands.filter(l=>l.ownerId !== card.ownerId)
     }
-    if(ability.maxOfOne){
-        lands = [lands[0]]
-    }
+    
     return lands
 }
 

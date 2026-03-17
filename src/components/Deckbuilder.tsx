@@ -55,7 +55,7 @@ export default () => {
                 </div>
                 <div style={{display:'flex', flexWrap:'wrap', height:'200px', overflow:'auto', border:'1px solid', padding:'5px'}}>
                     {me.cards.filter(c=>getCardData(c).color === selectedColor && getCardData(c).kind !== Permanents.Land)
-                        .map(c=><div onClick={()=>addCardToDeck(c)}><Tooltip overlay={<CardDetailView card={c}/>}><div><CardView card={c}/></div></Tooltip></div>)}
+                        .map(c=><div onClick={()=>addCardToDeck(c)}><Tooltip placement='bottom' overlay={<CardDetailView card={c}/>}><div><CardView card={c}/></div></Tooltip></div>)}
                 </div>
             </div>}
             <div style={{display:'flex', justifyContent:'flex-end'}}>

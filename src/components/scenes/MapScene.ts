@@ -569,7 +569,14 @@ export default class MapScene extends Scene {
         const effect = getCardData(card).ability.effect
         let state = store.getState().saveFile
         let caster = state.currentMatch.players.find(p=>p.id === card.ownerId)
-        
+
+        if(effect.draw){
+            for(let i=0;i<effect.draw;i++){
+                if(targetPlayer.deck.cards.length > 0) 
+                    targetPlayer = {...targetPlayer, hand: targetPlayer.hand.concat(targetPlayer.deck.cards.shift()),deck:targetPlayer.deck}
+            }
+        }
+
         //SOME Modal actions only happen on caster's client
         if(caster.id === state.myId){
             if(effect.discard){
@@ -654,9 +661,6 @@ export default class MapScene extends Scene {
         }
         if(effect.hpUp){
             targetPlayer.hp+=effect.hpUp
-        }
-        if(effect.draw && targetPlayer.deck.cards.length > 0){
-            targetPlayer = {...targetPlayer, hand: targetPlayer.hand.concat(targetPlayer.deck.cards.shift()),deck:targetPlayer.deck}
         }
         if(effect.drawX){
             const x = getColorlessRemain(caster.manaPool, card)
@@ -751,6 +755,12 @@ export default class MapScene extends Scene {
             return
         }
 
+        if(effect.dmgAsCreaturePower){
+            creature.def = 0
+            let target = state.saveFile.currentMatch.players.find(p=>p.id !== creature.ownerId)
+            onUpdatePlayer({...target, hp: target.hp-creature.atk})
+        }
+
         if(effect.returnToHand){
             return this.creatures.find(c=>c.id === creature.id).returnToHand()
         }
@@ -799,8 +809,11 @@ export default class MapScene extends Scene {
             const deserts = state.saveFile.currentMatch.board.filter(c=>c.kind === CardType.Desert)
             creature.def-=deserts.length
         }
-        if(effect.draw && activePlayer.deck.cards.length > 0){
-            activePlayer = {...activePlayer, hand: activePlayer.hand.concat(activePlayer.deck.cards.shift()),deck:activePlayer.deck}
+        if(effect.draw){
+            for(let i=0;i<effect.draw;i++){
+                if(activePlayer.deck.cards.length > 0)
+                    activePlayer = {...activePlayer, hand: activePlayer.hand.concat(activePlayer.deck.cards.shift()),deck:activePlayer.deck}
+            }
             onUpdatePlayer(activePlayer)
         }
         if(effect.drawX){

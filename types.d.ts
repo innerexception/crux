@@ -107,6 +107,7 @@ interface CardEffect {
     arrangeTop5Remove1?:boolean
     addAttributes?: import('./enum').Modifier[]
     sprite: import('./enum').IconIndex
+    casterHpUpOnKill?:number
     returnToHand?:boolean
     returnToBattle?:boolean
     playExtraLand?:boolean
