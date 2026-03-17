@@ -77,8 +77,12 @@ export default class MapScene extends Scene {
         this.playerSouth?.destroy()
         this.playerSouth = new CreatureSprite(this, rect.centerX, rect.bottom+32, ps.playerSprite, ps.id, Direction.SOUTH)
 
-
-        this.refresh(match)
+        this.creatures.forEach(e=>e.destroy())
+        this.creatures = []
+        match.board.forEach(c=>{
+            const player = match.players.find(p=>p.id === c.ownerId)
+            this.creatures.push(new CreatureSprite(this, this.map.tileToWorldX(c.tileX), this.map.tileToWorldY(c.tileY), getCardData(c).sprite, c.id, player.dir))
+        })
         
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
         this.cameras.main.centerToBounds()
@@ -307,6 +311,17 @@ export default class MapScene extends Scene {
                             const props = {card, entityId:sprite.id, discard:false}
                             if(networkActive) sendTriggerCardAbility(props)
                             else net_triggerCardAbility(props) //card on board are not discarded when triggered
+                            return
+                        }
+                        //replacing existing land
+                        card = state.saveFile.currentMatch.lands.find(l=>l.id === state.selectedCardId)
+                        if(card){
+                            if(me.hasPlayedLand) return //land cutoff
+                            if(validStartTile(tile, me.dir, true)){
+                                const props = {cardId:state.selectedCardId, worldX:tile.pixelX, worldY: tile.pixelY}
+                                if(networkActive) sendAddCardEffect(props)
+                                else net_addCard(props)
+                            }
                             return
                         }
                     }
@@ -580,7 +595,7 @@ export default class MapScene extends Scene {
         //SOME Modal actions only happen on caster's client
         if(caster.id === state.myId){
             if(effect.discard){
-                onShowModal(Modal.ViewCards, {cards: targetPlayer.hand, discard: effect.discard, targetPlayerId:targetPlayer.id})
+                onShowModal(Modal.ViewCards, {cards: targetPlayer.hand.filter(c=>c.id !== card.id), discard: effect.discard, targetPlayerId:targetPlayer.id})
             }
             if(effect.lookAtTop3){
                 onShowModal(Modal.ViewCards, {cards: targetPlayer.deck.cards.slice(0,3), targetPlayerId:targetPlayer.id})
@@ -895,15 +910,6 @@ export default class MapScene extends Scene {
         let board = state.saveFile.currentMatch.board
         onUpdateBoard(board.filter(c=>c.id !== card.id))
         onUpdatePlayer({...p, discard: p.discard.concat(card)})
-    }
-
-    refresh(match:MatchState) {
-        this.creatures.forEach(e=>e.destroy())
-        this.creatures = []
-        match.board.forEach(c=>{
-            const player = match.players.find(p=>p.id === c.ownerId)
-            this.creatures.push(new CreatureSprite(this, this.map.tileToWorldX(c.tileX), this.map.tileToWorldY(c.tileY), getCardData(c).sprite, c.id, player.dir))
-        })
     }
 
     setCursor = (assetUrl:string) => {

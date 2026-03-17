@@ -22,8 +22,7 @@ export const onSetLobby = (id:string) => {
     store.dispatch({ type: UIReducerActions.SET_LOBBY, data:id })
 }
 
-export const onRecieveMessage = (data:{match: MatchState, refresh:boolean}) => {
-    if(data.refresh) store.getState().scene.refresh(data.match)
+export const onRecieveMessage = (data:{match: MatchState}) => {
     store.dispatch({ type: UIReducerActions.NETWORK_MESSAGE, data: data.match })
 }
 

@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import CardView from '../CardView';
 import { Button } from '../../common/Shared';
 import { sendUpdate } from '../../common/Network';
+import { Modal } from '../../../enum';
 
 export default () => {
     const data = useSelector((state:RState)=>state.modalData)
@@ -19,6 +20,7 @@ export default () => {
             hand: me.hand.concat(c), 
             deck: {...me.deck, cards: me.deck.cards.filter(d=>d.id !== c.id)}
         })
+        onShowModal(Modal.ViewCards, {...data, cards: data.cards.filter(cc=>c.id !== cc.id)})
         if(!match.players.find(p=>p.isAI))
             sendUpdate()
 
@@ -37,6 +39,7 @@ export default () => {
             hand: me.hand.filter(cc=>cc.id !== c.id), 
             discard: me.discard.concat(c)
         })
+        onShowModal(Modal.ViewCards, {...data, cards: data.cards.filter(cc=>c.id !== cc.id)})
         if(!match.players.find(p=>p.isAI))
             sendUpdate()
 

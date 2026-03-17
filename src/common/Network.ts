@@ -317,9 +317,17 @@ export const net_addCard = (props:{cardId:string, worldX:number,worldY:number, f
     if(props.fromGY) card = me.discard.find(c=>c.id === props.cardId)
     if(!card) card = state.currentMatch.lands.find(l=>l.id === props.cardId)
     const data = getCardData(card)
-    if(data.kind === Permanents.Land) me.hasPlayedLand = true
-    scene.creatures.push(new CreatureSprite(scene, props.worldX,props.worldY, data.sprite, card.id, me.dir))
     const t = scene.map.getTileAtWorldXY(props.worldX,props.worldY,false, undefined, Layers.Earth)
+    if(data.kind === Permanents.Land){
+        me.hasPlayedLand = true
+        //see if we are replacing a land
+        const existing = state.currentMatch.board.find(c=>c.tileX === t.x && c.tileY === t.y)
+        if(existing){
+            scene.tryRemoveCreature(existing)
+            state = store.getState().saveFile
+        }
+    } 
+    scene.creatures.push(new CreatureSprite(scene, props.worldX,props.worldY, data.sprite, card.id, me.dir))
     onUpdateBoard(state.currentMatch.board.concat({...card, ownerId: me.id, tileX:t.x, tileY:t.y}))
     if(props.fromGY){
         onUpdatePlayer({...me, 
