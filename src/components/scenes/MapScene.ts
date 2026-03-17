@@ -577,6 +577,9 @@ export default class MapScene extends Scene {
         if(effect.status.pacifism){
             creature.tapped = false
         }
+        if(effect.status.tap){
+            creature.tapped = false
+        }
     }
 
     applyPlayerEffect(targetPlayer:PlayerState, card:Card) {
@@ -748,6 +751,13 @@ export default class MapScene extends Scene {
                 onShowModal(Modal.ViewCards, {cards: caster.deck.cards, chooseType: Permanents.Creature, keep: 1, targetPlayerId:caster.id})
             }
         }
+        if(effect.emptyGraveyard){
+            state.saveFile.currentMatch.players.forEach(p=>{
+                if(p.discard.length > 0){
+                    onUpdatePlayer({...p, deck: {...p.deck, cards: p.deck.cards.concat(p.discard)}, discard: []})
+                }
+            })
+        }
         if(effect.tauntPlayer){
             //If creature has an enemy creature in lane
             const enemy = state.saveFile.currentMatch.board.find(c=>c.tileX === creature.tileX && creature.ownerId !== c.ownerId)
@@ -863,7 +873,7 @@ export default class MapScene extends Scene {
             onUpdatePlayer(activePlayer)
         }
 
-        if(effect.destroyCreaturesInLane){
+        if(effect.destroyAllInLane){
             const targets = state.saveFile.currentMatch.board.filter(c=>c.tileX === creature.tileX)
             targets.forEach(t=>this.tryRemoveCreature(t))
             return

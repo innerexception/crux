@@ -100,7 +100,7 @@ export enum Target {
     CreaturesOrPlayers='CreaturesOrPlayers',CreaturesAnyGraveyard='CreaturesAnyGraveyard',AllOpponentCreatures='AllOpponentCreatures',
     AllPlayers='AllPlayers',AllCreaturesYouControl='AllCreaturesYouControl',ThisCreature='ThisCreature',TappedCreatures='TappedCreatures',
     CreatureAndLand='CreatureAndLand',CreaturesInLane='CreaturesInLane',OpponentLand='OpponentLand',TappedCreature='TappedCreature',
-    AllLands='AllLands'
+    AllLands='AllLands',AllOtherCreatures='AllOtherCreatures'
 }
 
 export enum Triggers {
@@ -181,6 +181,7 @@ export const TargetsDesc:Record<Target,string> = {
     [Target.OpponentLand]: "An opponent's land",
     [Target.ThisCreature]: 'This Creature',
     [Target.AllCreatures]: 'All Creatures',
+    [Target.AllOtherCreatures]: 'All other Creatures',
     [Target.CreatureAndLand]: 'All Creatures & Lands',
     [Target.AllCreaturesYouControl]: 'All Creatures you control',
     [Target.TappedCreatures]: 'Tapped Creatures',
@@ -263,9 +264,9 @@ export enum CardType {
     DeepSprings='DeepSprings', WerewolfRaider='WerewolfRaider', SpiritsOfWorldTree='TreeSpirits', RedwoodTreant='RedwoodTreant',
     HoodooHealer='HoodooHealer', LifeSteal='LifeSteal', Grizzly='Grizzly', GuardianAngel='GuardianAngel',
     ShroudedApostle='ShroudedApostle', Phoenix='Phoenix', BlueDragon='BlueDragon', Megoladon='Megoladon',
-    SulfurRain='SulfurRain', Derecho='Thunderhorse', BallLightning='BallLightning', Archangel='Archangel',
+    SulfurRain='SulfurRain', Derecho='Derecho', BallLightning='BallLightning', Archangel='Archangel',
     Genie='Genie', ObsidianGargoyle='ObsidianGargoyle', Escaton='Escaton', Financier='Financier',
     FeralSpirit='FeralSpirit', FireHydra='FireHydra', KnowledgeAssimilator='KnowledgeAssimilator',ChaosServant='ChaosServant',
     VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion',DivineReach='DivineReach',Stylite='Stylite',LizardMage='LizardMage',
-    LavaBeam='LavaBeam'
+    LavaBeam='LavaBeam',Contemplation='Contemplation'
 }

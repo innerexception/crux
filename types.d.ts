@@ -73,9 +73,10 @@ interface CardEffect {
     dmgAsCreaturePower?:true //Damage based on sacrificed creature power
     dmgAsDeserts?:boolean
     destroy?:boolean
-    destroyCreaturesInLane?:boolean
+    destroyAllInLane?:boolean
     playerDamage?:number //Also deal damage to players from a creature targeting effect
     duration?: number //777 = until discarded
+    emptyGraveyard?:boolean //move GY to codex
     atkUp?:number
     defUp?:number
     draw?:number

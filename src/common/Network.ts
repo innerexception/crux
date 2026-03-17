@@ -217,7 +217,7 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     const creature = creatures.find(c=>c.id === props.entityId)
     if(creature) {
         if(targets === Target.AllCreatures || targets === Target.CreaturesInLane || targets === Target.TappedCreatures || 
-            targets === Target.AllOpponentCreatures || targets === Target.AllCreaturesYouControl){
+            targets === Target.AllOpponentCreatures || targets === Target.AllCreaturesYouControl || Target.AllOtherCreatures){
             scene.applyMultiCreatureEffect({creatures: dat.ability.maxOfOne ? [creature]:creatures, card})
         }
         else if(validSingleTarget(props.entityId, card)){ 

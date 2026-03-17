@@ -29,6 +29,7 @@ export const getValidCreatureTargets = (ability:CardAbility, card:Card) => {
 
     if(ability.targets === Target.TappedCreatures || ability.targets === Target.TappedCreature) creatures = creatures.filter(c=>c.tapped)
     if(ability.targets === Target.ThisCreature) creatures = creatures.filter(c=>c.id === store.getState().selectedCardId)
+    if(ability.targets === Target.AllOtherCreatures) creatures = creatures.filter(c=>c.id !== store.getState().selectedCardId)
     if(ability.targets === Target.CreatureYouControl || ability.targets === Target.AllCreaturesYouControl) creatures = creatures.filter(c=>c.ownerId === me.id)
     if(ability.targets === Target.OpponentCreature || ability.targets === Target.AllOpponentCreatures){
         creatures = creatures.filter(c=>c.ownerId !== me.id)

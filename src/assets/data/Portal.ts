@@ -2600,12 +2600,12 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:5,
         defaultDef:5,
         defaultMoves:1,
-        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:5}],
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:4}],
         defaultAttributes:[Modifier.Haste],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
         ability: {
-            targets: Target.CreaturesInLane,
+            targets: Target.AllOtherCreatures,
             effect: {
                 sprite: IconIndex.Damage,
                 tap: true
@@ -2729,9 +2729,24 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.Creature,
             effect: {
-                destroyCreaturesInLane: true,
+                destroyAllInLane: true,
                 playerDamage: 4,
                 sprite: IconIndex.Damage,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
+    [CardType.Contemplation]: {
+        color:Color.Blue,
+        cost: [{kind:Color.Blue, amount:3},{kind:Color.None, amount:1}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.AllCreatures,
+            effect: {
+                duration: 2,
+                pacifism:true,
+                sprite: IconIndex.Damage,
+                emptyGraveyard: true
             }
         },
         sprite: CreatureSpriteIndex.Placeholder
