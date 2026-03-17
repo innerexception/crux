@@ -510,6 +510,9 @@ export default class MapScene extends Scene {
         if(dat.effect.destroy){
             this.tryRemoveCreature(land)
         }
+        if(dat.effect.addAttributes){
+            onUpdateBoardCreature({...land, attributes: land.attributes.concat(dat.effect.addAttributes)})
+        }
     }
 
     applySingleTargetCreatureEffect = (props:{creature:Card, sorcery:Card}) => {
@@ -577,9 +580,7 @@ export default class MapScene extends Scene {
         if(effect.status.pacifism){
             creature.tapped = false
         }
-        if(effect.status.tap){
-            creature.tapped = false
-        }
+        onUpdateBoardCreature({...creature})
     }
 
     applyPlayerEffect(targetPlayer:PlayerState, card:Card) {

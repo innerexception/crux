@@ -111,9 +111,11 @@ export const validEndTile = (t:Tilemaps.Tile, dir:Direction, land:boolean) => {
 export const tapLand = (card:Card, me:PlayerState) => {
     const meta = getCardData(card)
     const color = meta.ability.effect.addMana
-    onUpdatePlayer({...me, manaPool: {...me.manaPool, 
-        [color]: me.manaPool[color]+1
-    }})
+    me.manaPool[color]=me.manaPool[color]+1
+    if(card.attributes.includes(Modifier.GreenProducer)){
+        me.manaPool.green=me.manaPool.green+1
+    }
+    onUpdatePlayer({...me})
     onUpdateBoardCreature({...card, tapped: true})
 }
 

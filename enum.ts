@@ -136,10 +136,12 @@ export enum Modifier {
     BeeSting, //Tap to deal 1 to target creature instead of producing mana
     SlowReturn, //Placed on top of deck when destroyed
     DementiaCloud, //discard 1 card on death
-    Unblockable
+    Unblockable,
+    GreenProducer
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
+    [Modifier.GreenProducer]: 'Greening',
     [Modifier.Unblockable]: 'Ethereal',
     [Modifier.DementiaCloud]: 'Fumes',
     [Modifier.SlowReturn]: 'Echo',
@@ -268,5 +270,5 @@ export enum CardType {
     Genie='Genie', ObsidianGargoyle='ObsidianGargoyle', Escaton='Escaton', Financier='Financier',
     FeralSpirit='FeralSpirit', FireHydra='FireHydra', KnowledgeAssimilator='KnowledgeAssimilator',ChaosServant='ChaosServant',
     VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion',DivineReach='DivineReach',Stylite='Stylite',LizardMage='LizardMage',
-    LavaBeam='LavaBeam',Contemplation='Contemplation'
+    LavaBeam='LavaBeam',Contemplation='Contemplation',HiddenOasis='HiddenOasis'
 }

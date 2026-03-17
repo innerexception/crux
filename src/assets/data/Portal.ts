@@ -2751,6 +2751,19 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
+    [CardType.HiddenOasis]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2}],
+        kind: Permanents.Sorcery,
+        ability: {
+            targets: Target.Lands,
+            effect: {
+                addAttributes:[Modifier.GreenProducer],
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
     [CardType.FeralSpirit]: {
         color:Color.Green,
         defaultAtk:8,
