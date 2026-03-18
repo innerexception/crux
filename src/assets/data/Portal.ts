@@ -1992,15 +1992,16 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null,
     },
-    [CardType.Lightning]: {
+    [CardType.ForkLightning]: {
         color:Color.Red,
-        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:3},],
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:1},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Creature,
+            targets: Target.CreaturesOrPlayers,
             effect: {
                 sprite: IconIndex.Damage,
-                lightningSpecial: true
+                repeat:3,
+                dmg:1
             }
         },
         sprite: CreatureSpriteIndex.Placeholder
@@ -2555,15 +2556,15 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         defaultAttributes: [Modifier.Nimble, Modifier.Undying]
     },
-    [CardType.BlueDragon]: {
+    [CardType.SteamElemental]: {
         color:Color.Blue,
         defaultAtk:5,
         defaultDef:4,
         defaultMoves:1,
-        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:5}],
+        cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes: [Modifier.Nimble, Modifier.TowerAffinity],
+        sprite: CreatureSpriteIndex.SteamElemental,
+        defaultAttributes: [Modifier.Nimble, Modifier.Taunt],
         ability: null
     },
     [CardType.Megoladon]: {
