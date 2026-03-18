@@ -15,6 +15,7 @@ import CardDetailView from './components/CardDetailView';
 import AbilityPreview from './components/AbilityPreview';
 import LookAtCards from './components/modals/LookAtCards';
 import PickNextCard from './components/modals/PickNextCard';
+import DiscardAndDraw from './components/modals/DiscardAndDraw';
 
 export default () => {
 
@@ -35,6 +36,7 @@ export default () => {
       case Modal.Deckbuilder: return <Deckbuilder/>
       case Modal.ViewCards: return <LookAtCards/>
       case Modal.PickNextCard: return <PickNextCard/>
+      case Modal.DiscardAndDraw: return <DiscardAndDraw/>
       default: return <span/>
     }
   }

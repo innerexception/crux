@@ -596,6 +596,9 @@ export default class MapScene extends Scene {
             }
         }
 
+        if(effect.discardToDraw){
+            onShowModal(Modal.DiscardAndDraw)
+        }
         //SOME Modal actions only happen on caster's client
         if(caster.id === state.myId){
             if(effect.discard){

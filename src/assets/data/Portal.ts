@@ -1265,7 +1265,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Debuff,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.Cycle
     },
     [CardType.Gorilla]: {
         color:Color.Green,
