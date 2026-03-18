@@ -139,10 +139,12 @@ export enum Modifier {
     Unblockable,
     GreenProducer,
     Retribution,
-    StingingWinds //If a creature enters this lane, it gains haste. If it leaves it loses haste.
+    StingingWinds, //If a creature enters this lane, it gains haste. If it leaves it loses haste.
+    Seige //Can only move if opposing a tower/city/temple
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
+    [Modifier.Seige]:'Seige',
     [Modifier.StingingWinds]:'Stinging Winds',
     [Modifier.Retribution]: 'Retribution',
     [Modifier.GreenProducer]: 'Greening',
@@ -271,7 +273,7 @@ export enum CardType {
     HoodooHealer='HoodooHealer', LifeSteal='LifeSteal', Grizzly='Grizzly', GuardianAngel='GuardianAngel',
     ShroudedApostle='ShroudedApostle', Phoenix='Phoenix', BlueDragon='BlueDragon', Megoladon='Megoladon',
     SulfurRain='SulfurRain', Derecho='Derecho', BallLightning='BallLightning', Archangel='Archangel',
-    Genie='Genie', ObsidianGargoyle='ObsidianGargoyle', Escaton='Escaton', Financier='Financier',
+    BallistaCorps='BallistaCorps', ObsidianGargoyle='ObsidianGargoyle', Escaton='Escaton', Financier='Financier',
     FeralSpirit='FeralSpirit', FireHydra='FireHydra', KnowledgeAssimilator='KnowledgeAssimilator',ChaosServant='ChaosServant',
     VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion',DivineReach='DivineReach',Stylite='Stylite',LizardMage='LizardMage',
     LavaBeam='LavaBeam',Contemplation='Contemplation',HiddenOasis='HiddenOasis',StingingWinds='StingingWinds'

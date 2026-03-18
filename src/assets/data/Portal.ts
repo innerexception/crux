@@ -2655,15 +2655,15 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         }
     },
-    [CardType.Genie]: {
+    [CardType.BallistaCorps]: {
         color:Color.Blue,
         defaultAtk:5,
-        defaultDef:6,
-        defaultMoves:2,
-        cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:5}],
+        defaultDef:5,
+        defaultMoves:1,
+        cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes:[Modifier.Nimble],
+        defaultAttributes:[Modifier.Seige],
         ability: null
     },
     [CardType.ObsidianGargoyle]: {
