@@ -1,5 +1,5 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
-import { IconIndex, Layers, NetworkEvent, Permanents, Target } from '../../enum'
+import { IconIndex, Layers, Modifier, NetworkEvent, Permanents, Target } from '../../enum'
 import { onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSelectCard, onSetActionAcknowledge, onSetLobby, onSetRepeatingCardAbility, onShowAbilityPreview, onStartMatch, onTurnProcessing, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from './Thunks'
 import { store } from '../..'
 import { emptyMana, payCost } from './Utils'
@@ -135,6 +135,7 @@ export const net_damageCard = (props:{target:Card, attacker:Card}) => {
     if(props.target.def<=0){
         scene.tryRemoveCreature(props.target)
     }
+    else onUpdateBoardCreature({...props.target})
 }
 
 export const net_moveCard = (props:{card:Card, tileX:number, tileY:number}) => {
@@ -143,7 +144,21 @@ export const net_moveCard = (props:{card:Card, tileX:number, tileY:number}) => {
     const spr = scene.creatures.find(c=>c.id === props.card.id)
     spr.setPosition(tile.pixelX, tile.pixelY)
     spr.icon?.destroy()
-    onUpdateBoardCreature({...props.card, tileX: props.tileX, tileY: props.tileY, tapped: true})
+    let attributes = getLaneAttributes(props.card, props.tileX)
+    onUpdateBoardCreature({...props.card, attributes, tileX: props.tileX, tileY: props.tileY, tapped: true})
+}
+
+export const getLaneAttributes = (card:Card, tileX:number) => {
+    const board = store.getState().saveFile.currentMatch.board
+    const stingingWinds = board.find(c=>c.attributes.includes(Modifier.StingingWinds) && c.tileX === tileX && c.ownerId === card.ownerId)
+    const previousStingingWinds = board.find(c=>c.attributes.includes(Modifier.StingingWinds) && c.tileX === card.tileX && c.ownerId === card.ownerId)
+    if(stingingWinds && !card.attributes.includes(Modifier.Haste)){
+        card.attributes.push(Modifier.Haste)
+    }
+    else if(previousStingingWinds && !getCardData(card).defaultAttributes.includes(Modifier.Haste)){
+        card.attributes = card.attributes.filter(a=>a!==Modifier.Haste)
+    }
+    return card.attributes
 }
 
 export const net_cancelPendingAction= () => {
@@ -270,6 +285,7 @@ export const net_endTurn = async (match:MatchState) => {
             if(!c.status.find(s=>s.status.pacifism)){
                 scene.creatures.find(s=>c.id === s.id).untap()
                 c.tapped = false
+                c.def = Math.max(c.def, getCardData(c).defaultDef)
             }
             //add/remove timed status effects
             c.status.forEach(s=>s.duration--)
@@ -323,9 +339,16 @@ export const net_addCard = (props:{cardId:string, worldX:number,worldY:number, f
             scene.tryRemoveCreature(existing)
             state = store.getState().saveFile
         }
+        if(card.attributes.includes(Modifier.StingingWinds)){
+            const laneCreatures = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.tileX === t.x && c.ownerId === card.ownerId)
+            laneCreatures.forEach(c=>{
+                onUpdateBoardCreature({...c, attributes: getLaneAttributes(card, t.x)})
+            })
+            state = store.getState().saveFile
+        }
     } 
     scene.creatures.push(new CreatureSprite(scene, props.worldX,props.worldY, data.sprite, card.id, me.dir))
-    card = {...card, ownerId: me.id, tileX:t.x, tileY:t.y}
+    card = {...card, ownerId: me.id, tileX:t.x, tileY:t.y, attributes: getLaneAttributes(card, t.x)}
     onUpdateBoard(state.currentMatch.board.concat(card))
     if(props.fromGY){
         onUpdatePlayer({...me, 

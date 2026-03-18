@@ -1,6 +1,6 @@
 import { GameObjects } from "phaser"
 import { store } from "../../.."
-import { CardType, Color, CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier, Target, Triggers } from "../../../enum"
+import { CardType, Color, CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier, Permanents, Target, Triggers } from "../../../enum"
 import { getCardData, getLandAtEndOfLane, resetCard, validEndTile } from "../../common/CardUtils"
 import { onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
@@ -34,6 +34,10 @@ export default class CreatureSprite extends GameObjects.Image {
         let state = store.getState().saveFile.currentMatch
         let thisCreature = state.board.find(c=>c.id === this.id)
         if(!thisCreature) return
+        if(thisCreature.attributes.includes(Modifier.Seige)){
+            let validLand = state.board.find(c=>getCardData(c).kind===Permanents.Land && c.ownerId !== thisCreature.ownerId && (c.kind === CardType.Tower || c.kind === CardType.City || c.kind === CardType.Temple))
+            if(!validLand) return
+        }
         let owner = state.players.find(p=>p.id === thisCreature.ownerId)
         let haste = thisCreature.attributes.includes(Modifier.Haste)
         if(thisCreature.tapped) return //Tapped creatures don't move
@@ -163,7 +167,6 @@ export default class CreatureSprite extends GameObjects.Image {
             
         this.scene.flashIcon(myTile.pixelX, myTile.pixelY, IconIndex.Sword)
         
-        //1. def - atk
         if(!thisCard.tapped){
             if(this.hasProtectionFrom(target, thisCard)){
                 console.log('noop')
@@ -176,6 +179,9 @@ export default class CreatureSprite extends GameObjects.Image {
                         onUpdatePlayer({...owner})
                     }
                     this.scene.tryRemoveCreature(target)
+                    if(thisCard.attributes.includes(Modifier.Retribution)){
+                        this.scene.tryRemoveCreature(thisCard)
+                    }
                 } 
             }
         }
@@ -185,7 +191,16 @@ export default class CreatureSprite extends GameObjects.Image {
             }
             else {
                 const atkHp = thisCard.def - target.atk
-                if(atkHp <= 0) this.scene.tryRemoveCreature(thisCard)
+                if(atkHp <= 0){
+                    if(getCardData(target).ability?.effect.casterHpUpOnKill){
+                        owner.hp+=getCardData(target).ability?.effect.casterHpUpOnKill
+                        onUpdatePlayer({...owner})
+                    }
+                    this.scene.tryRemoveCreature(thisCard)
+                    if(target.attributes.includes(Modifier.Retribution)){
+                        this.scene.tryRemoveCreature(target)
+                    }
+                } 
             }
         }
     }

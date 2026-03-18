@@ -109,6 +109,19 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.FeatherCloak
     },
+    [CardType.StingingWinds]: {
+        color:Color.Red,
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:1}],
+        kind: Permanents.Enchantment,
+        ability: {
+            targets: Target.Lands,
+            effect: {
+                addAttributes: [Modifier.StingingWinds],
+                sprite: IconIndex.Buff
+            }
+        },
+        sprite: CreatureSpriteIndex.Placeholder
+    },
     [CardType.Sandstorm]: {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:1}],
@@ -1979,15 +1992,16 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         ability:null,
     },
-    [CardType.Lightning]: {
+    [CardType.ForkLightning]: {
         color:Color.Red,
-        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:3},],
+        cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:1},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Creature,
+            targets: Target.CreaturesOrPlayers,
             effect: {
                 sprite: IconIndex.Damage,
-                lightningSpecial: true
+                repeat:3,
+                dmg:1
             }
         },
         sprite: CreatureSpriteIndex.Placeholder
@@ -2234,7 +2248,8 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.AllCreatures,
             effect: {
-                retribution: true,
+                duration:1,
+                addAttributes:[Modifier.Retribution],
                 sprite: IconIndex.Damage,
             }
         },
@@ -2541,15 +2556,15 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.Placeholder,
         defaultAttributes: [Modifier.Nimble, Modifier.Undying]
     },
-    [CardType.BlueDragon]: {
+    [CardType.SteamElemental]: {
         color:Color.Blue,
         defaultAtk:5,
         defaultDef:4,
         defaultMoves:1,
-        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:5}],
+        cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes: [Modifier.Nimble, Modifier.TowerAffinity],
+        sprite: CreatureSpriteIndex.SteamElemental,
+        defaultAttributes: [Modifier.Nimble, Modifier.Taunt],
         ability: null
     },
     [CardType.Megoladon]: {
@@ -2641,15 +2656,15 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         }
     },
-    [CardType.Genie]: {
+    [CardType.BallistaCorps]: {
         color:Color.Blue,
         defaultAtk:5,
-        defaultDef:6,
-        defaultMoves:2,
-        cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:5}],
+        defaultDef:5,
+        defaultMoves:1,
+        cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.Placeholder,
-        defaultAttributes:[Modifier.Nimble],
+        defaultAttributes:[Modifier.Seige],
         ability: null
     },
     [CardType.ObsidianGargoyle]: {

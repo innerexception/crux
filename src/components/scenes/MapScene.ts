@@ -338,6 +338,8 @@ export default class MapScene extends Scene {
                             if(meta.ability?.trigger === Triggers.AtWill || card.attributes.includes(Modifier.Nimble) || card.attributes.includes(Modifier.Ranged)){
                                 onSelectBoardCard(card)
                                 if(card.attributes.includes(Modifier.Nimble)){
+                                    const tauntingCreature = state.saveFile.currentMatch.board.find(c=>c.tileX === card.tileX && c.attributes.includes(Modifier.Taunt))
+                                    if(tauntingCreature) return onSelectCard(null)
                                     let tiles = []
                                     if(this.isEmptyTile(card.tileX-1, card.tileY))
                                         tiles.push(this.map.getTileAt(card.tileX-1, card.tileY, false, Layers.Earth)) //TODO: Taunt may be in effect

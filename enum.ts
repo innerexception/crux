@@ -69,7 +69,7 @@ export enum CreatureSpriteIndex {
     Falconer=4048,SpiritCloud=4379,TwistedGiant=3822,DruidicWarrior=4358,DruidicAmbusher=3955,Roaches=4070,ShadowForm=4749,
     FireImp=4212,Gorilla=4023,ArmoredTortoise=4139,Longbowmen=3783,Scry=1982,Blizzard=2031,Riot=3902,SpiritsOfWorldTree=6038,
     BurrowingWurm=4075,MercenaryCaptain=3854,DrometaurSpearhand=3984,SandElemental=1214,RhinoCharge=4047,BallLightning=4378,
-    Stylite=4601,Archangel=4363,LizardMage=3951,Cycle=2194
+    Stylite=4601,Archangel=4363,LizardMage=3951,SteamElemental=4436,Cycle=2194
 }
 
 export const PlayerAvatars = [CreatureSpriteIndex.Player1, CreatureSpriteIndex.CityMage, CreatureSpriteIndex.OldMage, CreatureSpriteIndex.LadyMage]
@@ -137,10 +137,16 @@ export enum Modifier {
     SlowReturn, //Placed on top of deck when destroyed
     DementiaCloud, //discard 1 card on death
     Unblockable,
-    GreenProducer
+    GreenProducer,
+    Retribution,
+    StingingWinds, //If a creature enters this lane, it gains haste. If it leaves it loses haste.
+    Seige //Can only move if opposing a tower/city/temple
 }
 
 export const ModifierDesc:Record<Modifier,string> = {
+    [Modifier.Seige]:'Seige',
+    [Modifier.StingingWinds]:'Stinging Winds',
+    [Modifier.Retribution]: 'Retribution',
     [Modifier.GreenProducer]: 'Greening',
     [Modifier.Unblockable]: 'Ethereal',
     [Modifier.DementiaCloud]: 'Fumes',
@@ -254,7 +260,7 @@ export enum CardType {
     Blizzard='Blizzard', DruidLoremaster='DruidLoremaster', Anaconda='Anaconda', Reckoning='Reckoning', BeeSwarm='BeeSwarm',
     Boggart='Boggart', VolcanicVent='VolcanicVent', Resurrection='Resurrection', DruidicScholar='DruidicScholar',
     DustDevil='DesertDrake', Fear='Fear', SecretCache='SecretCache', LastGasp='LastGasp',
-    AshCloud='AshCloud', FootSoldier='FootSoldier',Lightning='Lightning',SquidLord='SquidLord',
+    AshCloud='AshCloud', FootSoldier='FootSoldier',ForkLightning='ForkLightning',SquidLord='SquidLord',
     GiantSpider='GiantSpider',Graverobber='Graverobber', LivingStones='LivingStones', RockTroll='RockTroll',
     LizardWarrior='LizardWarrior', CircleOfLife='CircleOfLife', WayOfPeace='WayOfPeace',
     NomadicRaiders='NomadicRaiders', Minotaur='Minotaur', RowanTreant='RowanTreant', VeteranExorcist='VeteranExorcist', 
@@ -265,10 +271,10 @@ export enum CardType {
     SealFate='SealFate', SandElemental='SandElemental', WanderingSpirit='WanderingSpirit', MagmaBurst='MagmaBurst', ShiftingSands='ShiftingSands',
     DeepSprings='DeepSprings', WerewolfRaider='WerewolfRaider', SpiritsOfWorldTree='TreeSpirits', RedwoodTreant='RedwoodTreant',
     HoodooHealer='HoodooHealer', LifeSteal='LifeSteal', Grizzly='Grizzly', GuardianAngel='GuardianAngel',
-    ShroudedApostle='ShroudedApostle', Phoenix='Phoenix', BlueDragon='BlueDragon', Megoladon='Megoladon',
+    ShroudedApostle='ShroudedApostle', Phoenix='Phoenix', SteamElemental='SteamElemental', Megoladon='Megoladon',
     SulfurRain='SulfurRain', Derecho='Derecho', BallLightning='BallLightning', Archangel='Archangel',
-    Genie='Genie', ObsidianGargoyle='ObsidianGargoyle', Escaton='Escaton', Financier='Financier',
+    BallistaCorps='BallistaCorps', ObsidianGargoyle='ObsidianGargoyle', Escaton='Escaton', Financier='Financier',
     FeralSpirit='FeralSpirit', FireHydra='FireHydra', KnowledgeAssimilator='KnowledgeAssimilator',ChaosServant='ChaosServant',
     VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion',DivineReach='DivineReach',Stylite='Stylite',LizardMage='LizardMage',
-    LavaBeam='LavaBeam',Contemplation='Contemplation',HiddenOasis='HiddenOasis'
+    LavaBeam='LavaBeam',Contemplation='Contemplation',HiddenOasis='HiddenOasis',StingingWinds='StingingWinds'
 }
