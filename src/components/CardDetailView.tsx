@@ -2,7 +2,7 @@ import * as React from 'react'
 import AppStyles, { colors } from '../styles/AppStyles';
 import { Button, CssIcon } from '../common/Shared';
 import { getCardData } from '../common/CardUtils';
-import { IconIndex, TargetsDesc, ModifierDesc, ColorIcons, TriggerNames } from '../../enum';
+import { IconIndex, TargetsDesc, ModifierDesc, ColorIcons, TriggerNames, Permanents } from '../../enum';
 import { renderCost, renderEffect } from './CardView';
 import { useSelector } from 'react-redux';
 
@@ -17,7 +17,7 @@ export default (props:{card:Card}) => {
                 <div style={{marginRight:'5px'}}>
                     <div style={{display:'flex', alignItems:'center'}}>
                         <CssIcon spriteIndex={dat.sprite} noTooltip={true}/>
-                        {(props.card.atk || props.card.def) && <div style={{marginLeft:'5px'}}>{props.card.atk}/{props.card.def}</div>}
+                        {dat.kind !== Permanents.Land && <div style={{marginLeft:'5px'}}>{props.card.atk}/{props.card.def}</div>}
                     </div>
                 </div>
             </div>

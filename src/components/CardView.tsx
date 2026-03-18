@@ -2,7 +2,7 @@ import * as React from 'react'
 import AppStyles, { colors } from '../styles/AppStyles';
 import { Button, CssIcon } from '../common/Shared';
 import { getCardData } from '../common/CardUtils';
-import { ColorIcons, Color, ModifierDesc } from '../../enum';
+import { ColorIcons, Color, ModifierDesc, Permanents } from '../../enum';
 import Tooltip from 'rc-tooltip';
 import CardDetailView from './CardDetailView';
 import { onInspectCreature } from '../common/Thunks';
@@ -18,7 +18,7 @@ export default (props:{card:Card}) => {
                     <div>{props.card.kind}</div>
                     <div style={{display:'flex', alignItems:'center'}}>
                         <CssIcon spriteIndex={dat.sprite} noTooltip={true}/>
-                        {(props.card.atk || props.card.def) && <div style={{marginLeft:'5px'}}>{props.card.atk}/{props.card.def}</div>}
+                        {dat.kind !== Permanents.Land && <div style={{marginLeft:'5px'}}>{props.card.atk}/{props.card.def}</div>}
                     </div>
                 </div>
             </div>

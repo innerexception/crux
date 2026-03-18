@@ -5,6 +5,8 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         category: null,
         defaultAttributes: null,
+        defaultAtk:0,
+        defaultDef:0,
         kind: Permanents.Land,
         ability: {
             targets: Target.Self,
@@ -21,6 +23,8 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes: null,
         category: null,
         kind: Permanents.Land,
+        defaultAtk:0,
+        defaultDef:0,
         ability: {
             targets: Target.Self,
             tap: true,
@@ -34,6 +38,8 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.Forest]: {
         color:Color.Green,
         defaultAttributes: null,
+        defaultAtk:0,
+        defaultDef:0,
         category: null,
         kind: Permanents.Land,
         ability: {
@@ -49,6 +55,8 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.Tower]: {
         color:Color.Blue,
         defaultAttributes: null,
+        defaultAtk:0,
+        defaultDef:0,
         category: null,
         kind: Permanents.Land,
         ability: {
@@ -64,6 +72,8 @@ export const Portal:Record<CardType, CardMeta> = {
     [CardType.Temple]: {
         color:Color.White,
         defaultAttributes: null,
+        defaultAtk:0,
+        defaultDef:0,
         category: null,
         kind: Permanents.Land,
         ability: {
@@ -1853,7 +1863,7 @@ export const Portal:Record<CardType, CardMeta> = {
         },
         sprite: CreatureSpriteIndex.Placeholder
     },
-    [CardType.BeeSwarm]: {
+    [CardType.GreatHive]: {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Enchantment,
@@ -1864,7 +1874,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Buff,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.GreatHive
     },
     [CardType.Boggart]: {
         color:Color.Black,

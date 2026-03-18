@@ -308,6 +308,17 @@ export default class MapScene extends Scene {
                                 }
                                 return
                             }
+                            if(card.attributes.includes(Modifier.BeeSting)){
+                                const targetCreature = state.saveFile.currentMatch.board.find(c=>c.id === sprite.id)
+                                if(targetCreature.tileX === card.tileX){
+                                    const props = {target:targetCreature, attacker:{...card, atk: 1}}
+                                    if(networkActive) sendDamageCard(props)
+                                    else net_damageCard(props)
+                                    onShowAbilityPreview(null)
+                                    onSelectCard(null)
+                                }
+                                return
+                            }
                             const props = {card, entityId:sprite.id, discard:false}
                             if(networkActive) sendTriggerCardAbility(props)
                             else net_triggerCardAbility(props) //card on board are not discarded when triggered
@@ -335,7 +346,10 @@ export default class MapScene extends Scene {
                                 if(networkActive) sendLandTappedEffect(card)
                                 else net_tapLand(card)
                             }
-                            if(meta.ability?.trigger === Triggers.AtWill || card.attributes.includes(Modifier.Nimble) || card.attributes.includes(Modifier.Ranged)){
+                            if(meta.ability?.trigger === Triggers.AtWill || 
+                                card.attributes.includes(Modifier.Nimble) || 
+                                card.attributes.includes(Modifier.Ranged) || 
+                                card.attributes.includes(Modifier.BeeSting)){
                                 onSelectBoardCard(card)
                                 if(card.attributes.includes(Modifier.Nimble)){
                                     const tauntingCreature = state.saveFile.currentMatch.board.find(c=>c.tileX === card.tileX && c.attributes.includes(Modifier.Taunt))
@@ -350,6 +364,11 @@ export default class MapScene extends Scene {
                                 else if(card.attributes.includes(Modifier.Ranged)){
                                     let tiles = []
                                     tiles.push(this.map.getTileAt(card.tileX, card.tileY+(2*me.dir), false, Layers.Earth))
+                                    tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
+                                }
+                                else if(card.attributes.includes(Modifier.BeeSting)){
+                                    const landCreatures = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.tileX === card.tileX)
+                                    let tiles = landCreatures.map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
                                     tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
                                 }
                                 else this.showSorceryAbilityTargets(meta.ability, card)
@@ -387,7 +406,7 @@ export default class MapScene extends Scene {
                     if(!card) card = state.saveFile.currentMatch.board.find(l=>l.id === state.selectedCardId)
                     if(card){
                         const d = getCardData(card)
-                        //handle NIMBLE or RANGED board CREATURE case
+                        //handle NIMBLE board CREATURE case
                         if(d.kind !== Permanents.Creature) return //Cannot displace other types
                         if(card.attributes.includes(Modifier.Nimble)){
                             if(tile.y===card.tileY && (tile.x === card.tileX-1||tile.x===card.tileX+1)){
