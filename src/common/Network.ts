@@ -135,6 +135,7 @@ export const net_damageCard = (props:{target:Card, attacker:Card}) => {
     if(props.target.def<=0){
         scene.tryRemoveCreature(props.target)
     }
+    else onUpdateBoardCreature({...props.target})
 }
 
 export const net_moveCard = (props:{card:Card, tileX:number, tileY:number}) => {
@@ -284,6 +285,7 @@ export const net_endTurn = async (match:MatchState) => {
             if(!c.status.find(s=>s.status.pacifism)){
                 scene.creatures.find(s=>c.id === s.id).untap()
                 c.tapped = false
+                c.def = Math.max(c.def, getCardData(c).defaultDef)
             }
             //add/remove timed status effects
             c.status.forEach(s=>s.duration--)
