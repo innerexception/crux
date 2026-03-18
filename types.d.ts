@@ -144,6 +144,7 @@ interface PlayerState {
     hasPlayedLand:boolean
     drawAllowed:number
     playerSprite: import('./enum').CreatureSpriteIndex
+    damageReflect?:number
 }
 
 interface MatchState {

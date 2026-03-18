@@ -69,7 +69,6 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.addMana && <div>Add <CssIcon spriteIndex={ColorIcons[effect.addMana]}/></div>}
         {effect.arrangeTop5Remove1 && <div>Look at enemy's top 5 and put 1 in their graveyard</div>}
         {effect.creatureToHandFromGY && <div>Return target creature to your hand from your graveyard.</div>}
-        {effect.damageReflect && <div>Damage dealt to you is also dealt to the opposing player</div>}
         {effect.lookAtTop3 && <div>Look at the top 3 cards in target codex</div>}
         {effect.lookAtHand && <div>Look at target's hand</div>}
         {effect.tauntPlayer && <div>Opponent's non-defender creatures must move to an open lane.</div>}

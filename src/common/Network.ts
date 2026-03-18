@@ -1,6 +1,6 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
-import { IconIndex, Layers, Modifier, NetworkEvent, Permanents, Target } from '../../enum'
-import { onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSelectCard, onSetActionAcknowledge, onSetLobby, onSetRepeatingCardAbility, onShowAbilityPreview, onStartMatch, onTurnProcessing, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from './Thunks'
+import { IconIndex, Layers, Modal, Modifier, NetworkEvent, Permanents, Target } from '../../enum'
+import { onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSelectCard, onSetActionAcknowledge, onSetLobby, onSetRepeatingCardAbility, onShowAbilityPreview, onShowModal, onStartMatch, onTurnProcessing, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from './Thunks'
 import { store } from '../..'
 import { emptyMana, payCost } from './Utils'
 import{ v4 } from 'uuid'
@@ -267,7 +267,7 @@ const getValidLandTargets = (ability:CardAbility, card:Card) => {
 export const net_endTurn = async (match:MatchState) => {
     const scene = store.getState().scene
     const current = match.players.find(p=>p.id === match.activePlayerId)
-    
+
     //1. move creatures / resolve combats
     const mine = scene.creatures.filter(c=>match.board.find(cr=>cr.id===c.id && cr.ownerId === current.id))
     for(let i=0;i<mine.length;i++){
@@ -275,6 +275,19 @@ export const net_endTurn = async (match:MatchState) => {
     }
     match = store.getState().saveFile.currentMatch
 
+    if(current.damageReflect){
+        onUpdatePlayer({...current, damageReflect:null})
+        let op = match.players.find(p=>p.id !== match.activePlayerId)
+        op.hp-=current.damageReflect
+        onUpdatePlayer({...op})
+        if(op.hp <= 0){
+            if(op.id === store.getState().saveFile.myId) onShowModal(Modal.GameOver)
+            else onShowModal(Modal.Winner)
+            return
+        }
+        match = store.getState().saveFile.currentMatch
+    }
+    
     //set next player
     const nextPlayer = match.players.find(p=>p.id !== current.id)
     onUpdateActivePlayer(nextPlayer.id)
