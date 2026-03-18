@@ -337,6 +337,13 @@ export const net_addCard = (props:{cardId:string, worldX:number,worldY:number, f
             scene.tryRemoveCreature(existing)
             state = store.getState().saveFile
         }
+        if(card.attributes.includes(Modifier.StingingWinds)){
+            const laneCreatures = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.tileX === t.x && c.ownerId === card.ownerId)
+            laneCreatures.forEach(c=>{
+                onUpdateBoardCreature({...c, attributes: getLaneAttributes(card, t.x)})
+            })
+            state = store.getState().saveFile
+        }
     } 
     scene.creatures.push(new CreatureSprite(scene, props.worldX,props.worldY, data.sprite, card.id, me.dir))
     card = {...card, ownerId: me.id, tileX:t.x, tileY:t.y, attributes: getLaneAttributes(card, t.x)}
