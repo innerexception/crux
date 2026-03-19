@@ -15,7 +15,7 @@ export const getLandAtEndOfLane = (d:Direction, tileX:number, tileY:number) => {
     return store.getState().saveFile.currentMatch.board.find(c=>c.tileX === t.x && c.tileY === t.y)
 }
 
-export const getValidCreatureTargets = (ability:CardAbility, card:Card) => {
+export const getValidCreatureTargets = (ability:CardAbility, card:Card, entityId:string) => {
     const state = store.getState()
     const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
     let creatures = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && !c.attributes.includes(Modifier.Vigilant))
@@ -28,8 +28,8 @@ export const getValidCreatureTargets = (ability:CardAbility, card:Card) => {
     if(ability.withCategory) creatures = creatures.filter(c=>getCardData(c).category===ability.withCategory)
 
     if(ability.targets === Target.TappedCreatures || ability.targets === Target.TappedCreature) creatures = creatures.filter(c=>c.tapped)
-    if(ability.targets === Target.ThisCreature) creatures = creatures.filter(c=>c.id === store.getState().selectedCardId)
-    if(ability.targets === Target.AllOtherCreatures) creatures = creatures.filter(c=>c.id !== store.getState().selectedCardId)
+    if(ability.targets === Target.ThisCreature) creatures = creatures.filter(c=>c.id === entityId)
+    if(ability.targets === Target.AllOtherCreatures) creatures = creatures.filter(c=>c.id !== entityId)
     if(ability.targets === Target.CreatureYouControl || ability.targets === Target.AllCreaturesYouControl) creatures = creatures.filter(c=>c.ownerId === me.id)
     if(ability.targets === Target.OpponentCreature || ability.targets === Target.AllOpponentCreatures){
         creatures = creatures.filter(c=>c.ownerId !== me.id)

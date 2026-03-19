@@ -52,7 +52,7 @@ export default () => {
         <Viewport/>
         {state.activeModal !== Modal.NewGame && state.isLoaded && <DeckView/>}
         <div style={{position:'absolute', top:'25vh', right:10, background:'black', width:'175px', height:'250px'}}>{state.inspectCard && <CardDetailView card={state.inspectCard}/>}</div>
-        {state.previewAbility && <div style={{position:'absolute', top:'50%', left:10, background:'black'}}><AbilityPreview ability={state.previewAbility}/></div>}
+        {state.previewAbility && <div style={{position:'absolute', top:'50%', left:10}}><AbilityPreview ability={state.previewAbility}/></div>}
       </div>
     </div>
   )

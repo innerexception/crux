@@ -106,6 +106,7 @@ export default class MapScene extends Scene {
             p.manaPool[color]=p.manaPool[color]+1
             l.tapped = true
         })
+        onUpdatePlayer({...p})
         onUpdateBoard(Array.from(state.board))
     }
 
@@ -207,7 +208,7 @@ export default class MapScene extends Scene {
             creatureTiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
         }
         else if(dat.kind === Permanents.Sorcery){
-            this.showSorceryAbilityTargets(dat.ability, card)
+            this.showSorceryAbilityTargets(card)
         }
     }
 
@@ -371,7 +372,7 @@ export default class MapScene extends Scene {
                                     let tiles = landCreatures.map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
                                     tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
                                 }
-                                else this.showSorceryAbilityTargets(meta.ability, card)
+                                else this.showSorceryAbilityTargets(card)
                             }
                         }
                     }
@@ -448,8 +449,8 @@ export default class MapScene extends Scene {
         return this.grid.find(t=>t.x === tileX && t.y===tileY)
     }
 
-    showSorceryAbilityTargets = (ability:CardAbility, boardCard:Card) => {
-
+    showSorceryAbilityTargets = (boardCard:Card) => {
+        const ability = getCardData(boardCard).ability
         //TODO: show pending ability
         onShowAbilityPreview(ability)
         this.g.clear()
@@ -500,7 +501,7 @@ export default class MapScene extends Scene {
             return tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
         }
         
-        let creatures = getValidCreatureTargets(ability, boardCard)
+        let creatures = getValidCreatureTargets(ability, boardCard, boardCard.id)
         tiles = creatures.map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
         if(ability.targets === Target.CreaturesOrPlayers || ability.targets === Target.AllCreaturesAndPlayers){
             tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerNorth.x, this.playerNorth.y, false, undefined, Layers.Earth))

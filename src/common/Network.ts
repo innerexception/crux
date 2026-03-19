@@ -183,7 +183,7 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     const dat = getCardData(card)
     const targets = dat.ability.targets
     
-    let creatures = getValidCreatureTargets(dat.ability, card)
+    let creatures = getValidCreatureTargets(dat.ability, card, props.entityId)
     
     if(targets === Target.AllCreaturesAndPlayers){
         scene.applyGlobalEffect(card, creatures)
@@ -194,11 +194,11 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     if(dat.ability.effect.repeat){
         if(state.repeatCount==null){
             onSetRepeatingCardAbility(dat.ability.effect.repeat-1)
-            state.scene.showSorceryAbilityTargets(dat.ability, card)
+            state.scene.showSorceryAbilityTargets(card)
         }
         else if(state.repeatCount > 1){
             onSetRepeatingCardAbility(state.repeatCount-1)
-            state.scene.showSorceryAbilityTargets(dat.ability, card)
+            state.scene.showSorceryAbilityTargets(card)
         }
         else{
             if(discard) scene.payAndDiscard(props.card)
@@ -384,8 +384,13 @@ export const net_addCard = (props:{cardId:string, worldX:number,worldY:number, f
             if(data.ability.conditionalSpend){
                 if(!me.manaPool[data.ability.conditionalSpend]) return
             }
-            onSelectBoardCard(card)
-            scene.showSorceryAbilityTargets(data.ability, card)
+            if(me.isAI) {
+                net_triggerCardAbility({card, entityId: card.id, discard:false})
+            }
+            else {
+                onSelectBoardCard(card)
+                scene.showSorceryAbilityTargets(card)
+            }
         }
     }
 }
