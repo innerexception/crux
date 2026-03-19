@@ -17,7 +17,7 @@ export default (props:{card:Card}) => {
                 <div style={{marginRight:'5px'}}>
                     <div style={{display:'flex', alignItems:'center'}}>
                         <CssIcon spriteIndex={dat.sprite} noTooltip={true}/>
-                        {dat.kind !== Permanents.Land && <div style={{marginLeft:'5px'}}>{props.card.atk}/{props.card.def}</div>}
+                        {dat.kind === Permanents.Creature && <div style={{marginLeft:'5px'}}>{props.card.atk}/{props.card.def}</div>}
                     </div>
                 </div>
             </div>

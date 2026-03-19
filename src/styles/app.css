@@ -68,6 +68,5 @@ textarea:focus, input:focus{
   max-width: 20em;
   background: #000;
   color:#fff;
-  border: 2px solid white;
   padding: 7px;
 }
