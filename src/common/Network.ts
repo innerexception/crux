@@ -275,10 +275,14 @@ export const net_endTurn = async (match:MatchState) => {
     }
     match = store.getState().saveFile.currentMatch
 
-    if(current.damageReflect){
-        onUpdatePlayer({...current, damageReflect:null})
-        let op = match.players.find(p=>p.id !== match.activePlayerId)
-        op.hp-=current.damageReflect
+    //set next player
+    const nextPlayer = match.players.find(p=>p.id !== current.id)
+    onUpdateActivePlayer(nextPlayer.id)
+    
+    if(nextPlayer.damageReflect){
+        nextPlayer.damageReflect=null
+        let op = match.players.find(p=>p.id !== nextPlayer.id)
+        op.hp-=nextPlayer.damageReflect
         onUpdatePlayer({...op})
         if(op.hp <= 0){
             if(op.id === store.getState().saveFile.myId) onShowModal(Modal.GameOver)
@@ -287,10 +291,6 @@ export const net_endTurn = async (match:MatchState) => {
         }
         match = store.getState().saveFile.currentMatch
     }
-    
-    //set next player
-    const nextPlayer = match.players.find(p=>p.id !== current.id)
-    onUpdateActivePlayer(nextPlayer.id)
     
     //reset player resources
     match.board.forEach(c=>{

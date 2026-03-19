@@ -610,19 +610,9 @@ export default class MapScene extends Scene {
         let state = store.getState().saveFile
         let caster = state.currentMatch.players.find(p=>p.id === card.ownerId)
 
-        if(effect.damageReflect){
-            onUpdatePlayer({...caster, damageReflect: 0})
-        }
-
-        if(effect.draw){
-            for(let i=0;i<effect.draw;i++){
-                if(targetPlayer.deck.cards.length > 0) 
-                    targetPlayer = {...targetPlayer, hand: targetPlayer.hand.concat(targetPlayer.deck.cards.shift()),deck:targetPlayer.deck}
-            }
-        }
-
         if(effect.discardToDraw){
             onShowModal(Modal.DiscardAndDraw)
+            return
         }
         //SOME Modal actions only happen on caster's client
         if(caster.id === state.myId){
@@ -670,6 +660,7 @@ export default class MapScene extends Scene {
                     caster = {...caster, hand: caster.hand.concat(caster.deck.cards.shift()),deck:caster.deck}
             }
             onUpdatePlayer({...caster})
+            return
         }
         if(effect.drawForDeserts){
             const deserts = state.currentMatch.board.filter(c=>c.kind === CardType.Desert)
@@ -678,14 +669,26 @@ export default class MapScene extends Scene {
                     caster = {...caster, hand: caster.hand.concat(caster.deck.cards.shift()),deck:caster.deck}
             }
             onUpdatePlayer({...caster})
-        }
-        if(effect.hp3perBlackCreature){
-            const blacks = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && getCardData(c).color === Color.Black)
-            targetPlayer.hp+=blacks.length*3
+            return
         }
         if(effect.casterHpUp){
             caster.hp+=effect.casterHpUp
             onUpdatePlayer({...caster})
+            return
+        }
+        if(effect.damageReflect){
+            targetPlayer.damageReflect=0
+         }
+ 
+         if(effect.draw){
+             for(let i=0;i<effect.draw;i++){
+                 if(targetPlayer.deck.cards.length > 0) 
+                     targetPlayer = {...targetPlayer, hand: targetPlayer.hand.concat(targetPlayer.deck.cards.shift()),deck:targetPlayer.deck}
+             }
+         } 
+        if(effect.hp3perBlackCreature){
+            const blacks = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && getCardData(c).color === Color.Black)
+            targetPlayer.hp+=blacks.length*3
         }
         if(effect.playExtraLand){
             targetPlayer.hasPlayedLand = false
