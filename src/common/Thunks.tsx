@@ -2,7 +2,6 @@ import { store } from "../.."
 import { Modal, SceneNames, UIReducerActions } from "../../enum"
 import IntroScene from "../components/scenes/IntroScene"
 import MapScene from "../components/scenes/MapScene"
-import { getCardData } from "./CardUtils"
 import { net_cancelPendingAction, net_endTurn, sendCancelAction, sendEndTurn, sendLandDeck } from "./Network"
 import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
 
@@ -102,7 +101,6 @@ export const onQuit = () => {
     })
     //const intro = store.getState().scene.scene.get(SceneNames.Intro) as IntroScene
     //intro.sound.get(SoundEffects.Intro).play()
-
     onShowModal(Modal.NewGame)
 }
 
@@ -135,5 +133,6 @@ export const onSave = () => {
     const uiState = store.getState().saveFile
     trySaveFile(JSON.stringify(uiState))
     onUpdateSave(uiState)
+    onQuit()
 }
 

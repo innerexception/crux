@@ -196,7 +196,33 @@ export const goblinHordes = (playerId:string):Card[] => {
         getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
         getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
         getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
         getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger])
+    ]
+}
+
+export const black = (playerId:string):Card[] => {
+    return [
+        getCard(playerId, CardType.Boggart, Portal[CardType.Boggart]),
+        getCard(playerId, CardType.Roaches, Portal[CardType.Roaches]),
+        getCard(playerId, CardType.ArmoredTortoise, Portal[CardType.ArmoredTortoise]),
+        getCard(playerId, CardType.ArmoredTortoise, Portal[CardType.ArmoredTortoise]),
+        getCard(playerId, CardType.Homonculus, Portal[CardType.Homonculus]),
+        getCard(playerId, CardType.MercenaryKnight, Portal[CardType.MercenaryKnight]),
+        getCard(playerId, CardType.MercenaryKnight, Portal[CardType.MercenaryKnight]),
+        getCard(playerId, CardType.Roaches, Portal[CardType.Roaches]),
+        getCard(playerId, CardType.Roaches, Portal[CardType.Roaches]),
+        getCard(playerId, CardType.ShadowForm, Portal[CardType.ShadowForm]),
+        getCard(playerId, CardType.Addict, Portal[CardType.Sophist]),
+        getCard(playerId, CardType.CursedToad, Portal[CardType.CursedToad]),
+        getCard(playerId, CardType.CursedToad, Portal[CardType.CursedToad]),
+        getCard(playerId, CardType.ScavengingRats, Portal[CardType.CursedToad]),
+        getCard(playerId, CardType.Riot, Portal[CardType.CursedToad]),
+        getCard(playerId, CardType.Riot, Portal[CardType.CursedToad]),
     ]
 }
 
@@ -205,5 +231,5 @@ export const getAIDeck = (id:string) => {
 }
 
 export const AIDecks = [
-    goblinHordes
+    goblinHordes, black
 ]

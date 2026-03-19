@@ -1,8 +1,8 @@
 {
-  "name": "degrowth",
-  "productName": "Degrowth",
+  "name": "crux",
+  "productName": "Crux",
   "version": "0.0.1",
-  "description": "Civ Removal Game",
+  "description": "Crux lcg",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start --inspect-electron",
@@ -25,7 +25,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "setupExe": "Degrowth.exe",
+            "setupExe": "crux.exe",
             "setupIcon": "src/icon.ico",
             "icon": "src/icon.ico"
           }

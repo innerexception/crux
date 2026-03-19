@@ -69,7 +69,9 @@ export enum CreatureSpriteIndex {
     Falconer=4048,SpiritCloud=4379,TwistedGiant=3822,DruidicWarrior=4358,DruidicAmbusher=3955,Roaches=4070,ShadowForm=4749,
     FireImp=4212,Gorilla=4023,ArmoredTortoise=4139,Longbowmen=3783,Scry=1982,Blizzard=2031,Riot=3902,SpiritsOfWorldTree=6038,
     BurrowingWurm=4075,MercenaryCaptain=3854,DrometaurSpearhand=3984,SandElemental=1214,RhinoCharge=4047,BallLightning=4378,
-    Stylite=4601,Archangel=4363,LizardMage=3951,SteamElemental=4436,Cycle=2194,GreatHive=4107,Justice=1817
+    Stylite=4601,Archangel=4363,LizardMage=3951,SteamElemental=4436,Cycle=2194,GreatHive=4107,Justice=1817,CullWeaklings=3078,
+    ContractKiller=2886,Assassin=4742,Sophist=3880,Hypnotize=1964,ForceOfWill=1843,Pathfinding=2326,CursedToad=4018,
+    PSIWarrior=3820,LabSpecimen=4840,Cougar=5419,DustStorm=1503
 }
 
 export const PlayerAvatars = [CreatureSpriteIndex.Player1, CreatureSpriteIndex.CityMage, CreatureSpriteIndex.OldMage, CreatureSpriteIndex.LadyMage]
@@ -250,7 +252,7 @@ export enum CardType {
     CullWeaklings='CullWeaklings', Justice='Justice', ArmoredTortoise='ArmoredTortoise',
     ContractKiller='ContractKilling', Longbowmen='Longbowmen', Assassin='Assassin',
     Sophist='Sophist', MercenaryCaptain='MercenaryCaptain', Hypnotize='Hypnotize', DrometaurSpearhand='DrometaurSpearhand',
-    ForceOfWill='ForceOfWill', ForestSense='ForestSense', Pathfinding='Pathfinding',
+    ForceOfWill='ForceOfWill', Pathfinding='Pathfinding',
     Hailstorm='Hailstorm', CursedToad='CursedToad', PSIWarrior='PSIWarrior',LabSpecimen='LabSpecimen',
     Cougar='Cougar',AcidRain='AcidRain',Unicorn='Unicorn',CultLeader='CultLeader',
     FieldMarshal='FieldMarshal', Sinkhole='Sinkhole', HolySymbol='HolySymbol', Premonition='Premonition',

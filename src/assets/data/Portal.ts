@@ -425,7 +425,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Damage
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.DustStorm
     },
     [CardType.Scry]: {
         color:Color.Blue,
@@ -1313,7 +1313,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Debuff,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.CullWeaklings
     },
     [CardType.Justice]: {
         color:Color.White,
@@ -1350,7 +1350,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Buff,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.ContractKiller
     },
     [CardType.Longbowmen]: {
         color:Color.White,
@@ -1371,7 +1371,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         defaultAttributes: [Modifier.Defender],
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.Assassin,
         ability:{
             targets: Target.TappedCreatures,
             trigger: Triggers.AtWill,
@@ -1390,7 +1390,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.Sophist,
         ability:{
             targets: Target.Creature,
             effect: {
@@ -1427,7 +1427,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Buff,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.Hypnotize
     },
     [CardType.DrometaurSpearhand]: {
         color:Color.Red,
@@ -1450,21 +1450,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Damage,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
-    },
-    [CardType.ForestSense]: {
-        color:Color.Green,
-        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2},],
-        kind: Permanents.Sorcery,
-        ability: {
-            targets: Target.CreatureYouControl,
-            effect: {
-                duration:1,
-                addAttributes:[Modifier.ForestWalk],
-                sprite: IconIndex.Buff,
-            }
-        },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.ForceOfWill
     },
     [CardType.Pathfinding]: {
         color:Color.Green,
@@ -1478,7 +1464,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Damage,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.Pathfinding
     },
     [CardType.Hailstorm]: {
         color:Color.Green,
@@ -1501,7 +1487,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.CursedToad,
         defaultAttributes: [Modifier.DementiaCloud]
     },
     [CardType.PSIWarrior]: {
@@ -1511,7 +1497,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.PSIWarrior,
         ability:null,
         defaultAttributes: [Modifier.Unblockable]
     },
@@ -1522,7 +1508,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.LabSpecimen,
         defaultAttributes:[Modifier.Fearsome,Modifier.Timid],
         ability:null
     },
@@ -1533,7 +1519,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.Cougar,
         defaultAttributes:[Modifier.Haste],
         ability:null
     },

@@ -36,8 +36,8 @@
   },
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.config.js",
-    "build": "webpack --config webpack.prod.config.js",
-    "build:bin": "webpack --config webpack.bin.config.js"
+    "build": "webpack --config webpack.bin.config.js && cd ./bin && npm run make",
+    "build-steam": "webpack --config webpack.steam.config.js && cd ./bin && npm run make"
   },
   "browserslist": {
     "production": [

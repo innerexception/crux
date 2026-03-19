@@ -1,13 +1,12 @@
 const { app, BrowserWindow, ipcMain, screen } = require('electron');
 // const publicIp = require('public-ip')
 
-const steamworks = require('steamworks.js');
-const { matchmaking } = require('steamworks.js/client');
+const steamworks = require('steamworks.js')
 
 const PLAYTEST_ID = -1
-const LIVE_ID=-1
+const LIVE_ID=2376370
 
-let sw = steamworks.init(LIVE_ID) 
+let sw
 try{
   sw = steamworks.init(LIVE_ID) 
 } 
@@ -76,7 +75,7 @@ const createWindow = () => {
     disableAutoHideCursor: true,
     fullscreen: true,
     webPreferences: {
-      devTools: false,
+      devTools: true,
       nodeIntegration: true,
       contextIsolation: false
     }
