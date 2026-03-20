@@ -20,7 +20,7 @@ export const getNewMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:s
     const deck:Deck = {
         id:v4(),
         name: theDeck.name,
-        cards: Array.from(theDeck.cards)
+        cards: shuffle(Array.from(theDeck.cards))
     }
     const hand = deck.cards.splice(0,5)
     return {
