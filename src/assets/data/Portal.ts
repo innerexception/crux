@@ -2059,7 +2059,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Green, amount:2},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Creature,
+            targets: Target.CreatureYouControl,
             required: true,
             effect: {
                 destroy: true,
