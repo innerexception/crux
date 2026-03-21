@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux';
-import { Modal } from '../enum';
+import { Log, Modal } from '../enum';
 import Viewport from './components/Viewport';
 import NewGame from './components/modals/NewGame';
 import StatusBar from './components/StatusBar';
@@ -18,11 +18,13 @@ import PickNextCard from './components/modals/PickNextCard';
 import DiscardAndDraw from './components/modals/DiscardAndDraw';
 import Winner from './components/modals/Winner';
 import Loser from './components/modals/Loser';
+import { CssIcon } from './common/Shared';
 
 export default () => {
 
   const state = useSelector((state:RState)=>state)
   const netAck = useSelector((state:RState)=>state.netAck)
+  const match = useSelector((state:RState)=>state.saveFile?.currentMatch)
 
   const getModal = () => {
     switch(state.activeModal){
@@ -47,6 +49,9 @@ export default () => {
       {state.activeModal && <div style={{position:'absolute', height:'fit-content', width:'800px', left:0,right:0,bottom:0,top:0, margin:'auto', zIndex:1}}>{getModal()}</div>}
       {!netAck && <div style={{position:'absolute', top:0, left:0, width:'100vw', height:'100vh', background:'white', opacity:0.1, zIndex:2}}/>}
       <div style={{position:'relative'}}>
+        {showUI && <div style={{width:'200px', position:'absolute', top:'33%', left:10, maxHeight:'300px', overflow:'auto'}}>
+            {match?.logs?.map(l=>getLogEl(l, match))}
+        </div>}
         {showUI && <Sidebar />}
         {showUI && state.isLoaded && <StatusBar />}
         {showUI && state.isLoaded && <CPUDeck/>}
@@ -57,4 +62,20 @@ export default () => {
       </div>
     </div>
   )
+}
+
+
+const getLogEl = (l:LogEntry, match:MatchState) => {
+
+  const caster = match.players.find(p=>p.id === l.card.ownerId).playerSprite
+  
+  if(l.kind === Log.AbilityPlayed) return <div>
+      <CssIcon spriteIndex={caster}/> used ability of {l.card.kind}
+  </div>
+  if(l.kind === Log.CardPlayed) return <div>
+      <CssIcon spriteIndex={caster}/> summoned {l.card.kind}
+  </div>
+  if(l.kind === Log.RangedDamage) return <div>
+      <CssIcon spriteIndex={caster}/> used ranged attack of {l.card.kind} on {l.target.kind}
+  </div>
 }

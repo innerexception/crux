@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { onCancelAction, onEndTurn, onSelectCard, onShowModal, onUpdatePlayer, onInspectCreature } from '../common/Thunks';
 import { canAfford } from '../common/Utils';
 import { Button, CssIcon } from '../common/Shared';
-import { IconIndex, Modal, Permanents } from '../../enum';
+import { IconIndex, Log, Modal, Permanents } from '../../enum';
 import { getCardData } from '../common/CardUtils';
 import { colors } from '../styles/AppStyles';
 import { sendUpdate } from '../common/Network';
@@ -34,7 +34,7 @@ export default () => {
     }
 
     return (
-        <div style={{width:'97%', justifyContent:'space-between', position:'absolute', bottom:10, left:10}}>
+        <div style={{width:'97%', position:'absolute', bottom:10, left:10}}>
             <div style={{display:'flex', alignItems:'center', flexWrap:'wrap'}}>
                 {me.hand.map(c=>CardPreview(me, c, selectedCardId))}
             </div>

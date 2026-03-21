@@ -35,6 +35,7 @@ export const getNewMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:s
         previousLobbyId:'',
         activePlayerId: startingPlayerId,
         board:[],
+        logs:[],
         lands: getFreshLands(),
         players: [
             {
