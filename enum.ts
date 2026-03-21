@@ -78,7 +78,8 @@ export enum CreatureSpriteIndex {
     FlashOfInsight=79,SavannaLion=5420,ElderGriffin=3961,Addict=3791,MasterTactician=4227,VeteranExorcist=3869,RowanTreant=4357,
     Player2=4938,Player3=4941,Player4=4913,Player5=4915,MountedHorde=5074,WayOfPeace=1744,CircleOfLife=2068,LizardWarrior=3948,
     RockTroll=3966,LivingStones=4932,BloomingEarth=2575,BallistaCorps=3144,Derecho=4415,ObsidianGargoyle=5119,Gardening=1661,
-    Overgrowth=1884,Omen=85,HoodooHealer=4758,Creditors=1767,CatBurglar=4976
+    Overgrowth=1884,Omen=85,HoodooHealer=4758,Creditors=1767,CatBurglar=4976,GuerillaTactics=2153,CunningLure=2636,
+    AngelicTouch=1819,PiercingStare=1751,FlashOfLight=2024,DeceptiveContract=1983
 }
 
 export const PlayerAvatars = [CreatureSpriteIndex.Player1, CreatureSpriteIndex.CityMage, CreatureSpriteIndex.OldMage, CreatureSpriteIndex.LadyMage, 

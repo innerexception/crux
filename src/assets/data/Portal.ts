@@ -982,7 +982,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 addAttributes: [Modifier.Taunt]
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.GuerillaTactics
     },
     [CardType.Fog]: {
         color:Color.Green,
@@ -1022,7 +1022,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Buff,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.CunningLure
     },
     [CardType.AngelicTouch]: {
         color:Color.White,
@@ -1038,7 +1038,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Buff,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.AngelicTouch
     },
     [CardType.PiercingStare]: {
         color:Color.Blue,
@@ -1052,7 +1052,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Buff,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.PiercingStare
     },
     [CardType.FlashOfLight]: {
         color:Color.White,
@@ -1066,7 +1066,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Buff,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.FlashOfLight
     },
     [CardType.StreetThugs]: {
         color:Color.Black,
@@ -1175,7 +1175,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Debuff,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.DeceptiveContract
     },
     [CardType.Taskmaster]: {
         color:Color.Black,
