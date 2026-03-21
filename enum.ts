@@ -61,7 +61,7 @@ export enum CreatureSpriteIndex {
     City=816, Desert=73, Forest=845, Tower=60, Meadow=218, Skypirate=4869,FireCloak=5392,FeatherCloak=5386,
     Sandstorm=1505,Earthquake=1900,PeaceTreaty=2138,HeroicSoldier=4893,FertileSoil=4355,Hurricane=4377,Goblin=3841,
     ForestJackal=4102,Merfolk=3956,Refreshment=2218,BillyGoat=4163,ScavengingRats=4115,Memoize=1964,Brainstorm=2028,
-    Necromancy=2095,FierySpear=1997,Sanctuary=93,Player1=4979,CityMage=4881,Knife=2882,Jellyfish=4104,
+    Necromancy=2095,FierySpear=1997,Sanctuary=93,Player1=4979,CityMage=4880,Knife=2882,Jellyfish=4104,
     ForestCall=2170,Taunt=2153,Dryad=3814,Gryphon=3846,MartyrPrayer=2083,Imp=4717,Brigand=4975,Flood=1481,
     Wilderness=2164,Defiance=1882,Pollution=2132,Monk=4943,Law=2521,Goblin2=3860,Goblin3=3962,Bear=4091,Knight=4371,
     Time=1972,Mind=3834,Giant=2212,Sprite=4035,Treant=4357,Crow=3945,Volcano=1952,Hammer=3118,Lure=2562,Scroll=2800,
@@ -73,10 +73,16 @@ export enum CreatureSpriteIndex {
     Stylite=4601,Archangel=4363,LizardMage=3951,SteamElemental=4436,Cycle=2194,GreatHive=4107,Justice=1817,CullWeaklings=3078,
     ContractKiller=2886,Assassin=4742,Sophist=3880,Hypnotize=1964,ForceOfWill=1843,Pathfinding=2326,CursedToad=4018,
     PSIWarrior=3820,LabSpecimen=4840,Cougar=5419,DustStorm=1503,AshCloud=786,FootSoldier=3869,SquidLord=5045,GiantSpider=4149,
-    Graverobber=4939
+    Graverobber=4939,WerewolfRaider=5136,DeepSprings=2158,ShiftingSands=1900,MagmaBurst=1994,WanderingSpirit=4244,SealFate=1748,
+    Meritocracy=99,SavyPolitico=4910,CollectiveMemory=2089,Judgement=92,SwordWall=5860,Retribution=2092,CartelEnforcer=3966,
+    FlashOfInsight=79,SavannaLion=5420,ElderGriffin=3961,Addict=3791,MasterTactician=4227,VeteranExorcist=3869,RowanTreant=4357,
+    Player2=4938,Player3=4941,Player4=4913,Player5=4915,MountedHorde=5074,WayOfPeace=1744,CircleOfLife=2068,LizardWarrior=3948,
+    RockTroll=3966,LivingStones=4932,BloomingEarth=2575,BallistaCorps=3144,Derecho=4415,ObsidianGargoyle=5119,Gardening=1661,
+    Overgrowth=1884,Omen=85,HoodooHealer=4758,Creditors=1767,CatBurglar=4976
 }
 
-export const PlayerAvatars = [CreatureSpriteIndex.Player1, CreatureSpriteIndex.CityMage, CreatureSpriteIndex.OldMage, CreatureSpriteIndex.LadyMage]
+export const PlayerAvatars = [CreatureSpriteIndex.Player1, CreatureSpriteIndex.CityMage, CreatureSpriteIndex.OldMage, CreatureSpriteIndex.LadyMage, 
+    CreatureSpriteIndex.Player2, CreatureSpriteIndex.Player3, CreatureSpriteIndex.Player4, CreatureSpriteIndex.Player5]
 
 export enum IconIndex {
     Mana=16, Options=1759, Close=37, Cancel=1734, Ok=1735, Quit=115,Sword=1902,Save=1935,
@@ -94,7 +100,7 @@ export enum Category {
 }
 
 export enum Log {
-    AbilityPlayed, CardPlayed, RangedDamage
+    AbilityPlayed, CardPlayed, RangedDamage, ExpiredEffect
 }
 
 export enum Permanents {
@@ -238,7 +244,7 @@ export enum CardType {
     DustStorm='DustStorm', Scry='Scry', ForestCall='ForestCall', Insult='Insult',
     WillowSpirit='WillowSpirit', FlashFlood='FlashFlood', VisitingGryphon='VisitingGryphon',
     AssassinKnife='AssassinKnife', MartyrPrayer='MartyrPrayer', Homonculus='Homonculus',
-    Corvian='ElectricEel', MercenaryKnight='FaithlessKnight', 
+    Corvian='Corvian', MercenaryKnight='FaithlessKnight', 
     TracklessWilds='TracklessWilds', Defiance='Defiance', Pollution='Pollution', 
     HolyMonk='HolyMonk',LandReform='LandReform',GoblinSargeant='GoblinSargeant',Consecrate='Consecrate',
     BlackBear='BlackBear',Hobgoblin='Hobgoblin',CatBurglar='CatBurglar',
@@ -271,14 +277,14 @@ export enum CardType {
     AshCloud='AshCloud', FootSoldier='FootSoldier',ForkLightning='ForkLightning',SquidLord='SquidLord',
     GiantSpider='GiantSpider',Graverobber='Graverobber', LivingStones='LivingStones', RockTroll='RockTroll',
     LizardWarrior='LizardWarrior', CircleOfLife='CircleOfLife', WayOfPeace='WayOfPeace',
-    NomadicRaiders='NomadicRaiders', Minotaur='Minotaur', RowanTreant='RowanTreant', VeteranExorcist='VeteranExorcist', 
+    MountedHorde='MountedHorde', RowanTreant='RowanTreant', VeteranExorcist='VeteranExorcist', 
     MasterTactician='MasterTactician', Addict='Addict', ProtoDrake='ProtoDrake', ElderGriffin='ElderGriffin',
     SavannaLion='SavannaLion', FlashOfInsight='FlashOfInsight', CartelEnforcer='CartelEnforcer', Retribution='Retribution',
     SwordWall='SwordWall', Judgement='Judgement', CollectiveMemory='CollectiveMemory',
     SavyPolitico='SavyPolitico', Meritocracy='Meritocracy', Riot='Riot', RhinoCharge='RhinoCharge',
     SealFate='SealFate', SandElemental='SandElemental', WanderingSpirit='WanderingSpirit', MagmaBurst='MagmaBurst', ShiftingSands='ShiftingSands',
     DeepSprings='DeepSprings', WerewolfRaider='WerewolfRaider', SpiritsOfWorldTree='TreeSpirits', RedwoodTreant='RedwoodTreant',
-    HoodooHealer='HoodooHealer', LifeSteal='LifeSteal', Grizzly='Grizzly', GuardianAngel='GuardianAngel',
+    HoodooHealer='HoodooHealer', Creditors='Creditors', Grizzly='Grizzly', GuardianAngel='GuardianAngel',
     ShroudedApostle='ShroudedApostle', Phoenix='Phoenix', SteamElemental='SteamElemental', Megoladon='Megoladon',
     SulfurRain='SulfurRain', Derecho='Derecho', BallLightning='BallLightning', Archangel='Archangel',
     BallistaCorps='BallistaCorps', ObsidianGargoyle='ObsidianGargoyle', Escaton='Escaton', Financier='Financier',

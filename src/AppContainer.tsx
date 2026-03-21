@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux';
-import { Log, Modal } from '../enum';
+import { IconIndex, Log, Modal } from '../enum';
 import Viewport from './components/Viewport';
 import NewGame from './components/modals/NewGame';
 import StatusBar from './components/StatusBar';
@@ -19,6 +19,8 @@ import DiscardAndDraw from './components/modals/DiscardAndDraw';
 import Winner from './components/modals/Winner';
 import Loser from './components/modals/Loser';
 import { CssIcon } from './common/Shared';
+import { renderEffect } from './components/CardView';
+import { getCardData } from './common/CardUtils';
 
 export default () => {
 
@@ -49,7 +51,7 @@ export default () => {
       {state.activeModal && <div style={{position:'absolute', height:'fit-content', width:'800px', left:0,right:0,bottom:0,top:0, margin:'auto', zIndex:1}}>{getModal()}</div>}
       {!netAck && <div style={{position:'absolute', top:0, left:0, width:'100vw', height:'100vh', background:'white', opacity:0.1, zIndex:2}}/>}
       <div style={{position:'relative'}}>
-        {showUI && <div style={{width:'200px', position:'absolute', top:'33%', left:10, maxHeight:'300px', overflow:'auto'}}>
+        {showUI && <div style={{width:'200px', position:'absolute', top:'33%', left:10, height:'300px', overflow:'auto', background:'black', padding:'5px', fontSize:'16px'}}>
             {match?.logs?.map(l=>getLogEl(l, match))}
         </div>}
         {showUI && <Sidebar />}
@@ -57,7 +59,7 @@ export default () => {
         {showUI && state.isLoaded && <CPUDeck/>}
         <Viewport/>
         {showUI && state.isLoaded && <DeckView/>}
-        <div style={{position:'absolute', top:'25vh', right:10, background:'black', width:'175px', height:'250px'}}>{state.inspectCard && <CardDetailView card={state.inspectCard}/>}</div>
+        {showUI && <div style={{position:'absolute', top:'33%', right:10, background:'black', width:'200px', height:'300px'}}>{state.inspectCard && <CardDetailView card={state.inspectCard}/>}</div>}
         {state.previewAbility && <div style={{position:'absolute', top:'50%', left:10}}><AbilityPreview ability={state.previewAbility}/></div>}
       </div>
     </div>
@@ -68,14 +70,18 @@ export default () => {
 const getLogEl = (l:LogEntry, match:MatchState) => {
 
   const caster = match.players.find(p=>p.id === l.card.ownerId).playerSprite
-  
+  const dat = getCardData(l.card)
+
   if(l.kind === Log.AbilityPlayed) return <div>
-      <CssIcon spriteIndex={caster}/> used ability of {l.card.kind}
+      <CssIcon spriteIndex={caster}/> used ability of {l.card.kind} : {renderEffect(dat.ability.effect)}
   </div>
   if(l.kind === Log.CardPlayed) return <div>
       <CssIcon spriteIndex={caster}/> summoned {l.card.kind}
   </div>
   if(l.kind === Log.RangedDamage) return <div>
       <CssIcon spriteIndex={caster}/> used ranged attack of {l.card.kind} on {l.target.kind}
+  </div>
+  if(l.kind === Log.ExpiredEffect) return <div>
+      <CssIcon spriteIndex={IconIndex.Debuff}/> Effect expired on {l.card.kind}: {renderEffect(l.effect.status)}
   </div>
 }

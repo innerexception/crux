@@ -12,19 +12,19 @@ export default (props:{card:Card}) => {
     const owner = useSelector((state:RState)=>state.saveFile.currentMatch?.players.find(p=>p.id === props.card.ownerId))
 
     return (
-        <div style={{fontSize:'16px',border:'2px inset', height:'100%', borderColor: colors[dat.color], padding:'5px'}}>
+        <div style={{fontSize:'16px',border:'2px inset', height:'300px', width:'200px', borderColor: colors[dat.color], padding:'5px'}}>
             {props.card.kind}
             <div style={{display:'flex', justifyContent:'space-between'}}>
                 <div style={{marginRight:'5px'}}>
                     <div style={{display:'flex', alignItems:'center'}}>
                         <CssIcon spriteIndex={dat.sprite} noTooltip={true}/>
-                        {dat.kind === Permanents.Creature && <div style={{marginLeft:'5px'}}>{props.card.atk}/{props.card.def}</div>}
+                        {dat.kind === Permanents.Creature && <div style={{marginLeft:'5px'}}>{props.card.atk}/{props.card.def} {dat.category}</div>}
                     </div>
                 </div>
             </div>
             
             {props.card.attributes && props.card.attributes.map(a=><div>{ModifierDesc[a]}</div>)}
-            {dat.ability && <div>
+            {dat.ability && <div style={{marginTop:'5px', marginBottom:'5px'}}>
                 <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Activate}/>} {renderCost(dat.ability.cost, dat.ability.effect?.dmgX)}</div>
                 {dat.ability.targets && <div>Affects: {TargetsDesc[dat.ability.targets]} 
                     {dat.ability.withCategory && <div>That is a {dat.ability.withCategory}</div>}

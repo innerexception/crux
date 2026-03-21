@@ -1,8 +1,8 @@
 import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
-import { CardType, Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal, Modifier, Permanents, SceneNames, Target, Triggers } from "../../../enum";
+import { CardType, Color, Direction, IconIndex, Layers, LayerStack, Log, Maps, Modal, Modifier, Permanents, SceneNames, Target, Triggers } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
-import { onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
+import { addLogEntry, onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
 import { canAct, canAfford, drawMarchingDashedRect, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, getValidCreatureTargets, resetCard, validStartTile } from "../../common/CardUtils";
@@ -605,6 +605,7 @@ export default class MapScene extends Scene {
         if(effect.status.pacifism){
             creature.tapped = false
         }
+        addLogEntry({kind: Log.ExpiredEffect, card:creature, effect})
         onUpdateBoardCreature({...creature})
     }
 

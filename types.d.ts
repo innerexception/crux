@@ -176,6 +176,7 @@ interface LogEntry {
     kind: import('./enum').Log
     card: Card
     target?: Card
+    effect?: StatusEffect
 }
 
 interface ModalData { 
