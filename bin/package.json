@@ -27,7 +27,8 @@
           "config": {
             "setupExe": "crux.exe",
             "setupIcon": "src/icon.ico",
-            "icon": "src/icon.ico"
+            "icon": "src/icon.ico",
+            "loadingGif": "src/loading.png"
           }
         },
         {

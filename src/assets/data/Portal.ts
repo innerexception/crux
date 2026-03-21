@@ -124,7 +124,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:1}],
         kind: Permanents.Enchantment,
         ability: {
-            targets: Target.Lands,
+            targets: Target.Land,
             effect: {
                 addAttributes: [Modifier.StingingWinds],
                 sprite: IconIndex.Buff
@@ -479,7 +479,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves: 1,
         defaultAttributes:[Modifier.ForestWalk],
         ability: {
-            targets: Target.LandsYouControl,
+            targets: Target.LandYouControl,
             conditionalSpend: Color.Green,
             effect: {
                 sprite: IconIndex.Buff,
@@ -818,9 +818,8 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves: 1,
         ability: {
             required: true,
-            targets: Target.LandsYouControl,
+            targets: Target.LandYouControl,
             withColor: Color.Green,
-            singleTarget: true,
             effect:{
                 destroy: true,
                 sprite: IconIndex.Buff
@@ -1528,7 +1527,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:1},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Lands,
+            targets: Target.Land,
             effect: {
                 destroy: true,
                 sprite: IconIndex.Damage,
@@ -1589,7 +1588,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Lands,
+            targets: Target.Land,
             effect: {
                 destroy: true,
                 sprite: IconIndex.Damage,
@@ -1648,9 +1647,8 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes:[Modifier.Vigilant],
         ability:{
             required: true,
-            targets: Target.LandsYouControl,
+            targets: Target.LandYouControl,
             withColor: Color.Green,
-            singleTarget: true,
             effect:{
                 destroy: true,
                 sprite: IconIndex.Buff
@@ -1800,7 +1798,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Green, amount:2},{kind:Color.None, amount:1},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Lands,
+            targets: Target.Land,
             effect: {
                 destroy: true,
                 sprite: IconIndex.Damage,
@@ -1854,7 +1852,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Enchantment,
         ability: {
-            targets: Target.LandsYouControl,
+            targets: Target.LandYouControl,
             effect: {
                 addAttributes: [Modifier.BeeSting],
                 sprite: IconIndex.Buff,
@@ -2374,7 +2372,7 @@ export const Portal:Record<CardType, CardMeta> = {
         kind: Permanents.Creature,
         sprite: CreatureSpriteIndex.SandElemental,
         ability: {
-            targets: Target.Lands,
+            targets: Target.Land,
             trigger: Triggers.OnDeath,
             effect: {
                 destroy: true,
@@ -2411,7 +2409,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:1},],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Lands,
+            targets: Target.Land,
             effect: {
                 destroy: true,
                 sprite: IconIndex.Damage,
@@ -2452,9 +2450,8 @@ export const Portal:Record<CardType, CardMeta> = {
         sprite: CreatureSpriteIndex.SpiritsOfWorldTree,
         ability: {
             required: true,
-            targets: Target.LandsYouControl,
+            targets: Target.LandYouControl,
             withColor: Color.Green,
-            singleTarget: true,
             effect: {
                 sprite: IconIndex.Damage,
                 destroy: true,
@@ -2597,7 +2594,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:2}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Lands,
+            targets: Target.Land,
             effect: {
                 destroy: true,
                 repeat: 2,
@@ -2712,7 +2709,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:2},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Lands,
+            targets: Target.Land,
             effect: {
                 transformInto: CardType.Desert,
                 sprite: IconIndex.Damage,
@@ -2767,7 +2764,7 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Sorcery,
         ability: {
-            targets: Target.Lands,
+            targets: Target.Land,
             effect: {
                 addAttributes:[Modifier.GreenProducer],
                 sprite: IconIndex.Buff,

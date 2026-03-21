@@ -78,7 +78,7 @@ export const getValidLandTargets = (ability:CardAbility, card:Card) => {
     if(ability.withColor){
         lands = lands.filter(l=>getCardData(l).color === ability.withColor)
     }
-    if(ability.targets === Target.LandsYouControl){
+    if(ability.targets === Target.LandYouControl){
         lands = lands.filter(l=>l.ownerId === card.ownerId)
     }
     if(ability.targets === Target.OpponentLand){

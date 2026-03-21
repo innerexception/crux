@@ -56,7 +56,6 @@ interface CardAbility  {
     withAttribute?: import('./enum').Modifier
     withCategory?: import('./enum').Category
     whenAttackingLand?: import('./enum').CardType
-    singleTarget?:boolean //Max targets affected
     def3orLess?:boolean //targets creatures with def 3 or less
     trigger?: import('./enum').Triggers //default is onEnter
     conditionalSpend?: import('./enum').Color //ability only triggers if this color was spent

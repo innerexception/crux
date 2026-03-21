@@ -102,7 +102,7 @@ export enum Permanents {
 }
 
 export enum Target {
-    Self='Self',CreatureYouControl='CreatureYouControl',Creature='Creature',Lands='Lands',LandsYouControl='LandsYouControl',
+    Self='Self',CreatureYouControl='CreatureYouControl',Creature='Creature',Land='Land',LandYouControl='LandYouControl',
     AllCreatures='AllCreatures',CreatureOrLand='CreatureOrLand',AllCreaturesAndPlayers='AllCreaturesAndPlayers',Players='Players',
     CreaturesYourGraveyard='CreaturesYourGraveyard',YourGraveyard='YourGraveyard',OpponentCreature='OpponentCreature',
     CreatureOrPlayer='CreatureOrPlayer',CreaturesAnyGraveyard='CreaturesAnyGraveyard',AllOpponentCreatures='AllOpponentCreatures',
@@ -193,7 +193,7 @@ export const TargetsDesc:Record<Target,string> = {
     [Target.AllLands]: "All lands",
     [Target.TappedCreature]: "A tapped creature",
     [Target.CreaturesInLane]: "Creatures in target's lane",
-    [Target.LandsYouControl]: 'A Land you control',
+    [Target.LandYouControl]: 'A Land you control',
     [Target.OpponentLand]: "An opponent's land",
     [Target.ThisCreature]: 'This Creature',
     [Target.AllCreatures]: 'All Creatures',
@@ -202,7 +202,7 @@ export const TargetsDesc:Record<Target,string> = {
     [Target.AllCreaturesYouControl]: 'All Creatures you control',
     [Target.TappedCreatures]: 'Tapped Creatures',
     [Target.AllPlayers]:'All Players',
-    [Target.Lands]:'A Land',
+    [Target.Land]:'A Land',
     [Target.Self]:'You',
     [Target.Players]:'A Player',
     [Target.Creature]:'A Creature',

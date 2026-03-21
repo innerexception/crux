@@ -474,12 +474,12 @@ export default class MapScene extends Scene {
             lands = lands.filter(l=>getCardData(l).color === ability.withColor)
         }
 
-        if(ability.targets === Target.Lands || ability.targets === Target.AllLands){
+        if(ability.targets === Target.Land || ability.targets === Target.AllLands){
             
             tiles = lands.map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
             return tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
         }
-        if(ability.targets === Target.LandsYouControl){
+        if(ability.targets === Target.LandYouControl){
             tiles = lands.filter(c=>c.ownerId === me.id)
                 .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
             return tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))

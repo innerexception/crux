@@ -214,7 +214,7 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     let lands = getValidLandTargets(dat.ability, card)
     const land = lands.find(c=>c.id === props.entityId)
     if(land){
-        if(targets === Target.Lands || dat.ability.singleTarget){
+        if(targets === Target.Land || targets === Target.LandYouControl || targets === Target.OpponentLand || targets === Target.CreatureOrLand){
             scene.applyLandEffect(props.card, land)
         }
         else scene.applyMultiLandEffect(props.card, lands)
@@ -228,7 +228,7 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
             targets === Target.AllOpponentCreatures || 
             targets === Target.AllCreaturesYouControl || 
             targets === Target.AllOtherCreatures){
-            scene.applyMultiCreatureEffect({creatures: dat.ability.singleTarget ? [creature]:creatures, card})
+            scene.applyMultiCreatureEffect({creatures, card})
         }
         else{ 
             //All single targets
