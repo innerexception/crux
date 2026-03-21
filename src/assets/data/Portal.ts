@@ -1976,7 +1976,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 destroy: true,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.AshCloud
     },
     [CardType.FootSoldier]: {
         color:Color.White,
@@ -1985,7 +1985,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.FootSoldier,
         ability:null,
     },
     [CardType.ForkLightning]: {
@@ -2009,7 +2009,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.SquidLord,
         ability:null,
     },
     [CardType.GiantSpider]: {
@@ -2019,7 +2019,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.GiantSpider,
         ability:null,
         defaultAttributes:[Modifier.Taunt]
     },
@@ -2030,7 +2030,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:3}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.Graverobber,
         ability:{
             targets: Target.CreaturesYourGraveyard,
             effect: {

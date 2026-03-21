@@ -71,7 +71,8 @@ export enum CreatureSpriteIndex {
     BurrowingWurm=4075,MercenaryCaptain=3854,DrometaurSpearhand=3984,SandElemental=1214,RhinoCharge=4047,BallLightning=4378,
     Stylite=4601,Archangel=4363,LizardMage=3951,SteamElemental=4436,Cycle=2194,GreatHive=4107,Justice=1817,CullWeaklings=3078,
     ContractKiller=2886,Assassin=4742,Sophist=3880,Hypnotize=1964,ForceOfWill=1843,Pathfinding=2326,CursedToad=4018,
-    PSIWarrior=3820,LabSpecimen=4840,Cougar=5419,DustStorm=1503
+    PSIWarrior=3820,LabSpecimen=4840,Cougar=5419,DustStorm=1503,AshCloud=786,FootSoldier=3869,SquidLord=5045,GiantSpider=4149,
+    Graverobber=4939
 }
 
 export const PlayerAvatars = [CreatureSpriteIndex.Player1, CreatureSpriteIndex.CityMage, CreatureSpriteIndex.OldMage, CreatureSpriteIndex.LadyMage]
