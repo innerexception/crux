@@ -67,9 +67,9 @@ export enum CreatureSpriteIndex {
     Time=1972,Mind=3834,Giant=2212,Sprite=4035,Treant=4357,Crow=3945,Volcano=1952,Hammer=3118,Lure=2562,Scroll=2800,
     Armor=2117,Heal=2125,Sun=59,Rats=2180,DesertAsetic=2291,Dragonling=3827,Thug=3910,Guard=4904,Apprentice=3889,
     Placeholder=4428,Knight2=4990,OldMage=4942,LadyMage=4948,Law2=2802,MessengerOwl=4060,Corvian=3874,MercenaryKnight=4233,
-    Falconer=4048,SpiritCloud=4379,TwistedGiant=3822,DruidicWarrior=4358,DruidicAmbusher=3955,Roaches=4070,ShadowForm=4749,
-    FireImp=4212,Gorilla=4023,ArmoredTortoise=4139,Longbowmen=3783,Scry=1982,Blizzard=2031,Riot=3902,SpiritsOfWorldTree=6038,
-    BurrowingWurm=4075,MercenaryCaptain=3854,DrometaurSpearhand=3984,SandElemental=1214,RhinoCharge=4047,BallLightning=4378,
+    Falconer=4048,SpiritCloud=4379,TwistedGiant=3822,DruidicWarrior=4358,DruidicAmbusher=3955,Roaches=4070,ShadowForm=4241,
+    FireImp=4212,Gorilla=4023,ArmoredTortoise=4138,Longbowmen=3783,Scry=1982,Blizzard=2031,Riot=3902,SpiritsOfWorldTree=6038,
+    BurrowingWurm=4173,MercenaryCaptain=3854,DrometaurSpearhand=3984,SandElemental=1214,RhinoCharge=4047,BallLightning=1909,
     Stylite=4601,Archangel=4363,LizardMage=3951,SteamElemental=4436,Cycle=2194,GreatHive=4107,Justice=1817,CullWeaklings=3078,
     ContractKiller=2886,Assassin=4742,Sophist=3880,Hypnotize=1964,ForceOfWill=1843,Pathfinding=2326,CursedToad=4018,
     PSIWarrior=3820,LabSpecimen=4840,Cougar=5419,DustStorm=1503,AshCloud=786,FootSoldier=3869,SquidLord=5045,GiantSpider=4149,
@@ -79,13 +79,14 @@ export enum CreatureSpriteIndex {
     Player2=4938,Player3=4941,Player4=4913,Player5=4915,MountedHorde=5074,WayOfPeace=1744,CircleOfLife=2068,LizardWarrior=3948,
     RockTroll=3966,LivingStones=4932,BloomingEarth=2575,BallistaCorps=3144,Derecho=4415,ObsidianGargoyle=5119,Gardening=1661,
     Overgrowth=1884,Omen=85,HoodooHealer=4758,Creditors=1767,CatBurglar=4976,GuerillaTactics=2153,CunningLure=2636,
-    AngelicTouch=1819,PiercingStare=1751,FlashOfLight=2024,DeceptiveContract=1983,StingingWinds=2032,Banish=2192,
+    AngelicTouch=1819,PiercingStare=4336,FlashOfLight=2024,DeceptiveContract=1983,StingingWinds=2032,Banish=2192,
     Taskmaster=2054,DoubleCast=7,Thunderclap=1847,Hailstorm=4413,AcidRain=1534,Unicorn=4800,CultLeader=4767,FieldMarshal=5062,
     Sinkhole=826,HolySymbol=2053,Premonition=2213,VexingRiddle=2138,Slow=2138,RighteousCharge=813,GraniteWall=997,Collectivization=726,
     BattlePrayer=61,Conspiracy=1864,AirDrake=4325,Anaconda=4163,Boggart=4186,VolcanicVent=384,Fear=1946,Resurrection=2109,
     DustDevil=4247,SecretCache=10,ProtoDrake=4277,Grizzly=4091,GuardianAngel=4363,ShroudedApostle=4979,Phoenix=3942,IllusoryWall=867,
     ChaosServant=4903,SulfurRain=1949,LavaBeam=2002,Contemplation=1963,HiddenOasis=2046,FeralSpirit=4054,FireHydra=4054,
-    KnowledgeAssimilator=4968
+    KnowledgeAssimilator=4968,DebtCollection=1798,VenerableMonk=3803,Reckoning=857,LastGasp=2012,DruidicScholar=4896,Escaton=73,
+    Erosion=1494,DivineReach=1834,Fog=1711,ForkLightning=1847,RedwoodTreant=4713
 }
 
 export const PlayerAvatars = [CreatureSpriteIndex.Player1, CreatureSpriteIndex.CityMage, CreatureSpriteIndex.OldMage, CreatureSpriteIndex.LadyMage, 
@@ -293,7 +294,7 @@ export enum CardType {
     HoodooHealer='HoodooHealer', Creditors='Creditors', Grizzly='Grizzly', GuardianAngel='GuardianAngel',
     ShroudedApostle='ShroudedApostle', Phoenix='Phoenix', SteamElemental='SteamElemental', IllusoryWall='IllusoryWall',
     SulfurRain='SulfurRain', Derecho='Derecho', BallLightning='BallLightning', Archangel='Archangel',
-    BallistaCorps='BallistaCorps', ObsidianGargoyle='ObsidianGargoyle', Escaton='Escaton', Financier='Financier',
+    BallistaCorps='BallistaCorps', ObsidianGargoyle='ObsidianGargoyle', Escaton='Escaton',
     FeralSpirit='FeralSpirit', FireHydra='FireHydra', KnowledgeAssimilator='KnowledgeAssimilator',ChaosServant='ChaosServant',
     VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion',DivineReach='DivineReach',Stylite='Stylite',LizardMage='LizardMage',
     LavaBeam='LavaBeam',Contemplation='Contemplation',HiddenOasis='HiddenOasis',StingingWinds='StingingWinds'

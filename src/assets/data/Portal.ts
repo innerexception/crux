@@ -983,7 +983,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 duration: 2
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.Fog
     },
     [CardType.FireHammer]: {
         color:Color.Red,
@@ -1695,7 +1695,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Buff,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.DebtCollection
     },
     [CardType.VenerableMonk]: {
         color:Color.White,
@@ -1704,7 +1704,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.VenerableMonk,
         ability:{
             targets: Target.Self,
             effect:{
@@ -1832,7 +1832,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Damage,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.Reckoning
     },
     [CardType.GreatHive]: {
         color:Color.Green,
@@ -1898,7 +1898,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Damage
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.LastGasp
     },
     [CardType.Resurrection]: {
         color:Color.White,
@@ -1920,7 +1920,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.DruidicScholar,
         ability:null,
         defaultAttributes: [Modifier.TowerWalk]
     },
@@ -1985,7 +1985,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 dmg:1
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.ForkLightning
     },
     [CardType.SquidLord]: {
         color:Color.Blue,
@@ -2105,9 +2105,9 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultDef:4,
         defaultMoves:1,
         category: Category.Spirit,
-        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.Green, amount:2},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.RowanTreant,
         ability: null
     },
     [CardType.VeteranExorcist]: {
@@ -2443,7 +2443,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultMoves:1,
         cost: [{kind:Color.Green, amount:3}],
         kind: Permanents.Creature,
-        sprite: CreatureSpriteIndex.Placeholder,
+        sprite: CreatureSpriteIndex.RedwoodTreant,
         ability: null
     },
     [CardType.HoodooHealer]: {
@@ -2665,21 +2665,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Damage,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
-    },
-    [CardType.Financier]: {
-        color:Color.Black,
-        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:2}],
-        kind: Permanents.Sorcery,
-        ability: {
-            targets: Target.CreatureOrPlayer,
-            effect: {
-                dmg: 3,
-                casterHpUp: 3,
-                sprite: IconIndex.Damage,
-            }
-        },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.Escaton
     },
     [CardType.Erosion]: {
         color:Color.Red,
@@ -2692,7 +2678,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Damage,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.Erosion
     },
     [CardType.DivineReach]: {
         color:Color.White,
@@ -2705,7 +2691,7 @@ export const Portal:Record<CardType, CardMeta> = {
                 sprite: IconIndex.Buff,
             }
         },
-        sprite: CreatureSpriteIndex.Placeholder
+        sprite: CreatureSpriteIndex.DivineReach
     },
     [CardType.LavaBeam]: {
         color:Color.Red,
