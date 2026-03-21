@@ -503,7 +503,7 @@ export default class MapScene extends Scene {
         
         let creatures = getValidCreatureTargets(ability, boardCard, boardCard.id)
         tiles = creatures.map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
-        if(ability.targets === Target.CreaturesOrPlayers || ability.targets === Target.AllCreaturesAndPlayers){
+        if(ability.targets === Target.CreatureOrPlayer || ability.targets === Target.AllCreaturesAndPlayers){
             tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerNorth.x, this.playerNorth.y, false, undefined, Layers.Earth))
             tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerSouth.x, this.playerSouth.y, false, undefined, Layers.Earth))
         }

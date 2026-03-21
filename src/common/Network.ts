@@ -4,7 +4,7 @@ import { onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSelectCard, onS
 import { store } from '../..'
 import { emptyMana, payCost } from './Utils'
 import{ v4 } from 'uuid'
-import { getCardData, getValidCreatureTargets, tapLand, validSingleTarget } from './CardUtils'
+import { getCardData, getValidCreatureTargets, tapLand } from './CardUtils'
 import CreatureSprite from '../components/sprites/CreatureSprite'
 
 const supabase = createClient('https://tcuyfzebridkroyzfobz.supabase.co', 'sb_publishable_ygcDc5PEiCwv9e5Tr0T96w_Nyu54ZsB')
@@ -209,7 +209,7 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
 
     const player = state.saveFile.currentMatch.players.find(p=>p.id === props.entityId)
     if(player){
-        if(targets === Target.CreaturesOrPlayers || targets === Target.Players){
+        if(targets === Target.CreatureOrPlayer || targets === Target.Players){
             scene.applyPlayerEffect(player, card)
         }
         else if(targets === Target.Self && player.id === state.saveFile.currentMatch.activePlayerId){
@@ -223,7 +223,7 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     let lands = getValidLandTargets(dat.ability, card)
     const land = lands.find(c=>c.id === props.entityId)
     if(land){
-        if(targets === Target.Lands || dat.ability.maxOfOne){
+        if(targets === Target.Lands || dat.ability.singleTarget){
             scene.applyLandEffect(props.card, land)
         }
         else scene.applyMultiLandEffect(props.card, lands)
@@ -231,13 +231,17 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     
     const creature = creatures.find(c=>c.id === props.entityId)
     if(creature) {
-        if(targets === Target.AllCreatures || targets === Target.CreaturesInLane || targets === Target.TappedCreatures || 
-            targets === Target.AllOpponentCreatures || targets === Target.AllCreaturesYouControl || Target.AllOtherCreatures){
-            scene.applyMultiCreatureEffect({creatures: dat.ability.maxOfOne ? [creature]:creatures, card})
+        if(targets === Target.AllCreatures || 
+            targets === Target.CreaturesInLane || 
+            targets === Target.TappedCreatures || 
+            targets === Target.AllOpponentCreatures || 
+            targets === Target.AllCreaturesYouControl || 
+            targets === Target.AllOtherCreatures){
+            scene.applyMultiCreatureEffect({creatures: dat.ability.singleTarget ? [creature]:creatures, card})
         }
-        else if(validSingleTarget(props.entityId, card)){ 
+        else{ 
             //All single targets
-            scene.applySingleTargetCreatureEffect({creature: creature, sorcery:card})
+            scene.applySingleTargetCreatureEffect({creature, sorcery:card})
         }
     }
 

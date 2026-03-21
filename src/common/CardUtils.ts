@@ -58,31 +58,6 @@ export const getValidCreatureTargets = (ability:CardAbility, card:Card, entityId
     return creatures
 }
 
-export const validSingleTarget = (entityId:string, sorcery:Card):boolean => {
-    const sorceryData = getCardData(sorcery)
-    const creature = store.getState().saveFile.currentMatch.board.find(c=>c.id === entityId)
-    const cdat = getCardData(creature)
-    if(cdat.kind === Permanents.Creature){
-        if(sorceryData.ability.targets === Target.Creature || 
-            sorceryData.ability.targets === Target.AllCreaturesAndPlayers ||
-            sorceryData.ability.targets === Target.CreaturesOrPlayers){
-            return true
-        }
-        if(sorceryData.ability.targets === Target.CreatureYouControl){
-            return creature.ownerId === sorcery.ownerId
-        }
-        if(sorceryData.ability.targets === Target.OpponentCreature){
-            return creature.ownerId !== sorcery.ownerId
-        }
-        if(sorceryData.ability.targets === Target.ThisCreature){
-            return creature.id === entityId
-        }
-        if(sorceryData.ability.targets === Target.TappedCreature){
-            return creature.tapped
-        }
-    }
-}
-
 export const validStartTile = (t:Tilemaps.Tile, dir:Direction, land:boolean) => {
     const scene = store.getState().scene
     if(dir === Direction.SOUTH){
