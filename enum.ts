@@ -19,7 +19,8 @@ export enum UIReducerActions {
     SET_ABILITY='SET_ABILITY',
     SET_PROCESSING='SET_PROCESSING',
     SET_NET_ACK='SET_NET_ACK',
-    SET_REPEAT='SET_REPEAT'
+    SET_REPEAT='SET_REPEAT',
+    ADD_LOG='ADD_LOG'
 }
 
 export enum Modal {
@@ -90,6 +91,10 @@ export enum Color {
 export enum Category {
     Human='Human',Elemental='Elemental',Beast='Beast',Celestial='Celestial',Infernal='Infernal',
     Beastkin='Beastkin',Spirit='Spirit'
+}
+
+export enum Log {
+    AbilityPlayed, CardPlayed, RangedDamage
 }
 
 export enum Permanents {

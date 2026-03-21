@@ -5,6 +5,10 @@ import MapScene from "../components/scenes/MapScene"
 import { net_cancelPendingAction, net_endTurn, sendCancelAction, sendEndTurn, sendLandDeck } from "./Network"
 import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
 
+export const addLogEntry = (data:LogEntry) => {
+    store.dispatch({ type: UIReducerActions.ADD_LOG, data })
+}
+
 export const onSetRepeatingCardAbility = (times:number) => {
     store.dispatch({ type: UIReducerActions.SET_REPEAT, data:times })
 }
@@ -133,6 +137,5 @@ export const onSave = () => {
     const uiState = store.getState().saveFile
     trySaveFile(JSON.stringify(uiState))
     onUpdateSave(uiState)
-    onQuit()
 }
 

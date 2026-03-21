@@ -45,6 +45,8 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
             return { ...state, netAck: action.data }
         case UIReducerActions.SET_REPEAT:
             return { ...state, repeatCount: action.data }
+        case UIReducerActions.ADD_LOG:
+            return { ...state, saveFile: {...state.saveFile, currentMatch: {...state.saveFile.currentMatch, logs: state.saveFile.currentMatch.logs.concat(action.data) }}}
         default:
             return state
     }

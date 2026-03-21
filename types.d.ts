@@ -153,6 +153,7 @@ interface MatchState {
     players: PlayerState[]
     board:Card[]
     lands:Card[]
+    logs:LogEntry[]
 }
 
 interface RState {
@@ -170,6 +171,12 @@ interface RState {
     inspectCard: Card
     selectedCardId: string
     scene: import('./src/components/scenes/MapScene').default
+}
+
+interface LogEntry {
+    kind: import('./enum').Log
+    card: Card
+    target?: Card
 }
 
 interface ModalData { 

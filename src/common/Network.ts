@@ -1,10 +1,10 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
-import { IconIndex, Layers, Modal, Modifier, NetworkEvent, Permanents, Target } from '../../enum'
-import { onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSelectCard, onSetActionAcknowledge, onSetLobby, onSetRepeatingCardAbility, onShowAbilityPreview, onShowModal, onStartMatch, onTurnProcessing, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from './Thunks'
+import { IconIndex, Layers, Log, Modal, Modifier, NetworkEvent, Permanents, Target } from '../../enum'
+import { addLogEntry, onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSelectCard, onSetActionAcknowledge, onSetLobby, onSetRepeatingCardAbility, onShowAbilityPreview, onShowModal, onStartMatch, onTurnProcessing, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from './Thunks'
 import { store } from '../..'
 import { emptyMana, payCost } from './Utils'
 import{ v4 } from 'uuid'
-import { getCardData, getValidCreatureTargets, tapLand } from './CardUtils'
+import { getCardData, getLaneAttributes, getValidCreatureTargets, getValidLandTargets, tapLand } from './CardUtils'
 import CreatureSprite from '../components/sprites/CreatureSprite'
 
 const supabase = createClient('https://tcuyfzebridkroyzfobz.supabase.co', 'sb_publishable_ygcDc5PEiCwv9e5Tr0T96w_Nyu54ZsB')
@@ -132,6 +132,8 @@ export const net_damageCard = (props:{target:Card, attacker:Card}) => {
     const spr = scene.creatures.find(c=>c.id === props.target.id)
     scene.floatResource(spr.x, spr.y, IconIndex.Sword)
     onUpdateBoardCreature({...props.attacker, tapped: true})
+    addLogEntry({ kind: Log.RangedDamage, card:props.attacker, target:props.target })
+
     if(props.target.def<=0){
         scene.tryRemoveCreature(props.target)
     }
@@ -146,19 +148,6 @@ export const net_moveCard = (props:{card:Card, tileX:number, tileY:number}) => {
     spr.icon?.destroy()
     let attributes = getLaneAttributes(props.card, props.tileX)
     onUpdateBoardCreature({...props.card, attributes, tileX: props.tileX, tileY: props.tileY, tapped: true})
-}
-
-export const getLaneAttributes = (card:Card, tileX:number) => {
-    const board = store.getState().saveFile.currentMatch.board
-    const stingingWinds = board.find(c=>c.attributes.includes(Modifier.StingingWinds) && c.tileX === tileX && c.ownerId === card.ownerId)
-    const previousStingingWinds = board.find(c=>c.attributes.includes(Modifier.StingingWinds) && c.tileX === card.tileX && c.ownerId === card.ownerId)
-    if(stingingWinds && !card.attributes.includes(Modifier.Haste)){
-        card.attributes.push(Modifier.Haste)
-    }
-    else if(previousStingingWinds && !getCardData(card).defaultAttributes.includes(Modifier.Haste)){
-        card.attributes = card.attributes.filter(a=>a!==Modifier.Haste)
-    }
-    return card.attributes
 }
 
 export const net_cancelPendingAction= () => {
@@ -183,6 +172,8 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     const dat = getCardData(card)
     const targets = dat.ability.targets
     
+    addLogEntry({ kind: Log.AbilityPlayed, card })
+
     let creatures = getValidCreatureTargets(dat.ability, card, props.entityId)
     
     if(targets === Target.AllCreaturesAndPlayers){
@@ -249,23 +240,6 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
         if(discard) scene.payAndDiscard(props.card)
         net_cancelPendingAction()
     }
-}
-
-const getValidLandTargets = (ability:CardAbility, card:Card) => {
-
-    let lands = store.getState().saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land)
-
-    if(ability.withColor){
-        lands = lands.filter(l=>getCardData(l).color === ability.withColor)
-    }
-    if(ability.targets === Target.LandsYouControl){
-        lands = lands.filter(l=>l.ownerId === card.ownerId)
-    }
-    if(ability.targets === Target.OpponentLand){
-        lands = lands.filter(l=>l.ownerId !== card.ownerId)
-    }
-    
-    return lands
 }
 
 export const net_endTurn = async (match:MatchState) => {
@@ -379,6 +353,8 @@ export const net_addCard = (props:{cardId:string, worldX:number,worldY:number, f
         })
     }
     state = store.getState().saveFile
+    addLogEntry({ kind: Log.CardPlayed, card })
+
     if(data.kind === Permanents.Land){
         onUpdateLands(state.currentMatch.lands.filter(l=>l.id!==props.cardId))
     }

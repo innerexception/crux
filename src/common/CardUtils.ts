@@ -58,6 +58,36 @@ export const getValidCreatureTargets = (ability:CardAbility, card:Card, entityId
     return creatures
 }
 
+export const getLaneAttributes = (card:Card, tileX:number) => {
+    const board = store.getState().saveFile.currentMatch.board
+    const stingingWinds = board.find(c=>c.attributes.includes(Modifier.StingingWinds) && c.tileX === tileX && c.ownerId === card.ownerId)
+    const previousStingingWinds = board.find(c=>c.attributes.includes(Modifier.StingingWinds) && c.tileX === card.tileX && c.ownerId === card.ownerId)
+    if(stingingWinds && !card.attributes.includes(Modifier.Haste)){
+        card.attributes.push(Modifier.Haste)
+    }
+    else if(previousStingingWinds && !getCardData(card).defaultAttributes.includes(Modifier.Haste)){
+        card.attributes = card.attributes.filter(a=>a!==Modifier.Haste)
+    }
+    return card.attributes
+}
+
+export const getValidLandTargets = (ability:CardAbility, card:Card) => {
+
+    let lands = store.getState().saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land)
+
+    if(ability.withColor){
+        lands = lands.filter(l=>getCardData(l).color === ability.withColor)
+    }
+    if(ability.targets === Target.LandsYouControl){
+        lands = lands.filter(l=>l.ownerId === card.ownerId)
+    }
+    if(ability.targets === Target.OpponentLand){
+        lands = lands.filter(l=>l.ownerId !== card.ownerId)
+    }
+    
+    return lands
+}
+
 export const validStartTile = (t:Tilemaps.Tile, dir:Direction, land:boolean) => {
     const scene = store.getState().scene
     if(dir === Direction.SOUTH){

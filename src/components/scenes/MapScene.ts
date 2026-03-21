@@ -4,7 +4,7 @@ import { CardType, Color, Direction, IconIndex, Layers, LayerStack, Maps, Modal,
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
-import { canAfford, drawMarchingDashedRect, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
+import { canAct, canAfford, drawMarchingDashedRect, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, getValidCreatureTargets, resetCard, validStartTile } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
 import { net_addCard, net_cancelPendingAction, net_damageCard, net_endTurn, net_moveCard, net_tapLand, net_triggerCardAbility, sendAddCardEffect, sendDamageCard, sendLandTappedEffect, sendMoveCard, sendTriggerCardAbility } from "../../common/Network";
@@ -276,6 +276,9 @@ export default class MapScene extends Scene {
 
         this.input.on('pointerdown', (event, GameObjects:Array<Phaser.GameObjects.GameObject>) => {
             const state = store.getState()
+
+            if(!canAct()) return
+            
             let tile = this.map?.getTileAtWorldXY(this.input.activePointer.worldX, this.input.activePointer.worldY, false, undefined, Layers.Earth)
             if(tile){
                 const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
@@ -585,7 +588,7 @@ export default class MapScene extends Scene {
     expireEffect = (creature:Card, effect:StatusEffect) => {
         //play dmg/buff/debuff sprite
         const s = this.creatures.find(c=>c.id === creature.id)
-        this.flashIcon(s.x, s.y, effect.status.sprite)
+        this.flashIcon(s.x, s.y, IconIndex.Debuff)
         creature.status = creature.status.filter(s=>s.id!==effect.id)
         if(effect.status.atkUp){
             creature.atk-=effect.status.atkUp

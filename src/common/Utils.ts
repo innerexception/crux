@@ -15,6 +15,14 @@ export const emptyMana = {
     [Color.None]:0
 }
 
+export const canAct = () => {
+    const state = store.getState()
+    if(!state.netAck) return false
+    if(!state.saveFile) return false
+    if(!state.saveFile.currentMatch) return false
+    return state.saveFile.currentMatch.activePlayerId === state.saveFile.myId
+}
+
 export const getNewMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:string):MatchState => {
     const theDeck = s.decks.find(d=>d.id === s.currentDeckId)
     const deck:Deck = {

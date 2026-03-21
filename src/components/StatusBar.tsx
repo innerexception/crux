@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useSelector } from 'react-redux';
 import { Color, ColorIcons, IconIndex } from '../../enum';
 import { Button, CssIcon } from '../common/Shared';
-import { onSave } from '../common/Thunks';
+import { onQuit, onSave } from '../common/Thunks';
 
 export default () => {
 
@@ -15,7 +15,7 @@ export default () => {
                 {Object.keys(me.manaPool).filter(c=>c!==Color.None).map(color=><div><CssIcon spriteIndex={ColorIcons[color]}/>{me.manaPool[color]}</div>)}
             </div>
             <div style={{display:'flex', flexWrap:'wrap', width:'400px', justifyContent:'flex-end', alignItems:'center'}}>
-                <Button enabled={true} text="Save & Exit" icon={IconIndex.Options} handler={()=>onSave()}/>
+                <Button enabled={true} text="Exit" icon={IconIndex.Options} handler={()=>onQuit()}/>
             </div>
         </div>
     )

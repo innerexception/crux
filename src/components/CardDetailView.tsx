@@ -13,6 +13,7 @@ export default (props:{card:Card}) => {
 
     return (
         <div style={{fontSize:'16px',border:'2px inset', height:'100%', borderColor: colors[dat.color], padding:'5px'}}>
+            {props.card.kind}
             <div style={{display:'flex', justifyContent:'space-between'}}>
                 <div style={{marginRight:'5px'}}>
                     <div style={{display:'flex', alignItems:'center'}}>
@@ -21,7 +22,7 @@ export default (props:{card:Card}) => {
                     </div>
                 </div>
             </div>
-            {dat.description && <div>{dat.description}</div>}
+            
             {props.card.attributes && props.card.attributes.map(a=><div>{ModifierDesc[a]}</div>)}
             {dat.ability && <div>
                 <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Activate}/>} {renderCost(dat.ability.cost, dat.ability.effect?.dmgX)}</div>
