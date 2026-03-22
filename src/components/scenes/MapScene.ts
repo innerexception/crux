@@ -122,10 +122,13 @@ export default class MapScene extends Scene {
             const creatureSorceries = p.hand.find(c=>
                 getCardData(c).kind === Permanents.Sorcery &&
                 canAfford(p.manaPool,c) &&
-                getCardData(c).ability.targets === Target.Creature && 
                 (getCardData(c).ability.effect.dmg || getCardData(c).ability.effect.destroy))
             if(creatureSorceries){
-                this.applySingleTargetCreatureEffect({creature: enemies[0], sorcery: creatureSorceries})
+                if(enemies.find(e=>{
+                    const targets = getValidCreatureTargets(getCardData(creatureSorceries).ability, creatureSorceries, e.id) 
+                    return targets.find(t=>t.id === e.id)
+                }))
+                    this.applySingleTargetCreatureEffect({creature: enemies[0], sorcery: creatureSorceries})
             }
         }
         onUpdatePlayer({...p})
@@ -134,7 +137,12 @@ export default class MapScene extends Scene {
             if(enemies[0]){
                 const enemyTile = this.map.getTileAt(enemies[0].tileX, enemies[0].tileY, false, Layers.Earth)
                 const spawnTile = this.map.getTileAt(enemyTile.x, p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
-                net_addCard({cardId: creature.id, worldX: spawnTile.pixelX, worldY: spawnTile.pixelY})
+                if(this.isEmptyTile(spawnTile.x, spawnTile.y))
+                    net_addCard({cardId: creature.id, worldX: spawnTile.pixelX, worldY: spawnTile.pixelY})
+                else {
+                    const spawnTile = this.map.getTileAt(this.getEmptyStartTile(p).x, p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
+                    net_addCard({cardId: creature.id, worldX: spawnTile.pixelX, worldY: spawnTile.pixelY})
+                }
             }
             else {
                 const spawnTile = this.map.getTileAt(this.getEmptyStartTile(p).x, p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
