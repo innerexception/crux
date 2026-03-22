@@ -28,7 +28,8 @@ export enum Modal {
     Deckbuilder='Deckbuilder',AnyGraveyard='AnyGraveyard',
     ChooseFromGY='ChooseFromGY',ChooseDiscard='ChooseDiscard',PickNextCard='PickNextSorcery',
     GameOver='GameOver',Winner='Winner',ShowLandChoices='ShowLandChoices',Lobby='Lobby',
-    ViewCards='ViewCards',SelectCreatureForTop='SelectCreatureForTop',DiscardAndDraw='DiscardAndDraw'
+    ViewCards='ViewCards',SelectCreatureForTop='SelectCreatureForTop',DiscardAndDraw='DiscardAndDraw',
+    ViewGY='ViewGY'
 }
 
 export enum Direction {
@@ -108,7 +109,7 @@ export enum Category {
 }
 
 export enum Log {
-    AbilityPlayed, CardPlayed, RangedDamage, ExpiredEffect
+    AbilityPlayed, CardPlayed, RangedDamage, ExpiredEffect, NimbleActivation
 }
 
 export enum Permanents {

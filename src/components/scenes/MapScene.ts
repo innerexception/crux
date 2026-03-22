@@ -2,7 +2,7 @@ import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
 import { CardType, Color, Direction, IconIndex, Layers, LayerStack, Log, Maps, Modal, Modifier, Permanents, SceneNames, Target, Triggers } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
-import { addLogEntry, onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
+import { addLogEntry, onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
 import { canAct, canAfford, drawMarchingDashedRect, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, getValidCreatureTargets, resetCard, validStartTile } from "../../common/CardUtils";
@@ -356,11 +356,11 @@ export default class MapScene extends Scene {
                                 card.attributes.includes(Modifier.BeeSting)){
                                 onSelectBoardCard(card)
                                 if(card.attributes.includes(Modifier.Nimble)){
-                                    const tauntingCreature = state.saveFile.currentMatch.board.find(c=>c.tileX === card.tileX && c.attributes.includes(Modifier.Taunt))
+                                    const tauntingCreature = state.saveFile.currentMatch.board.find(c=>c.id !== card.id && c.tileX === card.tileX && c.attributes.includes(Modifier.Taunt))
                                     if(tauntingCreature) return onSelectCard(null)
                                     let tiles = []
                                     if(this.isEmptyTile(card.tileX-1, card.tileY))
-                                        tiles.push(this.map.getTileAt(card.tileX-1, card.tileY, false, Layers.Earth)) //TODO: Taunt may be in effect
+                                        tiles.push(this.map.getTileAt(card.tileX-1, card.tileY, false, Layers.Earth))
                                     if(this.isEmptyTile(card.tileX+1, card.tileY))
                                         tiles.push(this.map.getTileAt(card.tileX+1, card.tileY, false, Layers.Earth))
                                     tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
@@ -419,6 +419,7 @@ export default class MapScene extends Scene {
                                     const props = { card, tileX:tile.x, tileY:tile.y }
                                     if(networkActive) sendMoveCard(props)
                                     else net_moveCard(props)
+                                    addLogEntry({card, kind: Log.NimbleActivation })
                                     onShowAbilityPreview(null)
                                     onSelectCard(null)
                                 }
@@ -646,16 +647,16 @@ export default class MapScene extends Scene {
                 onShowModal(Modal.PickNextCard, {cards: targetPlayer.deck.cards, chooseType: Permanents.Creature, targetPlayerId:targetPlayer.id })
             }
             if(effect.cardToHandFromGY){
-                onShowModal(Modal.ViewCards, {cards: targetPlayer.discard, keep: 1, targetPlayerId:targetPlayer.id})
+                onShowModal(Modal.ViewGY, {cards: targetPlayer.discard, targetPlayerId:targetPlayer.id})
             }
             if(effect.creatureToHandFromGY){
-                onShowModal(Modal.ViewCards, {cards: targetPlayer.discard, chooseType: Permanents.Creature, keep: 1, targetPlayerId:targetPlayer.id})
+                onShowModal(Modal.ViewGY, {cards: targetPlayer.discard, chooseType: Permanents.Creature, targetPlayerId:targetPlayer.id})
             }
             if(effect.creatureToHandFromCodex){
                 onShowModal(Modal.ViewCards, {cards: targetPlayer.deck.cards, chooseType: Permanents.Creature, keep: 1, targetPlayerId:targetPlayer.id})
             }
             if(effect.sorceryToHandFromGY){
-                onShowModal(Modal.PickNextCard, {cards: targetPlayer.discard, chooseType: Permanents.Sorcery, targetPlayerId:targetPlayer.id })
+                onShowModal(Modal.ViewGY, {cards: targetPlayer.discard, chooseType: Permanents.Sorcery, targetPlayerId:targetPlayer.id })
             }
         }
         if(effect.drawForTappedOpponent){
@@ -970,7 +971,14 @@ export default class MapScene extends Scene {
 
         let board = state.saveFile.currentMatch.board
         onUpdateBoard(board.filter(c=>c.id !== card.id))
-        onUpdatePlayer({...p, discard: p.discard.concat(card)})
+        
+        const dat = getCardData(card)
+        if(dat.kind === Permanents.Land){
+            onUpdateLands(state.saveFile.currentMatch.lands.concat(card))
+        }
+        else {
+            onUpdatePlayer({...p, discard: p.discard.concat(card)})
+        }
     }
 
     setCursor = (assetUrl:string) => {

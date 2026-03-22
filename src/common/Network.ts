@@ -244,14 +244,20 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
 
 export const net_endTurn = async (match:MatchState) => {
     const scene = store.getState().scene
-    const current = match.players.find(p=>p.id === match.activePlayerId)
+    let current = match.players.find(p=>p.id === match.activePlayerId)
 
     //1. move creatures / resolve combats
-    const mine = scene.creatures.filter(c=>match.board.find(cr=>cr.id===c.id && cr.ownerId === current.id))
+    const mine = scene.creatures.filter(c=>match.board.find(cr=>getCardData(cr).kind === Permanents.Creature && cr.id===c.id && cr.ownerId === current.id))
     for(let i=0;i<mine.length;i++){
         await mine[i].tryMoveNext()
     }
     match = store.getState().saveFile.currentMatch
+    onUpdatePlayer({...match.players.find(p=>p.id === match.activePlayerId),
+        drawAllowed:1,
+        hasPlayedLand:false,
+        manaPool:{...emptyMana}
+    })
+    
 
     //set next player
     const nextPlayer = match.players.find(p=>p.id !== current.id)
@@ -288,14 +294,8 @@ export const net_endTurn = async (match:MatchState) => {
         }
     })
     onUpdateBoard(Array.from(match.board))
-
     onTurnProcessing(false)
-    onUpdatePlayer({...nextPlayer,
-        drawAllowed:1,
-        hasPlayedLand:false,
-        manaPool:{...emptyMana}
-    })
-
+    
     if(nextPlayer.isAI){
         scene.runAITurn()
     }

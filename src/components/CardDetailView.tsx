@@ -26,7 +26,7 @@ export default (props:{card:Card}) => {
             {props.card.attributes && props.card.attributes.map(a=><div>{ModifierDesc[a]}</div>)}
             {dat.ability && <div style={{marginTop:'5px', marginBottom:'5px'}}>
                 <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Activate}/>} {renderCost(dat.ability.cost, dat.ability.effect?.dmgX)}</div>
-                {dat.ability.targets && <div>Affects: {TargetsDesc[dat.ability.targets]} 
+                {dat.ability.targets && <div>{dat.ability.required && <span style={{color:'red'}}>(Required)</span>} Affects: {TargetsDesc[dat.ability.targets]} 
                     {dat.ability.withCategory && <div>That is a {dat.ability.withCategory}</div>}
                     {dat.ability.withAttribute?" with "+ModifierDesc[dat.ability.withAttribute]:''}
                     {dat.ability.withoutAttribute ? " without "+ModifierDesc[dat.ability.withoutAttribute]:''}

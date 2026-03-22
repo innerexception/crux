@@ -21,6 +21,7 @@ import Loser from './components/modals/Loser';
 import { CssIcon } from './common/Shared';
 import { renderEffect } from './components/CardView';
 import { getCardData } from './common/CardUtils';
+import ViewGY from './components/modals/ViewGY';
 
 export default () => {
 
@@ -36,6 +37,7 @@ export default () => {
       case Modal.Lobby: return <Lobby/>
       case Modal.Deckbuilder: return <Deckbuilder/>
       case Modal.ViewCards: return <LookAtCards/>
+      case Modal.ViewGY: return <ViewGY/>
       case Modal.PickNextCard: return <PickNextCard/>
       case Modal.DiscardAndDraw: return <DiscardAndDraw/>
       case Modal.Winner: return <Winner/>
@@ -83,5 +85,8 @@ const getLogEl = (l:LogEntry, match:MatchState) => {
   </div>
   if(l.kind === Log.ExpiredEffect) return <div>
       <CssIcon spriteIndex={IconIndex.Debuff}/> Effect expired on {l.card.kind}: {renderEffect(l.effect.status)}
+  </div>
+  if(l.kind === Log.NimbleActivation) return <div>
+    <CssIcon spriteIndex={dat.sprite}/> used Nimble ability to move
   </div>
 }

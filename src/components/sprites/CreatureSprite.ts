@@ -1,8 +1,8 @@
 import { GameObjects } from "phaser"
 import { store } from "../../.."
-import { CardType, Color, CreatureSpriteIndex, Direction, IconIndex, Layers, Modifier, Permanents, Target, Triggers } from "../../../enum"
+import { CardType, Color, CreatureSpriteIndex, Direction, IconIndex, Layers, Modal, Modifier, Permanents, Target, Triggers } from "../../../enum"
 import { getCardData, getLandAtEndOfLane, resetCard, validEndTile } from "../../common/CardUtils"
-import { onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
+import { onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import MapScene from "../scenes/MapScene"
 import { net_moveCard } from "../../common/Network"
 
@@ -38,6 +38,9 @@ export default class CreatureSprite extends GameObjects.Image {
             let validLand = state.board.find(c=>getCardData(c).kind===Permanents.Land && c.ownerId !== thisCreature.ownerId && (c.kind === CardType.Tower || c.kind === CardType.City || c.kind === CardType.Temple))
             if(!validLand) return
         }
+        if(thisCreature.attributes.includes(Modifier.Defender)){
+            return
+        }
         let owner = state.players.find(p=>p.id === thisCreature.ownerId)
         let haste = thisCreature.attributes.includes(Modifier.Haste)
         if(thisCreature.tapped) return //Tapped creatures don't move
@@ -54,7 +57,12 @@ export default class CreatureSprite extends GameObjects.Image {
                     onUpdatePlayer({...enemy, hp: enemy.hp-thisCreature.atk, damageReflect: enemy.damageReflect+thisCreature.atk})
                 }
                 else {
-                    onUpdatePlayer({...enemy, hp: enemy.hp-thisCreature.atk})
+                    const hp = enemy.hp-thisCreature.atk
+                    if(hp<=0){
+                        if(owner.id === store.getState().saveFile.myId) onShowModal(Modal.Winner)
+                        else onShowModal(Modal.GameOver)
+                    }
+                    else onUpdatePlayer({...enemy, hp})
                 }
                 this.scene.floatResource(myTile.pixelX, myTile.pixelY, IconIndex.Damage, '-')
                 const land = state.board.find(c=>c.tileX===next.x && c.tileY === next.y)
