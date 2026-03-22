@@ -24,6 +24,7 @@ body {
   -webkit-font-smoothing: none;
   background: black;
   color:#fff;
+  cursor: url('../assets/img/default.png'), auto;
 }
 
 h1,h2,h3,h4,h5,h6{

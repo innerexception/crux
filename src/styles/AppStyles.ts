@@ -1,4 +1,5 @@
 import { Color } from "../../enum"
+import { dialogBg, pointerOver } from "../assets/Assets"
 
 export const colors = {
     white: '#fff',
@@ -32,14 +33,14 @@ export default {
         padding:'0.5em', background: colors.white, border:'5px outset', borderColor:colors.white, borderBottomLeftRadius:'20px', borderTopRightRadius:'20px', marginBottom:'0.5em', marginTop:'0.5em'
     },
     buttonOuter: {
-        cursor:'pointer',
+        
     },
     boxShadow: '5px 4px 8px 0px black',
     buttonInner: {
         padding:'3px',
         color: colors.black, 
         background:colors.grey1,
-        cursor:'pointer',
+        cursor:'url('+pointerOver+'), auto',
         border:'3px inset'
     },
     topBar: {
@@ -57,11 +58,11 @@ export default {
     },
     vr: {border:'2px inset', width:'1px', height:'90%', marginLeft:'5px'},
     modal: {
-        background:'#000',
+        background:'url('+dialogBg+')',
         border:'1px solid white',
         width: '275px',
         zIndex:2,
-        padding:'1em'
+        padding:'16px'
     },
     bottomBarContent: {
         background:' rgb(90, 90, 90)',

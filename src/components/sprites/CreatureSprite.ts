@@ -45,7 +45,6 @@ export default class CreatureSprite extends GameObjects.Image {
         let haste = thisCreature.attributes.includes(Modifier.Haste)
         if(thisCreature.tapped) return //Tapped creatures don't move
         for(let i=0;i<thisCreature.moves+(haste?1:0);i++){
-            //TODO: targets in range, and able to be targeted by us
             state = store.getState().saveFile.currentMatch
             thisCreature = state.board.find(c=>c.id === this.id)
             if(!thisCreature) return

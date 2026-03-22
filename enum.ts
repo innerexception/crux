@@ -47,12 +47,12 @@ export enum SceneNames {
 }
 
 export enum Layers {
-    Water='water',
+    Doodad='doodad',
     Earth='earth',
     Creature='creature',
     Entrances='entrances'
 }
-export const LayerStack = [Layers.Water, Layers.Earth]
+export const LayerStack = [Layers.Earth,Layers.Doodad]
 
 export enum Maps {
     Tutorial='tutorial'
@@ -109,7 +109,7 @@ export enum Category {
 }
 
 export enum Log {
-    AbilityPlayed, CardPlayed, RangedDamage, ExpiredEffect, NimbleActivation
+    AbilityPlayed, CardPlayed, RangedDamage, ExpiredEffect, NimbleActivation,Destroyed
 }
 
 export enum Permanents {

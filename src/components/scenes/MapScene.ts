@@ -59,7 +59,7 @@ export default class MapScene extends Scene {
         this.map = this.add.tilemap(Maps.Tutorial)
         let grass = this.map.addTilesetImage('tiles', 'tiles', TILE_DIM,TILE_DIM)
         LayerStack.forEach(l=>this.map.createLayer(l, grass))
-
+        this.map.setLayer(Layers.Earth)
         const midTile = this.map.getTileAt(Math.round(this.map.width/2), Math.round(this.map.height/2), false, Layers.Earth)
         this.northLands = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y-FIELD_HEIGHT-1, FIELD_WIDTH*2, 1)
         this.northCreatures = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y-FIELD_HEIGHT, FIELD_WIDTH*2, 1)
@@ -68,7 +68,7 @@ export default class MapScene extends Scene {
         
         const g = this.add.graphics().setDefaultStyles({ lineStyle: { width:2, color:0xffffff, alpha:0.5 }}).setDepth(7)
         const rect = new Geom.Rectangle(midTile.pixelX-(FIELD_WIDTH*TILE_DIM), midTile.pixelY-(FIELD_HEIGHT*TILE_DIM), FIELD_WIDTH*2*TILE_DIM, 5*TILE_DIM)
-        drawMarchingDashedRect(g, rect)
+        //drawMarchingDashedRect(g, rect)
         this.grid = this.map.getTilesWithinShape(rect)
         const pn = match.players.find(p=>p.dir === Direction.NORTH)
         this.playerNorth?.destroy()
@@ -929,6 +929,8 @@ export default class MapScene extends Scene {
         const spr = this.creatures.find(c=>c.id === card.id)
         spr.destroy()
         
+        addLogEntry({card, kind: Log.Destroyed })
+
         const p = state.saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
         //3. death effects
         if(card.attributes.includes(Modifier.Consecrate)){

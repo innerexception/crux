@@ -168,7 +168,8 @@ export const Portal:Record<CardType, CardMeta> = {
         ability: {
             targets: Target.AllCreatures,
             effect: {
-                tap:true,
+                duration: 2,
+                pacifism:true,
                 sprite: IconIndex.Debuff
             }
         },

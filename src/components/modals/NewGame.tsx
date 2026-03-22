@@ -62,18 +62,18 @@ export default () => {
                 
             </div>
             <div style={{display:'flex', justifyContent:'flex-end'}}>
-                <Button text="Editor" enabled={true} handler={()=>{onShowModal(Modal.Deckbuilder)}} style={{border:'1px solid white', padding:'5px'}}/>
+                <Button text="Editor" enabled={true} handler={()=>{onShowModal(Modal.Deckbuilder)}} style={{ padding:'5px'}}/>
                 <div>
-                    <Button text="Vs CPU" enabled={saveFile.currentDeckId?true:false} handler={()=>onStartMatch(saveFile, getAIPlayer(), saveFile.myId)} style={{border:'1px solid white', padding:'5px'}}/>
+                    <Button text="Vs CPU" enabled={saveFile.currentDeckId?true:false} handler={()=>onStartMatch(saveFile, getAIPlayer(), saveFile.myId)} style={{ padding:'5px'}}/>
                 </div>
                 <div>
-                    <Button text="Vs Hum" enabled={saveFile.currentDeckId?true:false} handler={()=>onShowModal(Modal.Lobby)} style={{border:'1px solid white', padding:'5px'}}/>
+                    <Button text="Vs Hum" enabled={saveFile.currentDeckId?true:false} handler={()=>onShowModal(Modal.Lobby)} style={{ padding:'5px'}}/>
                 </div>
                 <div>
-                    <Button text="Reset" enabled={true} handler={()=>{resetSave()}} style={{border:'1px solid white', padding:'5px'}}/>
+                    <Button text="Reset" enabled={true} handler={()=>{resetSave()}} style={{ padding:'5px'}}/>
                 </div>
                 <div>
-                    <Button enabled={true} text="Quit" handler={onQuit} style={{border:'1px solid white', padding:'5px'}}/>
+                    <Button enabled={true} text="Quit" handler={onQuit} style={{ padding:'5px'}}/>
                 </div>
             </div>
         </div>
