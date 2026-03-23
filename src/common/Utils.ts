@@ -1,7 +1,7 @@
 import { GameObjects, Geom, Scene } from "phaser"
 import { CardType, Color, CreatureSpriteIndex, Direction, Layers, Permanents } from "../../enum"
 import BattleScene from "../components/scenes/BattleScene"
-import { getAIDeck, getCardData, getFreshLands } from "./CardUtils"
+import { AIPlayers, getCardData, getFreshLands } from "./CardUtils"
 import { SAVE_NAMES } from "./UIReducer"
 import{ v4 } from 'uuid'
 import { store } from "../.."
@@ -56,13 +56,13 @@ export const getNewMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:s
     }
 }
 
-export const getAIPlayer = (kind?:CreatureSpriteIndex):PlayerState => {
+export const getAIPlayer = (kind:CreatureSpriteIndex):PlayerState => {
     const id = v4()
-    const deck = getAIDeck(id)
+    const deck = AIPlayers[kind].deck(id)
     const hand = deck.splice(0,5)
     return {
         id,
-        hp:20,
+        hp:AIPlayers[kind].hp,
         dir:null,
         hand,
         deck: {
@@ -75,7 +75,7 @@ export const getAIPlayer = (kind?:CreatureSpriteIndex):PlayerState => {
         isAI: true,
         drawAllowed: 1,
         hasPlayedLand: false,
-        playerSprite: CreatureSpriteIndex.CityMage
+        playerSprite: AIPlayers[kind].sprite
     }
 }
 

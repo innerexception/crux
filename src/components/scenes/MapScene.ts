@@ -2,7 +2,7 @@ import { GameObjects, Scene, Tilemaps } from "phaser";
 import { DEFAULT_KEYS, LayerStack, Layers, MapFeatures, Maps, Modal } from "../../../enum";
 import { TILE_DIM } from "./BattleScene";
 import { store } from "../../..";
-import { onShowModal, onStartMatch } from "../../common/Thunks";
+import { onShowModal, onStartCampaignMatch, onStartMatch } from "../../common/Thunks";
 import { getAIPlayer } from "../../common/Utils";
 
 export default class MapScene extends Scene {
@@ -56,12 +56,12 @@ export default class MapScene extends Scene {
                 duration: 500,
                 onComplete: ()=>{
                     this.moveCooldown = false
-                    const creature = this.map.getTileAt(tileX, tileY, false, Layers.Creature)
+                    const creature = this.map.getTileAt(t.x, t.y, false, Layers.Creature)
                     if(creature){
                         const saveFile = store.getState().saveFile
-                        return onStartMatch(saveFile, getAIPlayer(MapFeatures[creature.index-1]), saveFile.myId)
+                        return onStartCampaignMatch(saveFile, getAIPlayer(creature.index-1), saveFile.myId)
                     }
-                    const shop = this.map.getTileAt(tileX, tileY, false, Layers.Entrances)
+                    const shop = this.map.getTileAt(t.x, t.y, false, Layers.Entrances)
                     if(shop){
                         onShowModal(Modal.TradeSpells, MapFeatures[shop.index-1])
                     }

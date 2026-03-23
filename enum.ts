@@ -102,10 +102,6 @@ export enum CreatureSpriteIndex {
 }
 
 export const MapFeatures:Partial<Record<CreatureSpriteIndex, FeatureData>> = {
-    [CreatureSpriteIndex.Goblin]: {
-        opponent: AIDeck.Goblins,
-        kind: MapFeature.Duel
-    },
     [CreatureSpriteIndex.GreenMerchant]: {
         kind: MapFeature.Shop
     }

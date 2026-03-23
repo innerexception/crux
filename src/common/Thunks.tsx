@@ -129,6 +129,17 @@ export const onStartMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:
     }
 }
 
+export const onStartCampaignMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:string) => {
+    s.currentMatch = getNewMatch(s, opponent, startingPlayerId)
+    store.dispatch({ type: UIReducerActions.START_NEW_MATCH, data:s.currentMatch })
+    const intro = store.getState().scene.scene.get(SceneNames.Map) as MapScene
+    const btl = store.getState().scene.scene.get(SceneNames.Main) as BattleScene
+    transitionOut(intro, SceneNames.Main, ()=>transitionIn(btl))
+    if(startingPlayerId === s.myId && !opponent.isAI){
+        sendLandDeck(s.currentMatch.lands)
+    }
+}
+
 export const onCancelAction = () =>{
     if(store.getState().saveFile.currentMatch.players.find(p=>p.isAI)){
         net_cancelPendingAction()

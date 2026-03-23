@@ -65,21 +65,11 @@ export default () => {
             </div>
             <div style={{display:'flex', justifyContent:'flex-end'}}>
                 <Button text="Editor" enabled={true} handler={()=>{onShowModal(Modal.Deckbuilder)}} style={{ padding:'5px'}}/>
-                <div>
-                    <Button text="Campaign" enabled={saveFile.currentDeckId?true:false} handler={()=>{onShowModal(null);onShowCampaign()}} style={{ padding:'5px'}}/>
-                </div>
-                <div>
-                    <Button text="Vs CPU" enabled={saveFile.currentDeckId?true:false} handler={()=>onStartMatch(saveFile, getAIPlayer(), saveFile.myId)} style={{ padding:'5px'}}/>
-                </div>
-                <div>
-                    <Button text="Vs Hum" enabled={saveFile.currentDeckId?true:false} handler={()=>onShowModal(Modal.Lobby)} style={{ padding:'5px'}}/>
-                </div>
-                <div>
-                    <Button text="Reset" enabled={true} handler={()=>{resetSave()}} style={{ padding:'5px'}}/>
-                </div>
-                <div>
-                    <Button enabled={true} text="Quit" handler={onQuit} style={{ padding:'5px'}}/>
-                </div>
+                <Button text="Vs CPU" enabled={saveFile.currentDeckId?true:false} handler={()=>onStartMatch(saveFile, getAIPlayer(CreatureSpriteIndex.CityMage), saveFile.myId)} style={{ padding:'5px'}}/>
+                <Button text="Vs Hum" enabled={saveFile.currentDeckId?true:false} handler={()=>onShowModal(Modal.Lobby)} style={{ padding:'5px'}}/>
+                <Button text="Campaign" enabled={saveFile.currentDeckId?true:false} handler={()=>{onShowModal(null);onShowCampaign()}} style={{ padding:'5px'}}/>
+                <Button text="Reset" enabled={true} handler={()=>{resetSave()}} style={{ padding:'5px'}}/>
+                <Button enabled={true} text="Quit" handler={onQuit} style={{ padding:'5px'}}/>
             </div>
         </div>
     )

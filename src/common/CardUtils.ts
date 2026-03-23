@@ -1,4 +1,4 @@
-import { CardType, Color, Direction, Layers, Modifier, Permanents, Target } from "../../enum";
+import { CardType, Color, CreatureSpriteIndex, Direction, Layers, Modifier, Permanents, Target } from "../../enum";
 import{ v4 } from 'uuid'
 import { Portal } from "../assets/data/Portal";
 import { onUpdateBoardCreature, onUpdatePlayer } from "./Thunks";
@@ -231,10 +231,20 @@ export const black = (playerId:string):Card[] => {
     ]
 }
 
-export const getAIDeck = (id:string) => {
-    return AIDecks[Phaser.Math.Between(0,AIDecks.length-1)](id)
+export const AIDecks = {
+    goblinHordes, 
+    black
 }
-
-export const AIDecks = [
-    goblinHordes, black
-]
+    
+export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Card[], sprite:CreatureSpriteIndex, hp:number}>> = {
+    [CreatureSpriteIndex.Goblin]: {
+        sprite: CreatureSpriteIndex.Goblin,
+        deck: AIDecks.goblinHordes,
+        hp:5
+    },
+    [CreatureSpriteIndex.CityMage]: {
+        sprite: CreatureSpriteIndex.CityMage,
+        deck: black,
+        hp:20
+    }
+}
