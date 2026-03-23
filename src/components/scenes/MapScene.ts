@@ -25,11 +25,12 @@ export default class MapScene extends Scene {
         this.map = this.add.tilemap(Maps.Overworld)
         let grass = this.map.addTilesetImage('tiles', 'tiles', TILE_DIM,TILE_DIM)
         LayerStack.forEach(l=>this.map.createLayer(l, grass))
-        this.map.setLayer(Layers.Earth)
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
         const save = store.getState().saveFile
         this.playerSprite?.destroy()
-        this.playerSprite = this.add.image(save.worldX, save.worldY, 'creatures', save.playerSprite)
+        this.map.setLayer(Layers.Doodad)
+        const spawn = this.map.findByIndex(729)
+        this.playerSprite = this.add.image(spawn.pixelX, spawn.pixelY, 'creatures', save.playerSprite)
         this.cameras.main.startFollow(this.playerSprite)
         const keys = DEFAULT_KEYS
         this.input.keyboard.enabled = true
@@ -53,7 +54,7 @@ export default class MapScene extends Scene {
                 y: t.getCenterY(),
                 ease: 'Stepped',
                 easeParams: [3],
-                duration: 500,
+                duration: 300,
                 onComplete: ()=>{
                     this.moveCooldown = false
                     const creature = this.map.getTileAt(t.x, t.y, false, Layers.Creature)
