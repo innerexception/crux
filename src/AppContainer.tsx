@@ -22,6 +22,7 @@ import { CssIcon } from './common/Shared';
 import { renderEffect } from './components/CardView';
 import { getCardData } from './common/CardUtils';
 import ViewGY from './components/modals/ViewGY';
+import TradeSpells from './components/modals/TradeSpells';
 
 export default () => {
 
@@ -42,6 +43,7 @@ export default () => {
       case Modal.DiscardAndDraw: return <DiscardAndDraw/>
       case Modal.Winner: return <Winner/>
       case Modal.GameOver: return <Loser/>
+      case Modal.TradeSpells: return <TradeSpells/>
       default: return <span/>
     }
   }

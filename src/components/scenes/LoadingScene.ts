@@ -38,20 +38,5 @@ export default class LoadingScene extends Scene {
     {
         this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'logo').setScale(2)
         this.input.mouse.disableContextMenu()
-        this.time.addEvent({
-            delay:3000,
-            callback: () => {
-                this.scene.transition({
-                    target: SceneNames.Intro,
-                    duration: 3000,
-                    sleep: true,
-                    remove: true,
-                    allowInput: false,
-                    moveAbove: true,
-                    data: null
-                })
-                onShowModal(Modal.NewGame)
-            }
-        })
     }
 }

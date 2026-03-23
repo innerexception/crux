@@ -29,8 +29,8 @@ export default () => {
             decks:[{id:newDeckId, name: 'new codex', cards:[]}], 
             cards: defaultCards(myId), 
             currentMatch:null,
-            worldX:20,
-            worldY:20
+            worldX:60,
+            worldY:60
         }
         trySaveFile(JSON.stringify(newSave))
         onUpdateSave(newSave)
@@ -66,7 +66,7 @@ export default () => {
             <div style={{display:'flex', justifyContent:'flex-end'}}>
                 <Button text="Editor" enabled={true} handler={()=>{onShowModal(Modal.Deckbuilder)}} style={{ padding:'5px'}}/>
                 <div>
-                    <Button text="Campaign" enabled={saveFile.currentDeckId?true:false} handler={()=>onShowCampaign()} style={{ padding:'5px'}}/>
+                    <Button text="Campaign" enabled={saveFile.currentDeckId?true:false} handler={()=>{onShowModal(null);onShowCampaign()}} style={{ padding:'5px'}}/>
                 </div>
                 <div>
                     <Button text="Vs CPU" enabled={saveFile.currentDeckId?true:false} handler={()=>onStartMatch(saveFile, getAIPlayer(), saveFile.myId)} style={{ padding:'5px'}}/>

@@ -16,7 +16,7 @@ export default class MapScene extends Scene {
     create = () =>
     {
         this.sounds = {}
-        this.add.tileSprite(0,0,this.cameras.main.displayWidth,this.cameras.main.displayHeight*2, 'bg').setOrigin(0,0).setScale(1)
+        //this.add.tileSprite(0,0,this.cameras.main.displayWidth,this.cameras.main.displayHeight*2, 'bg').setOrigin(0,0).setScale(1)
         this.input.mouse.disableContextMenu()
     }
 
@@ -51,6 +51,8 @@ export default class MapScene extends Scene {
                 targets: unit,
                 x: t.getCenterX(),
                 y: t.getCenterY(),
+                ease: 'Stepped',
+                easeParams: [3],
                 duration: 500,
                 onComplete: ()=>{
                     this.moveCooldown = false
