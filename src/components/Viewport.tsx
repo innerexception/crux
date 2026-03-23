@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { SceneNames } from '../../enum';
 import LoadingScene from './scenes/LoadingScene';
 import IntroScene from './scenes/IntroScene';
+import BattleScene from './scenes/BattleScene';
 import MapScene from './scenes/MapScene';
 
 export default () => {
@@ -26,7 +27,8 @@ export default () => {
             scene: [
                 new LoadingScene({key: SceneNames.Loading}),
                 new IntroScene({key: SceneNames.Intro}),
-                new MapScene({key: SceneNames.Main})
+                new BattleScene({key: SceneNames.Main}),
+                new MapScene({key:SceneNames.Map})
             ]
         })
     }

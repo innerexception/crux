@@ -3,17 +3,17 @@ import { store } from "../../.."
 import { CardType, Color, CreatureSpriteIndex, Direction, IconIndex, Layers, Modal, Modifier, Permanents, Target, Triggers } from "../../../enum"
 import { getCardData, getLandAtEndOfLane, resetCard, validEndTile } from "../../common/CardUtils"
 import { onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
-import MapScene from "../scenes/MapScene"
+import BattleScene from "../scenes/BattleScene"
 import { net_moveCard } from "../../common/Network"
 
 export default class CreatureSprite extends GameObjects.Image {
 
     icon:GameObjects.Image
-    scene:MapScene
+    scene:BattleScene
     id:string
     dir:number
 
-    constructor(scene:MapScene, x:number, y:number, texture:CreatureSpriteIndex,id:string,dir:number){
+    constructor(scene:BattleScene, x:number, y:number, texture:CreatureSpriteIndex,id:string,dir:number){
         super(scene, x, y, 'creatures', texture)
         scene.add.existing(this)
         this.setInteractive()

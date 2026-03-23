@@ -1,9 +1,10 @@
 import { store } from "../.."
 import { Modal, SceneNames, UIReducerActions } from "../../enum"
 import IntroScene from "../components/scenes/IntroScene"
-import MapScene from "../components/scenes/MapScene"
+import BattleScene from "../components/scenes/BattleScene"
 import { net_cancelPendingAction, net_endTurn, sendCancelAction, sendEndTurn, sendLandDeck } from "./Network"
 import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
+import MapScene from "../components/scenes/MapScene"
 
 export const addLogEntry = (data:LogEntry) => {
     store.dispatch({ type: UIReducerActions.ADD_LOG, data })
@@ -108,8 +109,14 @@ export const onQuit = () => {
     onShowModal(Modal.NewGame)
 }
 
-export const onSetScene = (scene:MapScene) => {
+export const onSetScene = (scene:BattleScene) => {
     store.dispatch({ type: UIReducerActions.SET_SCENE, data: scene })
+}
+
+export const onShowCampaign = () => {
+    const intro = store.getState().scene.scene.get(SceneNames.Intro) as IntroScene
+    const map = store.getState().scene.scene.get(SceneNames.Map) as MapScene
+    transitionOut(intro, SceneNames.Map, ()=>transitionIn(map))
 }
 
 export const onStartMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:string) => {

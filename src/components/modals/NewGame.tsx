@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Button, CssIcon } from '../../common/Shared';
-import { onQuit, onShowModal, onStartMatch, onUpdateSave } from '../../common/Thunks';
+import { onQuit, onShowCampaign, onShowModal, onStartMatch, onUpdateSave } from '../../common/Thunks';
 import { getAIPlayer, tryLoadFile, trySaveFile } from '../../common/Utils';
 import AppStyles from '../../styles/AppStyles';
 import{ v4 } from 'uuid'
@@ -28,7 +28,9 @@ export default () => {
             currentDeckId:newDeckId,
             decks:[{id:newDeckId, name: 'new codex', cards:[]}], 
             cards: defaultCards(myId), 
-            currentMatch:null
+            currentMatch:null,
+            worldX:20,
+            worldY:20
         }
         trySaveFile(JSON.stringify(newSave))
         onUpdateSave(newSave)
@@ -63,6 +65,9 @@ export default () => {
             </div>
             <div style={{display:'flex', justifyContent:'flex-end'}}>
                 <Button text="Editor" enabled={true} handler={()=>{onShowModal(Modal.Deckbuilder)}} style={{ padding:'5px'}}/>
+                <div>
+                    <Button text="Campaign" enabled={saveFile.currentDeckId?true:false} handler={()=>onShowCampaign()} style={{ padding:'5px'}}/>
+                </div>
                 <div>
                     <Button text="Vs CPU" enabled={saveFile.currentDeckId?true:false} handler={()=>onStartMatch(saveFile, getAIPlayer(), saveFile.myId)} style={{ padding:'5px'}}/>
                 </div>

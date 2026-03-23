@@ -1,3 +1,5 @@
+import { Input } from "phaser"
+
 export enum UIReducerActions {
     UPDATE = 'updt',
     NEW='nu',
@@ -29,7 +31,7 @@ export enum Modal {
     ChooseFromGY='ChooseFromGY',ChooseDiscard='ChooseDiscard',PickNextCard='PickNextSorcery',
     GameOver='GameOver',Winner='Winner',ShowLandChoices='ShowLandChoices',Lobby='Lobby',
     ViewCards='ViewCards',SelectCreatureForTop='SelectCreatureForTop',DiscardAndDraw='DiscardAndDraw',
-    ViewGY='ViewGY'
+    ViewGY='ViewGY',TradeSpells='TradeSpells'
 }
 
 export enum Direction {
@@ -42,20 +44,29 @@ export enum NetworkEvent {
     MoveCard='MoveCard',DamageCard='DamageCard'
 }
 
+export enum MapFeature {
+    Shop,Duel
+}
+
+export enum AIDeck {
+    Goblins, Drakes
+}
+
 export enum SceneNames {
-    Loading='loading', Main='main', Intro='intro'
+    Loading='loading', Main='main', Intro='intro',Map='Map'
 }
 
 export enum Layers {
     Doodad='doodad',
     Earth='earth',
+    Blockers='blockers',
     Creature='creature',
     Entrances='entrances'
 }
-export const LayerStack = [Layers.Earth,Layers.Doodad]
+export const LayerStack = [Layers.Earth,Layers.Blockers,Layers.Doodad,Layers.Creature,Layers.Entrances]
 
 export enum Maps {
-    Tutorial='tutorial'
+    Tutorial='tutorial',Overworld='overworld'
 }
 
 export enum CreatureSpriteIndex {
@@ -88,6 +99,13 @@ export enum CreatureSpriteIndex {
     ChaosServant=4903,SulfurRain=1949,LavaBeam=2002,Contemplation=1963,HiddenOasis=2046,FeralSpirit=4054,FireHydra=4054,
     KnowledgeAssimilator=4968,DebtCollection=1798,VenerableMonk=3803,Reckoning=857,LastGasp=2012,DruidicScholar=4896,Escaton=73,
     Erosion=1494,DivineReach=1834,Fog=1711,ForkLightning=1847,RedwoodTreant=4713
+}
+
+export const MapFeatures:Partial<Record<CreatureSpriteIndex, FeatureData>> = {
+    [CreatureSpriteIndex.Goblin]: {
+        opponent: AIDeck.Goblins,
+        kind: MapFeature.Duel
+    }
 }
 
 export const PlayerAvatars = [CreatureSpriteIndex.Player1, CreatureSpriteIndex.CityMage, CreatureSpriteIndex.OldMage, CreatureSpriteIndex.LadyMage, 
@@ -299,4 +317,13 @@ export enum CardType {
     FeralSpirit='FeralSpirit', FireHydra='FireHydra', KnowledgeAssimilator='KnowledgeAssimilator',ChaosServant='ChaosServant',
     VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion',DivineReach='DivineReach',Stylite='Stylite',LizardMage='LizardMage',
     LavaBeam='LavaBeam',Contemplation='Contemplation',HiddenOasis='HiddenOasis',StingingWinds='StingingWinds'
+}
+
+export const DEFAULT_KEYS = {
+    up: Input.Keyboard.KeyCodes.W,
+    down: Input.Keyboard.KeyCodes.S,
+    left: Input.Keyboard.KeyCodes.A,
+    right: Input.Keyboard.KeyCodes.D,
+    cancel: Input.Keyboard.KeyCodes.ESC,
+    inventory: Input.Keyboard.KeyCodes.I
 }

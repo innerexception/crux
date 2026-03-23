@@ -1,6 +1,6 @@
 import { GameObjects, Geom, Scene } from "phaser"
 import { CardType, Color, CreatureSpriteIndex, Direction, Layers, Permanents } from "../../enum"
-import MapScene from "../components/scenes/MapScene"
+import BattleScene from "../components/scenes/BattleScene"
 import { getAIDeck, getCardData, getFreshLands } from "./CardUtils"
 import { SAVE_NAMES } from "./UIReducer"
 import{ v4 } from 'uuid'
@@ -56,7 +56,7 @@ export const getNewMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:s
     }
 }
 
-export const getAIPlayer = ():PlayerState => {
+export const getAIPlayer = (kind?:CreatureSpriteIndex):PlayerState => {
     const id = v4()
     const deck = getAIDeck(id)
     const hand = deck.splice(0,5)
@@ -157,7 +157,7 @@ export const tryLoadFile = async () => {
     //}
 }
 
-export const isPassableTile = (scene:MapScene, tileX:number, tileY:number) => {
+export const isPassableTile = (scene:BattleScene, tileX:number, tileY:number) => {
     const tile = scene.map.getTileAt(tileX, tileY, false, Layers.Earth)
     if(tile)
         return tile.index - tile.tileset.firstgid === 160 || tile.index - tile.tileset.firstgid === 161

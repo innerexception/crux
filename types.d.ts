@@ -169,7 +169,7 @@ interface RState {
     selectedSaveName: string
     inspectCard: Card
     selectedCardId: string
-    scene: import('./src/components/scenes/MapScene').default
+    scene: import('./src/components/scenes/BattleScene').default
 }
 
 interface LogEntry {
@@ -188,6 +188,12 @@ interface ModalData {
     chooseType?: import('./enum').Permanents
 } 
 
+interface FeatureData {
+    kind: import('./enum').MapFeature,
+    opponent?: import('./enum').AIDeck,
+    shopInventory?: Card[]
+}
+
 interface SaveFile {
     myId:string
     playerSprite: import('./enum').CreatureSpriteIndex
@@ -196,4 +202,6 @@ interface SaveFile {
     currentDeckId: string
     cards:Card[]
     currentMatch:MatchState
+    worldX:number
+    worldY:number
 }
