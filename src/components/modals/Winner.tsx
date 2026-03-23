@@ -7,9 +7,8 @@ import CardView from '../CardView';
 
 export default () => {
     
-    const ai = useSelector((s:RState)=>s.saveFile.currentMatch.players.find(p=>p.isAI))
-    const loot = getLoot(ai)
-
+    const loot = useSelector((s:RState)=>s.modalData.cards)
+    
     return (
         <div style={{...AppStyles.modal, margin:'auto'}}>
             <div style={{textAlign:'center', marginBottom:'0.5em'}}>WINNER WINNER</div>
@@ -17,7 +16,7 @@ export default () => {
             <div style={{display:'flex'}}>
                 {loot.map(c=><CardView card={c}/>)}
             </div>
-            <Button enabled={true} text="Close" handler={ai ? ()=>onFinishBattle(loot):()=>onQuit()}/>
+            <Button enabled={true} text="Close" handler={loot ? ()=>onFinishBattle(loot):()=>onQuit()}/>
         </div>
     )
 }

@@ -5,7 +5,7 @@ import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { addLogEntry, onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
 import { canAct, canAfford, drawMarchingDashedRect, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
-import { getCardData, getValidCreatureTargets, resetCard, validStartTile } from "../../common/CardUtils";
+import { getCardData, getLoot, getValidCreatureTargets, resetCard, validStartTile } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
 import { net_addCard, net_cancelPendingAction, net_damageCard, net_endTurn, net_moveCard, net_tapLand, net_triggerCardAbility, sendAddCardEffect, sendDamageCard, sendLandTappedEffect, sendMoveCard, sendTriggerCardAbility } from "../../common/Network";
 
@@ -258,6 +258,7 @@ export default class BattleScene extends Scene {
 
     enableInputEvents = () => {
         this.input.on('pointermove', (event, gameObjects:Array<Phaser.GameObjects.GameObject>) => {
+            if(!store.getState().saveFile.currentMatch) return
             let tile = this.map?.getTileAtWorldXY(this.input.activePointer.worldX, this.input.activePointer.worldY, false, undefined, Layers.Earth)
             if(tile && gameObjects.length > 0){
                 const bld = gameObjects[0] as CreatureSprite
@@ -743,7 +744,7 @@ export default class BattleScene extends Scene {
         }
         if(targetPlayer.hp <= 0){
             if(targetPlayer.id === state.myId) onShowModal(Modal.GameOver)
-            else onShowModal(Modal.Winner)
+            else onShowModal(Modal.Winner, {cards: getLoot(targetPlayer, state.myId), targetPlayerId: ''})
         }
         if(effect.addMana){
             targetPlayer.manaPool[effect.addMana]++

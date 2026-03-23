@@ -141,8 +141,10 @@ export const onFinishBattle = (loot:Card[]) => {
     const state = store.getState()
     const map = state.scene.scene.get(SceneNames.Map) as MapScene
     const btl = state.scene.scene.get(SceneNames.Main) as BattleScene
-    transitionOut(btl, SceneNames.Main, ()=>transitionIn(map))
-    onUpdateSave({...state.saveFile, cards: state.saveFile.cards.concat(loot)})
+    store.dispatch({ type: UIReducerActions.FINISH_MATCH, data:loot })
+    const uiState = store.getState().saveFile
+    trySaveFile(JSON.stringify(uiState))
+    transitionOut(btl, SceneNames.Map, ()=>transitionIn(map))
 }
 
 export const onCancelAction = () =>{

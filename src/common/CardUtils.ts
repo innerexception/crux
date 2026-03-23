@@ -6,6 +6,10 @@ import { shuffle } from "./Utils";
 import { store } from "../..";
 import { Tilemaps } from "phaser";
 
+export const getLoot = (ai:PlayerState, myId:string) => {
+    return AIPlayers[ai.playerSprite].loot.map(l=>getCard(myId, l, Portal[l]))
+}
+
 export const getLandAtEndOfLane = (d:Direction, tileX:number, tileY:number) => {
     const map = store.getState().scene.map
     let t = map.getTileAt(tileX, tileY, false, Layers.Earth)
@@ -137,10 +141,8 @@ export const getAllCards = (playerId:string):Card[] => {
 export const getStartingCards = (playerId:string):Card[] => {
     return [
         getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
-        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
         getCard(playerId, CardType.MessengerOwl, Portal[CardType.MessengerOwl]),
         getCard(playerId, CardType.ArmoredTortoise, Portal[CardType.ArmoredTortoise]),
-        getCard(playerId, CardType.BlackBear, Portal[CardType.BlackBear]),
         getCard(playerId, CardType.BlackBear, Portal[CardType.BlackBear]),
         getCard(playerId, CardType.RowanTreant, Portal[CardType.RowanTreant]),
         getCard(playerId, CardType.Corvian, Portal[CardType.Corvian]),
@@ -251,15 +253,17 @@ export const AIDecks = {
     black
 }
     
-export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Card[], sprite:CreatureSpriteIndex, hp:number}>> = {
+export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Card[], sprite:CreatureSpriteIndex, hp:number, loot:CardType[]}>> = {
     [CreatureSpriteIndex.Goblin]: {
         sprite: CreatureSpriteIndex.Goblin,
         deck: AIDecks.goblinHordes,
-        hp:5
+        hp:5,
+        loot:[CardType.GoblinSargeant]
     },
     [CreatureSpriteIndex.CityMage]: {
         sprite: CreatureSpriteIndex.CityMage,
         deck: black,
-        hp:20
+        hp:20,
+        loot:[CardType.Pollution]
     }
 }

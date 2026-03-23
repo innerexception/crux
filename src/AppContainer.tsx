@@ -50,7 +50,7 @@ export default () => {
     }
   }
 
-  const showUI = state.activeModal !== Modal.NewGame && state.activeModal !== Modal.Lobby && state.activeModal !== Modal.Deckbuilder && state.isLoaded
+  const showUI = state.saveFile?.currentMatch && state.isLoaded
 
   return (
     <div style={{position:'relative', height:'100vh', overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center'}}>

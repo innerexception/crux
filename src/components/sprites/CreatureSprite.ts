@@ -1,7 +1,7 @@
 import { GameObjects } from "phaser"
 import { store } from "../../.."
 import { CardType, Color, CreatureSpriteIndex, Direction, IconIndex, Layers, Modal, Modifier, Permanents, Target, Triggers } from "../../../enum"
-import { getCardData, getLandAtEndOfLane, resetCard, validEndTile } from "../../common/CardUtils"
+import { getCardData, getLandAtEndOfLane, getLoot, resetCard, validEndTile } from "../../common/CardUtils"
 import { onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import BattleScene from "../scenes/BattleScene"
 import { net_moveCard } from "../../common/Network"
@@ -58,7 +58,7 @@ export default class CreatureSprite extends GameObjects.Image {
                 else {
                     const hp = enemy.hp-thisCreature.atk
                     if(hp<=0){
-                        if(owner.id === store.getState().saveFile.myId) onShowModal(Modal.Winner)
+                        if(owner.id === store.getState().saveFile.myId) onShowModal(Modal.Winner, {cards: getLoot(enemy, owner.id), targetPlayerId: ''})
                         else onShowModal(Modal.GameOver)
                     }
                     else onUpdatePlayer({...enemy, hp})

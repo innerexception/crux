@@ -25,9 +25,6 @@ export default class MapScene extends Scene {
         this.sounds = {}
         //this.add.tileSprite(0,0,this.cameras.main.displayWidth,this.cameras.main.displayHeight*2, 'bg').setOrigin(0,0).setScale(1)
         this.input.mouse.disableContextMenu()
-    }
-
-    onTransitionIn = () => {
         this.map?.destroy()
         this.map = this.add.tilemap(Maps.Overworld)
         let grass = this.map.addTilesetImage('tiles', 'tiles', TILE_DIM,TILE_DIM)
@@ -45,6 +42,10 @@ export default class MapScene extends Scene {
         this.input.keyboard.removeAllKeys(true)
         this.input.keyboard.removeAllListeners()
         this.keys = this.input.keyboard.addKeys(keys) as any
+    }
+
+    onTransitionIn = () => {
+        
     }
 
 
@@ -81,7 +82,7 @@ export default class MapScene extends Scene {
 
     update(){
         if(!this.keys || this.moveCooldown) return
-        if(this.keys.inventory) onShowModal(Modal.CampaignDeckbuilder)
+        if(this.keys.inventory.isDown) onShowModal(Modal.CampaignDeckbuilder)
         if(this.keys.left.isDown){
             this.playerSprite.flipX = false
             return this.resolveMove(this.playerSprite, -1, 0)

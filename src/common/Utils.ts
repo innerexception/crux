@@ -258,7 +258,6 @@ export const transitionOut = (scene:Scene, nextScene:string, cb:Function) => {
         delay: 800,
         callback:()=>{
             scene.scene.sendToBack(scene.scene.key)
-            scene.scene.sleep(scene.scene.key)
             scene.scene.start(nextScene)
             scene.scene.bringToTop(nextScene)
             cb()

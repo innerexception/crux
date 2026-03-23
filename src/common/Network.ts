@@ -4,7 +4,7 @@ import { addLogEntry, onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSe
 import { store } from '../..'
 import { emptyMana, payCost } from './Utils'
 import{ v4 } from 'uuid'
-import { getCardData, getLaneAttributes, getValidCreatureTargets, getValidLandTargets, tapLand } from './CardUtils'
+import { getCardData, getLaneAttributes, getLoot, getValidCreatureTargets, getValidLandTargets, tapLand } from './CardUtils'
 import CreatureSprite from '../components/sprites/CreatureSprite'
 
 const supabase = createClient('https://tcuyfzebridkroyzfobz.supabase.co', 'sb_publishable_ygcDc5PEiCwv9e5Tr0T96w_Nyu54ZsB')
@@ -270,7 +270,7 @@ export const net_endTurn = async (match:MatchState) => {
         onUpdatePlayer({...op})
         if(op.hp <= 0){
             if(op.id === store.getState().saveFile.myId) onShowModal(Modal.GameOver)
-            else onShowModal(Modal.Winner)
+            else onShowModal(Modal.Winner, {cards: getLoot(nextPlayer, op.id), targetPlayerId: ''})
             return
         }
         match = store.getState().saveFile.currentMatch
