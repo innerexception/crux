@@ -23,6 +23,7 @@ import { renderEffect } from './components/CardView';
 import { getCardData } from './common/CardUtils';
 import ViewGY from './components/modals/ViewGY';
 import TradeSpells from './components/modals/TradeSpells';
+import CampaignDeckbuilder from './components/CampaignDeckbuilder';
 
 export default () => {
 
@@ -44,6 +45,7 @@ export default () => {
       case Modal.Winner: return <Winner/>
       case Modal.GameOver: return <Loser/>
       case Modal.TradeSpells: return <TradeSpells/>
+      case Modal.CampaignDeckbuilder: return <CampaignDeckbuilder/>
       default: return <span/>
     }
   }

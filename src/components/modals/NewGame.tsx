@@ -5,7 +5,7 @@ import { getAIPlayer, tryLoadFile, trySaveFile } from '../../common/Utils';
 import AppStyles from '../../styles/AppStyles';
 import{ v4 } from 'uuid'
 import { useSelector } from 'react-redux';
-import { defaultCards } from '../../common/CardUtils';
+import { getAllCards, getStartingCards } from '../../common/CardUtils';
 import { CreatureSpriteIndex, Direction, Modal, PlayerAvatars } from '../../../enum';
 
 export default () => {
@@ -27,7 +27,8 @@ export default () => {
             playerSprite: CreatureSpriteIndex.Player1, 
             currentDeckId:newDeckId,
             decks:[{id:newDeckId, name: 'new codex', cards:[]}], 
-            cards: defaultCards(myId), 
+            cards: getStartingCards(myId), 
+            campaignDeck:[],
             currentMatch:null,
             worldX:60,
             worldY:60
@@ -64,7 +65,6 @@ export default () => {
                 
             </div>
             <div style={{display:'flex', justifyContent:'flex-end'}}>
-                <Button text="Editor" enabled={true} handler={()=>{onShowModal(Modal.Deckbuilder)}} style={{ padding:'5px'}}/>
                 <Button text="Vs Hum" enabled={saveFile.currentDeckId?true:false} handler={()=>onShowModal(Modal.Lobby)} style={{ padding:'5px'}}/>
                 <Button text="Campaign" enabled={saveFile.currentDeckId?true:false} handler={()=>{onShowModal(null);onShowCampaign()}} style={{ padding:'5px'}}/>
                 <Button text="Reset" enabled={true} handler={()=>{resetSave()}} style={{ padding:'5px'}}/>

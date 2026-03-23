@@ -1,4 +1,4 @@
-import { GameObjects, Scene, Tilemaps } from "phaser";
+import { GameObjects, Input, Scene, Tilemaps } from "phaser";
 import { DEFAULT_KEYS, LayerStack, Layers, MapFeatures, Maps, Modal } from "../../../enum";
 import { TILE_DIM } from "./BattleScene";
 import { store } from "../../..";
@@ -10,7 +10,14 @@ export default class MapScene extends Scene {
     sounds: any
     map:Tilemaps.Tilemap
     playerSprite:GameObjects.Image
-    keys: any
+    keys: {
+        up: Input.Keyboard.Key
+        down: Input.Keyboard.Key
+        left: Input.Keyboard.Key
+        right: Input.Keyboard.Key
+        cancel: Input.Keyboard.Key
+        inventory: Input.Keyboard.Key
+    }
     moveCooldown:boolean
 
     create = () =>
@@ -37,7 +44,7 @@ export default class MapScene extends Scene {
         this.input.keyboard.clearCaptures()
         this.input.keyboard.removeAllKeys(true)
         this.input.keyboard.removeAllListeners()
-        this.keys = this.input.keyboard.addKeys(keys)
+        this.keys = this.input.keyboard.addKeys(keys) as any
     }
 
 
@@ -74,6 +81,7 @@ export default class MapScene extends Scene {
 
     update(){
         if(!this.keys || this.moveCooldown) return
+        if(this.keys.inventory) onShowModal(Modal.CampaignDeckbuilder)
         if(this.keys.left.isDown){
             this.playerSprite.flipX = false
             return this.resolveMove(this.playerSprite, -1, 0)

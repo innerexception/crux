@@ -130,8 +130,23 @@ export const getCardData = (c:Card) => {
     return null
 }
 
-export const defaultCards = (playerId:string):Card[] => {
+export const getAllCards = (playerId:string):Card[] => {
     return Object.keys(Portal).map((c:CardType)=>getCard(playerId,c,Portal[c]))
+}
+
+export const getStartingCards = (playerId:string):Card[] => {
+    return [
+        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
+        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
+        getCard(playerId, CardType.MessengerOwl, Portal[CardType.MessengerOwl]),
+        getCard(playerId, CardType.ArmoredTortoise, Portal[CardType.ArmoredTortoise]),
+        getCard(playerId, CardType.BlackBear, Portal[CardType.BlackBear]),
+        getCard(playerId, CardType.BlackBear, Portal[CardType.BlackBear]),
+        getCard(playerId, CardType.RowanTreant, Portal[CardType.RowanTreant]),
+        getCard(playerId, CardType.Corvian, Portal[CardType.Corvian]),
+        getCard(playerId, CardType.CatBurglar, Portal[CardType.CatBurglar]),
+        getCard(playerId, CardType.Corvian, Portal[CardType.Corvian])
+    ]
 }
 
 const getCard = (playerId:string,kind:CardType,c:CardMeta):Card => {

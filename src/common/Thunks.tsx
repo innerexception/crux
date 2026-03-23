@@ -3,7 +3,7 @@ import { Modal, SceneNames, UIReducerActions } from "../../enum"
 import IntroScene from "../components/scenes/IntroScene"
 import BattleScene from "../components/scenes/BattleScene"
 import { net_cancelPendingAction, net_endTurn, sendCancelAction, sendEndTurn, sendLandDeck } from "./Network"
-import { getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
+import { getNewCampaignMatch, getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
 import MapScene from "../components/scenes/MapScene"
 
 export const addLogEntry = (data:LogEntry) => {
@@ -130,14 +130,19 @@ export const onStartMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:
 }
 
 export const onStartCampaignMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:string) => {
-    s.currentMatch = getNewMatch(s, opponent, startingPlayerId)
+    s.currentMatch = getNewCampaignMatch(s, opponent, startingPlayerId)
     store.dispatch({ type: UIReducerActions.START_NEW_MATCH, data:s.currentMatch })
     const intro = store.getState().scene.scene.get(SceneNames.Map) as MapScene
     const btl = store.getState().scene.scene.get(SceneNames.Main) as BattleScene
     transitionOut(intro, SceneNames.Main, ()=>transitionIn(btl))
-    if(startingPlayerId === s.myId && !opponent.isAI){
-        sendLandDeck(s.currentMatch.lands)
-    }
+}
+
+export const onFinishBattle = (loot:Card[]) => {
+    const state = store.getState()
+    const map = state.scene.scene.get(SceneNames.Map) as MapScene
+    const btl = state.scene.scene.get(SceneNames.Main) as BattleScene
+    transitionOut(btl, SceneNames.Main, ()=>transitionIn(map))
+    onUpdateSave({...state.saveFile, cards: state.saveFile.cards.concat(loot)})
 }
 
 export const onCancelAction = () =>{

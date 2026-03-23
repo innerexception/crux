@@ -6,15 +6,16 @@ import AppStyles from '../styles/AppStyles';
 import CardView from './CardView';
 import{ v4 } from 'uuid'
 import { Color, Modal, Permanents } from '../../enum';
-import { getCardData } from '../common/CardUtils';
+import { getAllCards, getCardData } from '../common/CardUtils';
 import Tooltip from 'rc-tooltip';
 import CardDetailView from './CardDetailView';
 
 export default () => {
     
     const me = useSelector((s:RState)=>s.saveFile)
-    const selectedDeck = useSelector((s:RState)=>s.saveFile?.decks.find(d=>d.id === s.saveFile.currentDeckId))
+    const selectedDeck = useSelector((s:RState)=>s.saveFile.decks.find(d=>d.id === s.saveFile.currentDeckId))
     const [selectedColor, setSelectedColor] = React.useState(Color.Red)
+    const [cards, setCards] = React.useState(getAllCards(me.myId))
 
     const addCardToDeck = (c:Card) => {
         onUpdateSave({...me, decks: me.decks.map(d=>d.id === selectedDeck.id ? 
@@ -54,7 +55,7 @@ export default () => {
                     <Button enabled={selectedColor!==Color.None} text="None" handler={()=>setSelectedColor(Color.None)}/>
                 </div>
                 <div style={{display:'flex', flexWrap:'wrap', height:'200px', overflow:'auto', border:'1px solid', padding:'5px'}}>
-                    {me.cards.filter(c=>getCardData(c).color === selectedColor && getCardData(c).kind !== Permanents.Land)
+                    {cards.filter(c=>getCardData(c).color === selectedColor && getCardData(c).kind !== Permanents.Land && selectedDeck.cards.filter(cc=>c.kind === cc.kind).length<3)
                         .map(c=><div onClick={()=>addCardToDeck(c)}><Tooltip placement='bottom' mouseEnterDelay={0.5} overlay={<CardDetailView card={c}/>}><div><CardView card={c}/></div></Tooltip></div>)}
                 </div>
             </div>}

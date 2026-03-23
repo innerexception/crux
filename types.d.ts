@@ -201,6 +201,7 @@ interface SaveFile {
     decks:Deck[]
     currentDeckId: string
     cards:Card[]
+    campaignDeck:Card[]
     currentMatch:MatchState
     worldX:number
     worldY:number

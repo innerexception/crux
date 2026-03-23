@@ -15,7 +15,6 @@ export default () => {
 }
     
 const CardPreview = () => {
-    //const dat = getCardData(c.kind)
     return <div style={{backgroundColor:'black',border:'none', marginRight:'5px', opacity: 0.5}}>
         <div style={{width:'120px', height:'25px', overflow:'hidden', border:'2px inset', fontSize:'16px', paddingLeft:'5px', borderRadius:'5px'}}></div>
     </div>

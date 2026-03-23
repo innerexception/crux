@@ -23,6 +23,39 @@ export const canAct = () => {
     return state.saveFile.currentMatch.activePlayerId === state.saveFile.myId
 }
 
+export const getNewCampaignMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:string):MatchState => {
+    const theDeck = s.campaignDeck
+    const deck:Deck = {
+        id:v4(),
+        name: 'name',
+        cards: shuffle(Array.from(theDeck))
+    }
+    const hand = deck.cards.splice(0,5)
+    return {
+        previousLobbyId:'',
+        activePlayerId: startingPlayerId,
+        board:[],
+        logs:[],
+        lands: getFreshLands(),
+        players: [
+            {
+                id:s.myId,
+                hp:20,
+                dir:startingPlayerId === s.myId ? Direction.SOUTH : Direction.NORTH,
+                hand,
+                deck,
+                discard: [],
+                manaPool:{...emptyMana},
+                isAI: false,
+                hasPlayedLand: false,
+                drawAllowed: 1,
+                playerSprite: s.playerSprite
+            },
+            {...opponent, dir: startingPlayerId === s.myId ? Direction.NORTH:Direction.SOUTH}
+        ]
+    }
+}
+
 export const getNewMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:string):MatchState => {
     const theDeck = s.decks.find(d=>d.id === s.currentDeckId)
     const deck:Deck = {

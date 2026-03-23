@@ -31,7 +31,7 @@ export enum Modal {
     ChooseFromGY='ChooseFromGY',ChooseDiscard='ChooseDiscard',PickNextCard='PickNextSorcery',
     GameOver='GameOver',Winner='Winner',ShowLandChoices='ShowLandChoices',Lobby='Lobby',
     ViewCards='ViewCards',SelectCreatureForTop='SelectCreatureForTop',DiscardAndDraw='DiscardAndDraw',
-    ViewGY='ViewGY',TradeSpells='TradeSpells'
+    ViewGY='ViewGY',TradeSpells='TradeSpells',CampaignDeckbuilder='CampaignDeckbuilder'
 }
 
 export enum Direction {
@@ -63,7 +63,7 @@ export enum Layers {
     Creature='creature',
     Entrances='entrances'
 }
-export const LayerStack = [Layers.Earth,Layers.Blockers,Layers.Doodad,Layers.Creature,Layers.Entrances]
+export const LayerStack = [Layers.Earth,Layers.Doodad,Layers.Blockers,Layers.Entrances,Layers.Creature,]
 
 export enum Maps {
     Tutorial='tutorial',Overworld='overworld'
