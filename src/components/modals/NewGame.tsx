@@ -29,6 +29,7 @@ export default () => {
             decks:[{id:newDeckId, name: 'new codex', cards:[]}], 
             cards: getStartingCards(myId), 
             campaignDeck:[],
+            campaignCreatures:[],
             currentMatch:null,
             worldX:0,
             worldY:0

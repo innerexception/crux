@@ -36,8 +36,19 @@ export default class MapScene extends Scene {
         if(!save.worldX){
             const spawn = this.map.findByIndex(729)
             this.playerSprite = this.add.image(spawn.pixelX, spawn.pixelY, 'creatures', save.playerSprite)
+            this.map.setLayer(Layers.Creature)
+            let creatures = new Array<CreatureState>()
+            this.map.forEachTile(t=>{
+                if(t.index != -1){
+                    creatures.push({ kind: t.index-1, tileX: t.x, tileY:t.y, alive:true })
+                }
+            })
+            onUpdateSave({...save, campaignCreatures:creatures})
         }
-        else this.playerSprite = this.add.image(save.worldX, save.worldY, 'creatures', save.playerSprite)
+        else{
+            this.playerSprite = this.add.image(save.worldX, save.worldY, 'creatures', save.playerSprite)
+            save.campaignCreatures.filter(c=>!c.alive).forEach(c=>this.map.removeTileAt(c.tileX, c.tileY, false, false, Layers.Creature))
+        } 
         this.cameras.main.startFollow(this.playerSprite)
         const keys = DEFAULT_KEYS
         this.input.keyboard.enabled = true
@@ -73,6 +84,9 @@ export default class MapScene extends Scene {
                     if(creature){
                         this.map.removeTileAt(t.x, t.y, false, false, Layers.Creature)
                         const saveFile = store.getState().saveFile
+                        const i = saveFile.campaignCreatures.findIndex(c=>c.tileX===t.x && c.tileY === t.y)
+                        saveFile.campaignCreatures[i].alive = false
+                        onUpdateSave({...saveFile, campaignCreatures: saveFile.campaignCreatures})
                         return onStartCampaignMatch(saveFile, getAIPlayer(creature.index-1), saveFile.myId)
                     }
                     const shop = this.map.getTileAt(t.x, t.y, false, Layers.Entrances)

@@ -194,6 +194,13 @@ interface FeatureData {
     shopInventory?: Card[]
 }
 
+interface CreatureState {
+    tileX:number
+    tileY:number
+    kind: import('./enum').CreatureSpriteIndex
+    alive:boolean
+}
+
 interface SaveFile {
     myId:string
     playerSprite: import('./enum').CreatureSpriteIndex
@@ -205,4 +212,5 @@ interface SaveFile {
     currentMatch:MatchState
     worldX:number
     worldY:number
+    campaignCreatures:CreatureState[]
 }
