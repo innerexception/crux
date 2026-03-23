@@ -90,6 +90,7 @@ export const onSelectBoardCard = (k:Card) => {
 }
 
 export const onUpdateSave = (s:SaveFile) => {
+    trySaveFile(JSON.stringify(s))
     store.dispatch({ type: UIReducerActions.UPDATE, data: s })
 }
 
@@ -142,8 +143,6 @@ export const onFinishBattle = (loot:Card[]) => {
     const map = state.scene.scene.get(SceneNames.Map) as MapScene
     const btl = state.scene.scene.get(SceneNames.Main) as BattleScene
     store.dispatch({ type: UIReducerActions.FINISH_MATCH, data:loot })
-    const uiState = store.getState().saveFile
-    trySaveFile(JSON.stringify(uiState))
     transitionOut(btl, SceneNames.Map, ()=>transitionIn(map))
 }
 
@@ -160,7 +159,6 @@ export const onShowModal = (modal:Modal, data?:ModalData) => {
 
 export const onSave = () => {
     const uiState = store.getState().saveFile
-    trySaveFile(JSON.stringify(uiState))
     onUpdateSave(uiState)
 }
 

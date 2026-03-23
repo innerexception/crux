@@ -30,8 +30,8 @@ export default () => {
             cards: getStartingCards(myId), 
             campaignDeck:[],
             currentMatch:null,
-            worldX:60,
-            worldY:60
+            worldX:0,
+            worldY:0
         }
         trySaveFile(JSON.stringify(newSave))
         onUpdateSave(newSave)

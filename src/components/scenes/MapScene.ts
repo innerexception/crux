@@ -2,7 +2,7 @@ import { GameObjects, Input, Scene, Tilemaps } from "phaser";
 import { DEFAULT_KEYS, LayerStack, Layers, MapFeatures, Maps, Modal } from "../../../enum";
 import { TILE_DIM } from "./BattleScene";
 import { store } from "../../..";
-import { onShowModal, onStartCampaignMatch, onStartMatch } from "../../common/Thunks";
+import { onShowModal, onStartCampaignMatch, onStartMatch, onUpdateSave } from "../../common/Thunks";
 import { getAIPlayer } from "../../common/Utils";
 
 export default class MapScene extends Scene {
@@ -33,8 +33,11 @@ export default class MapScene extends Scene {
         const save = store.getState().saveFile
         this.playerSprite?.destroy()
         this.map.setLayer(Layers.Doodad)
-        const spawn = this.map.findByIndex(729)
-        this.playerSprite = this.add.image(spawn.pixelX, spawn.pixelY, 'creatures', save.playerSprite)
+        if(!save.worldX){
+            const spawn = this.map.findByIndex(729)
+            this.playerSprite = this.add.image(spawn.pixelX, spawn.pixelY, 'creatures', save.playerSprite)
+        }
+        else this.playerSprite = this.add.image(save.worldX, save.worldY, 'creatures', save.playerSprite)
         this.cameras.main.startFollow(this.playerSprite)
         const keys = DEFAULT_KEYS
         this.input.keyboard.enabled = true
@@ -65,8 +68,10 @@ export default class MapScene extends Scene {
                 duration: 300,
                 onComplete: ()=>{
                     this.moveCooldown = false
+                    onUpdateSave({...store.getState().saveFile, worldX: this.playerSprite.x, worldY:this.playerSprite.y})
                     const creature = this.map.getTileAt(t.x, t.y, false, Layers.Creature)
                     if(creature){
+                        this.map.removeTileAt(t.x, t.y, false, false, Layers.Creature)
                         const saveFile = store.getState().saveFile
                         return onStartCampaignMatch(saveFile, getAIPlayer(creature.index-1), saveFile.myId)
                     }
