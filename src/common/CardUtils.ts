@@ -247,20 +247,27 @@ export const black = (playerId:string):Card[] => {
         getCard(playerId, CardType.Riot, Portal[CardType.CursedToad]),
     ]
 }
-
-export const AIDecks = {
-    goblinHordes, 
-    black
-}
     
 export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Card[], sprite:CreatureSpriteIndex, hp:number, loot:CardType[]}>> = {
     [CreatureSpriteIndex.Goblin]: {
         sprite: CreatureSpriteIndex.Goblin,
-        deck: AIDecks.goblinHordes,
+        deck: goblinHordes,
+        hp:5,
+        loot:[CardType.GoblinSargeant]
+    },
+    [CreatureSpriteIndex.Goblin3]: {
+        sprite: CreatureSpriteIndex.Goblin,
+        deck: goblinHordes,
         hp:5,
         loot:[CardType.GoblinSargeant]
     },
     [CreatureSpriteIndex.CityMage]: {
+        sprite: CreatureSpriteIndex.CityMage,
+        deck: black,
+        hp:20,
+        loot:[CardType.Pollution]
+    },
+    [CreatureSpriteIndex.Bruiser]: {
         sprite: CreatureSpriteIndex.CityMage,
         deck: black,
         hp:20,

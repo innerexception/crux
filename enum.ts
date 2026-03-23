@@ -99,7 +99,7 @@ export enum CreatureSpriteIndex {
     DustDevil=4247,SecretCache=10,ProtoDrake=4277,Grizzly=4091,GuardianAngel=4363,ShroudedApostle=4979,Phoenix=3942,IllusoryWall=867,
     ChaosServant=4903,SulfurRain=1949,LavaBeam=2002,Contemplation=1963,HiddenOasis=2046,FeralSpirit=4054,FireHydra=4054,
     KnowledgeAssimilator=4968,DebtCollection=1798,VenerableMonk=3803,Reckoning=857,LastGasp=2012,DruidicScholar=4896,Escaton=73,
-    Erosion=1494,DivineReach=1834,Fog=1711,ForkLightning=1847,RedwoodTreant=4713,GreenMerchant=4928
+    Erosion=1494,DivineReach=1834,Fog=1711,ForkLightning=1847,RedwoodTreant=4713,GreenMerchant=4928,Bruiser=4936
 }
 
 export const MapFeatures:Partial<Record<CreatureSpriteIndex, FeatureData>> = {
