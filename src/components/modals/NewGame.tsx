@@ -52,7 +52,7 @@ export default () => {
     
     return (
         <div style={{...AppStyles.modal, margin:'auto', width:'auto', border:'none'}}>
-            <h3 style={{textAlign:'center', marginBottom:'0.5em'}}>CRUX</h3>
+            <h3 style={{textAlign:'center', marginBottom:'0.5em'}}>Summoner's March</h3>
             <div style={{display:'flex', gap:'5px', alignItems:'center'}}>
                 <div style={{display:'flex', marginRight:'1em'}}>
                     <Button enabled={selectedAvatarI > 0} text={'<'} handler={()=>setPlayerAvatar(selectedAvatarI-1)}/>
@@ -64,7 +64,6 @@ export default () => {
                     <Button enabled={d.id !== saveFile.currentDeckId} text="Select" handler={()=>onUpdateSave({...saveFile, currentDeckId: d.id})}/>
                     <Button enabled={true} text="Edit" handler={()=>{onUpdateSave({...saveFile, currentDeckId: d.id});onShowModal(Modal.Deckbuilder)}}/>
                 </div>)}
-                
             </div>
             <div style={{display:'flex', justifyContent:'flex-end'}}>
                 <Button text="Vs Hum" enabled={saveFile.currentDeckId?true:false} handler={()=>onShowModal(Modal.Lobby)} style={{ padding:'5px'}}/>

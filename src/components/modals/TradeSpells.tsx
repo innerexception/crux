@@ -4,7 +4,6 @@ import { Button, CssIcon } from '../../common/Shared';
 import { onShowModal, onUpdateSave } from '../../common/Thunks';
 import CardView from '../CardView';
 import { useSelector } from 'react-redux';
-import { store } from '../../..';
 import { getCardData } from '../../common/CardUtils';
 import { IconIndex } from '../../../enum';
 
