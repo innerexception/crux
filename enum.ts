@@ -97,7 +97,7 @@ export enum CreatureSpriteIndex {
     AngelicTouch=1819,PiercingStare=4336,FlashOfLight=2024,DeceptiveContract=1983,StingingWinds=2032,Banish=2192,
     Taskmaster=2054,DoubleCast=7,Thunderclap=1847,Hailstorm=4413,AcidRain=1534,Unicorn=4800,CultLeader=4767,FieldMarshal=5062,
     Sinkhole=826,HolySymbol=2053,Premonition=2213,VexingRiddle=2138,Slow=2138,RighteousCharge=813,GraniteWall=997,Collectivization=726,
-    BattlePrayer=61,Conspiracy=1864,AirDrake=4325,Anaconda=4163,Boggart=4186,VolcanicVent=384,Fear=1946,Resurrection=2109,
+    BattlePrayer=61,Conspiracy=1864,AirDrake=4325,Anaconda=4154,Boggart=4186,VolcanicVent=384,Fear=1946,Resurrection=2109,
     DustDevil=4247,SecretCache=10,ProtoDrake=4277,Grizzly=4091,GuardianAngel=4363,ShroudedApostle=4979,Phoenix=3942,IllusoryWall=867,
     ChaosServant=4903,SulfurRain=1949,LavaBeam=2002,Contemplation=1963,HiddenOasis=2046,FeralSpirit=4054,FireHydra=4054,
     KnowledgeAssimilator=4968,DebtCollection=1798,VenerableMonk=3803,Reckoning=857,LastGasp=2012,DruidicScholar=4896,Escaton=73,
@@ -313,18 +313,6 @@ export enum CardType {
     FeralSpirit='FeralSpirit', FireHydra='FireHydra', KnowledgeAssimilator='KnowledgeAssimilator',ChaosServant='ChaosServant',
     VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion',DivineReach='DivineReach',Stylite='Stylite',LizardMage='LizardMage',
     LavaBeam='LavaBeam',Contemplation='Contemplation',HiddenOasis='HiddenOasis',StingingWinds='StingingWinds'
-}
-
-export const MapFeatures:Partial<Record<CreatureSpriteIndex, FeatureData>> = {
-    [CreatureSpriteIndex.GreenMerchant]: {
-        kind: MapFeature.Shop,
-        shopInventory: [
-            getCard('', CardType.Anaconda, Portal[CardType.Anaconda]),
-            getCard('', CardType.Anaconda, Portal[CardType.DeepSprings]),
-            getCard('', CardType.Anaconda, Portal[CardType.Falconer]),
-            getCard('', CardType.Anaconda, Portal[CardType.Grizzly]),
-        ]
-    }
 }
 
 export const DEFAULT_KEYS = {
