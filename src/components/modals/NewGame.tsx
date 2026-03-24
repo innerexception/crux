@@ -32,7 +32,8 @@ export default () => {
             campaignCreatures:[],
             currentMatch:null,
             worldX:0,
-            worldY:0
+            worldY:0,
+            gold:0
         }
         trySaveFile(JSON.stringify(newSave))
         onUpdateSave(newSave)

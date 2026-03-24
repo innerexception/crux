@@ -1,4 +1,6 @@
 import { Input } from "phaser"
+import { Portal } from "./src/assets/data/Portal"
+import { getCard } from "./src/common/CardUtils"
 
 export enum UIReducerActions {
     UPDATE = 'updt',
@@ -102,19 +104,13 @@ export enum CreatureSpriteIndex {
     Erosion=1494,DivineReach=1834,Fog=1711,ForkLightning=1847,RedwoodTreant=4713,GreenMerchant=4928,Bruiser=4936
 }
 
-export const MapFeatures:Partial<Record<CreatureSpriteIndex, FeatureData>> = {
-    [CreatureSpriteIndex.GreenMerchant]: {
-        kind: MapFeature.Shop
-    }
-}
-
 export const PlayerAvatars = [CreatureSpriteIndex.Player1, CreatureSpriteIndex.CityMage, CreatureSpriteIndex.OldMage, CreatureSpriteIndex.LadyMage, 
     CreatureSpriteIndex.Player2, CreatureSpriteIndex.Player3, CreatureSpriteIndex.Player4, CreatureSpriteIndex.Player5]
 
 export enum IconIndex {
     Mana=16, Options=1759, Close=37, Cancel=1734, Ok=1735, Quit=115,Sword=1902,Save=1935,
     Damage=3302,Tap=3733,Red=2649,Blue=2667,Green=2674,Black=2663,White=2678,Gray=2666,
-    Graveyard=45,Draw=86,Buff=3521,Debuff=3507,Activate=3609,CreateLand=2024
+    Graveyard=45,Draw=86,Buff=3521,Debuff=3507,Activate=3609,CreateLand=2024,Gold=2602
 }
 
 export enum Color {
@@ -317,6 +313,18 @@ export enum CardType {
     FeralSpirit='FeralSpirit', FireHydra='FireHydra', KnowledgeAssimilator='KnowledgeAssimilator',ChaosServant='ChaosServant',
     VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion',DivineReach='DivineReach',Stylite='Stylite',LizardMage='LizardMage',
     LavaBeam='LavaBeam',Contemplation='Contemplation',HiddenOasis='HiddenOasis',StingingWinds='StingingWinds'
+}
+
+export const MapFeatures:Partial<Record<CreatureSpriteIndex, FeatureData>> = {
+    [CreatureSpriteIndex.GreenMerchant]: {
+        kind: MapFeature.Shop,
+        shopInventory: [
+            getCard('', CardType.Anaconda, Portal[CardType.Anaconda]),
+            getCard('', CardType.Anaconda, Portal[CardType.DeepSprings]),
+            getCard('', CardType.Anaconda, Portal[CardType.Falconer]),
+            getCard('', CardType.Anaconda, Portal[CardType.Grizzly]),
+        ]
+    }
 }
 
 export const DEFAULT_KEYS = {

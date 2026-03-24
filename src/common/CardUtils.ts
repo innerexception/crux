@@ -149,7 +149,7 @@ export const getStartingCards = (playerId:string):Card[] => {
     ]
 }
 
-const getCard = (playerId:string,kind:CardType,c:CardMeta):Card => {
+export const getCard = (playerId:string,kind:CardType,c:CardMeta):Card => {
     return {
         id: v4(),
         ownerId: playerId,

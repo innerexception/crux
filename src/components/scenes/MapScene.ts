@@ -1,5 +1,5 @@
 import { GameObjects, Input, Scene, Tilemaps } from "phaser";
-import { DEFAULT_KEYS, LayerStack, Layers, MapFeatures, Maps, Modal } from "../../../enum";
+import { DEFAULT_KEYS, LayerStack, Layers, MapFeatures, Maps, Modal, CreatureSpriteIndex } from "../../../enum";
 import { TILE_DIM } from "./BattleScene";
 import { store } from "../../..";
 import { onShowModal, onStartCampaignMatch, onStartMatch, onUpdateSave } from "../../common/Thunks";
@@ -91,7 +91,7 @@ export default class MapScene extends Scene {
                     }
                     const shop = this.map.getTileAt(t.x, t.y, false, Layers.Entrances)
                     if(shop){
-                        onShowModal(Modal.TradeSpells, MapFeatures[shop.index-1])
+                        onShowModal(Modal.TradeSpells, { cards: MapFeatures[shop.index-1 as CreatureSpriteIndex].shopInventory, targetPlayerId:''})
                     }
                 }
             })
