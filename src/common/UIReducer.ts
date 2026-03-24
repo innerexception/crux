@@ -14,7 +14,7 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
         case UIReducerActions.SHOW_MODAL: 
             return { ...state, activeModal: action.data.modal, modalData: action.data.data }
         case UIReducerActions.START_NEW_MATCH:
-            return { ...state, saveFile: {...state.saveFile, currentMatch: action.data}, activeModal:null, isLoaded: true }
+            return { ...state, saveFile: {...state.saveFile, currentMatch: action.data}, activeModal:null }
         case UIReducerActions.FINISH_MATCH:
             return { ...state, saveFile: {...state.saveFile, currentMatch: null, cards: state.saveFile.cards.concat(action.data)}, activeModal:null }
         case UIReducerActions.SAVE:
@@ -61,7 +61,6 @@ const getInitialState = () => {
         activeModal: null,
         modalData: null,
         joinedPlayer: null,
-        isLoaded:false,
         saveFile: null,
         selectedSaveName: '',
         currentMatch: null,

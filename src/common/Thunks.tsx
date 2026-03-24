@@ -96,15 +96,9 @@ export const onUpdateSave = (s:SaveFile) => {
 
 export const onQuit = () => {
     store.getState().scene.sound.stopAll()
-    store.getState().scene.scene.transition({
-        target: SceneNames.Intro,
-        duration: 3000,
-        sleep: true,
-        remove: false,
-        allowInput: false,
-        moveAbove: true,
-        data: null
-    })
+    const intro = store.getState().scene.scene.get(SceneNames.Intro) as IntroScene
+    const map = store.getState().scene.scene.get(SceneNames.Map) as MapScene
+    transitionOut(map, SceneNames.Intro, ()=>transitionIn(intro))
     //const intro = store.getState().scene.scene.get(SceneNames.Intro) as IntroScene
     //intro.sound.get(SoundEffects.Intro).play()
     onShowModal(Modal.NewGame)

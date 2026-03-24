@@ -43,6 +43,7 @@ interface CardMeta {
     defaultAttributes?: import('./enum').Modifier[]
     ability?: CardAbility
     sprite: import('./enum').CreatureSpriteIndex
+    gold:number
 }
 
 interface CardAbility  {
@@ -161,7 +162,6 @@ interface RState {
     previewAbility: CardAbility
     activeModal: import('./enum').Modal
     modalData: ModalData
-    isLoaded:boolean
     turnProcessing:boolean
     saveFile:SaveFile
     lobbyId:string
@@ -212,5 +212,6 @@ interface SaveFile {
     currentMatch:MatchState
     worldX:number
     worldY:number
+    gold:number
     campaignCreatures:CreatureState[]
 }

@@ -24,6 +24,7 @@ import { getCardData } from './common/CardUtils';
 import ViewGY from './components/modals/ViewGY';
 import TradeSpells from './components/modals/TradeSpells';
 import CampaignDeckbuilder from './components/CampaignDeckbuilder';
+import MapUI from './components/MapUI';
 
 export default () => {
 
@@ -50,7 +51,8 @@ export default () => {
     }
   }
 
-  const showUI = state.saveFile?.currentMatch && state.isLoaded
+  const showUI = state.saveFile?.currentMatch 
+  const showMapUI = !state.activeModal && state.saveFile && !state.saveFile?.currentMatch 
 
   return (
     <div style={{position:'relative', height:'100vh', overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center'}}>
@@ -61,10 +63,11 @@ export default () => {
             {match?.logs?.map(l=>getLogEl(l, match))}
         </div>}
         {showUI && <Sidebar />}
-        {showUI && state.isLoaded && <StatusBar />}
-        {showUI && state.isLoaded && <CPUDeck/>}
+        {showUI && <StatusBar />}
+        {showUI && <CPUDeck/>}
         <Viewport/>
-        {showUI && state.isLoaded && <DeckView/>}
+        {showUI && <DeckView/>}
+        {showMapUI && <MapUI/>}
         {showUI && <div style={{position:'absolute', top:'33%',opacity:0.8, right:10, background:'black', width:'200px', height:'300px'}}>{state.inspectCard && <CardDetailView card={state.inspectCard}/>}</div>}
         {state.previewAbility && <div style={{position:'absolute', top:'50%', left:10}}><AbilityPreview ability={state.previewAbility}/></div>}
       </div>
