@@ -144,10 +144,8 @@ export const getStartingCards = (playerId:string):Card[] => {
         getCard(playerId, CardType.MessengerOwl, Portal[CardType.MessengerOwl]),
         getCard(playerId, CardType.ArmoredTortoise, Portal[CardType.ArmoredTortoise]),
         getCard(playerId, CardType.BlackBear, Portal[CardType.BlackBear]),
-        getCard(playerId, CardType.RowanTreant, Portal[CardType.RowanTreant]),
         getCard(playerId, CardType.Corvian, Portal[CardType.Corvian]),
-        getCard(playerId, CardType.CatBurglar, Portal[CardType.CatBurglar]),
-        getCard(playerId, CardType.Corvian, Portal[CardType.Corvian])
+        getCard(playerId, CardType.CatBurglar, Portal[CardType.CatBurglar])
     ]
 }
 
@@ -214,6 +212,23 @@ export const getFreshLands = () => {
 
 export const goblinHordes = (playerId:string):Card[] => {
     return [
+        getCard(playerId, CardType.Tremors, Portal[CardType.Tremors]),
+        getCard(playerId, CardType.GoblinSargeant, Portal[CardType.GoblinSargeant]),
+        getCard(playerId, CardType.GoblinSargeant, Portal[CardType.GoblinSargeant]),
+        getCard(playerId, CardType.GoblinSargeant, Portal[CardType.GoblinSargeant]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.Hobgoblin, Portal[CardType.Hobgoblin]),
+        getCard(playerId, CardType.Hobgoblin, Portal[CardType.Hobgoblin]),
+        getCard(playerId, CardType.Hobgoblin, Portal[CardType.Hobgoblin]),
+        getCard(playerId, CardType.Sinkhole, Portal[CardType.Sinkhole]),
+        getCard(playerId, CardType.Sinkhole, Portal[CardType.Sinkhole]),
+        getCard(playerId, CardType.Sinkhole, Portal[CardType.Sinkhole]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
         getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
         getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
         getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
@@ -227,24 +242,50 @@ export const goblinHordes = (playerId:string):Card[] => {
     ]
 }
 
-export const black = (playerId:string):Card[] => {
+export const blackSmall = (playerId:string):Card[] => {
     return [
         getCard(playerId, CardType.Boggart, Portal[CardType.Boggart]),
-        getCard(playerId, CardType.Roaches, Portal[CardType.Roaches]),
-        getCard(playerId, CardType.ArmoredTortoise, Portal[CardType.ArmoredTortoise]),
-        getCard(playerId, CardType.ArmoredTortoise, Portal[CardType.ArmoredTortoise]),
+        getCard(playerId, CardType.Boggart, Portal[CardType.Boggart]),
         getCard(playerId, CardType.Homonculus, Portal[CardType.Homonculus]),
         getCard(playerId, CardType.MercenaryKnight, Portal[CardType.MercenaryKnight]),
         getCard(playerId, CardType.MercenaryKnight, Portal[CardType.MercenaryKnight]),
         getCard(playerId, CardType.Roaches, Portal[CardType.Roaches]),
         getCard(playerId, CardType.Roaches, Portal[CardType.Roaches]),
+        getCard(playerId, CardType.Roaches, Portal[CardType.Roaches]),
+        getCard(playerId, CardType.ShadowForm, Portal[CardType.ShadowForm]),
         getCard(playerId, CardType.ShadowForm, Portal[CardType.ShadowForm]),
         getCard(playerId, CardType.Addict, Portal[CardType.Sophist]),
         getCard(playerId, CardType.CursedToad, Portal[CardType.CursedToad]),
         getCard(playerId, CardType.CursedToad, Portal[CardType.CursedToad]),
-        getCard(playerId, CardType.ScavengingRats, Portal[CardType.CursedToad]),
-        getCard(playerId, CardType.Riot, Portal[CardType.CursedToad]),
-        getCard(playerId, CardType.Riot, Portal[CardType.CursedToad]),
+        getCard(playerId, CardType.ScavengingRats, Portal[CardType.ScavengingRats]),
+        getCard(playerId, CardType.ScavengingRats, Portal[CardType.ScavengingRats]),
+        getCard(playerId, CardType.ScavengingRats, Portal[CardType.ScavengingRats]),
+        getCard(playerId, CardType.Riot, Portal[CardType.Riot]),
+        getCard(playerId, CardType.Riot, Portal[CardType.Riot]),
+        getCard(playerId, CardType.Pollution, Portal[CardType.Pollution]),
+        getCard(playerId, CardType.Pollution, Portal[CardType.Pollution]),
+        getCard(playerId, CardType.Pollution, Portal[CardType.Pollution])
+    ]
+}
+
+export const beasts = (playerId:string):Card[] => {
+    return [
+        getCard(playerId, CardType.FeralSpirit, Portal[CardType.FeralSpirit]),
+        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
+        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
+        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
+        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
+        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
+        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
+        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
+        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
+        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
+        getCard(playerId, CardType.BlackBear, Portal[CardType.BlackBear]),
+        getCard(playerId, CardType.BlackBear, Portal[CardType.BlackBear]),
+        getCard(playerId, CardType.BlackBear, Portal[CardType.BlackBear]),
+        getCard(playerId, CardType.WerewolfRaider, Portal[CardType.WerewolfRaider]),
+        getCard(playerId, CardType.WerewolfRaider, Portal[CardType.WerewolfRaider]),
+        getCard(playerId, CardType.WerewolfRaider, Portal[CardType.WerewolfRaider])
     ]
 }
     
@@ -257,19 +298,19 @@ export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Car
     },
     [CreatureSpriteIndex.Goblin3]: {
         sprite: CreatureSpriteIndex.Goblin,
-        deck: goblinHordes,
+        deck: beasts,
         hp:5,
-        loot:[CardType.GoblinSargeant]
+        loot:[CardType.WerewolfRaider]
     },
     [CreatureSpriteIndex.CityMage]: {
         sprite: CreatureSpriteIndex.CityMage,
-        deck: black,
+        deck: blackSmall,
         hp:20,
         loot:[CardType.Pollution]
     },
     [CreatureSpriteIndex.Bruiser]: {
         sprite: CreatureSpriteIndex.CityMage,
-        deck: black,
+        deck: blackSmall,
         hp:20,
         loot:[CardType.Pollution]
     }
