@@ -60,7 +60,7 @@ export default class BattleScene extends Scene {
         let grass = this.map.addTilesetImage('tiles', 'tiles', TILE_DIM,TILE_DIM)
         LayerStack.forEach(l=>this.map.createLayer(l, grass))
         this.map.setLayer(Layers.Earth)
-        const midTile = this.map.getTileAt(Math.round(this.map.width/2), Math.round(this.map.height/2), false, Layers.Earth)
+        const midTile = this.map.findByIndex(1005)
         this.northLands = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y-FIELD_HEIGHT-1, FIELD_WIDTH*2, 1)
         this.northCreatures = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y-FIELD_HEIGHT, FIELD_WIDTH*2, 1)
         this.southLands = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y+FIELD_HEIGHT-1, FIELD_WIDTH*2, 1)
@@ -85,7 +85,7 @@ export default class BattleScene extends Scene {
         })
         
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
-        this.cameras.main.centerToBounds()
+        this.cameras.main.centerOn(midTile.pixelX, midTile.pixelY)
     }
 
     playAILand = () => {

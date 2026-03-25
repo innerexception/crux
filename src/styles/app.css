@@ -16,6 +16,7 @@ html {
 }
 
 body {
+  margin:0;
   font-family: 'Body';
   font-size: 20px;
   line-height: unset;

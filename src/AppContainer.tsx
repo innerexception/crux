@@ -6,7 +6,6 @@ import NewGame from './components/modals/NewGame';
 import StatusBar from './components/StatusBar';
 import Options from './components/modals/Options';
 import DeckView from './components/DeckView';
-import Sidebar from './components/Sidebar';
 import CPUDeck from './components/CPUDeck';
 import LandChoice from './components/modals/LandChoice';
 import Lobby from './components/modals/Lobby';
@@ -62,7 +61,6 @@ export default () => {
         {showUI && <div style={{width:'200px', opacity:0.8, position:'absolute', top:'33%', left:10, height:'300px', overflow:'auto', background:'black', padding:'5px', fontSize:'16px'}}>
             {match?.logs?.map(l=>getLogEl(l, match))}
         </div>}
-        {showUI && <Sidebar />}
         {showUI && <StatusBar />}
         {showUI && <CPUDeck/>}
         <Viewport/>
