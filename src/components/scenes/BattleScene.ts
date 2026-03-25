@@ -4,7 +4,7 @@ import { CardType, Color, Direction, IconIndex, Layers, LayerStack, Log, Maps, M
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { addLogEntry, onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
-import { canAct, canAfford, checkWinConditions, drawMarchingDashedRect, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
+import { canAct, canAfford, checkWinConditions, drawMarchingDashedRect, getColorlessRemain, payCost, shuffle, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, getLoot, getValidCreatureTargets, resetCard, validStartTile } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
 import { net_addCard, net_cancelPendingAction, net_damageCard, net_endTurn, net_moveCard, net_tapLand, net_triggerCardAbility, sendAddCardEffect, sendDamageCard, sendLandTappedEffect, sendMoveCard, sendTriggerCardAbility } from "../../common/Network";
@@ -152,15 +152,15 @@ export default class BattleScene extends Scene {
                     net_addCard({cardId: creature.id, worldX: spawnTile.pixelX, worldY: spawnTile.pixelY})
                 else {
                     const tile = this.getEmptyStartTile(dir)
-                    if(tile){
+                    if(tile && this.canPlaceCreatureHere(creature, tile)){
                         const spawnTile = this.map.getTileAt(tile.x, dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
                         net_addCard({cardId: creature.id, worldX: spawnTile.pixelX, worldY: spawnTile.pixelY})
                     }
                 }
             }
             else {
-                const tile = this.getEmptyStartTile(dir)
-                if(tile){
+                const tile = this.getEmptyStartTile(dir) //TODO: prioritize lanes with enemy land
+                if(tile && this.canPlaceCreatureHere(creature, tile)){
                     const spawnTile = this.map.getTileAt(tile.x, dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
                     net_addCard({cardId: creature.id, worldX: spawnTile.pixelX, worldY: spawnTile.pixelY})
                 }
@@ -201,18 +201,18 @@ export default class BattleScene extends Scene {
     getEmptyStartTile (dir:Direction, land?:boolean) {
         if(land){
             if(dir === Direction.NORTH){
-                return this.northLands.find(t=>this.isEmptyTile(t.x, t.y))
+                return shuffle(this.northLands).find(t=>this.isEmptyTile(t.x, t.y))
             }
             else {
-                return this.southLands.find(t=>this.isEmptyTile(t.x, t.y))
+                return shuffle(this.southLands).find(t=>this.isEmptyTile(t.x, t.y))
             }
         }
         else {
             if(dir === Direction.NORTH){
-                return this.northCreatures.find(t=>this.isEmptyTile(t.x, t.y))
+                return shuffle(this.northCreatures).find(t=>this.isEmptyTile(t.x, t.y))
             }
             else {
-                return this.southCreatures.find(t=>this.isEmptyTile(t.x, t.y))
+                return shuffle(this.southCreatures).find(t=>this.isEmptyTile(t.x, t.y))
             }
         }
     }
@@ -888,7 +888,7 @@ export default class BattleScene extends Scene {
         if(effect.returnToBattle){
             let owner = state.saveFile.currentMatch.players.find(p=>p.id === creature.ownerId)
             const t = this.getEmptyStartTile(owner.dir)
-            if(!t){
+            if(!t || !this.canPlaceCreatureHere(creature, t)){
                 onUpdatePlayer({...owner, discard: owner.discard.filter(c=>c.id !== creature.id), hand: owner.hand.concat(resetCard(creature))})
             }
             else {
