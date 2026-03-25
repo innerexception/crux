@@ -1,10 +1,12 @@
 import { GameObjects, Geom, Scene } from "phaser"
-import { CardType, Color, CreatureSpriteIndex, Direction, Layers, Permanents } from "../../enum"
+import { CardType, Color, CreatureSpriteIndex, Direction, Layers, Modal, Permanents, SceneNames } from "../../enum"
 import BattleScene from "../components/scenes/BattleScene"
-import { AIPlayers, getCardData, getFreshLands } from "./CardUtils"
+import { AIPlayers, getCardData, getFreshLands, getLoot } from "./CardUtils"
 import { SAVE_NAMES } from "./UIReducer"
 import{ v4 } from 'uuid'
 import { store } from "../.."
+import { onShowModal, onUpdateSave } from "./Thunks"
+import MapScene from "../components/scenes/MapScene"
 
 export const emptyMana = {
     [Color.Black]:0,
@@ -14,6 +16,22 @@ export const emptyMana = {
     [Color.White]:0,
     [Color.None]:0
 }
+
+export const checkWinConditions = (deadPlayer:PlayerState) => {
+    const myid = store.getState().saveFile.myId
+    const scene = store.getState().scene.scene.get(SceneNames.Map) as MapScene
+    if(deadPlayer.id !== myid){
+        const t = scene.map.getTileAtWorldXY(scene.playerSprite.x, scene.playerSprite.y, false, undefined, Layers.Earth)
+        scene.map.removeTileAt(t.x, t.y, false, false, Layers.Creature)
+        const saveFile = store.getState().saveFile
+        const i = saveFile.campaignCreatures.findIndex(c=>c.tileX===t.x && c.tileY === t.y)
+        saveFile.campaignCreatures[i].alive = false
+        onUpdateSave({...saveFile, campaignCreatures: saveFile.campaignCreatures})
+        onShowModal(Modal.Winner, {cards: getLoot(deadPlayer.playerSprite, myid), targetPlayerId: ''})
+    } 
+    else onShowModal(Modal.GameOver)
+}
+
 
 export const canAct = () => {
     const state = store.getState()
@@ -150,10 +168,11 @@ export const getColorlessRemain = (mana:Record<Color,number>, c:Card) => {
 export const payCost = (mana:Record<Color,number>, cost?:ManaCost[]):Record<Color,number> => {
     const newMana = {...mana}
     if(!cost) return newMana
-    cost.filter(c=>c.kind!==Color.None).forEach(c=>{
+    const newCost = Array.from(cost)
+    newCost.filter(c=>c.kind!==Color.None).forEach(c=>{
         newMana[c.kind]-=c.amount
     })
-    const colorless = cost.find(c=>c.kind===Color.None)
+    const colorless = newCost.find(c=>c.kind===Color.None)
     if(colorless){
         let amt = colorless.amount
         while(amt > 0){

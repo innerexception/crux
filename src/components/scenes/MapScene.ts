@@ -83,11 +83,7 @@ export default class MapScene extends Scene {
                     onUpdateSave({...store.getState().saveFile, worldX: this.playerSprite.x, worldY:this.playerSprite.y})
                     const creature = this.map.getTileAt(t.x, t.y, false, Layers.Creature)
                     if(creature){
-                        this.map.removeTileAt(t.x, t.y, false, false, Layers.Creature)
                         const saveFile = store.getState().saveFile
-                        const i = saveFile.campaignCreatures.findIndex(c=>c.tileX===t.x && c.tileY === t.y)
-                        saveFile.campaignCreatures[i].alive = false
-                        onUpdateSave({...saveFile, campaignCreatures: saveFile.campaignCreatures})
                         return onStartCampaignMatch(saveFile, getAIPlayer(creature.index-1), saveFile.myId)
                     }
                     const shop = this.map.getTileAt(t.x, t.y, false, Layers.Entrances)

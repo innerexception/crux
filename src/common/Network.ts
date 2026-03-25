@@ -2,7 +2,7 @@ import { createClient, RealtimeChannel } from '@supabase/supabase-js'
 import { IconIndex, Layers, Log, Modal, Modifier, NetworkEvent, Permanents, Target } from '../../enum'
 import { addLogEntry, onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSelectCard, onSetActionAcknowledge, onSetLobby, onSetRepeatingCardAbility, onShowAbilityPreview, onShowModal, onStartMatch, onTurnProcessing, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from './Thunks'
 import { store } from '../..'
-import { emptyMana, payCost } from './Utils'
+import { checkWinConditions, emptyMana, payCost } from './Utils'
 import{ v4 } from 'uuid'
 import { getCardData, getLaneAttributes, getLoot, getValidCreatureTargets, getValidLandTargets, tapLand } from './CardUtils'
 import CreatureSprite from '../components/sprites/CreatureSprite'
@@ -269,8 +269,7 @@ export const net_endTurn = async (match:MatchState) => {
         op.hp-=nextPlayer.damageReflect
         onUpdatePlayer({...op})
         if(op.hp <= 0){
-            if(op.id === store.getState().saveFile.myId) onShowModal(Modal.GameOver)
-            else onShowModal(Modal.Winner, {cards: getLoot(nextPlayer, op.id), targetPlayerId: ''})
+            checkWinConditions(op)
             return
         }
         match = store.getState().saveFile.currentMatch

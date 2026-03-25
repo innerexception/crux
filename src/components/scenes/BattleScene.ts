@@ -4,7 +4,7 @@ import { CardType, Color, Direction, IconIndex, Layers, LayerStack, Log, Maps, M
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { addLogEntry, onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
-import { canAct, canAfford, drawMarchingDashedRect, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
+import { canAct, canAfford, checkWinConditions, drawMarchingDashedRect, getColorlessRemain, payCost, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, getLoot, getValidCreatureTargets, resetCard, validStartTile } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
 import { net_addCard, net_cancelPendingAction, net_damageCard, net_endTurn, net_moveCard, net_tapLand, net_triggerCardAbility, sendAddCardEffect, sendDamageCard, sendLandTappedEffect, sendMoveCard, sendTriggerCardAbility } from "../../common/Network";
@@ -110,66 +110,109 @@ export default class BattleScene extends Scene {
         onUpdateBoard(Array.from(state.board))
     }
 
-    runAITurn = async () => {
-        this.playAILand()
-        const state = store.getState().saveFile.currentMatch
+    aiPlayCreatureSorcery = () => {
+        let state = store.getState().saveFile.currentMatch
         let p = state.players.find(p=>p.id === state.activePlayerId)
-        const next = p.deck.cards.shift()
-        if(next) p.hand = p.hand.concat(next)
-        //TODO: choose high priority target to destroy/block
         const enemies = state.board.filter(c=>c.ownerId !== p.id && getCardData(c).kind === Permanents.Creature)
         if(enemies.length > 0){
-            const creatureSorceries = p.hand.find(c=>
+            const sorcery = p.hand.find(c=>
                 getCardData(c).kind === Permanents.Sorcery &&
                 canAfford(p.manaPool,c) &&
-                (getCardData(c).ability.effect.dmg || getCardData(c).ability.effect.destroy))
-            if(creatureSorceries){
-                if(enemies.find(e=>{
-                    const targets = getValidCreatureTargets(getCardData(creatureSorceries).ability, creatureSorceries, e.id) 
-                    return targets.find(t=>t.id === e.id)
-                }))
-                    this.applySingleTargetCreatureEffect({creature: enemies[0], sorcery: creatureSorceries})
+                (getCardData(c).ability.effect.dmg || getCardData(c).ability.effect.destroy)) //TODO: include other debilitating effects
+            if(sorcery){
+                const target = enemies.find(e=>{
+                        const targets = getValidCreatureTargets(getCardData(sorcery).ability, sorcery, e.id) 
+                        return targets.find(t=>t.id === e.id)
+                    })
+                if(target)
+                    this.applySingleTargetCreatureEffect({creature: target, sorcery: sorcery})
             }
         }
-        onUpdatePlayer({...p})
-        const creature = p.hand.find(c=>getCardData(c).kind === Permanents.Creature && canAfford(p.manaPool,c))
-        if(creature){
-            if(enemies[0]){
+    }
+
+    getEnemyCreatures = () => {
+        let state = store.getState().saveFile.currentMatch
+        let p = state.players.find(p=>p.id === state.activePlayerId)
+        const enemies = state.board.filter(c=>c.ownerId !== p.id && getCardData(c).kind === Permanents.Creature)
+        return enemies
+    }
+
+    aiPlayNewCreatures = () => {
+        //play new creatures
+        const enemies = this.getEnemyCreatures()
+        const activePlayerId = store.getState().saveFile.currentMatch.activePlayerId
+        let activePlayer = store.getState().saveFile.currentMatch.players.find(p=>p.id === activePlayerId)
+        const dir = activePlayer.dir
+        let creature = activePlayer.hand.find(c=>getCardData(c).kind === Permanents.Creature && canAfford(activePlayer.manaPool,c))
+        while(creature){
+            if(enemies[0] && creature.atk >= enemies[0].def){
                 const enemyTile = this.map.getTileAt(enemies[0].tileX, enemies[0].tileY, false, Layers.Earth)
-                const spawnTile = this.map.getTileAt(enemyTile.x, p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
-                if(this.isEmptyTile(spawnTile.x, spawnTile.y))
+                const spawnTile = this.map.getTileAt(enemyTile.x, dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
+                if(this.canPlaceCreatureHere(creature, spawnTile))
                     net_addCard({cardId: creature.id, worldX: spawnTile.pixelX, worldY: spawnTile.pixelY})
                 else {
-                    const spawnTile = this.map.getTileAt(this.getEmptyStartTile(p).x, p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
-                    net_addCard({cardId: creature.id, worldX: spawnTile.pixelX, worldY: spawnTile.pixelY})
+                    const tile = this.getEmptyStartTile(dir)
+                    if(tile){
+                        const spawnTile = this.map.getTileAt(tile.x, dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
+                        net_addCard({cardId: creature.id, worldX: spawnTile.pixelX, worldY: spawnTile.pixelY})
+                    }
                 }
             }
             else {
-                const spawnTile = this.map.getTileAt(this.getEmptyStartTile(p).x, p.dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
-                net_addCard({cardId: creature.id, worldX: spawnTile.pixelX, worldY: spawnTile.pixelY})
+                const tile = this.getEmptyStartTile(dir)
+                if(tile){
+                    const spawnTile = this.map.getTileAt(tile.x, dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
+                    net_addCard({cardId: creature.id, worldX: spawnTile.pixelX, worldY: spawnTile.pixelY})
+                }
             }
+            let p = store.getState().saveFile.currentMatch.players.find(p=>p.id === activePlayerId)
+            creature = p.hand.find(c=>getCardData(c).kind === Permanents.Creature && canAfford(p.manaPool,c))
         }
-        //TODO: use owned creature abilities if possible
-        
+    }
+
+    aiPlayCreatureAbilities = () => {
+        //use owned creature abilities if possible
+        const state = store.getState().saveFile.currentMatch
+        const p = state.players.find(p=>p.id === state.activePlayerId)
+        const creatures = state.board.filter(c=>c.ownerId === p.id && !c.tapped && getCardData(c).kind === Permanents.Creature && getCardData(c).ability)
+        creatures.forEach(c=>{
+            const abil = getCardData(c).ability
+            const targets = getValidCreatureTargets(abil, c, '')
+            if(targets[0]){
+                this.applySingleTargetCreatureEffect({creature: targets[0], sorcery: c})
+            }
+        })
+    }
+
+    runAITurn = async () => {
+        this.playAILand()
+        let state = store.getState().saveFile.currentMatch
+        let p = state.players.find(p=>p.id === state.activePlayerId)
+        const next = p.deck.cards.shift()
+        if(next) p.hand = p.hand.concat(next)
+        onUpdatePlayer({...p})
+        this.aiPlayCreatureSorcery()
+        this.aiPlayNewCreatures()
+        this.aiPlayCreatureAbilities()
+        //TODO: use player-targeting sorcery
         net_endTurn(store.getState().saveFile.currentMatch)
     }
 
-    getEmptyStartTile (p:PlayerState, land?:boolean) {
-        const mine = store.getState().saveFile.currentMatch.board.filter(c=>c.ownerId === p.id)
+    getEmptyStartTile (dir:Direction, land?:boolean) {
         if(land){
-            if(p.dir === Direction.NORTH){
-                return this.northLands.find(t=>!mine.find(c=>c.tileX === t.x && c.tileY === t.y))
+            if(dir === Direction.NORTH){
+                return this.northLands.find(t=>this.isEmptyTile(t.x, t.y))
             }
             else {
-                return this.southLands.find(t=>!mine.find(c=>c.tileX === t.x && c.tileY === t.y))
+                return this.southLands.find(t=>this.isEmptyTile(t.x, t.y))
             }
         }
         else {
-            if(p.dir === Direction.NORTH){
-                return this.northCreatures.find(t=>!mine.find(c=>c.tileX === t.x && c.tileY === t.y))
+            if(dir === Direction.NORTH){
+                return this.northCreatures.find(t=>this.isEmptyTile(t.x, t.y))
             }
             else {
-                return this.southCreatures.find(t=>!mine.find(c=>c.tileX === t.x && c.tileY === t.y))
+                return this.southCreatures.find(t=>this.isEmptyTile(t.x, t.y))
             }
         }
     }
@@ -222,6 +265,7 @@ export default class BattleScene extends Scene {
 
     canPlaceCreatureHere(card:Card, t:Tilemaps.Tile) {
         const creatures = store.getState().saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
+        if(creatures.find(c=>c.tileX === t.x && c.tileY === t.y)) return false
         if(card.attributes.includes(Modifier.Timid)){
             if(creatures.find(c=>c.tileX === t.x))
                 return false
@@ -743,8 +787,7 @@ export default class BattleScene extends Scene {
             targetPlayer.hp+=enemies.length
         }
         if(targetPlayer.hp <= 0){
-            if(targetPlayer.id === state.myId) onShowModal(Modal.GameOver)
-            else onShowModal(Modal.Winner, {cards: getLoot(targetPlayer, state.myId), targetPlayerId: ''})
+            checkWinConditions(targetPlayer)
         }
         if(effect.addMana){
             targetPlayer.manaPool[effect.addMana]++
@@ -772,7 +815,7 @@ export default class BattleScene extends Scene {
         if(effect.searchForLand){
             const forest = state.currentMatch.lands.find(f=>f.kind === effect.searchForLand)
             if(forest){
-                const t = this.getEmptyStartTile(targetPlayer, true)
+                const t = this.getEmptyStartTile(targetPlayer.dir, true)
                 if(t){
                     this.creatures.push(new CreatureSprite(this, t.pixelX,t.pixelY, getCardData(forest).sprite, forest.id, targetPlayer.dir))
                     onUpdateBoard(state.currentMatch.board.concat({...forest, ownerId: targetPlayer.id, tileX:t.x, tileY:t.y}))
@@ -844,7 +887,7 @@ export default class BattleScene extends Scene {
 
         if(effect.returnToBattle){
             let owner = state.saveFile.currentMatch.players.find(p=>p.id === creature.ownerId)
-            const t = this.getEmptyStartTile(owner)
+            const t = this.getEmptyStartTile(owner.dir)
             if(!t){
                 onUpdatePlayer({...owner, discard: owner.discard.filter(c=>c.id !== creature.id), hand: owner.hand.concat(resetCard(creature))})
             }

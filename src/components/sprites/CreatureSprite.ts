@@ -5,6 +5,7 @@ import { getCardData, getLandAtEndOfLane, getLoot, resetCard, validEndTile } fro
 import { onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
 import BattleScene from "../scenes/BattleScene"
 import { net_moveCard } from "../../common/Network"
+import { checkWinConditions } from "../../common/Utils"
 
 export default class CreatureSprite extends GameObjects.Image {
 
@@ -58,8 +59,7 @@ export default class CreatureSprite extends GameObjects.Image {
                 else {
                     const hp = enemy.hp-thisCreature.atk
                     if(hp<=0){
-                        if(owner.id === store.getState().saveFile.myId) onShowModal(Modal.Winner, {cards: getLoot(enemy, owner.id), targetPlayerId: ''})
-                        else onShowModal(Modal.GameOver)
+                        checkWinConditions(enemy)
                     }
                     else onUpdatePlayer({...enemy, hp})
                 }

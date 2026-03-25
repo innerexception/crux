@@ -67,7 +67,7 @@ export default () => {
             </div>
             <div style={{display:'flex', justifyContent:'flex-end'}}>
                 <Button text="Vs Hum" enabled={saveFile.currentDeckId?true:false} handler={()=>onShowModal(Modal.Lobby)} style={{ padding:'5px'}}/>
-                <Button text="Campaign" enabled={saveFile.currentDeckId?true:false} handler={()=>{onShowModal(null);onShowCampaign()}} style={{ padding:'5px'}}/>
+                <Button text="Campaign" enabled={true} handler={()=>{onShowModal(null);onShowCampaign()}} style={{ padding:'5px'}}/>
                 <Button text="Reset" enabled={true} handler={()=>{resetSave()}} style={{ padding:'5px'}}/>
                 <Button enabled={true} text="Quit" handler={onQuit} style={{ padding:'5px'}}/>
             </div>
