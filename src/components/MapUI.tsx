@@ -11,7 +11,7 @@ export default () => {
         <div style={{width:'97%', position:'absolute', bottom:10, left:10}}>
             <div style={{display:'flex', justifyContent:'flex-end', marginTop:'10px'}}>
                 <Button icon={IconIndex.Draw} enabled={true} text="Codex" handler={()=>onShowModal(Modal.CampaignDeckbuilder)}/>
-                <Button icon={IconIndex.Graveyard} enabled={true} text="Quit" handler={()=>onQuit()}/>
+                <Button icon={IconIndex.Graveyard} enabled={true} text="Quit" handler={()=>onQuit(true)}/>
             </div>
         </div>
     )

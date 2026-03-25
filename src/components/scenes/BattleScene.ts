@@ -144,29 +144,31 @@ export default class BattleScene extends Scene {
         let activePlayer = store.getState().saveFile.currentMatch.players.find(p=>p.id === activePlayerId)
         const dir = activePlayer.dir
         let creature = activePlayer.hand.find(c=>getCardData(c).kind === Permanents.Creature && canAfford(activePlayer.manaPool,c))
-        while(creature){
+        let i=0
+        while(creature && i<5){
             if(enemies[0] && creature.atk >= enemies[0].def){
                 const enemyTile = this.map.getTileAt(enemies[0].tileX, enemies[0].tileY, false, Layers.Earth)
                 const spawnTile = this.map.getTileAt(enemyTile.x, dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
                 if(this.canPlaceCreatureHere(creature, spawnTile))
                     net_addCard({cardId: creature.id, worldX: spawnTile.pixelX, worldY: spawnTile.pixelY})
                 else {
-                    const tile = this.getEmptyStartTile(dir)
-                    if(tile && this.canPlaceCreatureHere(creature, tile)){
+                    const tile = this.getEmptyStartTile({dir, creature})
+                    if(tile){
                         const spawnTile = this.map.getTileAt(tile.x, dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
                         net_addCard({cardId: creature.id, worldX: spawnTile.pixelX, worldY: spawnTile.pixelY})
                     }
                 }
             }
             else {
-                const tile = this.getEmptyStartTile(dir) //TODO: prioritize lanes with enemy land
-                if(tile && this.canPlaceCreatureHere(creature, tile)){
+                const tile = this.getEmptyStartTile({dir, creature}) //TODO: prioritize lanes with enemy land
+                if(tile){
                     const spawnTile = this.map.getTileAt(tile.x, dir === Direction.NORTH ? this.northCreatures[0].y : this.southCreatures[0].y)
                     net_addCard({cardId: creature.id, worldX: spawnTile.pixelX, worldY: spawnTile.pixelY})
                 }
             }
             let p = store.getState().saveFile.currentMatch.players.find(p=>p.id === activePlayerId)
-            creature = p.hand.find(c=>getCardData(c).kind === Permanents.Creature && canAfford(p.manaPool,c))
+            creature = p.hand.find(c=>getCardData(c).kind === Permanents.Creature && canAfford(p.manaPool,c) && c.id !== creature.id)
+            i++
         }
     }
 
@@ -179,7 +181,7 @@ export default class BattleScene extends Scene {
             const abil = getCardData(c).ability
             const targets = getValidCreatureTargets(abil, c, '')
             if(targets[0]){
-                this.applySingleTargetCreatureEffect({creature: targets[0], sorcery: c})
+                net_triggerCardAbility({card: c, entityId: targets[0].id, discard:false})
             }
         })
     }
@@ -198,9 +200,9 @@ export default class BattleScene extends Scene {
         net_endTurn(store.getState().saveFile.currentMatch)
     }
 
-    getEmptyStartTile (dir:Direction, land?:boolean) {
-        if(land){
-            if(dir === Direction.NORTH){
+    getEmptyStartTile (props:{dir:Direction, land?:boolean, creature?:Card}) {
+        if(props.land){
+            if(props.dir === Direction.NORTH){
                 return shuffle(this.northLands).find(t=>this.isEmptyTile(t.x, t.y))
             }
             else {
@@ -208,11 +210,11 @@ export default class BattleScene extends Scene {
             }
         }
         else {
-            if(dir === Direction.NORTH){
-                return shuffle(this.northCreatures).find(t=>this.isEmptyTile(t.x, t.y))
+            if(props.dir === Direction.NORTH){
+                return shuffle(this.northCreatures).find(t=>this.canPlaceCreatureHere(props.creature, t))
             }
             else {
-                return shuffle(this.southCreatures).find(t=>this.isEmptyTile(t.x, t.y))
+                return shuffle(this.southCreatures).find(t=>this.canPlaceCreatureHere(props.creature, t))
             }
         }
     }
@@ -813,7 +815,7 @@ export default class BattleScene extends Scene {
         if(effect.searchForLand){
             const forest = state.currentMatch.lands.find(f=>f.kind === effect.searchForLand)
             if(forest){
-                const t = this.getEmptyStartTile(targetPlayer.dir, true)
+                const t = this.getEmptyStartTile({dir: targetPlayer.dir, land:true})
                 if(t){
                     this.creatures.push(new CreatureSprite(this, t.pixelX,t.pixelY, getCardData(forest).sprite, forest.id, targetPlayer.dir))
                     onUpdateBoard(state.currentMatch.board.concat({...forest, ownerId: targetPlayer.id, tileX:t.x, tileY:t.y}))
@@ -885,8 +887,8 @@ export default class BattleScene extends Scene {
 
         if(effect.returnToBattle){
             let owner = state.saveFile.currentMatch.players.find(p=>p.id === creature.ownerId)
-            const t = this.getEmptyStartTile(owner.dir)
-            if(!t || !this.canPlaceCreatureHere(creature, t)){
+            const t = this.getEmptyStartTile({dir:owner.dir, creature})
+            if(!t){
                 onUpdatePlayer({...owner, discard: owner.discard.filter(c=>c.id !== creature.id), hand: owner.hand.concat(resetCard(creature))})
             }
             else {

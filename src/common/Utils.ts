@@ -5,7 +5,7 @@ import { AIPlayers, getCardData, getFreshLands, getLoot } from "./CardUtils"
 import { SAVE_NAMES } from "./UIReducer"
 import{ v4 } from 'uuid'
 import { store } from "../.."
-import { onShowModal, onUpdateSave } from "./Thunks"
+import { onQuit, onShowModal, onUpdateSave } from "./Thunks"
 import MapScene from "../components/scenes/MapScene"
 
 export const emptyMana = {
@@ -29,7 +29,9 @@ export const checkWinConditions = (deadPlayer:PlayerState) => {
         onUpdateSave({...saveFile, campaignCreatures: saveFile.campaignCreatures})
         onShowModal(Modal.Winner, {cards: getLoot(deadPlayer.playerSprite, myid), targetPlayerId: ''})
     } 
-    else onShowModal(Modal.GameOver)
+    else {
+        onShowModal(Modal.GameOver)
+    }
 }
 
 
@@ -109,7 +111,7 @@ export const getNewMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:s
 
 export const getAIPlayer = (kind:CreatureSpriteIndex):PlayerState => {
     const id = v4()
-    const deck = AIPlayers[kind].deck(id)
+    const deck = shuffle(AIPlayers[kind].deck(id))
     const hand = deck.splice(0,5)
     return {
         id,

@@ -16,7 +16,7 @@ export default () => {
             <div style={{display:'flex'}}>
                 {loot.map(c=><CardView card={c}/>)}
             </div>
-            <Button enabled={true} text="Close" handler={loot ? ()=>onFinishBattle(loot):()=>onQuit()}/>
+            <Button enabled={true} text="Close" handler={loot ? ()=>onFinishBattle(loot):()=>onQuit(false)}/>
         </div>
     )
 }

@@ -94,11 +94,17 @@ export const onUpdateSave = (s:SaveFile) => {
     store.dispatch({ type: UIReducerActions.UPDATE, data: s })
 }
 
-export const onQuit = () => {
+export const onQuit = (fromMap:boolean) => {
     store.getState().scene.sound.stopAll()
     const intro = store.getState().scene.scene.get(SceneNames.Intro) as IntroScene
     const map = store.getState().scene.scene.get(SceneNames.Map) as MapScene
-    transitionOut(map, SceneNames.Intro, ()=>transitionIn(intro))
+    const btl = store.getState().scene.scene.get(SceneNames.Main) as BattleScene
+    if(fromMap){
+        transitionOut(map, SceneNames.Intro, ()=>transitionIn(intro))
+    }
+    else {
+        transitionOut(btl, SceneNames.Intro, ()=>transitionIn(intro))
+    }
     //const intro = store.getState().scene.scene.get(SceneNames.Intro) as IntroScene
     //intro.sound.get(SoundEffects.Intro).play()
     onShowModal(Modal.NewGame)

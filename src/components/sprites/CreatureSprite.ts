@@ -123,6 +123,7 @@ export default class CreatureSprite extends GameObjects.Image {
                     easeParams: [2],
                     duration: 500,
                     onComplete: ()=>{
+                        if(!store.getState().saveFile.currentMatch) return
                         let unitTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
                         const creature = store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id)
                         onUpdateBoardCreature({...creature, tileX:unitTile.x, tileY:unitTile.y})

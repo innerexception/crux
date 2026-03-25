@@ -8,7 +8,7 @@ export default () => {
     return (
         <div style={{...AppStyles.modal, margin:'auto'}}>
             <div style={{textAlign:'center', marginBottom:'0.5em'}}>YOU LOSE! GOOD DAY SIR!</div>
-            <Button enabled={true} text="Close" handler={()=>onQuit()}/>
+            <Button enabled={true} text="Close" handler={()=>onQuit(false)}/>
         </div>
     )
 }

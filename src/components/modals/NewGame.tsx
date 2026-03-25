@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { Button, CssIcon } from '../../common/Shared';
-import { onQuit, onShowCampaign, onShowModal, onStartMatch, onUpdateSave } from '../../common/Thunks';
-import { getAIPlayer, tryLoadFile, trySaveFile } from '../../common/Utils';
+import { onQuit, onShowCampaign, onShowModal, onUpdateSave } from '../../common/Thunks';
+import { tryLoadFile, trySaveFile } from '../../common/Utils';
 import AppStyles from '../../styles/AppStyles';
 import{ v4 } from 'uuid'
 import { useSelector } from 'react-redux';
-import { getAllCards, getStartingCards } from '../../common/CardUtils';
-import { CreatureSpriteIndex, Direction, Modal, PlayerAvatars } from '../../../enum';
+import { getStartingCards } from '../../common/CardUtils';
+import { CreatureSpriteIndex, Modal, PlayerAvatars } from '../../../enum';
 
 export default () => {
 

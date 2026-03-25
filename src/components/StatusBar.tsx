@@ -15,7 +15,7 @@ export default () => {
                 {Object.keys(me.manaPool).filter(c=>c!==Color.None).map(color=><div><CssIcon spriteIndex={ColorIcons[color]}/>{me.manaPool[color]}</div>)}
             </div>
             <div style={{display:'flex', flexWrap:'wrap', width:'400px', justifyContent:'flex-end', alignItems:'center'}}>
-                <Button enabled={true} text="Exit" icon={IconIndex.Options} handler={()=>onQuit()}/>
+                <Button enabled={true} text="Exit" icon={IconIndex.Options} handler={()=>onQuit(false)}/>
             </div>
         </div>
     )
