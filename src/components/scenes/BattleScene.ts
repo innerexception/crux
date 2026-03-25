@@ -472,7 +472,6 @@ export default class BattleScene extends Scene {
                                     const props = { card, tileX:tile.x, tileY:tile.y }
                                     if(networkActive) sendMoveCard(props)
                                     else net_moveCard(props)
-                                    addLogEntry({card, kind: Log.NimbleActivation })
                                     onShowAbilityPreview(null)
                                     onSelectCard(null)
                                 }
@@ -508,7 +507,6 @@ export default class BattleScene extends Scene {
 
     showSorceryAbilityTargets = (boardCard:Card) => {
         const ability = getCardData(boardCard).ability
-        //TODO: show pending ability
         onShowAbilityPreview(ability)
         this.g.clear()
         let tiles = []

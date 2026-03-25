@@ -148,6 +148,7 @@ export const net_moveCard = (props:{card:Card, tileX:number, tileY:number}) => {
     spr.icon?.destroy()
     let attributes = getLaneAttributes(props.card, props.tileX)
     onUpdateBoardCreature({...props.card, attributes, tileX: props.tileX, tileY: props.tileY, tapped: true})
+    addLogEntry({card:props.card, kind: Log.NimbleActivation })
 }
 
 export const net_cancelPendingAction= () => {

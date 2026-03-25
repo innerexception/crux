@@ -94,7 +94,7 @@ const getLogEl = (l:LogEntry, match:MatchState) => {
       <CssIcon spriteIndex={IconIndex.Debuff}/> Effect expired on {l.card.kind}: {renderEffect(l.effect.status)}
   </div>
   if(l.kind === Log.NimbleActivation) return <div>
-    <CssIcon spriteIndex={dat.sprite}/> used Nimble ability to move
+    <CssIcon spriteIndex={dat.sprite}/> was moved
   </div>
   if(l.kind === Log.Destroyed) return <div>
     <CssIcon spriteIndex={dat.sprite}/> was destroyed
