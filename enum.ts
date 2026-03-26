@@ -1,6 +1,4 @@
 import { Input } from "phaser"
-import { Portal } from "./src/assets/data/Portal"
-import { getCard } from "./src/common/CardUtils"
 
 export enum UIReducerActions {
     UPDATE = 'updt',
@@ -254,7 +252,6 @@ export const ColorIcons:Record<Color, IconIndex> = {
     [Color.White]:IconIndex.White,
     [Color.None]:IconIndex.Gray
 }
-
 
 export enum CardType {
     Temple='Temple',Desert='Desert',Tower='Tower',City='City',Forest='Forest',

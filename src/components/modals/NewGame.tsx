@@ -42,7 +42,10 @@ export default () => {
     React.useEffect(()=>{
         const getSave = async ()=>{
             let save = await tryLoadFile()
-            if(save) onUpdateSave(save)
+            if(save){
+                if(!save.campaignDeck) save.campaignDeck = []
+                onUpdateSave(save)
+            } 
             else resetSave()
         }
         getSave()

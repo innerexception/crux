@@ -27,7 +27,6 @@ interface Card {
     atk:number
     def:number
     attributes: import('./enum').Modifier[]
-    moves:number
 }
 
 interface CardMeta {
@@ -35,7 +34,6 @@ interface CardMeta {
     category?: import('./enum').Category
     defaultAtk?:number
     defaultDef?:number
-    defaultMoves?:number
     cost?: ManaCost[]
     description?:string
     pumpColor?: import('./enum').Color

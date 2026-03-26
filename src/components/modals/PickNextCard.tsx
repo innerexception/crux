@@ -5,15 +5,20 @@ import { useSelector } from 'react-redux';
 import CardView from '../CardView';
 import { Button } from '../../common/Shared';
 import { getCardData } from '../../common/CardUtils';
+import { sendUpdate } from '../../common/Network';
 
 export default () => {
     const cards = useSelector((state:RState)=>state.modalData.cards.filter(c=>state.modalData.chooseType ? getCardData(c).kind === state.modalData.chooseType:true))
     const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId))
-
+    const match = useSelector((state:RState)=>state.saveFile.currentMatch)
+    
     const moveToTop = (c:Card) => {
         let cardz = me.deck.cards.filter(c=>c.id !== c.id)
         cardz.unshift(c)
         onUpdatePlayer({...me, deck: {...me.deck, cards: cardz}})
+        if(!match.players.find(p=>p.isAI))
+            sendUpdate()
+
         onShowModal(null)
     }
 

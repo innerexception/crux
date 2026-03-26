@@ -649,6 +649,7 @@ export default class BattleScene extends Scene {
         }
         if(effect.status.defUp){
             creature.def-=effect.status.defUp
+            creature.def=Math.max(creature.def, getCardData(creature).defaultDef)
         }
         if(effect.status.addAttributes){
             creature.attributes=creature.attributes.filter(a=>!effect.status.addAttributes.includes(a))
@@ -733,7 +734,6 @@ export default class BattleScene extends Scene {
         if(effect.casterHpUp){
             caster.hp+=effect.casterHpUp
             onUpdatePlayer({...caster})
-            return
         }
         if(effect.damageReflect){
             targetPlayer.damageReflect=0
@@ -1013,7 +1013,7 @@ export default class BattleScene extends Scene {
         }
         
         if(card.kind === CardType.SandElemental){
-            const lland = state.saveFile.currentMatch.board.find(c=>c.tileX === card.tileX && getCardData(c).kind === Permanents.Land)
+            const lland = state.saveFile.currentMatch.board.find(c=>c.ownerId !== p.id && c.tileX === card.tileX && getCardData(c).kind === Permanents.Land)
             if(lland){
                 this.tryRemoveCreature(lland)
             }

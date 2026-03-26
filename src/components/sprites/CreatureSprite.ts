@@ -45,7 +45,7 @@ export default class CreatureSprite extends GameObjects.Image {
         let owner = state.players.find(p=>p.id === thisCreature.ownerId)
         let haste = thisCreature.attributes.includes(Modifier.Haste)
         if(thisCreature.tapped) return //Tapped creatures don't move
-        for(let i=0;i<thisCreature.moves+(haste?1:0);i++){
+        for(let i=0;i<(haste?2:1);i++){
             state = store.getState().saveFile.currentMatch
             thisCreature = state.board.find(c=>c.id === this.id)
             if(!thisCreature) return

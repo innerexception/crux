@@ -160,7 +160,6 @@ export const getCard = (playerId:string,kind:CardType,c:CardMeta):Card => {
         status:[],
         atk: c.defaultAtk,
         def: c.defaultDef,
-        moves: c.defaultMoves,
         attributes: c.defaultAttributes || []
     }
 }
@@ -175,7 +174,6 @@ export const resetCard = (card:Card) => {
         status:[],
         atk: c.defaultAtk,
         def: c.defaultDef,
-        moves: c.defaultMoves,
         attributes: c.defaultAttributes || []
     }
 }
