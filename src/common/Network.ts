@@ -249,8 +249,14 @@ export const net_endTurn = async (match:MatchState) => {
 
     //1. move creatures / resolve combats
     const mine = scene.creatures.filter(c=>match.board.find(cr=>getCardData(cr).kind === Permanents.Creature && cr.id===c.id && cr.ownerId === current.id))
-    for(let i=0;i<mine.length;i++){
-        await mine[i].tryMoveNext()
+    try{
+        for(let i=0;i<mine.length;i++){
+            await mine[i].tryMoveNext()
+        }
+    }
+    catch(e){
+        console.log('probably ended match')
+        return
     }
     match = store.getState().saveFile.currentMatch
     onUpdatePlayer({...match.players.find(p=>p.id === match.activePlayerId),

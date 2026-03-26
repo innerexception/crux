@@ -124,8 +124,8 @@ export default class BattleScene extends Scene {
                         const targets = getValidCreatureTargets(getCardData(sorcery).ability, sorcery, e.id) 
                         return targets.find(t=>t.id === e.id)
                     })
-                if(target)
-                    this.applySingleTargetCreatureEffect({creature: target, sorcery: sorcery})
+                if(target) 
+                    net_triggerCardAbility({card: sorcery, entityId: target.id, discard: true})
             }
         }
     }
@@ -788,6 +788,7 @@ export default class BattleScene extends Scene {
         }
         if(targetPlayer.hp <= 0){
             checkWinConditions(targetPlayer)
+            return
         }
         if(effect.addMana){
             targetPlayer.manaPool[effect.addMana]++

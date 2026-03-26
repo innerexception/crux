@@ -60,6 +60,7 @@ export default class CreatureSprite extends GameObjects.Image {
                     const hp = enemy.hp-thisCreature.atk
                     if(hp<=0){
                         checkWinConditions(enemy)
+                        return
                     }
                     else onUpdatePlayer({...enemy, hp})
                 }

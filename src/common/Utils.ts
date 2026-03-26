@@ -5,7 +5,7 @@ import { AIPlayers, getCardData, getFreshLands, getLoot } from "./CardUtils"
 import { SAVE_NAMES } from "./UIReducer"
 import{ v4 } from 'uuid'
 import { store } from "../.."
-import { onQuit, onShowModal, onUpdateSave } from "./Thunks"
+import { onFinishBattle, onQuit, onShowModal, onUpdateSave } from "./Thunks"
 import MapScene from "../components/scenes/MapScene"
 
 export const emptyMana = {
@@ -19,14 +19,8 @@ export const emptyMana = {
 
 export const checkWinConditions = (deadPlayer:PlayerState) => {
     const myid = store.getState().saveFile.myId
-    const scene = store.getState().scene.scene.get(SceneNames.Map) as MapScene
     if(deadPlayer.id !== myid){
-        const t = scene.map.getTileAtWorldXY(scene.playerSprite.x, scene.playerSprite.y, false, undefined, Layers.Earth)
-        scene.map.removeTileAt(t.x, t.y, false, false, Layers.Creature)
-        const saveFile = store.getState().saveFile
-        const i = saveFile.campaignCreatures.findIndex(c=>c.tileX===t.x && c.tileY === t.y)
-        saveFile.campaignCreatures[i].alive = false
-        onUpdateSave({...saveFile, campaignCreatures: saveFile.campaignCreatures})
+        onFinishBattle(getLoot(deadPlayer.playerSprite, myid))
         onShowModal(Modal.Winner, {cards: getLoot(deadPlayer.playerSprite, myid), targetPlayerId: ''})
     } 
     else {
