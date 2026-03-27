@@ -231,6 +231,18 @@ export const goblinHordes = (playerId:string):Card[] => {
     ]
 }
 
+export const goblinSmall = (playerId:string):Card[] => {
+    return [
+        getCard(playerId, CardType.GoblinSargeant, Portal[CardType.GoblinSargeant]),
+        getCard(playerId, CardType.Hobgoblin, Portal[CardType.Hobgoblin]),
+        getCard(playerId, CardType.Hobgoblin, Portal[CardType.Hobgoblin]),
+        getCard(playerId, CardType.Sinkhole, Portal[CardType.Sinkhole]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
+        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger])
+    ]
+}
+
 export const blackSmall = (playerId:string):Card[] => {
     return [
         getCard(playerId, CardType.Boggart, Portal[CardType.Boggart]),
@@ -281,9 +293,9 @@ export const beasts = (playerId:string):Card[] => {
 export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Card[], sprite:CreatureSpriteIndex, hp:number, loot:CardType[]}>> = {
     [CreatureSpriteIndex.Goblin]: {
         sprite: CreatureSpriteIndex.Goblin,
-        deck: goblinHordes,
-        hp:1,
-        loot:[CardType.GoblinSargeant]
+        deck: goblinSmall,
+        hp:5,
+        loot:[CardType.GoblinScrounger]
     },
     [CreatureSpriteIndex.Goblin3]: {
         sprite: CreatureSpriteIndex.Goblin,
@@ -294,13 +306,25 @@ export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Car
     [CreatureSpriteIndex.CityMage]: {
         sprite: CreatureSpriteIndex.CityMage,
         deck: blackSmall,
-        hp:20,
+        hp:10,
         loot:[CardType.Pollution]
     },
     [CreatureSpriteIndex.Bruiser]: {
         sprite: CreatureSpriteIndex.CityMage,
+        deck: goblinHordes,
+        hp:20,
+        loot:[CardType.Hobgoblin]
+    },
+    [CreatureSpriteIndex.Mummy]: {
+        sprite: CreatureSpriteIndex.Mummy,
+        deck: blackSmall,
+        hp:10,
+        loot:[CardType.Necromancy]
+    },
+    [CreatureSpriteIndex.MasterMummy]: {
+        sprite: CreatureSpriteIndex.MasterMummy,
         deck: blackSmall,
         hp:20,
-        loot:[CardType.Pollution]
+        loot:[CardType.TheFear]
     }
 }

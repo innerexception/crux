@@ -33,7 +33,7 @@ export default () => {
             currentMatch:null,
             worldX:0,
             worldY:0,
-            gold:10
+            gold:5
         }
         trySaveFile(JSON.stringify(newSave))
         onUpdateSave(newSave)

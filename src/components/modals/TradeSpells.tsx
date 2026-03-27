@@ -21,7 +21,7 @@ export default () => {
 
     const purchaseCard = (c:Card) => {
         onUpdateSave({...save, 
-            cards: save.cards.concat(c), 
+            cards: save.cards.concat({...c, ownerId: save.myId}), 
             gold: save.gold-getCardData(c).gold 
         })
     }
@@ -30,8 +30,8 @@ export default () => {
         <div style={{...AppStyles.modal, width:'100%', margin:'auto'}}>
             <div style={{textAlign:'center', marginBottom:'0.5em'}}>WHAT YA BUYIN, STRANGER?</div>
             <div style={{display:'flex', flexWrap:'wrap'}}>
-                {inventory.map(c=><div style={{opacity: save.gold >= getCardData(c).gold ? 1 : 0.5}} 
-                                       onClick={save.gold >= getCardData(c).gold && save.campaignDeck.filter(cc=>cc.kind === c.kind).length<=3 ? ()=>purchaseCard(c):null}>
+                {inventory.map(c=><div style={{opacity: save.gold >= getCardData(c).gold && !save.cards.find(cc=>cc.kind === c.kind)? 1 : 0.5}} 
+                                       onClick={save.gold >= getCardData(c).gold && !save.cards.find(cc=>cc.kind === c.kind) ? ()=>purchaseCard(c):null}>
                     <CardView card={c}/>
                     <div><CssIcon spriteIndex={IconIndex.Gold} />{getCardData(c).gold}</div>
                 </div>)}
