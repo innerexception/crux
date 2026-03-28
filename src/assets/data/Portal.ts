@@ -2298,7 +2298,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:5,
         defaultDef:1,
         
-        cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
         gold:1,
         sprite: CreatureSpriteIndex.Addict,

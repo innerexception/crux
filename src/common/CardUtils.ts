@@ -255,7 +255,7 @@ export const blackSmall = (playerId:string):Card[] => {
         getCard(playerId, CardType.Roaches, Portal[CardType.Roaches]),
         getCard(playerId, CardType.ShadowForm, Portal[CardType.ShadowForm]),
         getCard(playerId, CardType.ShadowForm, Portal[CardType.ShadowForm]),
-        getCard(playerId, CardType.Addict, Portal[CardType.Sophist]),
+        getCard(playerId, CardType.Addict, Portal[CardType.Addict]),
         getCard(playerId, CardType.CursedToad, Portal[CardType.CursedToad]),
         getCard(playerId, CardType.CursedToad, Portal[CardType.CursedToad]),
         getCard(playerId, CardType.ScavengingRats, Portal[CardType.ScavengingRats]),

@@ -253,57 +253,58 @@ export const net_endTurn = async (match:MatchState) => {
         for(let i=0;i<mine.length;i++){
             await mine[i].tryMoveNext()
         }
+    
+        match = store.getState().saveFile.currentMatch
+        onUpdatePlayer({...match.players.find(p=>p.id === match.activePlayerId),
+            drawAllowed:1,
+            hasPlayedLand:false,
+            manaPool:{...emptyMana}
+        })
+        
+
+        //set next player
+        const nextPlayer = match.players.find(p=>p.id !== current.id)
+        onUpdateActivePlayer(nextPlayer.id)
+        
+        if(nextPlayer.damageReflect){
+            nextPlayer.damageReflect=null
+            let op = match.players.find(p=>p.id !== nextPlayer.id)
+            op.hp-=nextPlayer.damageReflect
+            onUpdatePlayer({...op})
+            if(op.hp <= 0){
+                checkWinConditions(op)
+                return
+            }
+            match = store.getState().saveFile.currentMatch
+        }
+        
+        //reset player resources
+        match.board.forEach(c=>{
+            if(c.ownerId === nextPlayer.id){
+                if(!c.status.find(s=>s.status.pacifism)){
+                    scene.creatures.find(s=>c.id === s.id).untap()
+                    c.tapped = false
+                    c.def = Math.max(c.def, getCardData(c).defaultDef)
+                }
+                //add/remove timed status effects
+                c.status.forEach(s=>s.duration--)
+                c.status.forEach(s=>{
+                    if(s.duration <= 0){
+                        scene.expireEffect(c, s)
+                    }
+                })
+            }
+        })
+        onUpdateBoard(Array.from(match.board))
+        onTurnProcessing(false)
+        
+        if(nextPlayer.isAI){
+            scene.runAITurn()
+        }
     }
     catch(e){
         console.log('probably ended match')
         return
-    }
-    match = store.getState().saveFile.currentMatch
-    onUpdatePlayer({...match.players.find(p=>p.id === match.activePlayerId),
-        drawAllowed:1,
-        hasPlayedLand:false,
-        manaPool:{...emptyMana}
-    })
-    
-
-    //set next player
-    const nextPlayer = match.players.find(p=>p.id !== current.id)
-    onUpdateActivePlayer(nextPlayer.id)
-    
-    if(nextPlayer.damageReflect){
-        nextPlayer.damageReflect=null
-        let op = match.players.find(p=>p.id !== nextPlayer.id)
-        op.hp-=nextPlayer.damageReflect
-        onUpdatePlayer({...op})
-        if(op.hp <= 0){
-            checkWinConditions(op)
-            return
-        }
-        match = store.getState().saveFile.currentMatch
-    }
-    
-    //reset player resources
-    match.board.forEach(c=>{
-        if(c.ownerId === nextPlayer.id){
-            if(!c.status.find(s=>s.status.pacifism)){
-                scene.creatures.find(s=>c.id === s.id).untap()
-                c.tapped = false
-                c.def = Math.max(c.def, getCardData(c).defaultDef)
-            }
-            //add/remove timed status effects
-            c.status.forEach(s=>s.duration--)
-            c.status.forEach(s=>{
-                if(s.duration <= 0){
-                    scene.expireEffect(c, s)
-                }
-            })
-        }
-    })
-    onUpdateBoard(Array.from(match.board))
-    onTurnProcessing(false)
-    
-    if(nextPlayer.isAI){
-        scene.runAITurn()
     }
 }
 
