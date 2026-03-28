@@ -9,7 +9,7 @@ import { getCardData } from '../../common/CardUtils';
 
 export default () => {
     const data = useSelector((state:RState)=>state.modalData)
-    const cards = useSelector((state:RState)=>state.modalData.cards.filter(c=>state.modalData.chooseType ? getCardData(c).kind === state.modalData.chooseType:true))
+    const cards = useSelector((state:RState)=>state.modalData.cards.filter(c=>state.modalData.chooseType ? getCardData(c.kind).kind === state.modalData.chooseType:true))
     const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.modalData.targetPlayerId))
     const match = useSelector((state:RState)=>state.saveFile.currentMatch)
     

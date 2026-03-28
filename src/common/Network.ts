@@ -170,7 +170,7 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     const state = store.getState()
     const card = props.card
     const discard = props.discard
-    const dat = getCardData(card)
+    const dat = getCardData(card.kind)
     const targets = dat.ability.targets
     
     addLogEntry({ kind: Log.AbilityPlayed, card })
@@ -248,7 +248,7 @@ export const net_endTurn = async (match:MatchState) => {
     let current = match.players.find(p=>p.id === match.activePlayerId)
 
     //1. move creatures / resolve combats
-    const mine = scene.creatures.filter(c=>match.board.find(cr=>getCardData(cr).kind === Permanents.Creature && cr.id===c.id && cr.ownerId === current.id))
+    const mine = scene.creatures.filter(c=>match.board.find(cr=>getCardData(cr.kind).kind === Permanents.Creature && cr.id===c.id && cr.ownerId === current.id))
     try{
         for(let i=0;i<mine.length;i++){
             await mine[i].tryMoveNext()
@@ -284,7 +284,7 @@ export const net_endTurn = async (match:MatchState) => {
                 if(!c.status.find(s=>s.status.pacifism)){
                     scene.creatures.find(s=>c.id === s.id).untap()
                     c.tapped = false
-                    c.def = Math.max(c.def, getCardData(c).defaultDef)
+                    c.def = Math.max(c.def, getCardData(c.kind).defaultDef)
                 }
                 //add/remove timed status effects
                 c.status.forEach(s=>s.duration--)
@@ -327,7 +327,7 @@ export const net_addCard = (props:{cardId:string, worldX:number,worldY:number, f
     let card = me.hand.find(c=>c.id === props.cardId)
     if(props.fromGY) card = me.discard.find(c=>c.id === props.cardId)
     if(!card) card = state.currentMatch.lands.find(l=>l.id === props.cardId)
-    const data = getCardData(card)
+    const data = getCardData(card.kind)
     const t = scene.map.getTileAtWorldXY(props.worldX,props.worldY,false, undefined, Layers.Earth)
     if(data.kind === Permanents.Land){
         me.hasPlayedLand = true
@@ -338,7 +338,7 @@ export const net_addCard = (props:{cardId:string, worldX:number,worldY:number, f
             state = store.getState().saveFile
         }
         if(card.attributes.includes(Modifier.StingingWinds)){
-            const laneCreatures = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.tileX === t.x && c.ownerId === card.ownerId)
+            const laneCreatures = state.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Creature && c.tileX === t.x && c.ownerId === card.ownerId)
             laneCreatures.forEach(c=>{
                 onUpdateBoardCreature({...c, attributes: getLaneAttributes(card, t.x)})
             })

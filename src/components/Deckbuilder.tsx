@@ -55,7 +55,7 @@ export default () => {
                     <Button enabled={selectedColor!==Color.None} text="None" handler={()=>setSelectedColor(Color.None)}/>
                 </div>
                 <div style={{display:'flex', flexWrap:'wrap', height:'200px', overflow:'auto', border:'1px solid', padding:'5px'}}>
-                    {cards.filter(c=>getCardData(c).color === selectedColor && getCardData(c).kind !== Permanents.Land && selectedDeck.cards.filter(cc=>c.kind === cc.kind).length<3)
+                    {cards.filter(c=>getCardData(c.kind).color === selectedColor && getCardData(c.kind).kind !== Permanents.Land && selectedDeck.cards.filter(cc=>c.kind === cc.kind).length<3)
                         .map(c=><div onClick={()=>addCardToDeck(c)}><Tooltip placement='bottom' mouseEnterDelay={0.5} overlay={<CardDetailView card={c}/>}><div><CardView card={c}/></div></Tooltip></div>)}
                 </div>
             </div>}

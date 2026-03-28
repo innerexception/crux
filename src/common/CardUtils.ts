@@ -7,7 +7,7 @@ import { store } from "../..";
 import { Tilemaps } from "phaser";
 
 export const getLoot = (sprite:CreatureSpriteIndex, myId:string) => {
-    return AIPlayers[sprite].loot.map(l=>getCard(myId, l, Portal[l]))
+    return AIPlayers[sprite].loot.map(l=>getCard(myId, l))
 }
 
 export const getLandAtEndOfLane = (d:Direction, tileX:number, tileY:number) => {
@@ -22,14 +22,14 @@ export const getLandAtEndOfLane = (d:Direction, tileX:number, tileY:number) => {
 export const getValidCreatureTargets = (ability:CardAbility, card:Card, targetEntityId:string) => {
     const state = store.getState()
     const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
-    let creatures = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && !c.attributes.includes(Modifier.Vigilant))
+    let creatures = state.saveFile.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Creature && !c.attributes.includes(Modifier.Vigilant))
     if(ability.def3orLess) creatures = creatures.filter(c=>c.def<=3)
-    if(ability.withoutColor) creatures = creatures.filter(c=>getCardData(c).color !== ability.withoutColor)
-    if(ability.withColor) creatures = creatures.filter(c=>getCardData(c).color === ability.withColor)
+    if(ability.withoutColor) creatures = creatures.filter(c=>getCardData(c.kind).color !== ability.withoutColor)
+    if(ability.withColor) creatures = creatures.filter(c=>getCardData(c.kind).color === ability.withColor)
     if(ability.whenAttackingLand) creatures = creatures.filter(c=>c.kind === ability.whenAttackingLand)
     if(ability.withAttribute) creatures = creatures.filter(c=>c.attributes.includes(ability.withAttribute))
     if(ability.withoutAttribute) creatures = creatures.filter(c=>!c.attributes.includes(ability.withoutAttribute))
-    if(ability.withCategory) creatures = creatures.filter(c=>getCardData(c).category===ability.withCategory)
+    if(ability.withCategory) creatures = creatures.filter(c=>getCardData(c.kind).category===ability.withCategory)
 
     if(ability.targets === Target.TappedCreatures || ability.targets === Target.TappedCreature) creatures = creatures.filter(c=>c.tapped)
     if(ability.targets === Target.ThisCreature) creatures = creatures.filter(c=>c.id === targetEntityId)
@@ -41,7 +41,7 @@ export const getValidCreatureTargets = (ability:CardAbility, card:Card, targetEn
     if(ability.targets === Target.CreaturesInLane) 
         creatures = creatures.filter(c=>c.tileX === card.tileX && c.id !== card.id)
 
-    const color = getCardData(card).color
+    const color = getCardData(card.kind).color
     if(color === Color.Black){
         creatures = creatures.filter(c=>!c.attributes.includes(Modifier.ProtectionFromBlack))
     }
@@ -69,7 +69,7 @@ export const getLaneAttributes = (card:Card, tileX:number) => {
     if(stingingWinds && !card.attributes.includes(Modifier.Haste)){
         card.attributes.push(Modifier.Haste)
     }
-    else if(previousStingingWinds && !getCardData(card).defaultAttributes.includes(Modifier.Haste)){
+    else if(previousStingingWinds && !getCardData(card.kind).defaultAttributes.includes(Modifier.Haste)){
         card.attributes = card.attributes.filter(a=>a!==Modifier.Haste)
     }
     return card.attributes
@@ -77,10 +77,10 @@ export const getLaneAttributes = (card:Card, tileX:number) => {
 
 export const getValidLandTargets = (ability:CardAbility, card:Card) => {
 
-    let lands = store.getState().saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land)
+    let lands = store.getState().saveFile.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Land)
 
     if(ability.withColor){
-        lands = lands.filter(l=>getCardData(l).color === ability.withColor)
+        lands = lands.filter(l=>getCardData(l.kind).color === ability.withColor)
     }
     if(ability.targets === Target.LandYouControl){
         lands = lands.filter(l=>l.ownerId === card.ownerId)
@@ -118,7 +118,7 @@ export const validEndTile = (t:Tilemaps.Tile, dir:Direction, land:boolean) => {
 
 
 export const tapLand = (card:Card, me:PlayerState) => {
-    const meta = getCardData(card)
+    const meta = getCardData(card.kind)
     const color = meta.ability.effect.addMana
     me.manaPool[color]=me.manaPool[color]+1
     if(card.attributes.includes(Modifier.GreenProducer)){
@@ -128,28 +128,29 @@ export const tapLand = (card:Card, me:PlayerState) => {
     onUpdateBoardCreature({...card, tapped: true})
 }
 
-export const getCardData = (c:Card) => {
+export const getCardData = (c:CardType) => {
     if(!c) debugger
-    if(Portal[c.kind]) return Portal[c.kind]
+    if(Portal[c]) return Portal[c]
     return null
 }
 
 export const getAllCards = (playerId:string):Card[] => {
-    return Object.keys(Portal).map((c:CardType)=>getCard(playerId,c,Portal[c]))
+    return Object.keys(Portal).map((c:CardType)=>getCard(playerId,c))
 }
 
 export const getStartingCards = (playerId:string):Card[] => {
     return [
-        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
-        getCard(playerId, CardType.MessengerOwl, Portal[CardType.MessengerOwl]),
-        getCard(playerId, CardType.ArmoredTortoise, Portal[CardType.ArmoredTortoise]),
-        getCard(playerId, CardType.BlackBear, Portal[CardType.BlackBear]),
-        getCard(playerId, CardType.Corvian, Portal[CardType.Corvian]),
-        getCard(playerId, CardType.CatBurglar, Portal[CardType.CatBurglar])
+        getCard(playerId, CardType.ForestJackal),
+        getCard(playerId, CardType.MessengerOwl),
+        getCard(playerId, CardType.ArmoredTortoise),
+        getCard(playerId, CardType.BlackBear),
+        getCard(playerId, CardType.Corvian),
+        getCard(playerId, CardType.CatBurglar)
     ]
 }
 
-export const getCard = (playerId:string,kind:CardType,c:CardMeta):Card => {
+export const getCard = (playerId:string,kind:CardType):Card => {
+    const c = getCardData(kind)
     return {
         id: v4(),
         ownerId: playerId,
@@ -165,7 +166,7 @@ export const getCard = (playerId:string,kind:CardType,c:CardMeta):Card => {
 }
 
 export const resetCard = (card:Card) => {
-    const c = getCardData(card)
+    const c = getCardData(card.kind)
     return {
         ...card,
         tapped: false,
@@ -180,113 +181,113 @@ export const resetCard = (card:Card) => {
 
 export const getFreshLands = () => {
     return shuffle([
-        getCard('', CardType.Temple, Portal[CardType.Temple]),
-        getCard('', CardType.Temple, Portal[CardType.Temple]),
-        getCard('', CardType.Temple, Portal[CardType.Temple]),
-        getCard('', CardType.Temple, Portal[CardType.Temple]),
-        getCard('', CardType.Temple, Portal[CardType.Temple]),
-        getCard('', CardType.Tower, Portal[CardType.Tower]),
-        getCard('', CardType.Tower, Portal[CardType.Tower]),
-        getCard('', CardType.Tower, Portal[CardType.Tower]),
-        getCard('', CardType.Tower, Portal[CardType.Tower]),
-        getCard('', CardType.Tower, Portal[CardType.Tower]),
-        getCard('', CardType.City, Portal[CardType.City]),
-        getCard('', CardType.City, Portal[CardType.City]),
-        getCard('', CardType.City, Portal[CardType.City]),
-        getCard('', CardType.City, Portal[CardType.City]),
-        getCard('', CardType.City, Portal[CardType.City]),
-        getCard('', CardType.Desert, Portal[CardType.Desert]),
-        getCard('', CardType.Desert, Portal[CardType.Desert]),
-        getCard('', CardType.Desert, Portal[CardType.Desert]),
-        getCard('', CardType.Desert, Portal[CardType.Desert]),
-        getCard('', CardType.Desert, Portal[CardType.Desert]),
-        getCard('', CardType.Forest, Portal[CardType.Forest]),
-        getCard('', CardType.Forest, Portal[CardType.Forest]),
-        getCard('', CardType.Forest, Portal[CardType.Forest]),
-        getCard('', CardType.Forest, Portal[CardType.Forest]),
-        getCard('', CardType.Forest, Portal[CardType.Forest])
+        getCard('', CardType.Temple),
+        getCard('', CardType.Temple),
+        getCard('', CardType.Temple),
+        getCard('', CardType.Temple),
+        getCard('', CardType.Temple),
+        getCard('', CardType.Tower),
+        getCard('', CardType.Tower),
+        getCard('', CardType.Tower),
+        getCard('', CardType.Tower),
+        getCard('', CardType.Tower),
+        getCard('', CardType.City),
+        getCard('', CardType.City),
+        getCard('', CardType.City),
+        getCard('', CardType.City),
+        getCard('', CardType.City),
+        getCard('', CardType.Desert),
+        getCard('', CardType.Desert),
+        getCard('', CardType.Desert),
+        getCard('', CardType.Desert),
+        getCard('', CardType.Desert),
+        getCard('', CardType.Forest),
+        getCard('', CardType.Forest),
+        getCard('', CardType.Forest),
+        getCard('', CardType.Forest),
+        getCard('', CardType.Forest)
     ])
 }
 
 export const goblinHordes = (playerId:string):Card[] => {
     return [
-        getCard(playerId, CardType.Tremors, Portal[CardType.Tremors]),
-        getCard(playerId, CardType.GoblinSargeant, Portal[CardType.GoblinSargeant]),
-        getCard(playerId, CardType.GoblinSargeant, Portal[CardType.GoblinSargeant]),
-        getCard(playerId, CardType.GoblinSargeant, Portal[CardType.GoblinSargeant]),
-        getCard(playerId, CardType.Hobgoblin, Portal[CardType.Hobgoblin]),
-        getCard(playerId, CardType.Hobgoblin, Portal[CardType.Hobgoblin]),
-        getCard(playerId, CardType.Hobgoblin, Portal[CardType.Hobgoblin]),
-        getCard(playerId, CardType.Sinkhole, Portal[CardType.Sinkhole]),
-        getCard(playerId, CardType.Sinkhole, Portal[CardType.Sinkhole]),
-        getCard(playerId, CardType.Sinkhole, Portal[CardType.Sinkhole]),
-        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
-        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
-        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
-        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
-        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
-        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
-        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
-        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger])
+        getCard(playerId, CardType.Tremors),
+        getCard(playerId, CardType.GoblinSargeant),
+        getCard(playerId, CardType.GoblinSargeant),
+        getCard(playerId, CardType.GoblinSargeant),
+        getCard(playerId, CardType.Hobgoblin),
+        getCard(playerId, CardType.Hobgoblin),
+        getCard(playerId, CardType.Hobgoblin),
+        getCard(playerId, CardType.Sinkhole),
+        getCard(playerId, CardType.Sinkhole),
+        getCard(playerId, CardType.Sinkhole),
+        getCard(playerId, CardType.GoblinScrounger),
+        getCard(playerId, CardType.GoblinScrounger),
+        getCard(playerId, CardType.GoblinScrounger),
+        getCard(playerId, CardType.GoblinScrounger),
+        getCard(playerId, CardType.GoblinScrounger),
+        getCard(playerId, CardType.GoblinScrounger),
+        getCard(playerId, CardType.GoblinScrounger),
+        getCard(playerId, CardType.GoblinScrounger)
     ]
 }
 
 export const goblinSmall = (playerId:string):Card[] => {
     return [
-        getCard(playerId, CardType.GoblinSargeant, Portal[CardType.GoblinSargeant]),
-        getCard(playerId, CardType.Hobgoblin, Portal[CardType.Hobgoblin]),
-        getCard(playerId, CardType.Hobgoblin, Portal[CardType.Hobgoblin]),
-        getCard(playerId, CardType.Sinkhole, Portal[CardType.Sinkhole]),
-        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
-        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger]),
-        getCard(playerId, CardType.GoblinScrounger, Portal[CardType.GoblinScrounger])
+        getCard(playerId, CardType.GoblinSargeant),
+        getCard(playerId, CardType.Hobgoblin),
+        getCard(playerId, CardType.Hobgoblin),
+        getCard(playerId, CardType.Sinkhole),
+        getCard(playerId, CardType.GoblinScrounger),
+        getCard(playerId, CardType.GoblinScrounger),
+        getCard(playerId, CardType.GoblinScrounger)
     ]
 }
 
 export const blackSmall = (playerId:string):Card[] => {
     return [
-        getCard(playerId, CardType.Boggart, Portal[CardType.Boggart]),
-        getCard(playerId, CardType.Boggart, Portal[CardType.Boggart]),
-        getCard(playerId, CardType.Homonculus, Portal[CardType.Homonculus]),
-        getCard(playerId, CardType.MercenaryKnight, Portal[CardType.MercenaryKnight]),
-        getCard(playerId, CardType.MercenaryKnight, Portal[CardType.MercenaryKnight]),
-        getCard(playerId, CardType.Roaches, Portal[CardType.Roaches]),
-        getCard(playerId, CardType.Roaches, Portal[CardType.Roaches]),
-        getCard(playerId, CardType.Roaches, Portal[CardType.Roaches]),
-        getCard(playerId, CardType.ShadowForm, Portal[CardType.ShadowForm]),
-        getCard(playerId, CardType.ShadowForm, Portal[CardType.ShadowForm]),
-        getCard(playerId, CardType.Addict, Portal[CardType.Addict]),
-        getCard(playerId, CardType.CursedToad, Portal[CardType.CursedToad]),
-        getCard(playerId, CardType.CursedToad, Portal[CardType.CursedToad]),
-        getCard(playerId, CardType.ScavengingRats, Portal[CardType.ScavengingRats]),
-        getCard(playerId, CardType.ScavengingRats, Portal[CardType.ScavengingRats]),
-        getCard(playerId, CardType.ScavengingRats, Portal[CardType.ScavengingRats]),
-        getCard(playerId, CardType.Riot, Portal[CardType.Riot]),
-        getCard(playerId, CardType.Riot, Portal[CardType.Riot]),
-        getCard(playerId, CardType.Pollution, Portal[CardType.Pollution]),
-        getCard(playerId, CardType.Pollution, Portal[CardType.Pollution]),
-        getCard(playerId, CardType.Pollution, Portal[CardType.Pollution])
+        getCard(playerId, CardType.Boggart),
+        getCard(playerId, CardType.Boggart),
+        getCard(playerId, CardType.Homonculus),
+        getCard(playerId, CardType.MercenaryKnight),
+        getCard(playerId, CardType.MercenaryKnight),
+        getCard(playerId, CardType.Roaches),
+        getCard(playerId, CardType.Roaches),
+        getCard(playerId, CardType.Roaches),
+        getCard(playerId, CardType.ShadowForm),
+        getCard(playerId, CardType.ShadowForm),
+        getCard(playerId, CardType.Addict),
+        getCard(playerId, CardType.CursedToad,),
+        getCard(playerId, CardType.CursedToad),
+        getCard(playerId, CardType.ScavengingRats),
+        getCard(playerId, CardType.ScavengingRats),
+        getCard(playerId, CardType.ScavengingRats),
+        getCard(playerId, CardType.Riot),
+        getCard(playerId, CardType.Riot),
+        getCard(playerId, CardType.Pollution),
+        getCard(playerId, CardType.Pollution),
+        getCard(playerId, CardType.Pollution)
     ]
 }
 
 export const beasts = (playerId:string):Card[] => {
     return [
-        getCard(playerId, CardType.FeralSpirit, Portal[CardType.FeralSpirit]),
-        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
-        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
-        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
-        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
-        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
-        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
-        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
-        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
-        getCard(playerId, CardType.ForestJackal, Portal[CardType.ForestJackal]),
-        getCard(playerId, CardType.BlackBear, Portal[CardType.BlackBear]),
-        getCard(playerId, CardType.BlackBear, Portal[CardType.BlackBear]),
-        getCard(playerId, CardType.BlackBear, Portal[CardType.BlackBear]),
-        getCard(playerId, CardType.WerewolfRaider, Portal[CardType.WerewolfRaider]),
-        getCard(playerId, CardType.WerewolfRaider, Portal[CardType.WerewolfRaider]),
-        getCard(playerId, CardType.WerewolfRaider, Portal[CardType.WerewolfRaider])
+        getCard(playerId, CardType.FeralSpirit),
+        getCard(playerId, CardType.ForestJackal),
+        getCard(playerId, CardType.ForestJackal),
+        getCard(playerId, CardType.ForestJackal),
+        getCard(playerId, CardType.ForestJackal),
+        getCard(playerId, CardType.ForestJackal),
+        getCard(playerId, CardType.ForestJackal),
+        getCard(playerId, CardType.ForestJackal),
+        getCard(playerId, CardType.ForestJackal),
+        getCard(playerId, CardType.ForestJackal),
+        getCard(playerId, CardType.BlackBear),
+        getCard(playerId, CardType.BlackBear),
+        getCard(playerId, CardType.BlackBear),
+        getCard(playerId, CardType.WerewolfRaider),
+        getCard(playerId, CardType.WerewolfRaider),
+        getCard(playerId, CardType.WerewolfRaider)
     ]
 }
     

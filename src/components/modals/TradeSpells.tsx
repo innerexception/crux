@@ -22,7 +22,7 @@ export default () => {
     const purchaseCard = (c:Card) => {
         onUpdateSave({...save, 
             cards: save.cards.concat({...c, ownerId: save.myId}), 
-            gold: save.gold-getCardData(c).gold 
+            gold: save.gold-getCardData(c.kind).gold 
         })
     }
 
@@ -30,10 +30,10 @@ export default () => {
         <div style={{...AppStyles.modal, width:'100%', margin:'auto'}}>
             <div style={{textAlign:'center', marginBottom:'0.5em'}}>WHAT YA BUYIN, STRANGER?</div>
             <div style={{display:'flex', flexWrap:'wrap'}}>
-                {inventory.map(c=><div style={{opacity: save.gold >= getCardData(c).gold && !save.cards.find(cc=>cc.kind === c.kind)? 1 : 0.5}} 
-                                       onClick={save.gold >= getCardData(c).gold && !save.cards.find(cc=>cc.kind === c.kind) ? ()=>purchaseCard(c):null}>
+                {inventory.map(c=><div style={{opacity: save.gold >= getCardData(c.kind).gold && !save.cards.find(cc=>cc.kind === c.kind)? 1 : 0.5}} 
+                                       onClick={save.gold >= getCardData(c.kind).gold && !save.cards.find(cc=>cc.kind === c.kind) ? ()=>purchaseCard(c):null}>
                     <CardView card={c}/>
-                    <div><CssIcon spriteIndex={IconIndex.Gold} />{getCardData(c).gold}</div>
+                    <div><CssIcon spriteIndex={IconIndex.Gold} />{getCardData(c.kind).gold}</div>
                 </div>)}
             </div>
             <div style={{textAlign:'center', marginBottom:'0.5em', marginTop:'1em'}}>WHAT'R YA SELLIN, STRANGER?</div>
@@ -51,4 +51,4 @@ export default () => {
     )
 }
     
-const getSellPrice = (c:Card) => Math.ceil(getCardData(c).gold*0.3)
+const getSellPrice = (c:Card) => Math.ceil(getCardData(c.kind).gold*0.3)

@@ -7,7 +7,7 @@ import { onInspectCreature } from '../common/Thunks';
 
 export default (props:{card:Card}) => {
     
-    const dat = getCardData(props.card)
+    const dat = getCardData(props.card.kind)
 
     return (
         <div style={{width:'120px', height:'80px', border:'2px inset', fontSize:'16px', borderColor: colors[dat.color], background:'black', paddingLeft:'5px', borderRadius:'5px'}}>

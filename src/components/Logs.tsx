@@ -26,7 +26,7 @@ export default () => {
 const getLogEl = (l:LogEntry, match:MatchState) => {
 
     const caster = match.players.find(p=>p.id === l.card.ownerId).playerSprite
-    const dat = getCardData(l.card)
+    const dat = getCardData(l.card.kind)
   
     if(l.kind === Log.AbilityPlayed) return <div>
         <CssIcon spriteIndex={caster}/> used ability of {l.card.kind} : {renderEffect(dat.ability.effect)}

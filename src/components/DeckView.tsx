@@ -50,7 +50,7 @@ export default () => {
 }
     
 const CardPreview = (me:PlayerState, c:Card, selectedCardId:string) => {
-    const dat = getCardData(c)
+    const dat = getCardData(c.kind)
     return <div onClick={canAfford(me.manaPool, c) ? ()=>onSelectCard(c):null} 
                 style={{backgroundColor:'black',border: selectedCardId === c.id ? '1px solid' : 'none', marginRight:'5px', opacity: canAfford(me.manaPool, c) ? 1 : 0.5}}>
         <div style={{width:'120px', height:'25px', overflow:'hidden', border:'2px inset', fontSize:'16px', borderColor: colors[dat.color], paddingLeft:'5px', borderRadius:'5px'}}>

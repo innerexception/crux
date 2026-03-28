@@ -81,7 +81,7 @@ export default class BattleScene extends Scene {
         this.creatures = []
         match.board.forEach(c=>{
             const player = match.players.find(p=>p.id === c.ownerId)
-            this.creatures.push(new CreatureSprite(this, this.map.tileToWorldX(c.tileX), this.map.tileToWorldY(c.tileY), getCardData(c).sprite, c.id, player.dir))
+            this.creatures.push(new CreatureSprite(this, this.map.tileToWorldX(c.tileX), this.map.tileToWorldY(c.tileY), getCardData(c.kind).sprite, c.id, player.dir))
         })
         
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
@@ -94,14 +94,14 @@ export default class BattleScene extends Scene {
         const lTile = p.dir === Direction.NORTH ? 
             this.northLands.find(t=>!state.board.find(c=>c.tileX === t.x && c.tileY === t.y)):
             this.southLands.find(t=>!state.board.find(c=>c.tileX === t.x && c.tileY === t.y))
-        let land = state.lands.slice(0,3).find(l=>p.hand.find(c=>getCardData(c).color === getCardData(l).color))
+        let land = state.lands.slice(0,3).find(l=>p.hand.find(c=>getCardData(c.kind).color === getCardData(l.kind).color))
         if(!land) land = state.lands[0]
         if(lTile){
             net_addCard({cardId: land.id, worldX:lTile.pixelX, worldY:lTile.pixelY})
         }
         state=store.getState().saveFile.currentMatch
-        state.board.filter(c=>getCardData(c).kind === Permanents.Land && c.ownerId === p.id && !c.tapped).forEach(l=>{
-            const meta = getCardData(l)
+        state.board.filter(c=>getCardData(c.kind).kind === Permanents.Land && c.ownerId === p.id && !c.tapped).forEach(l=>{
+            const meta = getCardData(l.kind)
             const color = meta.ability.effect.addMana
             p.manaPool[color]=p.manaPool[color]+1
             l.tapped = true
@@ -113,15 +113,15 @@ export default class BattleScene extends Scene {
     aiPlayCreatureSorcery = () => {
         let state = store.getState().saveFile.currentMatch
         let p = state.players.find(p=>p.id === state.activePlayerId)
-        const enemies = state.board.filter(c=>c.ownerId !== p.id && getCardData(c).kind === Permanents.Creature)
+        const enemies = state.board.filter(c=>c.ownerId !== p.id && getCardData(c.kind).kind === Permanents.Creature)
         if(enemies.length > 0){
             const sorcery = p.hand.find(c=>
-                getCardData(c).kind === Permanents.Sorcery &&
+                getCardData(c.kind).kind === Permanents.Sorcery &&
                 canAfford(p.manaPool,c) &&
-                (getCardData(c).ability.effect.dmg || getCardData(c).ability.effect.destroy)) //TODO: include other debilitating effects
+                (getCardData(c.kind).ability.effect.dmg || getCardData(c.kind).ability.effect.destroy)) //TODO: include other debilitating effects
             if(sorcery){
                 const target = enemies.find(e=>{
-                        const targets = getValidCreatureTargets(getCardData(sorcery).ability, sorcery, e.id) 
+                        const targets = getValidCreatureTargets(getCardData(sorcery.kind).ability, sorcery, e.id) 
                         return targets.find(t=>t.id === e.id)
                     })
                 if(target) 
@@ -133,7 +133,7 @@ export default class BattleScene extends Scene {
     getEnemyCreatures = () => {
         let state = store.getState().saveFile.currentMatch
         let p = state.players.find(p=>p.id === state.activePlayerId)
-        const enemies = state.board.filter(c=>c.ownerId !== p.id && getCardData(c).kind === Permanents.Creature)
+        const enemies = state.board.filter(c=>c.ownerId !== p.id && getCardData(c.kind).kind === Permanents.Creature)
         return enemies
     }
 
@@ -143,7 +143,7 @@ export default class BattleScene extends Scene {
         const activePlayerId = store.getState().saveFile.currentMatch.activePlayerId
         let activePlayer = store.getState().saveFile.currentMatch.players.find(p=>p.id === activePlayerId)
         const dir = activePlayer.dir
-        let creature = activePlayer.hand.find(c=>getCardData(c).kind === Permanents.Creature && canAfford(activePlayer.manaPool,c))
+        let creature = activePlayer.hand.find(c=>getCardData(c.kind).kind === Permanents.Creature && canAfford(activePlayer.manaPool,c))
         let i=0
         while(creature && i<5){
             if(enemies[0] && creature.atk >= enemies[0].def){
@@ -167,7 +167,7 @@ export default class BattleScene extends Scene {
                 }
             }
             let p = store.getState().saveFile.currentMatch.players.find(p=>p.id === activePlayerId)
-            creature = p.hand.find(c=>getCardData(c).kind === Permanents.Creature && canAfford(p.manaPool,c) && c.id !== creature.id)
+            creature = p.hand.find(c=>getCardData(c.kind).kind === Permanents.Creature && canAfford(p.manaPool,c) && c.id !== creature.id)
             i++
         }
     }
@@ -176,9 +176,9 @@ export default class BattleScene extends Scene {
         //use owned creature abilities if possible
         const state = store.getState().saveFile.currentMatch
         const p = state.players.find(p=>p.id === state.activePlayerId)
-        const creatures = state.board.filter(c=>c.ownerId === p.id && !c.tapped && getCardData(c).kind === Permanents.Creature && getCardData(c).ability)
+        const creatures = state.board.filter(c=>c.ownerId === p.id && !c.tapped && getCardData(c.kind).kind === Permanents.Creature && getCardData(c.kind).ability)
         creatures.forEach(c=>{
-            const abil = getCardData(c).ability
+            const abil = getCardData(c.kind).ability
             const targets = getValidCreatureTargets(abil, c, '')
             if(targets[0]){
                 net_triggerCardAbility({card: c, entityId: targets[0].id, discard:false})
@@ -228,7 +228,7 @@ export default class BattleScene extends Scene {
         this.g.clear()
         const state = store.getState()
         const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
-        const dat = getCardData(card)
+        const dat = getCardData(card.kind)
         if(dat.kind === Permanents.Land){
             if(me.dir === Direction.NORTH){
                 this.northLands.forEach(t=>{
@@ -252,10 +252,10 @@ export default class BattleScene extends Scene {
                 })
         }
         else if(dat.kind === Permanents.Enchantment){
-            let creatureTiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
+            let creatureTiles = state.saveFile.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Creature)
                     .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
             if(dat.ability.targets === Target.CreatureYouControl){
-                creatureTiles = state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id && getCardData(c).kind === Permanents.Creature)
+                creatureTiles = state.saveFile.currentMatch.board.filter(c=>c.ownerId === me.id && getCardData(c.kind).kind === Permanents.Creature)
                     .map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
             }
             creatureTiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
@@ -266,7 +266,7 @@ export default class BattleScene extends Scene {
     }
 
     canPlaceCreatureHere(card:Card, t:Tilemaps.Tile) {
-        const creatures = store.getState().saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature)
+        const creatures = store.getState().saveFile.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Creature)
         if(creatures.find(c=>c.tileX === t.x && c.tileY === t.y)) return false
         if(card.attributes.includes(Modifier.Timid)){
             if(creatures.find(c=>c.tileX === t.x))
@@ -275,7 +275,7 @@ export default class BattleScene extends Scene {
         if(creatures.find(c=>c.tileX === t.x && c.attributes.includes(Modifier.Fearsome))){
             return false
         }
-        const laneLands = store.getState().saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land && c.tileX === t.x)
+        const laneLands = store.getState().saveFile.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Land && c.tileX === t.x)
         if(card.attributes.includes(Modifier.TowerAffinity) && !laneLands.find(l=>l.kind === CardType.Tower)){
             return false
         }
@@ -299,7 +299,7 @@ export default class BattleScene extends Scene {
     }
 
     startPreview = (b:Card) => {
-        this.creaturePreview = this.add.image(0, 0, 'creatures', getCardData(b).sprite).setAlpha(0.5).setDepth(4)
+        this.creaturePreview = this.add.image(0, 0, 'creatures', getCardData(b.kind).sprite).setAlpha(0.5).setDepth(4)
     }
 
     enableInputEvents = () => {
@@ -344,7 +344,7 @@ export default class BattleScene extends Scene {
                         //determine card action: Sorcery or Enchantment from hand
                         let card = me.hand.find(c=>c.id === state.selectedCardId)
                         if(card){
-                            const dat = getCardData(card)
+                            const dat = getCardData(card.kind)
                             if(dat.kind === Permanents.Sorcery || dat.kind === Permanents.Enchantment){
                                 const props = {card, entityId:sprite.id, discard:true}
                                 if(networkActive) sendTriggerCardAbility(props)
@@ -400,7 +400,7 @@ export default class BattleScene extends Scene {
                         const card = state.saveFile.currentMatch.board.find(c=>c.id === sprite.id)
                         if(card){
                             if(card.tapped) return //tapped cards can't be activated
-                            const meta = getCardData(card)
+                            const meta = getCardData(card.kind)
                             if(meta.ability?.effect.addMana && card.ownerId === me.id){
                                 if(networkActive) sendLandTappedEffect(card)
                                 else net_tapLand(card)
@@ -426,7 +426,7 @@ export default class BattleScene extends Scene {
                                     tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
                                 }
                                 else if(card.attributes.includes(Modifier.BeeSting)){
-                                    const landCreatures = state.saveFile.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.tileX === card.tileX)
+                                    const landCreatures = state.saveFile.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Creature && c.tileX === card.tileX)
                                     let tiles = landCreatures.map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
                                     tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
                                 }
@@ -440,7 +440,7 @@ export default class BattleScene extends Scene {
                     let card = me.hand.find(c=>c.id === state.selectedCardId)
                     if(card){
                         //handle placing CREATURE from hand in open space
-                        const d = getCardData(card)
+                        const d = getCardData(card.kind)
                         if(d.kind !== Permanents.Creature) return //Cannot place other types in open spaces
                         if(!this.canPlaceCreatureHere(card, tile)) return
             
@@ -464,7 +464,7 @@ export default class BattleScene extends Scene {
                     }
                     if(!card) card = state.saveFile.currentMatch.board.find(l=>l.id === state.selectedCardId)
                     if(card){
-                        const d = getCardData(card)
+                        const d = getCardData(card.kind)
                         //handle NIMBLE board CREATURE case
                         if(d.kind !== Permanents.Creature) return //Cannot displace other types
                         if(card.attributes.includes(Modifier.Nimble)){
@@ -508,7 +508,7 @@ export default class BattleScene extends Scene {
     }
 
     showSorceryAbilityTargets = (boardCard:Card) => {
-        const ability = getCardData(boardCard).ability
+        const ability = getCardData(boardCard.kind).ability
         onShowAbilityPreview(ability)
         this.g.clear()
         let tiles = []
@@ -523,9 +523,9 @@ export default class BattleScene extends Scene {
             return onShowModal(Modal.ViewCards, modalProps)
         }
 
-        let lands = state.saveFile.currentMatch.board.filter(l=>getCardData(l).kind === Permanents.Land)
+        let lands = state.saveFile.currentMatch.board.filter(l=>getCardData(l.kind).kind === Permanents.Land)
         if(ability.withColor){
-            lands = lands.filter(l=>getCardData(l).color === ability.withColor)
+            lands = lands.filter(l=>getCardData(l.kind).color === ability.withColor)
         }
 
         if(ability.targets === Target.Land || ability.targets === Target.AllLands){
@@ -577,12 +577,12 @@ export default class BattleScene extends Scene {
     }
 
     applyLandEffect = (card:Card, land:Card) => {
-        const dat = getCardData(card).ability
+        const dat = getCardData(card.kind).ability
         if(dat.effect.transformInto){
             this.tryRemoveCreature(land)
             const t = this.map.getTileAt(land.tileX, land.tileY, false, Layers.Earth)
             const owner = store.getState().saveFile.currentMatch.players.find(p=>p.id === land.ownerId)
-            const sprite = getCardData({...land, kind: dat.effect.transformInto}).sprite
+            const sprite = getCardData(dat.effect.transformInto).sprite
             this.creatures.push(new CreatureSprite(this, t.pixelX,t.pixelY, sprite, land.id, owner.dir))
             onUpdateBoard(store.getState().saveFile.currentMatch.board.concat({...land, tapped:true, kind: dat.effect.transformInto, ownerId: land.ownerId, tileX:land.tileX, tileY:land.tileY}))
         }
@@ -595,7 +595,7 @@ export default class BattleScene extends Scene {
     }
 
     applySingleTargetCreatureEffect = (props:{creature:Card, sorcery:Card}) => {
-        const dat = getCardData(props.sorcery)
+        const dat = getCardData(props.sorcery.kind)
         //play dmg/buff/debuff sprite
         const s = this.creatures.find(c=>c.id === props.creature.id)
         this.flashIcon(s.x, s.y, dat.ability.effect.sprite)
@@ -627,7 +627,7 @@ export default class BattleScene extends Scene {
             net_cancelPendingAction()
         }
         const p = store.getState().saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
-        const data = getCardData(card)
+        const data = getCardData(card.kind)
         let colorless = null
         if(data.ability.effect.dmgX || data.ability.effect.drawX){
             colorless = { kind: Color.None, amount: getColorlessRemain(p.manaPool, card)}
@@ -649,7 +649,7 @@ export default class BattleScene extends Scene {
         }
         if(effect.status.defUp){
             creature.def-=effect.status.defUp
-            creature.def=Math.max(creature.def, getCardData(creature).defaultDef)
+            creature.def=Math.max(creature.def, getCardData(creature.kind).defaultDef)
         }
         if(effect.status.addAttributes){
             creature.attributes=creature.attributes.filter(a=>!effect.status.addAttributes.includes(a))
@@ -666,7 +666,7 @@ export default class BattleScene extends Scene {
 
     applyPlayerEffect(targetPlayer:PlayerState, card:Card) {
         
-        const effect = getCardData(card).ability.effect
+        const effect = getCardData(card.kind).ability.effect
         let state = store.getState().saveFile
         let caster = state.currentMatch.players.find(p=>p.id === card.ownerId)
 
@@ -714,7 +714,7 @@ export default class BattleScene extends Scene {
             }
         }
         if(effect.drawForTappedOpponent){
-            const tapped = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.tapped && c.ownerId !== targetPlayer.id)
+            const tapped = state.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Creature && c.tapped && c.ownerId !== targetPlayer.id)
             for(let i=0;i<tapped.length;i++){
                 if(caster.deck.cards.length > 0) 
                     caster = {...caster, hand: caster.hand.concat(caster.deck.cards.shift()),deck:caster.deck}
@@ -746,7 +746,7 @@ export default class BattleScene extends Scene {
              }
          } 
         if(effect.hp3perBlackCreature){
-            const blacks = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && getCardData(c).color === Color.Black)
+            const blacks = state.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Creature && getCardData(c.kind).color === Color.Black)
             targetPlayer.hp=Math.min(20,targetPlayer.hp+(blacks.length*3))
         }
         if(effect.playExtraLand){
@@ -783,7 +783,7 @@ export default class BattleScene extends Scene {
             targetPlayer.hp=Math.min(20,targetPlayer.hp+(forests.length*effect.hpUp))
         }
         if(effect.hpPerAttacker){
-            const enemies = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Creature && c.ownerId !== targetPlayer.id)
+            const enemies = state.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Creature && c.ownerId !== targetPlayer.id)
             targetPlayer.hp=Math.min(20,targetPlayer.hp+enemies.length)
         }
         if(targetPlayer.hp <= 0){
@@ -794,8 +794,8 @@ export default class BattleScene extends Scene {
             targetPlayer.manaPool[effect.addMana]++
         }
         if(effect.drawLandIfLess){
-            const mylands = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land && c.ownerId === caster.id).length
-            const yourlands = state.currentMatch.board.filter(c=>getCardData(c).kind === Permanents.Land && c.ownerId !== caster.id).length
+            const mylands = state.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Land && c.ownerId === caster.id).length
+            const yourlands = state.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Land && c.ownerId !== caster.id).length
             if(mylands<yourlands) targetPlayer.hasPlayedLand = false
         }
         if(effect.drawIfFewerCards){
@@ -818,7 +818,7 @@ export default class BattleScene extends Scene {
             if(forest){
                 const t = this.getEmptyStartTile({dir: targetPlayer.dir, land:true})
                 if(t){
-                    this.creatures.push(new CreatureSprite(this, t.pixelX,t.pixelY, getCardData(forest).sprite, forest.id, targetPlayer.dir))
+                    this.creatures.push(new CreatureSprite(this, t.pixelX,t.pixelY, getCardData(forest.kind).sprite, forest.id, targetPlayer.dir))
                     onUpdateBoard(state.currentMatch.board.concat({...forest, ownerId: targetPlayer.id, tileX:t.x, tileY:t.y}))
                 }
             }
@@ -830,7 +830,7 @@ export default class BattleScene extends Scene {
         const state = store.getState()
         let activePlayer = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.currentMatch.activePlayerId)
         let caster = state.saveFile.currentMatch.players.find(p=>p.id === sorcery.ownerId)
-        const effect = getCardData(sorcery).ability.effect
+        const effect = getCardData(sorcery.kind).ability.effect
         
         if(effect.resetMovement){
             const spr = this.creatures.find(c=>c.id === creature.id)
@@ -893,7 +893,7 @@ export default class BattleScene extends Scene {
                 onUpdatePlayer({...owner, discard: owner.discard.filter(c=>c.id !== creature.id), hand: owner.hand.concat(resetCard(creature))})
             }
             else {
-                this.creatures.push(new CreatureSprite(this, t.pixelX,t.pixelY, getCardData(creature).sprite, creature.id, owner.dir))
+                this.creatures.push(new CreatureSprite(this, t.pixelX,t.pixelY, getCardData(creature.kind).sprite, creature.id, owner.dir))
                 onUpdateBoard(state.saveFile.currentMatch.board.concat({...resetCard(creature), tileX:t.x, tileY:t.y}))
                 onUpdatePlayer({...owner, discard: owner.discard.filter(c=>c.id !== creature.id)})
             }
@@ -1004,17 +1004,17 @@ export default class BattleScene extends Scene {
             return
         }
         if(card.attributes.includes(Modifier.DementiaCloud)){
-            state.saveFile.currentMatch.players.forEach(pp=>{
+            onUpdatePlayer({...state.saveFile.currentMatch.players.find(p=>p.id === card.ownerId), discard: p.discard.concat(card)})
+            onUpdateBoard(store.getState().saveFile.currentMatch.board.filter(c=>c.id !== card.id))
+            store.getState().saveFile.currentMatch.players.forEach(pp=>{
                 pp.discard.unshift(pp.hand.splice(Phaser.Math.Between(0,pp.hand.length-1), 1)[0])
                 onUpdatePlayer({...pp})
             })
-            onUpdateBoard(store.getState().saveFile.currentMatch.board.filter(c=>c.id !== card.id))
-            onUpdatePlayer({...state.saveFile.currentMatch.players.find(p=>p.id === card.ownerId), discard: p.discard.concat(card)})
             return
         }
         
         if(card.kind === CardType.SandElemental){
-            const lland = state.saveFile.currentMatch.board.find(c=>c.ownerId !== p.id && c.tileX === card.tileX && getCardData(c).kind === Permanents.Land)
+            const lland = state.saveFile.currentMatch.board.find(c=>c.ownerId !== p.id && c.tileX === card.tileX && getCardData(c.kind).kind === Permanents.Land)
             if(lland){
                 this.tryRemoveCreature(lland)
             }
@@ -1027,7 +1027,7 @@ export default class BattleScene extends Scene {
         let board = state.saveFile.currentMatch.board
         onUpdateBoard(board.filter(c=>c.id !== card.id))
         
-        const dat = getCardData(card)
+        const dat = getCardData(card.kind)
         if(dat.kind === Permanents.Land){
             onUpdateLands(state.saveFile.currentMatch.lands.concat(card))
         }

@@ -128,11 +128,11 @@ export const getAIPlayer = (kind:CreatureSpriteIndex):PlayerState => {
 
 export const canAfford = (mana:Record<Color,number>, c:Card) => {
     if(c.kind === CardType.MercenaryCaptain || c.kind === CardType.CircleOfLife){
-        if(!store.getState().saveFile.currentMatch.board.find(cc=>getCardData(cc).kind === Permanents.Creature && cc.ownerId === c.ownerId)){
+        if(!store.getState().saveFile.currentMatch.board.find(cc=>getCardData(cc.kind).kind === Permanents.Creature && cc.ownerId === c.ownerId)){
             return false
         }
     }
-    const cost = getCardData(c).cost
+    const cost = getCardData(c.kind).cost
     if(cost){
         const colorlessCost = cost.find(c=>c.kind === Color.None)
         if(!colorlessCost){
@@ -153,7 +153,7 @@ export const canAfford = (mana:Record<Color,number>, c:Card) => {
 }
 
 export const getColorlessRemain = (mana:Record<Color,number>, c:Card) => {
-    const cost = getCardData(c).cost
+    const cost = getCardData(c.kind).cost
     //subtract colored first to get remainder
     const mans = {...mana}
     cost.filter(c=>c.kind !== Color.None).forEach(c=>mans[c.kind]-=c.amount)

@@ -8,7 +8,7 @@ import { getCardData } from '../../common/CardUtils';
 import { sendUpdate } from '../../common/Network';
 
 export default () => {
-    const cards = useSelector((state:RState)=>state.modalData.cards.filter(c=>state.modalData.chooseType ? getCardData(c).kind === state.modalData.chooseType:true))
+    const cards = useSelector((state:RState)=>state.modalData.cards.filter(c=>state.modalData.chooseType ? getCardData(c.kind).kind === state.modalData.chooseType:true))
     const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId))
     const match = useSelector((state:RState)=>state.saveFile.currentMatch)
     

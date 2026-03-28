@@ -36,7 +36,7 @@ export default class CreatureSprite extends GameObjects.Image {
         let thisCreature = state.board.find(c=>c.id === this.id)
         if(!thisCreature) return
         if(thisCreature.attributes.includes(Modifier.Seige)){
-            let validLand = state.board.find(c=>getCardData(c).kind===Permanents.Land && c.ownerId !== thisCreature.ownerId && (c.kind === CardType.Tower || c.kind === CardType.City || c.kind === CardType.Temple))
+            let validLand = state.board.find(c=>getCardData(c.kind).kind===Permanents.Land && c.ownerId !== thisCreature.ownerId && (c.kind === CardType.Tower || c.kind === CardType.City || c.kind === CardType.Temple))
             if(!validLand) return
         }
         if(thisCreature.attributes.includes(Modifier.Defender)){
@@ -93,16 +93,16 @@ export default class CreatureSprite extends GameObjects.Image {
                         return
                     }
 
-                    if(getCardData(target).ability?.trigger === Triggers.OnCombat){
-                        const targets =getCardData(target).ability.targets
+                    if(getCardData(target.kind).ability?.trigger === Triggers.OnCombat){
+                        const targets =getCardData(target.kind).ability.targets
                         if(targets === Target.ThisCreature)
                             this.scene.applySingleTargetCreatureEffect({creature: target, sorcery: target})
                         else if(targets === Target.Self){
                             this.scene.applyPlayerEffect(owner, target)
                         }
                     }
-                    if(getCardData(thisCreature).ability?.trigger === Triggers.OnCombat){
-                        const targets =getCardData(thisCreature).ability.targets
+                    if(getCardData(thisCreature.kind).ability?.trigger === Triggers.OnCombat){
+                        const targets =getCardData(thisCreature.kind).ability.targets
                         if(targets === Target.ThisCreature)
                             this.scene.applySingleTargetCreatureEffect({creature: thisCreature, sorcery: thisCreature})
                         else if(targets === Target.Self){
@@ -188,8 +188,8 @@ export default class CreatureSprite extends GameObjects.Image {
             else {
                 const defHp = target.def - thisCard.atk
                 if(defHp <= 0){
-                    if(getCardData(thisCard).ability?.effect.casterHpUpOnKill){
-                        owner.hp+=getCardData(thisCard).ability?.effect.casterHpUpOnKill
+                    if(getCardData(thisCard.kind).ability?.effect.casterHpUpOnKill){
+                        owner.hp+=getCardData(thisCard.kind).ability?.effect.casterHpUpOnKill
                         onUpdatePlayer({...owner})
                     }
                     this.scene.tryRemoveCreature(target)
@@ -206,8 +206,8 @@ export default class CreatureSprite extends GameObjects.Image {
             else {
                 const atkHp = thisCard.def - target.atk
                 if(atkHp <= 0){
-                    if(getCardData(target).ability?.effect.casterHpUpOnKill){
-                        owner.hp+=getCardData(target).ability?.effect.casterHpUpOnKill
+                    if(getCardData(target.kind).ability?.effect.casterHpUpOnKill){
+                        owner.hp+=getCardData(target.kind).ability?.effect.casterHpUpOnKill
                         onUpdatePlayer({...owner})
                     }
                     this.scene.tryRemoveCreature(thisCard)
@@ -220,19 +220,19 @@ export default class CreatureSprite extends GameObjects.Image {
     }
 
     hasProtectionFrom(c:Card, cc:Card) {
-        if(cc.attributes.includes(Modifier.ProtectionFromBlack) && getCardData(c).color === Color.Black){
+        if(cc.attributes.includes(Modifier.ProtectionFromBlack) && getCardData(c.kind).color === Color.Black){
             return true
         }
-        if(cc.attributes.includes(Modifier.ProtectionFromBlue) && getCardData(c).color === Color.Blue){
+        if(cc.attributes.includes(Modifier.ProtectionFromBlue) && getCardData(c.kind).color === Color.Blue){
             return true
         }
-        if(cc.attributes.includes(Modifier.ProtectionFromGreen) && getCardData(c).color === Color.Green){
+        if(cc.attributes.includes(Modifier.ProtectionFromGreen) && getCardData(c.kind).color === Color.Green){
             return true
         }
-        if(cc.attributes.includes(Modifier.ProtectionFromRed) && getCardData(c).color === Color.Red){
+        if(cc.attributes.includes(Modifier.ProtectionFromRed) && getCardData(c.kind).color === Color.Red){
             return true
         }
-        if(cc.attributes.includes(Modifier.ProtectionFromWhite) && getCardData(c).color === Color.White){
+        if(cc.attributes.includes(Modifier.ProtectionFromWhite) && getCardData(c.kind).color === Color.White){
             return true
         }
         return false

@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 export default (props:{card:Card}) => {
     
-    const dat = getCardData(props.card)
+    const dat = getCardData(props.card.kind)
     const owner = useSelector((state:RState)=>state.saveFile.currentMatch?.players.find(p=>p.id === props.card.ownerId))
 
     return (
