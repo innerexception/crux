@@ -1,9 +1,9 @@
 import * as React from 'react'
 // import { btnDown, btnUp, downCursor, iconSheet, modalLeftCap, modalRepeat, modalRightCap } from '../assets/Assets'
 import { creatureSheet, iconSheet } from '../assets/Assets'
-import AppStyles from '../styles/AppStyles'
+import AppStyles, { colors } from '../styles/AppStyles'
 import Tooltip from 'rc-tooltip'
-import { CardType, CreatureSpriteIndex, IconIndex } from '../../enum'
+import { CardType, CreatureSpriteIndex, IconIndex, Modifier, ModifierDesc } from '../../enum'
 
 // export const TopBar = (text:string|JSX.Element) => 
 //     <div style={AppStyles.topBar}>
@@ -120,3 +120,8 @@ const getDescription = (index:IconIndex|CreatureSpriteIndex) => {
         case IconIndex.Mana: return <div><CssIcon noTooltip={true} spriteIndex={IconIndex.Mana}/> Mana, the power of creation </div>
     }
 }
+
+export const getModifierEl = (m:Modifier) => 
+    <Tooltip overlay={<div>{ModifierDesc[m].description}</div>}>
+        <div style={{color:colors.gold}}>{ModifierDesc[m].title}</div>
+    </Tooltip>

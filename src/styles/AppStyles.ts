@@ -1,24 +1,22 @@
-import { Color } from "../../enum"
 import { dialogBg, pointerOver } from "../assets/Assets"
 
 export const colors = {
-    white: '#fff',
-    black: '#000',
-    grey1:'#b9b9b9',
-    grey2:'#868686',
-    grey3:'#454545',
-    background: 'black',
-    yellow:'#ffff00',
-    orange:'#ff6500',
-    red:'#dc0000',
-    pink:'#ff0097',
-    purple:'#360097',
-    blue:'#0000ca',
-    lblue:'#0000ca',
-    lgreen:'#00a800',
-    green:'#006500',
-    brown:'#653600',
-    lbrown:'#976536'
+    white: '#F8F6F0',
+    black: '#1A1A1A',
+    grey1:'#2B2B2B',
+    background: '#F2E6C9',
+    background2: '#E8D8B5',
+    yellow:'#D4A017',
+    yellow2:'#E0B84C',
+    gold:'#C9A646',
+    gold2:'#D4AF37',
+    red:'#B3202A',
+    red2:'#D13A2F',
+    blue:'#1F3C88',
+    dblue:'#2E5FA7',
+    lblue:'#4ABBE7',
+    lgreen:'#6FAF45',
+    green:'#3F7A3A'
 }
 
 export default {
@@ -27,10 +25,10 @@ export default {
         border: '1px solid'
     },
     windowBorder: {
-        padding:'16px', background:colors.white, margin:'16px'
+        padding:'16px', background:colors.background, margin:'16px'
     },
     contentAreaAlternate: {
-        padding:'0.5em', background: colors.white, border:'5px outset', borderColor:colors.white, borderBottomLeftRadius:'20px', borderTopRightRadius:'20px', marginBottom:'0.5em', marginTop:'0.5em'
+        padding:'0.5em', background: colors.background, border:'5px outset', borderColor:colors.white, borderBottomLeftRadius:'20px', borderTopRightRadius:'20px', marginBottom:'0.5em', marginTop:'0.5em'
     },
     buttonOuter: {
         
@@ -39,7 +37,7 @@ export default {
     buttonInner: {
         padding:'3px',
         color: colors.black, 
-        background:colors.grey1,
+        background:colors.white,
         cursor:'url('+pointerOver+'), auto',
         border:'3px inset'
     },
@@ -83,11 +81,5 @@ export default {
     },
     close: {
         position:'absolute' as 'absolute', right:20, top:10, cursor:'pointer', fontSize:'18px'
-    },
-    bounce: {
-        width:'2em',
-        height:'1em',
-        animation: 'shake 5s',
-        animationIterationCount: 'infinite'
     }
 }

@@ -6,14 +6,16 @@ export const FONT_DEFAULT = {
     color:'#fff',
 }
 
-export const iconSheet = require('./img/dcssFull.png')
-export const creatureSheet = require('./img/dcssFull.png')
+const tiles = require('./img/dcssFull.png')
+
+export const iconSheet = tiles
+export const creatureSheet = tiles
 export const defaultCursor = require('./img/default.png')
 export const pointerOver = require('./img/default2.png')
 export const dialogBg = require('./img/dialog.png')
 
 export const resources:Array<PhaserResource> = [
-    { key: 'tiles', resource: require('./img/dcssFull.png'), type: 'image' },
+    { key: 'tiles', resource: tiles, type: 'image' },
     { key: 'selected', resource: require('./img/selected.png'), type: 'image' },
     { key: 'logo', resource: require('./img/logo.png'), type: 'image' },
     { key: 'bg', resource: require('./img/marble.png'), type: 'image' },

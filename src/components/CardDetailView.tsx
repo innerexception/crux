@@ -1,6 +1,6 @@
 import * as React from 'react'
 import AppStyles, { colors } from '../styles/AppStyles';
-import { Button, CssIcon } from '../common/Shared';
+import { Button, CssIcon, getModifierEl } from '../common/Shared';
 import { getCardData } from '../common/CardUtils';
 import { IconIndex, TargetsDesc, ModifierDesc, ColorIcons, TriggerNames, Permanents } from '../../enum';
 import { renderCost, renderEffect } from './CardView';
@@ -23,13 +23,13 @@ export default (props:{card:Card}) => {
                 </div>
             </div>
             
-            {props.card.attributes && props.card.attributes.map(a=><div>{ModifierDesc[a]}</div>)}
+            {props.card.attributes && props.card.attributes.map(a=>getModifierEl(a))}
             {dat.ability && <div style={{marginTop:'5px', marginBottom:'5px'}}>
                 <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Activate}/>} {renderCost(dat.ability.cost, dat.ability.effect?.dmgX)}</div>
                 {dat.ability.targets && <div>{dat.ability.required && <span style={{color:'red'}}>(Required)</span>} Affects: {TargetsDesc[dat.ability.targets]} 
                     {dat.ability.withCategory && <div>That is a {dat.ability.withCategory}</div>}
-                    {dat.ability.withAttribute?" with "+ModifierDesc[dat.ability.withAttribute]:''}
-                    {dat.ability.withoutAttribute ? " without "+ModifierDesc[dat.ability.withoutAttribute]:''}
+                    {dat.ability.withAttribute?" with "+ModifierDesc[dat.ability.withAttribute].title:''}
+                    {dat.ability.withoutAttribute ? " without "+ModifierDesc[dat.ability.withoutAttribute].title:''}
                     {dat.ability.withColor ? <div> with <CssIcon spriteIndex={ColorIcons[dat.ability.withColor]}/></div>:''}
                     {dat.ability.def3orLess ? " with defence 3 or less" : ''}
                     {dat.ability.withoutColor ? <div> without <CssIcon spriteIndex={ColorIcons[dat.ability.withoutColor]}/></div>:''}

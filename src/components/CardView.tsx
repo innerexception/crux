@@ -1,6 +1,6 @@
 import * as React from 'react'
 import AppStyles, { colors } from '../styles/AppStyles';
-import { Button, CssIcon } from '../common/Shared';
+import { Button, CssIcon, getModifierEl } from '../common/Shared';
 import { getCardData } from '../common/CardUtils';
 import { ColorIcons, Color, ModifierDesc, Permanents } from '../../enum';
 import { onInspectCreature } from '../common/Thunks';
@@ -55,15 +55,15 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.drawForDeserts && <div>Draw cards equal to deserts in play</div>}
         {effect.drawForTappedOpponent && <div>Draw cards equal to the number of tapped creatures</div>}
         {effect.drawIfFewerCards && <div>Draw cards until you have the same number as opponent</div>}
-        {effect.hpPerLand && <div>Gain {effect.hpUp} life for each {effect.hpPerLand}</div>}
+        {effect.hpPerLand && <div>For each {effect.hpPerLand}</div>}
         {effect.dmgX && <div>Deal X damage to target.</div>}
         {effect.destroy && <div>Put target into controller's graveyard.</div>}
         {effect.searchSorceryForTop && <div>Search your codex for a sorceryand place it on top.</div>}
         {effect.searchCardForTop && <div>Search your codex for a card and put it on top</div>}
         {effect.searchForLand && <div>Put a {effect.searchForLand} into play</div>}
         {effect.untap && <div>Untap target.</div>}
-        {effect.addAttributes && <div>Creature gains {effect.addAttributes.map(m=>ModifierDesc[m]).join(' & ')}</div>}
-        {effect.removeAttribute && <div>Creature loses {ModifierDesc[effect.removeAttribute]}</div>}
+        {effect.addAttributes && <div>Creature gains {effect.addAttributes.map(m=>ModifierDesc[m].title).join(' & ')}</div>}
+        {effect.removeAttribute && <div>Creature loses {getModifierEl(effect.removeAttribute)}</div>}
         {effect.addMana && <div>Add <CssIcon spriteIndex={ColorIcons[effect.addMana]}/></div>}
         {effect.arrangeTop5Remove1 && <div>Look at enemy's top 5 and put 1 in their graveyard</div>}
         {effect.lookAtTop3 && <div>Look at the top 3 cards in target codex</div>}
@@ -82,7 +82,6 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.extraTurn && <div>Take another turn. Then you lose the game.</div>}
         {effect.hp3perBlackCreature && <div>Gain 3 life per City creature in play</div>}
         {effect.hpPerAttacker && <div>Gain 1 life per non-defender creature opponent controls</div>}
-        {effect.hpPerLand && <div>Gain 1 life per {effect.hpPerLand}</div>}
         {effect.hpToOwner && <div>Creature's owner gains {effect.hpToOwner} life</div>}
         {effect.hpUp && <div>Gain {effect.hpUp} life</div>}
         {effect.lookAtTop3Choose1 && <div>Look at the top 3 card of your codex and choose one to put into your hand</div>}
