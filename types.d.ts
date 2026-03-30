@@ -178,18 +178,20 @@ interface LogEntry {
 }
 
 interface ModalData { 
-    cards:Card[]
-    targetPlayerId:string
+    cards?:Card[]
+    targetPlayerId?:string
     keep?:number
     play?:boolean
     discard?: number
+    speech?:string
     chooseType?: import('./enum').Permanents
 } 
 
 interface FeatureData {
     kind: import('./enum').MapFeature,
-    opponent?: import('./enum').AIDeck,
+    opponent?: import('./enum').CreatureSpriteIndex,
     shopInventory?: Card[]
+    speech?:string
 }
 
 interface CreatureState {

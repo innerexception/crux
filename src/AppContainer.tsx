@@ -22,6 +22,7 @@ import TradeSpells from './components/modals/TradeSpells';
 import CampaignDeckbuilder from './components/CampaignDeckbuilder';
 import MapUI from './components/MapUI';
 import Logs from './components/Logs';
+import Speech from './components/modals/Speech';
 
 export default () => {
 
@@ -43,6 +44,7 @@ export default () => {
       case Modal.GameOver: return <Loser/>
       case Modal.TradeSpells: return <TradeSpells/>
       case Modal.CampaignDeckbuilder: return <CampaignDeckbuilder/>
+      case Modal.Speech: return <Speech/>
       default: return <span/>
     }
   }

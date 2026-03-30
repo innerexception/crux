@@ -20,4 +20,28 @@ export const MapFeatures:Partial<Record<CreatureSpriteIndex, FeatureData>> = {
             getCard('', CardType.FlashFlood),
         ]
     },
+    [CreatureSpriteIndex.Goblin]: {
+        kind: MapFeature.Duel,
+        opponent: CreatureSpriteIndex.Goblin
+    },
+    [CreatureSpriteIndex.Goblin3]: {
+        kind: MapFeature.Duel,
+        opponent: CreatureSpriteIndex.Goblin3
+    },
+    [CreatureSpriteIndex.CityMage]: {
+        kind: MapFeature.Duel,
+        opponent: CreatureSpriteIndex.CityMage
+    },
+    [CreatureSpriteIndex.Bruiser]: {
+        kind: MapFeature.Duel,
+        opponent: CreatureSpriteIndex.Bruiser
+    },
+    [CreatureSpriteIndex.Mummy]: {
+        kind: MapFeature.Duel,
+        opponent: CreatureSpriteIndex.Mummy
+    },
+    [CreatureSpriteIndex.MasterMummy]: {
+        kind: MapFeature.Duel,
+        opponent: CreatureSpriteIndex.MasterMummy
+    }
 }
