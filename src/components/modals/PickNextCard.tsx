@@ -13,7 +13,7 @@ export default () => {
     const match = useSelector((state:RState)=>state.saveFile.currentMatch)
     
     const moveToTop = (c:Card) => {
-        let cardz = me.deck.cards.filter(c=>c.id !== c.id)
+        let cardz = me.deck.cards.filter(cc=>cc.id !== c.id)
         cardz.unshift(c)
         onUpdatePlayer({...me, deck: {...me.deck, cards: cardz}})
         if(!match.players.find(p=>p.isAI))

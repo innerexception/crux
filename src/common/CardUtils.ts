@@ -36,7 +36,7 @@ export const getValidCreatureTargets = (ability:CardAbility, card:Card, targetEn
     if(ability.targets === Target.AllOtherCreatures) creatures = creatures.filter(c=>c.id !== targetEntityId)
     if(ability.targets === Target.CreatureYouControl || ability.targets === Target.AllCreaturesYouControl) creatures = creatures.filter(c=>c.ownerId === me.id)
     if(ability.targets === Target.OpponentCreature || ability.targets === Target.AllOpponentCreatures){
-        creatures = creatures.filter(c=>c.ownerId !== me.id)
+        creatures = creatures.filter(c=>c.ownerId !== card.ownerId)
     }
     if(ability.targets === Target.CreaturesInLane) 
         creatures = creatures.filter(c=>c.tileX === card.tileX && c.id !== card.id)

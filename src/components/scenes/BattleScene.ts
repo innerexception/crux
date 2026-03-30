@@ -414,9 +414,9 @@ export default class BattleScene extends Scene {
                                     const tauntingCreature = state.saveFile.currentMatch.board.find(c=>c.id !== card.id && c.tileX === card.tileX && c.attributes.includes(Modifier.Taunt))
                                     if(tauntingCreature) return onSelectCard(null)
                                     let tiles = []
-                                    if(this.isEmptyTile(card.tileX-1, card.tileY))
+                                    if(this.canPlaceCreatureHere(card, this.map.getTileAt(card.tileX-1, card.tileY, false, Layers.Earth)))
                                         tiles.push(this.map.getTileAt(card.tileX-1, card.tileY, false, Layers.Earth))
-                                    if(this.isEmptyTile(card.tileX+1, card.tileY))
+                                    if(this.canPlaceCreatureHere(card, this.map.getTileAt(card.tileX+1, card.tileY, false, Layers.Earth)))
                                         tiles.push(this.map.getTileAt(card.tileX+1, card.tileY, false, Layers.Earth))
                                     tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
                                 }
@@ -469,7 +469,7 @@ export default class BattleScene extends Scene {
                         if(d.kind !== Permanents.Creature) return //Cannot displace other types
                         if(card.attributes.includes(Modifier.Nimble)){
                             if(tile.y===card.tileY && (tile.x === card.tileX-1||tile.x===card.tileX+1)){
-                                if(this.isEmptyTile(tile.x, tile.y)){
+                                if(this.canPlaceCreatureHere(card, tile)){
                                     //If valid target proceed
                                     const props = { card, tileX:tile.x, tileY:tile.y }
                                     if(networkActive) sendMoveCard(props)
@@ -851,12 +851,12 @@ export default class BattleScene extends Scene {
         }
         if(effect.tauntPlayer){
             //If creature has an enemy creature in lane
-            const enemy = state.saveFile.currentMatch.board.find(c=>c.tileX === creature.tileX && creature.ownerId !== c.ownerId)
+            const enemy = state.saveFile.currentMatch.board.find(c=>c.tileX === creature.tileX && creature.ownerId !== c.ownerId && getCardData(c.kind).kind === Permanents.Creature)
             if(enemy){
                 //Check for adjacent lane with no enemy creature
                 const open = [-1,+1].find(i=>{
                     if(this.isEmptyTile(creature.tileX+i, creature.tileY)){
-                        return state.saveFile.currentMatch.board.find(c=>c.tileX === creature.tileX+i && creature.ownerId !== c.ownerId)
+                        return !state.saveFile.currentMatch.board.find(c=>getCardData(c.kind).kind === Permanents.Creature && c.tileX === creature.tileX+i && creature.ownerId !== c.ownerId)
                     }
                 })
                 if(open){

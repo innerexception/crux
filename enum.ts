@@ -108,7 +108,7 @@ export const PlayerAvatars = [CreatureSpriteIndex.Player1, CreatureSpriteIndex.C
 
 export enum IconIndex {
     Mana=16, Options=1759, Close=37, Cancel=1734, Ok=1735, Quit=115,Sword=1902,Save=1935,
-    Damage=3302,Tap=3733,Red=2649,Blue=2667,Green=2674,Black=2663,White=2678,Gray=2666,
+    Damage=3302,Tap=3733,Red=2649,Blue=2667,Green=2674,Black=2663,White=2678,Gray=2666, 
     Graveyard=45,Draw=86,Buff=3521,Debuff=3507,Activate=3609,CreateLand=2024,Gold=2602
 }
 

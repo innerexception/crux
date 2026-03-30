@@ -493,6 +493,7 @@ export const Portal:Record<CardType, CardMeta> = {
         category: null,
         ability: {
             targets: Target.AllOpponentCreatures,
+            withoutAttribute:Modifier.Defender,
             effect: {
                 tauntPlayer: true,
                 sprite: IconIndex.Buff
@@ -576,7 +577,7 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.FlashFlood]: {
         color:Color.Red,
-        cost: [{kind:Color.Red, amount:1}],
+        cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
         gold:1,
         category:null,
@@ -2948,6 +2949,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes:[Modifier.Fearsome],
         ability: {
             targets: Target.AllOpponentCreatures,
+            withoutAttribute:Modifier.Defender,
             effect: {
                 tauntPlayer: true,
                 sprite: IconIndex.Buff

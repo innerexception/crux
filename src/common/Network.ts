@@ -2,7 +2,7 @@ import { createClient, RealtimeChannel } from '@supabase/supabase-js'
 import { IconIndex, Layers, Log, Modal, Modifier, NetworkEvent, Permanents, Target } from '../../enum'
 import { addLogEntry, onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSelectCard, onSetActionAcknowledge, onSetLobby, onSetRepeatingCardAbility, onShowAbilityPreview, onShowModal, onStartMatch, onTurnProcessing, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from './Thunks'
 import { store } from '../..'
-import { checkWinConditions, emptyMana, payCost } from './Utils'
+import { checkWinConditions, emptyMana, payCost, shuffle } from './Utils'
 import{ v4 } from 'uuid'
 import { getCardData, getLaneAttributes, getLoot, getValidCreatureTargets, getValidLandTargets, tapLand } from './CardUtils'
 import CreatureSprite from '../components/sprites/CreatureSprite'
@@ -108,7 +108,7 @@ const getMyPlayer = ():PlayerState => {
     const deck:Deck = {
         id:v4(),
         name: theDeck.name,
-        cards: Array.from(theDeck.cards)
+        cards: shuffle(Array.from(theDeck.cards))
     }
     const hand = deck.cards.splice(0,5)
     return {
