@@ -82,17 +82,19 @@ export default class MapScene extends Scene {
                     this.moveCooldown = false
                     onUpdateSave({...store.getState().saveFile, worldX: this.playerSprite.x, worldY:this.playerSprite.y})
                     const creature = this.map.getTileAt(t.x, t.y, false, Layers.Creature)
-                   const dat = MapFeatures[creature.index-1 as CreatureSpriteIndex]
-                    if(dat){
-                        if(dat.speech){
-                            return onShowModal(Modal.Speech, {speech:dat.speech})
-                        }
-                        else if(dat.opponent) {
-                            const saveFile = store.getState().saveFile
-                            return onStartCampaignMatch(saveFile, getAIPlayer(dat.opponent), saveFile.myId)
-                        }
-                        else if(dat.shopInventory){
-                            onShowModal(Modal.TradeSpells, { cards: dat.shopInventory })
+                    if(creature){
+                        const dat = MapFeatures[creature.index-1 as CreatureSpriteIndex]
+                        if(dat){
+                            if(dat.speech){
+                                return onShowModal(Modal.Speech, {speech:dat.speech})
+                            }
+                            else if(dat.opponent) {
+                                const saveFile = store.getState().saveFile
+                                return onStartCampaignMatch(saveFile, getAIPlayer(dat.opponent), saveFile.myId)
+                            }
+                            else if(dat.shopInventory){
+                                onShowModal(Modal.TradeSpells, { cards: dat.shopInventory })
+                            }
                         }
                     }
                 }

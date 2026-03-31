@@ -292,6 +292,12 @@ export const beasts = (playerId:string):Card[] => {
 }
     
 export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Card[], sprite:CreatureSpriteIndex, hp:number, loot:CardType[]}>> = {
+    [CreatureSpriteIndex.GoblinMage]: {
+        sprite: CreatureSpriteIndex.GoblinMage,
+        deck: goblinSmall,
+        hp:5,
+        loot:[CardType.DustDevil]
+    },
     [CreatureSpriteIndex.Goblin]: {
         sprite: CreatureSpriteIndex.Goblin,
         deck: goblinSmall,
@@ -299,7 +305,7 @@ export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Car
         loot:[CardType.GoblinScrounger]
     },
     [CreatureSpriteIndex.Goblin3]: {
-        sprite: CreatureSpriteIndex.Goblin,
+        sprite: CreatureSpriteIndex.Goblin3,
         deck: beasts,
         hp:5,
         loot:[CardType.WerewolfRaider]

@@ -71,7 +71,7 @@ export enum Maps {
 
 export enum CreatureSpriteIndex {
     City=816, Desert=73, Forest=845, Tower=60, Meadow=218, Skypirate=4869,FireCloak=5392,FeatherCloak=5386,
-    Sandstorm=1505,Earthquake=1900,PeaceTreaty=2138,HeroicSoldier=4893,FertileSoil=4355,Hurricane=4377,Goblin=3841,
+    Sandstorm=1505,Earthquake=1900,PeaceTreaty=2138,HeroicSoldier=4893,FertileSoil=4355,Hurricane=4377,Goblin=3841,GoblinMage=3964,Goblinchief=3963,
     ForestJackal=4102,Merfolk=3956,Refreshment=2218,BillyGoat=4163,ScavengingRats=4115,Memoize=1964,Brainstorm=2028,
     Necromancy=2095,FierySpear=1997,Sanctuary=93,Player1=4979,CityMage=4880,Knife=2882,Jellyfish=4104,
     ForestCall=2170,Taunt=2153,Dryad=3814,Gryphon=3846,MartyrPrayer=2083,Imp=4717,Brigand=4975,Flood=1481,

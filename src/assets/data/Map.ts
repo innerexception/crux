@@ -43,5 +43,18 @@ export const MapFeatures:Partial<Record<CreatureSpriteIndex, FeatureData>> = {
     [CreatureSpriteIndex.MasterMummy]: {
         kind: MapFeature.Duel,
         opponent: CreatureSpriteIndex.MasterMummy
-    }
+    },
+    [CreatureSpriteIndex.GoblinMage]: {
+        kind: MapFeature.Duel,
+        opponent: CreatureSpriteIndex.GoblinMage
+    },
+    [CreatureSpriteIndex.Goblinchief]: {
+        kind: MapFeature.Shop,
+        shopInventory: [
+            getCard('', CardType.Hobgoblin),
+            getCard('', CardType.LizardMage),
+            getCard('', CardType.RockTroll),
+            getCard('', CardType.FlashFlood),
+        ]
+    },
 }
