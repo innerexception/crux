@@ -17,8 +17,10 @@ export default () => {
         const t = mapScene.map.getTileAtWorldXY(mapScene.playerSprite.x, mapScene.playerSprite.y, false, undefined, Layers.Earth)
         mapScene.map.removeTileAt(t.x, t.y, false, false, Layers.Creature)
         const i = saveFile.campaignCreatures.findIndex(c=>c.tileX===t.x && c.tileY === t.y)
-        saveFile.campaignCreatures[i].alive = false
-        onUpdateSave({...saveFile, campaignCreatures: saveFile.campaignCreatures})
+        if(saveFile.campaignCreatures[i]){
+            saveFile.campaignCreatures[i].alive = false
+            onUpdateSave({...saveFile, campaignCreatures: saveFile.campaignCreatures})
+        }
         onShowModal(null)
     }
 
