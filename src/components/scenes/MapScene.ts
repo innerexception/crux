@@ -45,6 +45,7 @@ export default class MapScene extends Scene {
                 }
             })
             onUpdateSave({...save, campaignCreatures:creatures})
+            onShowModal(Modal.CampaignDeckbuilder)
         }
         else{
             this.playerSprite = this.add.image(save.worldX, save.worldY, 'creatures', save.playerSprite)
