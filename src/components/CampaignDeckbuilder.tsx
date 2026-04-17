@@ -28,7 +28,7 @@ export default () => {
         <div style={{...AppStyles.modal, margin:'auto', width:'auto', border:'none'}}>
             <div>PREPARE CODEX</div>
             <div style={{display:'flex', flexWrap:'wrap', height:'200px', overflow:'auto', border:'1px solid', padding:'5px'}}>
-                {selectedDeck.map(c=><div onClick={()=>removeCardFromDeck(c)}><CardView card={c}/></div>)}
+                {selectedDeck.map(c=><Tooltip placement='bottom' mouseEnterDelay={0.5} overlay={<CardDetailView card={c}/>}><div onClick={()=>removeCardFromDeck(c)}><CardView card={c}/></div></Tooltip>)}
             </div>
             <div>
                 <div style={{marginTop:'1em'}}>All Workings</div>

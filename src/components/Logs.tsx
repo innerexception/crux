@@ -4,6 +4,9 @@ import { CssIcon } from '../common/Shared';
 import { IconIndex, Log } from '../../enum';
 import { getCardData } from '../common/CardUtils';
 import { renderEffect } from './CardView';
+import Tooltip from 'rc-tooltip';
+import CardDetailView from './CardDetailView';
+import { colors } from '../styles/AppStyles';
 
 export default () => {
     const match = useSelector((state:RState)=>state.saveFile?.currentMatch)
@@ -28,23 +31,25 @@ const getLogEl = (l:LogEntry, match:MatchState) => {
     const caster = match.players.find(p=>p.id === l.card.ownerId).playerSprite
     const dat = getCardData(l.card.kind)
   
+    const cardEl = <Tooltip placement='bottom' mouseEnterDelay={0.5} overlay={<CardDetailView card={l.card}/>}><div style={{color:colors.gold}}>{l.card.kind}</div></Tooltip>
+
     if(l.kind === Log.AbilityPlayed) return <div>
-        <CssIcon spriteIndex={caster}/> used ability of {l.card.kind} : {renderEffect(dat.ability.effect)}
+        <CssIcon spriteIndex={caster}/> used ability of {cardEl} : {renderEffect(dat.ability.effect)}
     </div>
     if(l.kind === Log.CardPlayed) return <div>
-        <CssIcon spriteIndex={caster}/> summoned {l.card.kind}
+        <CssIcon spriteIndex={caster}/> summoned {cardEl}
     </div>
     if(l.kind === Log.RangedDamage) return <div>
-        <CssIcon spriteIndex={caster}/> used ranged attack of {l.card.kind} on {l.target.kind}
+        <CssIcon spriteIndex={caster}/> used ranged attack of {cardEl} on {l.target.kind}
     </div>
     if(l.kind === Log.ExpiredEffect) return <div>
-        <CssIcon spriteIndex={IconIndex.Debuff}/> Effect expired on {l.card.kind}: {renderEffect(l.effect.status)}
+        <CssIcon spriteIndex={IconIndex.Debuff}/> Effect expired on {cardEl}: {renderEffect(l.effect.status)}
     </div>
     if(l.kind === Log.NimbleActivation) return <div>
-      <CssIcon spriteIndex={dat.sprite}/> was moved
+      {cardEl} was moved
     </div>
     if(l.kind === Log.Destroyed) return <div>
-      <CssIcon spriteIndex={dat.sprite}/> was destroyed
+      {cardEl} was destroyed
     </div>
   }
   

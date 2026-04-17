@@ -1,7 +1,7 @@
 import * as React from 'react'
 import AppStyles from '../../styles/AppStyles';
 import { Button } from '../../common/Shared';
-import { onFinishBattle, onQuit, onShowModal, onUpdateSave } from '../../common/Thunks';
+import { onQuit, onShowModal, onUpdateSave } from '../../common/Thunks';
 import { useSelector } from 'react-redux';
 import CardView from '../CardView';
 import { Layers, SceneNames } from '../../../enum';
