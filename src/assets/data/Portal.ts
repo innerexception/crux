@@ -957,7 +957,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.White,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:3,
         ability: {
             targets: Target.AllCreaturesYouControl,
             effect: {
@@ -974,7 +974,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultDef: 2,
         cost: [{kind:Color.Blue, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:2,
         defaultAttributes:[Modifier.Ranged],
         
         ability: null,
@@ -984,7 +984,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:3,
         ability: {
             targets: Target.Self,
             effect: {
@@ -998,7 +998,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.White,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:3,
         ability: {
             targets: Target.AllCreaturesAndPlayers,
             effect: {
@@ -1014,7 +1014,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:3,
         ability: {
             targets: Target.Creature,
             effect: {
@@ -1029,7 +1029,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Enchantment,
-        gold:1,
+        gold:3,
         ability: {
             targets: Target.CreatureYouControl,
             effect: {
@@ -1043,7 +1043,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:2,
         ability: {
             targets: Target.AllCreatures,
             effect: {
@@ -1058,7 +1058,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:4,
         ability: {
             targets: Target.CreatureOrPlayer,
             effect: {
@@ -1072,7 +1072,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:2},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:4,
         ability: {
             targets: Target.Creature,
             effect: {
@@ -1086,7 +1086,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.White,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:6,
         ability: {
             targets: Target.Creature,
             effect: {
@@ -1103,7 +1103,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:6,
         ability: {
             targets: Target.Players,
             effect: {
@@ -1118,7 +1118,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.White,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:8,
         ability: {
             targets: Target.AllCreatures,
             withoutColor:Color.White,
@@ -1136,7 +1136,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:4,
         defaultAttributes:[Modifier.CityWalk],
         sprite: CreatureSpriteIndex.Thug,
         ability:null
@@ -1148,7 +1148,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         defaultAttributes: [Modifier.Defender],
         sprite: CreatureSpriteIndex.Guard,
         ability:null
@@ -1160,7 +1160,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Blue, amount:2}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:4,
         sprite: CreatureSpriteIndex.Apprentice,
         defaultAttributes:[Modifier.TowerAffinity],
         ability:{
@@ -1180,7 +1180,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         sprite: CreatureSpriteIndex.Knight2,
         ability:{
             targets:Target.ThisCreature,
@@ -1199,7 +1199,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         sprite: CreatureSpriteIndex.SpiritCloud,
         defaultAttributes:[Modifier.Nimble, Modifier.Timid],
         ability: null
@@ -1208,7 +1208,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:12,
         ability: {
             targets: Target.Creature,
             effect: {
@@ -1226,7 +1226,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Red, amount:2}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         sprite: CreatureSpriteIndex.TwistedGiant,
         defaultAttributes:[Modifier.Timid],
         ability: null
@@ -1235,7 +1235,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:3}],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:10,
         ability: {
             targets: Target.Self,
             effect: {
@@ -1250,7 +1250,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:8,
         ability: {
             targets: Target.Self,
             effect: {
@@ -1265,7 +1265,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:8,
         ability: {
             targets: Target.Self,
             effect: {
@@ -1282,20 +1282,20 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:4,
         sprite: CreatureSpriteIndex.DruidicWarrior,
         defaultAttributes:[Modifier.ForestWalk],
         ability: null
     },
     [CardType.DruidicAmbusher]: {
         color:Color.Green,
-        defaultAtk:4,
+        defaultAtk:3,
         defaultDef:1,
         
         cost: [{kind:Color.Green, amount:2}],
         defaultAttributes:[Modifier.Ranged],
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         sprite: CreatureSpriteIndex.DruidicAmbusher,
         ability: null
     },
@@ -1306,7 +1306,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:2,
         sprite: CreatureSpriteIndex.Roaches,
         defaultAttributes: [Modifier.Undying]
     },
@@ -1314,7 +1314,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:10,
         ability: {
             targets: Target.AllOpponentCreatures,
             effect: {
@@ -1331,7 +1331,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         sprite: CreatureSpriteIndex.ShadowForm,
         ability:null,
         defaultAttributes:[Modifier.Nimble] 
@@ -1343,7 +1343,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         sprite: CreatureSpriteIndex.FireImp,
         ability:{
             targets: Target.Creature,
@@ -1357,7 +1357,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:4,
         ability: {
             targets: Target.AllPlayers,
             effect: {
@@ -1375,7 +1375,7 @@ export const Portal:Record<CardType, CardMeta> = {
         category: Category.Beast,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         sprite: CreatureSpriteIndex.Gorilla,
         ability:null
     },
@@ -1383,7 +1383,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:9,
         ability: {
             targets: Target.Creature,
             def3orLess: true,
@@ -1398,7 +1398,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.White,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:10,
         ability: {
             targets: Target.Self,
             effect: {
@@ -1415,7 +1415,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:4,
         sprite: CreatureSpriteIndex.ArmoredTortoise,
         ability:null
     },
@@ -1423,7 +1423,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:7,
         ability: {
             targets: Target.Creature,
             effect: {
@@ -1441,7 +1441,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         sprite: CreatureSpriteIndex.Longbowmen,
         defaultAttributes:[Modifier.Ranged],
         ability:null
@@ -1453,7 +1453,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:4,
         defaultAttributes: [Modifier.Defender],
         sprite: CreatureSpriteIndex.Assassin,
         ability:{
@@ -1474,7 +1474,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         sprite: CreatureSpriteIndex.Sophist,
         ability:{
             targets: Target.Creature,
@@ -1491,7 +1491,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:8,
         sprite: CreatureSpriteIndex.MercenaryCaptain,
         ability:{
             targets: Target.CreatureYouControl,
@@ -1506,7 +1506,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:10,
         ability: {
             targets: Target.Players,
             effect: {
@@ -1524,14 +1524,14 @@ export const Portal:Record<CardType, CardMeta> = {
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:1}],
         category: Category.Beastkin,
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         sprite: CreatureSpriteIndex.DrometaurSpearhand
     },
     [CardType.ForceOfWill]: {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:6,
         ability: {
             targets: Target.TappedCreatures,
             effect: {
@@ -1545,7 +1545,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:8,
         ability: {
             targets: Target.AllCreaturesYouControl,
             effect: {
@@ -1560,7 +1560,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:8,
         ability: {
             targets: Target.AllCreatures,
             withAttribute: Modifier.Nimble,
@@ -1578,7 +1578,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         sprite: CreatureSpriteIndex.CursedToad,
         defaultAttributes: [Modifier.DementiaCloud]
     },
@@ -1589,7 +1589,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Blue, amount:2},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:7,
         sprite: CreatureSpriteIndex.PSIWarrior,
         ability:null,
         defaultAttributes: [Modifier.Unblockable]
@@ -1601,7 +1601,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:6,
         sprite: CreatureSpriteIndex.LabSpecimen,
         defaultAttributes:[Modifier.Fearsome,Modifier.Timid],
         ability:null
@@ -1613,7 +1613,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:4,
         sprite: CreatureSpriteIndex.Cougar,
         defaultAttributes:[Modifier.Haste],
         ability:null
@@ -1622,7 +1622,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:1},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:7,
         ability: {
             targets: Target.Land,
             effect: {
@@ -1639,7 +1639,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:4,
         sprite: CreatureSpriteIndex.Unicorn,
         ability:null,
         defaultAttributes:[Modifier.ProtectionFromBlack]
@@ -1651,7 +1651,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         sprite: CreatureSpriteIndex.CultLeader,
         ability:{
             targets: Target.Self,
@@ -1669,7 +1669,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:6,
         sprite: CreatureSpriteIndex.FieldMarshal,
         ability:{
             tap: true,
@@ -1687,7 +1687,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:7,
         ability: {
             targets: Target.Land,
             effect: {
@@ -1701,7 +1701,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:10,
         ability: {
             targets: Target.Creature,
             effect: {
@@ -1716,7 +1716,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:2}],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:4,
         ability: {
             targets: Target.Self,
             effect: {
@@ -1730,7 +1730,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Enchantment,
-        gold:1,
+        gold:9,
         ability: {
             targets: Target.Creature,
             effect: {
@@ -1747,7 +1747,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         sprite: CreatureSpriteIndex.BurrowingWurm,
         defaultAttributes:[Modifier.Vigilant],
         ability:{
@@ -1764,7 +1764,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Blue,
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:8,
         ability: {
             targets: Target.Creature,
             effect: {
@@ -1778,7 +1778,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:3,
         ability: {
             targets: Target.Self,
             effect: {
@@ -1792,7 +1792,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.White,
         cost: [{kind:Color.White, amount:2},{kind:Color.None, amount:1},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:5,
         ability: {
             targets: Target.AllCreatures,
             withColor: Color.White,
@@ -1808,7 +1808,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:5,
         ability: {
             targets: Target.Players,
             effect: {
@@ -1826,7 +1826,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         sprite: CreatureSpriteIndex.VenerableMonk,
         ability:{
             targets: Target.Self,
@@ -1840,7 +1840,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:12,
         ability: {
             targets: Target.AllCreatures,
             withColor: Color.White,
@@ -1859,7 +1859,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAttributes: [Modifier.Defender],
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:4,
         sprite: CreatureSpriteIndex.GraniteWall,
         ability:null
     },
@@ -1867,7 +1867,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.White,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:5,
         ability: {
             targets: Target.CreatureYouControl,
             effect: {
@@ -1883,7 +1883,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:1},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:10,
         ability: {
             targets: Target.Creature,
             withoutColor: Color.Black,
@@ -1903,7 +1903,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         sprite: CreatureSpriteIndex.AirDrake,
         ability:null,
         defaultAttributes: [Modifier.Nimble]
@@ -1912,7 +1912,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:2},{kind:Color.None, amount:1},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:7,
         ability: {
             targets: Target.Land,
             effect: {
@@ -1929,7 +1929,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:3,
         sprite: CreatureSpriteIndex.OldMage,
         ability:{
             targets: Target.Self,
@@ -1947,7 +1947,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:4,
         sprite: CreatureSpriteIndex.Anaconda,
         ability:null,
         defaultAttributes: [Modifier.CityWalk]
@@ -1956,7 +1956,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.White,
         cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:3},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:15,
         ability: {
             targets: Target.AllLands,
             effect: {
@@ -1970,7 +1970,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Green,
         cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2},],
         kind: Permanents.Enchantment,
-        gold:1,
+        gold:10,
         ability: {
             targets: Target.LandYouControl,
             effect: {
@@ -1987,7 +1987,7 @@ export const Portal:Record<CardType, CardMeta> = {
         
         cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:1}],
         kind: Permanents.Creature,
-        gold:1,
+        gold:6,
         sprite: CreatureSpriteIndex.Boggart,
         ability:null,
         defaultAttributes: [Modifier.CityWalk]
@@ -1996,7 +1996,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Red,
         cost: [{kind:Color.Red, amount:1},{kind:Color.None, amount:3},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:10,
         ability: {
             targets: Target.AllLands,
             withColor: Color.Blue,
@@ -2011,7 +2011,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:1},{kind:Color.None, amount:3},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:12,
         ability: {
             targets: Target.AllCreaturesYouControl,
             withColor: Color.Black,
@@ -2027,7 +2027,7 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:2},{kind:Color.None, amount:2},],
         kind: Permanents.Sorcery,
-        gold:1,
+        gold:11,
         ability: {
             targets: Target.CreatureYouControl,
             effect: {
