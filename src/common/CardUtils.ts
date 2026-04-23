@@ -5,6 +5,7 @@ import { onUpdateBoardCreature, onUpdatePlayer } from "./Thunks";
 import { shuffle } from "./Utils";
 import { store } from "../..";
 import { Tilemaps } from "phaser";
+import { PrebuiltDecks } from "../assets/data/Decks";
 
 export const getLoot = (sprite:CreatureSpriteIndex, myId:string) => {
     return AIPlayers[sprite].loot.map(l=>getCard(myId, l))
@@ -209,128 +210,46 @@ export const getFreshLands = () => {
     ])
 }
 
-export const goblinHordes = (playerId:string):Card[] => {
-    return [
-        getCard(playerId, CardType.Tremors),
-        getCard(playerId, CardType.GoblinSargeant),
-        getCard(playerId, CardType.GoblinSargeant),
-        getCard(playerId, CardType.GoblinSargeant),
-        getCard(playerId, CardType.Hobgoblin),
-        getCard(playerId, CardType.Hobgoblin),
-        getCard(playerId, CardType.Hobgoblin),
-        getCard(playerId, CardType.Sinkhole),
-        getCard(playerId, CardType.Sinkhole),
-        getCard(playerId, CardType.Sinkhole),
-        getCard(playerId, CardType.GoblinScrounger),
-        getCard(playerId, CardType.GoblinScrounger),
-        getCard(playerId, CardType.GoblinScrounger),
-        getCard(playerId, CardType.GoblinScrounger),
-        getCard(playerId, CardType.GoblinScrounger),
-        getCard(playerId, CardType.GoblinScrounger),
-        getCard(playerId, CardType.GoblinScrounger),
-        getCard(playerId, CardType.GoblinScrounger)
-    ]
-}
-
-export const goblinSmall = (playerId:string):Card[] => {
-    return [
-        getCard(playerId, CardType.GoblinSargeant),
-        getCard(playerId, CardType.Hobgoblin),
-        getCard(playerId, CardType.Hobgoblin),
-        getCard(playerId, CardType.Sinkhole),
-        getCard(playerId, CardType.GoblinScrounger),
-        getCard(playerId, CardType.GoblinScrounger),
-        getCard(playerId, CardType.GoblinScrounger)
-    ]
-}
-
-export const blackSmall = (playerId:string):Card[] => {
-    return [
-        getCard(playerId, CardType.Boggart),
-        getCard(playerId, CardType.Boggart),
-        getCard(playerId, CardType.Homonculus),
-        getCard(playerId, CardType.MercenaryKnight),
-        getCard(playerId, CardType.MercenaryKnight),
-        getCard(playerId, CardType.Roaches),
-        getCard(playerId, CardType.Roaches),
-        getCard(playerId, CardType.Roaches),
-        getCard(playerId, CardType.ShadowForm),
-        getCard(playerId, CardType.ShadowForm),
-        getCard(playerId, CardType.Addict),
-        getCard(playerId, CardType.CursedToad,),
-        getCard(playerId, CardType.CursedToad),
-        getCard(playerId, CardType.ScavengingRats),
-        getCard(playerId, CardType.ScavengingRats),
-        getCard(playerId, CardType.ScavengingRats),
-        getCard(playerId, CardType.Riot),
-        getCard(playerId, CardType.Riot),
-        getCard(playerId, CardType.Pollution),
-        getCard(playerId, CardType.Pollution),
-        getCard(playerId, CardType.Pollution)
-    ]
-}
-
-export const beasts = (playerId:string):Card[] => {
-    return [
-        getCard(playerId, CardType.FeralSpirit),
-        getCard(playerId, CardType.ForestJackal),
-        getCard(playerId, CardType.ForestJackal),
-        getCard(playerId, CardType.ForestJackal),
-        getCard(playerId, CardType.ForestJackal),
-        getCard(playerId, CardType.ForestJackal),
-        getCard(playerId, CardType.ForestJackal),
-        getCard(playerId, CardType.ForestJackal),
-        getCard(playerId, CardType.ForestJackal),
-        getCard(playerId, CardType.ForestJackal),
-        getCard(playerId, CardType.BlackBear),
-        getCard(playerId, CardType.BlackBear),
-        getCard(playerId, CardType.BlackBear),
-        getCard(playerId, CardType.WerewolfRaider),
-        getCard(playerId, CardType.WerewolfRaider),
-        getCard(playerId, CardType.WerewolfRaider)
-    ]
-}
-    
 export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Card[], sprite:CreatureSpriteIndex, hp:number, loot:CardType[]}>> = {
     [CreatureSpriteIndex.GoblinMage]: {
         sprite: CreatureSpriteIndex.GoblinMage,
-        deck: goblinSmall,
+        deck: PrebuiltDecks.goblinSmall,
         hp:5,
         loot:[CardType.DustDevil]
     },
     [CreatureSpriteIndex.Goblin]: {
         sprite: CreatureSpriteIndex.Goblin,
-        deck: goblinSmall,
+        deck: PrebuiltDecks.goblinSmall,
         hp:5,
         loot:[CardType.GoblinScrounger]
     },
     [CreatureSpriteIndex.Goblin3]: {
         sprite: CreatureSpriteIndex.Goblin3,
-        deck: beasts,
+        deck: PrebuiltDecks.beasts,
         hp:5,
         loot:[CardType.WerewolfRaider]
     },
     [CreatureSpriteIndex.CityMage]: {
         sprite: CreatureSpriteIndex.CityMage,
-        deck: blackSmall,
+        deck: PrebuiltDecks.blackSmall,
         hp:10,
         loot:[CardType.Pollution]
     },
     [CreatureSpriteIndex.Bruiser]: {
         sprite: CreatureSpriteIndex.CityMage,
-        deck: goblinHordes,
+        deck: PrebuiltDecks.goblinHordes,
         hp:20,
         loot:[CardType.Hobgoblin]
     },
     [CreatureSpriteIndex.Mummy]: {
         sprite: CreatureSpriteIndex.Mummy,
-        deck: blackSmall,
+        deck: PrebuiltDecks.vermin,
         hp:10,
         loot:[CardType.Necromancy]
     },
     [CreatureSpriteIndex.MasterMummy]: {
         sprite: CreatureSpriteIndex.MasterMummy,
-        deck: blackSmall,
+        deck: PrebuiltDecks.blackSmall,
         hp:20,
         loot:[CardType.TheFear]
     }
