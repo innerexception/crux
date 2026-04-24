@@ -49,50 +49,60 @@ export const renderEffect = (effect:CardEffect) =>
         }
         {effect.cardToHandFromGY && <div>Return target card to your hand from your graveyard</div>}
         {effect.discardAtRandom && <div>Discard a card at random.</div>}
-        {effect.dmg && <div>Deal {effect.dmg} to target.</div>}
         {effect.draw && <div>Draw a card.</div>}
         {effect.drawX && <div>Draw X cards.</div>}
         {effect.drawForDeserts && <div>Draw cards equal to deserts in play</div>}
         {effect.drawForTappedOpponent && <div>Draw cards equal to the number of tapped creatures</div>}
         {effect.drawIfFewerCards && <div>Draw cards until you have the same number as opponent</div>}
-        {effect.hpPerLand && <div>For each {effect.hpPerLand}</div>}
+        {effect.drawLandIfLess && <div>If opponent has more lands, play an additional land</div>}
         {effect.dmgX && <div>Deal X damage to target.</div>}
+        {effect.dmg && <div>Deal {effect.dmg} to target.</div>}
+        {effect.dmgAsCreaturePower && <div>Deal damage to target equal to creature's power</div>}
+        {effect.dmgAsDeserts && <div>Deal damage to target equal to deserts in play</div>}
         {effect.destroy && <div>Put target into controller's graveyard.</div>}
-        {effect.searchSorceryForTop && <div>Search your codex for a sorceryand place it on top.</div>}
-        {effect.searchCardForTop && <div>Search your codex for a card and put it on top</div>}
-        {effect.searchForLand && <div>Put a {effect.searchForLand} into play</div>}
+        {effect.destroyAllInLane && <div>Put targets in this lane into controller's graveyards.</div>}
         {effect.untap && <div>Untap target.</div>}
         {effect.addAttributes && <div>Creature gains {effect.addAttributes.map(m=>ModifierDesc[m].title).join(' & ')}</div>}
         {effect.removeAttribute && <div>Creature loses {getModifierEl(effect.removeAttribute)}</div>}
         {effect.addMana && <div>Add <CssIcon spriteIndex={ColorIcons[effect.addMana]}/></div>}
         {effect.arrangeTop5Remove1 && <div>Look at enemy's top 5 and put 1 in their graveyard</div>}
-        {effect.lookAtTop3 && <div>Look at the top 3 cards in target codex</div>}
         {effect.lookAtHand && <div>Look at target's hand</div>}
         {effect.tauntPlayer && <div>Opponent's non-defender creatures must move to an open lane.</div>}
         {effect.casterDmg && <div>Deal {effect.casterDmg} to yourself</div>}
         {effect.casterHpUp && <div>You gain {effect.casterHpUp} life</div>}
+        {effect.casterHpUpOnKill && <div>Owner gains {effect.casterHpUpOnKill} life when this creature dies</div>}
         {effect.creatureToHandFromGY && <div>Return target creature to your hand from your graveyard</div>}
         {effect.creatureToHandFromCodex && <div>Choose a creature from your codex and add it to your hand</div>}
         {effect.damageReflect && <div>Damage dealt to you this round is also dealt to opponent</div>}
         {effect.discard && <div>Choose and discard a card.</div>}
+        {effect.discardAtRandom && <div>Target player discards a card at random.</div>}
         {effect.discardAllAndDraw && <div>Discard all cards and draw that many cards.</div>}
         {effect.discardToDraw && <div>Discard X cards and draw X cards</div>}
-        {effect.dmgAsCreaturePower && <div>Deal damage to target equal to creature's power</div>}
-        {effect.dmgAsDeserts && <div>Deal damage to target equal to deserts in play</div>}
         {effect.extraTurn && <div>Take another turn. Then you lose the game.</div>}
         {effect.hp3perBlackCreature && <div>Gain 3 life per City creature in play</div>}
         {effect.hpPerAttacker && <div>Gain 1 life per non-defender creature opponent controls</div>}
         {effect.hpToOwner && <div>Creature's owner gains {effect.hpToOwner} life</div>}
         {effect.hpUp && <div>Gain {effect.hpUp} life</div>}
+        {effect.hpPerLand && <div>Gain {effect.hpUp} life per {effect.hpPerLand}</div>}
         {effect.lookAtTop3Choose1 && <div>Look at the top 3 card of your codex and choose one to put into your hand</div>}
+        {effect.lookAtHand && <div>Look at target player's hand</div>}
+        {effect.lookAtTop3 && <div>Look at the top 3 cards of target player's codex</div>}
         {effect.playExtraLand && <div>You may play another land this turn</div>}
-        {effect.resetMovement && <div>Send all creatures back to their starting tiles</div>}
+        {effect.playerDamage && <div>Deals {effect.playerDamage} to all players</div>}
+        {effect.pacifism && <div>Targets do not untap</div>}
+        {effect.resetMovement && <div>Send targets back to their starting positions</div>}
         {effect.returnToBattle && <div>Return target creature from your graveyard to the battle</div>}
         {effect.returnToHand && <div>Return target creature to owner's hand</div>}
+        {effect.searchSorceryForTop && <div>Search your codex for a sorceryand place it on top.</div>}
+        {effect.searchCardForTop && <div>Search your codex for a card and put it on top</div>}
+        {effect.searchCreatureForTop && <div>Search your codex for a creature and put it on top</div>}
+        {effect.searchForLand && <div>Put a {effect.searchForLand} into play</div>}
         {effect.shuffle && <div>Shuffle your codex</div>}
         {effect.snare && <div>Target creature cannot move</div>}
         {effect.untap && <div>Untap target creature</div>}
         {effect.tap && <div>Tap target creature</div>}
+        {effect.tauntPlayer && <div>Targets must move to an open lane if able. If no lane is available they are returned to owner's hand</div>}
+        {effect.emptyGraveyard && <div>All players shuffle their graveyard into their codex</div>}
         {effect.transformInto && <div>Target land becomes a {effect.transformInto}</div>}
         {/* //TODO */}
     </div>

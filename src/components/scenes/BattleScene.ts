@@ -845,7 +845,7 @@ export default class BattleScene extends Scene {
         if(effect.emptyGraveyard){
             state.saveFile.currentMatch.players.forEach(p=>{
                 if(p.discard.length > 0){
-                    onUpdatePlayer({...p, deck: {...p.deck, cards: p.deck.cards.concat(p.discard)}, discard: []})
+                    onUpdatePlayer({...p, deck: {...p.deck, cards: shuffle(p.deck.cards.concat(p.discard))}, discard: []})
                 }
             })
         }

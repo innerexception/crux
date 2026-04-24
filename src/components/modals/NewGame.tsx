@@ -1,17 +1,22 @@
 import * as React from 'react'
 import { Button, CssIcon } from '../../common/Shared';
-import { onQuit, onShowCampaign, onShowModal, onUpdateSave } from '../../common/Thunks';
+import { onShowCampaign, onShowModal, onUpdateSave } from '../../common/Thunks';
 import { tryLoadFile, trySaveFile } from '../../common/Utils';
 import AppStyles from '../../styles/AppStyles';
 import{ v4 } from 'uuid'
 import { useSelector } from 'react-redux';
 import { getStartingCards } from '../../common/CardUtils';
 import { CreatureSpriteIndex, Modal, PlayerAvatars } from '../../../enum';
+import { ipcRenderer } from 'electron';
 
 export default () => {
 
     const saveFile = useSelector((s:RState)=>s.saveFile)
     const [selectedAvatarI, setSelectedAvatarI] = React.useState(0)
+
+    const quit = () => {
+        ipcRenderer.send('quit')
+    }
 
     const setPlayerAvatar = (i:number) => {
         setSelectedAvatarI(i)
@@ -72,7 +77,7 @@ export default () => {
                 <Button text="Vs Hum" enabled={saveFile.currentDeckId?true:false} handler={()=>onShowModal(Modal.Lobby)} style={{ padding:'5px'}}/>
                 <Button text="Campaign" enabled={true} handler={()=>{onShowModal(null);onShowCampaign()}} style={{ padding:'5px'}}/>
                 <Button text="Reset" enabled={true} handler={()=>{resetSave()}} style={{ padding:'5px'}}/>
-                <Button enabled={true} text="Quit" handler={onQuit} style={{ padding:'5px'}}/>
+                <Button enabled={true} text="Quit" handler={quit} style={{ padding:'5px'}}/>
             </div>
         </div>
     )

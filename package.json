@@ -36,6 +36,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.config.js",
+    "start-bin": "webpack --config webpack.bin.config.js && cd ./bin && npm run start",
     "build": "webpack --config webpack.bin.config.js && cd ./bin && npm run make",
     "build-steam": "webpack --config webpack.steam.config.js && cd ./bin && npm run make"
   },
