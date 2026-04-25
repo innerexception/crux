@@ -32,6 +32,7 @@ export const getValidCreatureTargets = (ability:CardAbility, card:Card, targetEn
     if(ability.withoutAttribute) creatures = creatures.filter(c=>!c.attributes.includes(ability.withoutAttribute))
     if(ability.withCategory) creatures = creatures.filter(c=>getCardData(c.kind).category===ability.withCategory)
 
+    if(ability.targets === Target.Land || ability.targets === Target.LandYouControl || ability.targets === Target.AllLands || ability.targets === Target.OpponentLand) return []
     if(ability.targets === Target.TappedCreatures || ability.targets === Target.TappedCreature) creatures = creatures.filter(c=>c.tapped)
     if(ability.targets === Target.ThisCreature) creatures = creatures.filter(c=>c.id === targetEntityId)
     if(ability.targets === Target.AllOtherCreatures) creatures = creatures.filter(c=>c.id !== targetEntityId)
@@ -76,9 +77,10 @@ export const getLaneAttributes = (card:Card, tileX:number) => {
     return card.attributes
 }
 
-export const getValidLandTargets = (ability:CardAbility, card:Card) => {
+export const getValidLandTargets = (card:Card) => {
 
     let lands = store.getState().saveFile.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Land)
+    const ability = getCardData(card.kind).ability
 
     if(ability.withColor){
         lands = lands.filter(l=>getCardData(l.kind).color === ability.withColor)

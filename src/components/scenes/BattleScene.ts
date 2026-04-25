@@ -5,7 +5,7 @@ import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { addLogEntry, onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
 import { canAct, canAfford, checkWinConditions, drawMarchingDashedRect, getColorlessRemain, payCost, shuffle, transitionIn, transitionOut } from "../../common/Utils";
-import { getCardData, getLoot, getValidCreatureTargets, resetCard, validStartTile } from "../../common/CardUtils";
+import { getCardData, getValidCreatureTargets, getValidLandTargets, resetCard, validStartTile } from "../../common/CardUtils";
 import{ v4 } from 'uuid'
 import { net_addCard, net_cancelPendingAction, net_damageCard, net_endTurn, net_moveCard, net_tapLand, net_triggerCardAbility, sendAddCardEffect, sendDamageCard, sendLandTappedEffect, sendMoveCard, sendTriggerCardAbility } from "../../common/Network";
 
@@ -110,7 +110,7 @@ export default class BattleScene extends Scene {
         onUpdateBoard(Array.from(state.board))
     }
 
-    aiPlayCreatureSorcery = () => {
+    aiPlaySorcery = () => {
         let state = store.getState().saveFile.currentMatch
         let p = state.players.find(p=>p.id === state.activePlayerId)
         const enemies = state.board.filter(c=>c.ownerId !== p.id && getCardData(c.kind).kind === Permanents.Creature)
@@ -128,6 +128,24 @@ export default class BattleScene extends Scene {
                     net_triggerCardAbility({card: sorcery, entityId: target.id, discard: true})
             }
         }
+        const lsorcery = p.hand.find(c=>
+            getCardData(c.kind).kind === Permanents.Sorcery &&
+            canAfford(p.manaPool,c) &&
+            (getCardData(c.kind).ability.targets === Target.Land))
+        if(lsorcery){
+            const lands = getValidLandTargets(lsorcery).find(c=>c.ownerId !== p.id)
+            if(lands)
+                net_triggerCardAbility({card: lsorcery, entityId: lands.id, discard: true})
+        }
+
+        const psorcery = p.hand.find(c=>
+            getCardData(c.kind).kind === Permanents.Sorcery &&
+            canAfford(p.manaPool,c) &&
+            (getCardData(c.kind).ability.targets === Target.Players || getCardData(c.kind).ability.targets === Target.AllPlayers))
+        if(psorcery){
+            net_triggerCardAbility({card: psorcery, entityId: state.players.find(p=>p.id !== state.activePlayerId).id, discard: true})
+        }
+
     }
 
     getEnemyCreatures = () => {
@@ -193,10 +211,9 @@ export default class BattleScene extends Scene {
         const next = p.deck.cards.shift()
         if(next) p.hand = p.hand.concat(next)
         onUpdatePlayer({...p})
-        this.aiPlayCreatureSorcery()
+        this.aiPlaySorcery()
         this.aiPlayNewCreatures()
         this.aiPlayCreatureAbilities()
-        //TODO: use player-targeting sorcery
         net_endTurn(store.getState().saveFile.currentMatch)
     }
 

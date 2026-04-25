@@ -212,7 +212,7 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
         }
     }
 
-    let lands = getValidLandTargets(dat.ability, card)
+    let lands = getValidLandTargets(card)
     const land = lands.find(c=>c.id === props.entityId)
     if(land){
         if(targets === Target.Land || targets === Target.LandYouControl || targets === Target.OpponentLand || targets === Target.CreatureOrLand){

@@ -81,7 +81,6 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.hpToOwner && <div>Creature's owner gains {effect.hpToOwner} life</div>}
         {effect.hpUp && <div>Gain {effect.hpUp} life</div>}
         {effect.hpPerLand && <div>Gain {effect.hpUp} life per {effect.hpPerLand}</div>}
-        {effect.lookAtHand && <div>Look at target's hand</div>}
         {effect.lookAtTop3Choose1 && <div>Look at the top 3 card of your codex and choose one to put into your hand</div>}
         {effect.lookAtHand && <div>Look at target player's hand</div>}
         {effect.lookAtTop3 && <div>Look at the top 3 cards of target player's codex</div>}
