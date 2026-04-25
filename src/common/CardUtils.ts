@@ -211,6 +211,12 @@ export const getFreshLands = () => {
 }
 
 export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Card[], sprite:CreatureSpriteIndex, hp:number, loot:CardType[]}>> = {
+    [CreatureSpriteIndex.ForestMoth]: {
+        sprite: CreatureSpriteIndex.ForestMoth,
+        deck: PrebuiltDecks.birds,
+        hp:5,
+        loot:[CardType.ForestJackal]
+    },
     [CreatureSpriteIndex.GoblinMage]: {
         sprite: CreatureSpriteIndex.GoblinMage,
         deck: PrebuiltDecks.goblinSmall,
@@ -252,5 +258,11 @@ export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Car
         deck: PrebuiltDecks.blackSmall,
         hp:20,
         loot:[CardType.TheFear]
-    }
+    },
+    [CreatureSpriteIndex.FireLizard]: {
+        sprite: CreatureSpriteIndex.FireLizard,
+        deck: PrebuiltDecks.blackSmall,
+        hp:20,
+        loot:[CardType.TheFear]
+    },
 }

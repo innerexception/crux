@@ -99,7 +99,7 @@ export enum CreatureSpriteIndex {
     ChaosServant=4903,SulfurRain=1949,LavaBeam=2005,Contemplation=1963,HiddenOasis=2046,FeralSpirit=4836,FireHydra=3885,
     KnowledgeAssimilator=4968,DebtCollection=1798,VenerableMonk=3803,Reckoning=857,LastGasp=2012,DruidicScholar=4896,Escaton=1905,
     Erosion=1494,DivineReach=1834,Fog=1711,ForkLightning=1847,RedwoodTreant=4713,GreenMerchant=4928,Bruiser=4936,RedMerchant=4930,
-    Mummy=4435,MasterMummy=3871
+    Mummy=4435,MasterMummy=3871,ForestMoth=3911,SnakeMan=3849,FireLizard=3949
 }
 
 export const PlayerAvatars = [CreatureSpriteIndex.Player1, CreatureSpriteIndex.CityMage, CreatureSpriteIndex.OldMage, CreatureSpriteIndex.LadyMage, 

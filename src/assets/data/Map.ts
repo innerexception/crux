@@ -48,6 +48,10 @@ export const MapFeatures:Partial<Record<CreatureSpriteIndex, FeatureData>> = {
         kind: MapFeature.Duel,
         opponent: CreatureSpriteIndex.GoblinMage
     },
+    [CreatureSpriteIndex.SnakeMan]: {
+        kind: MapFeature.Speech,
+        speech: 'Hello'
+    },
     [CreatureSpriteIndex.Goblinchief]: {
         kind: MapFeature.Shop,
         shopInventory: [
