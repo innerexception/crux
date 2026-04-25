@@ -261,8 +261,14 @@ export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Car
     },
     [CreatureSpriteIndex.FireLizard]: {
         sprite: CreatureSpriteIndex.FireLizard,
-        deck: PrebuiltDecks.blackSmall,
+        deck: PrebuiltDecks.nomads,
+        hp:10,
+        loot:[CardType.LizardMage]
+    },
+    [CreatureSpriteIndex.Goblinchief]: {
+        sprite: CreatureSpriteIndex.Goblinchief,
+        deck: PrebuiltDecks.goblinHordes,
         hp:20,
-        loot:[CardType.TheFear]
+        loot:[CardType.GoblinSargeant]
     },
 }
