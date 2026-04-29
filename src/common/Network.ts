@@ -285,9 +285,9 @@ export const net_endTurn = async (match:MatchState) => {
                 if(!c.status.find(s=>s.status.pacifism)){
                     scene.creatures.find(s=>c.id === s.id).untap()
                     c.tapped = false
-                    c.def = Math.max(c.def, getCardData(c.kind).defaultDef)
                 }
                 //add/remove timed status effects
+                c.def = Math.max(c.def, getCardData(c.kind).defaultDef)
                 c.status.forEach(s=>s.duration--)
                 c.status.forEach(s=>{
                     if(s.duration <= 0){
