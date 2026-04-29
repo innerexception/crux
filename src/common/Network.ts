@@ -173,13 +173,12 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     const dat = getCardData(card.kind)
     const targets = dat.ability.targets
     
-    addLogEntry({ kind: Log.AbilityPlayed, card })
-
     let creatures = getValidCreatureTargets(dat.ability, card, props.entityId)
     
     if(targets === Target.AllCreaturesAndPlayers){
         scene.applyGlobalEffect(card, creatures)
         if(discard) scene.payAndDiscard(card)
+        else onUpdateBoardCreature({...props.card, tapped: true})
         return 
     }
 
@@ -194,6 +193,7 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
         }
         else{
             if(discard) scene.payAndDiscard(props.card)
+            else onUpdateBoardCreature({...props.card, tapped: true})
             onSetRepeatingCardAbility(null)
             net_cancelPendingAction()
         }
@@ -239,6 +239,7 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
 
     if(!dat.ability.effect.repeat && (player||land||creature)){
         if(discard) scene.payAndDiscard(props.card)
+        else onUpdateBoardCreature({...props.card, tapped: true})
         net_cancelPendingAction()
     }
 }

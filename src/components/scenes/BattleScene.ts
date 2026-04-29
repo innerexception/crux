@@ -531,9 +531,9 @@ export default class BattleScene extends Scene {
         let tiles = []
         const state = store.getState()
         const me = state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId)
-
-        if(ability.targets === Target.CreaturesYourGraveyard || ability.targets === Target.YourGraveyard){
+        if(boardCard.ownerId !== me.id) return
             
+        if(ability.targets === Target.CreaturesYourGraveyard || ability.targets === Target.YourGraveyard){
             let modalProps:ModalData = { cards: me.discard, chooseType: ability.targets === Target.CreaturesYourGraveyard ? Permanents.Creature : null, targetPlayerId: me.id}
             if(ability.effect.returnToHand) modalProps.keep = 1
             if(ability.effect.returnToBattle) modalProps.play = true
@@ -612,6 +612,7 @@ export default class BattleScene extends Scene {
     }
 
     applySingleTargetCreatureEffect = (props:{creature:Card, sorcery:Card}) => {
+        addLogEntry({ kind: Log.AbilityPlayed, card:props.sorcery })
         const dat = getCardData(props.sorcery.kind)
         //play dmg/buff/debuff sprite
         const s = this.creatures.find(c=>c.id === props.creature.id)
@@ -682,7 +683,7 @@ export default class BattleScene extends Scene {
     }
 
     applyPlayerEffect(targetPlayer:PlayerState, card:Card) {
-        
+        addLogEntry({ kind: Log.AbilityPlayed, card })
         const effect = getCardData(card.kind).ability.effect
         let state = store.getState().saveFile
         let caster = state.currentMatch.players.find(p=>p.id === card.ownerId)

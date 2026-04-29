@@ -85,7 +85,7 @@ export const ToggleButton = (state:boolean, handler:any, text:JSX.Element | stri
 
 export const ProgressBar = (props:{value:number, max:number, bg:string}) => 
     <div style={{width:'98px', height:'24px',  position:'relative', padding:'2px', border:'2px solid white'}}>
-        <div style={{background:props.bg, backgroundSize:'32px', width:Math.round((props.value/props.max)*100)+'%', height:'100%'}}/>
+        <div style={{background:props.bg, backgroundSize:'32px', width:Math.round((props.value/props.max)*100)+'%', height:'100%', lineHeight:'16px'}}>{props.value}</div>
     </div>
 
 export const VerticalProgressBar = (props:{value:number, max:number, bg:string}) => 
