@@ -1,6 +1,6 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
 import { IconIndex, Layers, Log, Modal, Modifier, NetworkEvent, Permanents, Target } from '../../enum'
-import { addLogEntry, onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSelectCard, onSetActionAcknowledge, onSetLobby, onSetRepeatingCardAbility, onShowAbilityPreview, onShowModal, onStartMatch, onTurnProcessing, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from './Thunks'
+import { addLogEntry, onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSelectCard, onSetActionAcknowledge, onSetLobby, onSetRepeatingCardAbility, onShowAbilityPreview, onShowModal, onStartMatch, onTurnProcessing, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCard, onUpdateLands, onUpdatePlayer, onUpdateSave } from './Thunks'
 import { store } from '../..'
 import { checkWinConditions, emptyMana, payCost, shuffle } from './Utils'
 import{ v4 } from 'uuid'
@@ -131,13 +131,13 @@ export const net_damageCard = (props:{target:Card, attacker:Card}) => {
     const scene = store.getState().scene
     const spr = scene.creatures.find(c=>c.id === props.target.id)
     scene.floatResource(spr.x, spr.y, IconIndex.Sword)
-    onUpdateBoardCreature({...props.attacker, tapped: true})
+    onUpdateBoardCard({...props.attacker, tapped: true})
     addLogEntry({ kind: Log.RangedDamage, card:props.attacker, target:props.target })
 
     if(props.target.def<=0){
         scene.tryRemoveCreature(props.target)
     }
-    else onUpdateBoardCreature({...props.target})
+    else onUpdateBoardCard({...props.target})
 }
 
 export const net_moveCard = (props:{card:Card, tileX:number, tileY:number}) => {
@@ -147,7 +147,7 @@ export const net_moveCard = (props:{card:Card, tileX:number, tileY:number}) => {
     spr.setPosition(tile.pixelX, tile.pixelY)
     spr.icon?.destroy()
     let attributes = getLaneAttributes(props.card, props.tileX)
-    onUpdateBoardCreature({...props.card, attributes, tileX: props.tileX, tileY: props.tileY, tapped: true})
+    onUpdateBoardCard({...props.card, attributes, tileX: props.tileX, tileY: props.tileY, tapped: true})
     addLogEntry({card:props.card, kind: Log.NimbleActivation })
 }
 
@@ -178,7 +178,7 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     if(targets === Target.AllCreaturesAndPlayers){
         scene.applyGlobalEffect(card, creatures)
         if(discard) scene.payAndDiscard(card)
-        else onUpdateBoardCreature({...props.card, tapped: true})
+        else onUpdateBoardCard({...props.card, tapped: true})
         return 
     }
 
@@ -193,7 +193,7 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
         }
         else{
             if(discard) scene.payAndDiscard(props.card)
-            else onUpdateBoardCreature({...props.card, tapped: true})
+            else onUpdateBoardCard({...props.card, tapped: true})
             onSetRepeatingCardAbility(null)
             net_cancelPendingAction()
         }
@@ -239,7 +239,10 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
 
     if(!dat.ability.effect.repeat && (player||land||creature)){
         if(discard) scene.payAndDiscard(props.card)
-        else onUpdateBoardCreature({...props.card, tapped: true})
+        else{
+            let boardCard = store.getState().saveFile.currentMatch.board.find(c=>c.id === card.id)
+            if(boardCard) onUpdateBoardCard({...boardCard, tapped: true})
+        } 
         net_cancelPendingAction()
     }
 }
@@ -341,7 +344,7 @@ export const net_addCard = (props:{cardId:string, worldX:number,worldY:number, f
         if(card.attributes.includes(Modifier.StingingWinds)){
             const laneCreatures = state.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Creature && c.tileX === t.x && c.ownerId === card.ownerId)
             laneCreatures.forEach(c=>{
-                onUpdateBoardCreature({...c, attributes: getLaneAttributes(card, t.x)})
+                onUpdateBoardCard({...c, attributes: getLaneAttributes(card, t.x)})
             })
             state = store.getState().saveFile
         }

@@ -1,7 +1,7 @@
 import { CardType, Color, CreatureSpriteIndex, Direction, Layers, Modifier, Permanents, Target } from "../../enum";
 import{ v4 } from 'uuid'
 import { Portal } from "../assets/data/Portal";
-import { onUpdateBoardCreature, onUpdatePlayer } from "./Thunks";
+import { onUpdateBoardCard, onUpdatePlayer } from "./Thunks";
 import { shuffle } from "./Utils";
 import { store } from "../..";
 import { Tilemaps } from "phaser";
@@ -127,7 +127,7 @@ export const tapLand = (card:Card, me:PlayerState) => {
         me.manaPool.green=me.manaPool.green+1
     }
     onUpdatePlayer({...me})
-    onUpdateBoardCreature({...card, tapped: true})
+    onUpdateBoardCard({...card, tapped: true})
 }
 
 export const getCardData = (c:CardType) => {

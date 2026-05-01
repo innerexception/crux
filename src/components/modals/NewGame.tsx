@@ -7,7 +7,7 @@ import{ v4 } from 'uuid'
 import { useSelector } from 'react-redux';
 import { getStartingCards } from '../../common/CardUtils';
 import { CreatureSpriteIndex, Modal, PlayerAvatars } from '../../../enum';
-import { ipcRenderer } from 'electron';
+// import { ipcRenderer } from 'electron';
 
 export default () => {
 
@@ -15,7 +15,7 @@ export default () => {
     const [selectedAvatarI, setSelectedAvatarI] = React.useState(0)
 
     const quit = () => {
-        ipcRenderer.send('quit')
+        // ipcRenderer.send('quit')
     }
 
     const setPlayerAvatar = (i:number) => {

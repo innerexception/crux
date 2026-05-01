@@ -2,7 +2,7 @@ import { GameObjects } from "phaser"
 import { store } from "../../.."
 import { CardType, Color, CreatureSpriteIndex, Direction, IconIndex, Layers, Modal, Modifier, Permanents, Target, Triggers } from "../../../enum"
 import { getCardData, getLandAtEndOfLane, getLoot, resetCard, validEndTile } from "../../common/CardUtils"
-import { onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdatePlayer } from "../../common/Thunks"
+import { onShowModal, onUpdateBoard, onUpdateBoardCard, onUpdatePlayer } from "../../common/Thunks"
 import BattleScene from "../scenes/BattleScene"
 import { net_moveCard } from "../../common/Network"
 import { checkWinConditions } from "../../common/Utils"
@@ -127,7 +127,7 @@ export default class CreatureSprite extends GameObjects.Image {
                         if(!store.getState().saveFile.currentMatch) return
                         let unitTile = this.scene.map.getTileAtWorldXY(this.x, this.y, false, undefined, Layers.Earth)
                         const creature = store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id)
-                        onUpdateBoardCreature({...creature, tileX:unitTile.x, tileY:unitTile.y})
+                        onUpdateBoardCard({...creature, tileX:unitTile.x, tileY:unitTile.y})
                         resolve(1)
                     }
                 })
@@ -161,7 +161,7 @@ export default class CreatureSprite extends GameObjects.Image {
         if(store.getState().saveFile.currentMatch.board.find(c=>c.tileX === startTile.x && c.tileY === startTile.y))
             return this.returnToHand()
         
-        onUpdateBoardCreature({...store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id), tileY: startTile.y})
+        onUpdateBoardCard({...store.getState().saveFile.currentMatch.board.find(c=>c.id === this.id), tileY: startTile.y})
         this.setPosition(startTile.pixelX,startTile.pixelY)
     }
 

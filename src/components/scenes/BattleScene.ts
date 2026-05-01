@@ -2,7 +2,7 @@ import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
 import { CardType, Color, Direction, IconIndex, Layers, LayerStack, Log, Maps, Modal, Modifier, Permanents, SceneNames, Target, Triggers } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
-import { addLogEntry, onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateBoard, onUpdateBoardCreature, onUpdateLands, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
+import { addLogEntry, onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateBoard, onUpdateBoardCard, onUpdateLands, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
 import { canAct, canAfford, checkWinConditions, drawMarchingDashedRect, getColorlessRemain, payCost, shuffle, transitionIn, transitionOut } from "../../common/Utils";
 import { getCardData, getValidCreatureTargets, getValidLandTargets, resetCard, validStartTile } from "../../common/CardUtils";
@@ -608,7 +608,7 @@ export default class BattleScene extends Scene {
             this.tryRemoveCreature(land)
         }
         if(dat.effect.addAttributes){
-            onUpdateBoardCreature({...land, attributes: land.attributes.concat(dat.effect.addAttributes)})
+            onUpdateBoardCard({...land, attributes: land.attributes.concat(dat.effect.addAttributes)})
         }
     }
 
@@ -624,9 +624,7 @@ export default class BattleScene extends Scene {
                 duration: dat.ability.effect.duration,
                 status: dat.ability.effect
             })
-            onUpdateBoardCreature({...props.creature})
         }
-        
         this.applyCreatureEffect(props.creature, props.sorcery)
         this.hideCardTargets()
     }
@@ -680,7 +678,7 @@ export default class BattleScene extends Scene {
             creature.tapped = false
         }
         addLogEntry({kind: Log.ExpiredEffect, card:creature, effect})
-        onUpdateBoardCreature({...creature})
+        onUpdateBoardCard({...creature})
     }
 
     applyPlayerEffect(targetPlayer:PlayerState, card:Card) {
@@ -994,7 +992,7 @@ export default class BattleScene extends Scene {
 
         if(creature.def <= 0) 
             this.tryRemoveCreature(creature)
-        else onUpdateBoardCreature(creature)
+        else onUpdateBoardCard(creature)
     }
 
     tryRemoveCreature (card:Card) {
