@@ -121,7 +121,7 @@ export enum Category {
 }
 
 export enum Log {
-    AbilityPlayed, CardPlayed, RangedDamage, ExpiredEffect, NimbleActivation,Destroyed
+    AbilityPlayed, CardPlayed, RangedDamage, ExpiredEffect, NimbleActivation,Destroyed,Message
 }
 
 export enum Permanents {

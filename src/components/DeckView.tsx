@@ -11,7 +11,7 @@ import { sendUpdate } from '../common/Network';
 export default () => {
 
     const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId))
-    const myTurn = useSelector((state:RState)=>state.saveFile.currentMatch.activePlayerId === state.saveFile.myId && !state.turnProcessing)
+    const myTurn = useSelector((state:RState)=>state.saveFile.currentMatch.activePlayerId === state.saveFile.myId && !state.turnProcessing && !state.previewAbility)
     const selectedCardId = useSelector((state:RState)=>state.selectedCardId)
     const activeAbility = useSelector((state:RState)=>state.previewAbility)
     const match = useSelector((state:RState)=>state.saveFile.currentMatch)

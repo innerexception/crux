@@ -492,7 +492,7 @@ export const Portal:Record<CardType, CardMeta> = {
         gold:2,
         category: null,
         ability: {
-            targets: Target.AllOpponentCreatures,
+            targets: Target.OpponentCreature,
             withoutAttribute:Modifier.Defender,
             effect: {
                 tauntPlayer: true,

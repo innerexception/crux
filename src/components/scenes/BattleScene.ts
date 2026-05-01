@@ -11,7 +11,7 @@ import { net_addCard, net_cancelPendingAction, net_damageCard, net_endTurn, net_
 
 export const TILE_DIM=32
 const FIELD_WIDTH=3
-const FIELD_HEIGHT=3
+const FIELD_HEIGHT=2
 
 export default class BattleScene extends Scene {
 
@@ -61,12 +61,12 @@ export default class BattleScene extends Scene {
         LayerStack.forEach(l=>this.map.createLayer(l, grass))
         this.map.setLayer(Layers.Earth)
         const midTile = this.map.findByIndex(1005)
-        this.northLands = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y-FIELD_HEIGHT-1, FIELD_WIDTH*2, 1)
+        this.northLands = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y-(FIELD_HEIGHT+1), FIELD_WIDTH*2, 1)
         this.northCreatures = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y-FIELD_HEIGHT, FIELD_WIDTH*2, 1)
-        this.southLands = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y+FIELD_HEIGHT-1, FIELD_WIDTH*2, 1)
-        this.southCreatures = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y+(FIELD_HEIGHT-2), FIELD_WIDTH*2, 1)
+        this.southLands = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y+FIELD_HEIGHT, FIELD_WIDTH*2, 1)
+        this.southCreatures = this.map.getTilesWithin(midTile.x-FIELD_WIDTH, midTile.y+FIELD_HEIGHT-1, FIELD_WIDTH*2, 1)
         
-        const g = this.add.graphics().setDefaultStyles({ lineStyle: { width:2, color:0xffffff, alpha:0.5 }}).setDepth(7)
+        //const g = this.add.graphics().setDefaultStyles({ lineStyle: { width:2, color:0xffffff, alpha:0.5 }}).setDepth(7)
         const rect = new Geom.Rectangle(midTile.pixelX-(FIELD_WIDTH*TILE_DIM), midTile.pixelY-(FIELD_HEIGHT*TILE_DIM), FIELD_WIDTH*2*TILE_DIM, 5*TILE_DIM)
         //drawMarchingDashedRect(g, rect)
         this.grid = this.map.getTilesWithinShape(rect)
@@ -594,6 +594,7 @@ export default class BattleScene extends Scene {
     }
 
     applyLandEffect = (card:Card, land:Card) => {
+        addLogEntry({ kind: Log.AbilityPlayed, card })
         const dat = getCardData(card.kind).ability
         if(dat.effect.transformInto){
             this.tryRemoveCreature(land)
@@ -884,8 +885,11 @@ export default class BattleScene extends Scene {
                 else {
                     //Otherwise, return this creature to owners hand
                     this.creatures.find(c=>c.id === creature.id).returnToHand()
+                    addLogEntry({ kind: Log.Message, card:creature, message: ' was returned to hand!' })
+                    return
                 }
             }
+            addLogEntry({ kind: Log.Message, card:creature, message: ' was not affected by taunt!' })
             return
         }
 

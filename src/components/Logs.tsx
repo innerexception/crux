@@ -33,6 +33,9 @@ const getLogEl = (l:LogEntry, match:MatchState) => {
   
     const cardEl = <Tooltip placement='bottom' mouseEnterDelay={0.5} overlay={<CardDetailView card={l.card}/>}><div style={{color:colors.gold}}>{l.card.kind}</div></Tooltip>
 
+    if(l.kind === Log.Message) return <div>
+        {cardEl} {l.message}
+    </div>
     if(l.kind === Log.AbilityPlayed) return <div>
         <CssIcon spriteIndex={caster}/> used ability of {cardEl} : {renderEffect(dat.ability.effect)}
     </div>

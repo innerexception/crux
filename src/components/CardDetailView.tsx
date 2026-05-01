@@ -2,7 +2,7 @@ import * as React from 'react'
 import AppStyles, { colors } from '../styles/AppStyles';
 import { Button, CssIcon, getModifierEl } from '../common/Shared';
 import { getCardData } from '../common/CardUtils';
-import { IconIndex, TargetsDesc, ModifierDesc, ColorIcons, TriggerNames, Permanents } from '../../enum';
+import { IconIndex, TargetsDesc, ModifierDesc, ColorIcons, TriggerNames, Permanents, Modifier } from '../../enum';
 import { renderCost, renderEffect } from './CardView';
 import { useSelector } from 'react-redux';
 
@@ -25,7 +25,7 @@ export default (props:{card:Card}) => {
             
             {props.card.attributes && props.card.attributes.map(a=>getModifierEl(a))}
             {dat.ability && <div style={{marginTop:'5px', marginBottom:'5px'}}>
-                <div style={{display:'flex'}}>{dat.ability.tap && <CssIcon spriteIndex={IconIndex.Activate}/>} {renderCost(dat.ability.cost, dat.ability.effect?.dmgX)}</div>
+                <div style={{display:'flex'}}>{(dat.ability.tap || props.card.attributes.includes(Modifier.Ranged) || props.card.attributes.includes(Modifier.Nimble)) && <CssIcon spriteIndex={IconIndex.Activate}/>} {renderCost(dat.ability.cost, dat.ability.effect?.dmgX)}</div>
                 {dat.ability.targets && <div>{dat.ability.required && <span style={{color:'red'}}>(Required)</span>} Affects: {TargetsDesc[dat.ability.targets]} 
                     {dat.ability.withCategory && <div>That is a {dat.ability.withCategory}</div>}
                     {dat.ability.withAttribute?" with "+ModifierDesc[dat.ability.withAttribute].title:''}

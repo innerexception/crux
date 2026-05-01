@@ -175,6 +175,7 @@ interface LogEntry {
     card: Card
     target?: Card
     effect?: StatusEffect
+    message?:string
 }
 
 interface ModalData { 
