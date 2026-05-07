@@ -217,7 +217,7 @@ export default class BattleScene extends Scene {
         net_endTurn(store.getState().saveFile.currentMatch)
     }
 
-    getEmptyStartTile (props:{dir:Direction, land?:boolean, creature?:Card}) {
+    getEmptyStartTile (props:{dir:Direction, land?:boolean, creature?:Card}):Tilemaps.Tile {
         if(props.land){
             if(props.dir === Direction.NORTH){
                 return shuffle(this.northLands).find(t=>this.isEmptyTile(t.x, t.y))
@@ -830,6 +830,7 @@ export default class BattleScene extends Scene {
                     targetPlayer.discard.unshift(targetPlayer.hand.splice(Phaser.Math.Between(0,targetPlayer.hand.length-1), 1)[0])
             }
         }
+        onUpdatePlayer({...targetPlayer})
         if(effect.searchForLand){
             const forest = state.currentMatch.lands.find(f=>f.kind === effect.searchForLand)
             if(forest){
@@ -837,10 +838,10 @@ export default class BattleScene extends Scene {
                 if(t){
                     this.creatures.push(new CreatureSprite(this, t.pixelX,t.pixelY, getCardData(forest.kind).sprite, forest.id, targetPlayer.dir))
                     onUpdateBoard(state.currentMatch.board.concat({...forest, ownerId: targetPlayer.id, tileX:t.x, tileY:t.y}))
+                    onUpdateLands(store.getState().saveFile.currentMatch.lands.filter(l=>l.id !== forest.id))
                 }
             }
         }
-        onUpdatePlayer({...targetPlayer})
     }
 
     applyCreatureEffect(creature:Card, sorcery:Card) {

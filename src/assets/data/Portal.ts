@@ -1529,7 +1529,7 @@ export const Portal:Record<CardType, CardMeta> = {
     },
     [CardType.ForceOfWill]: {
         color:Color.Blue,
-        cost: [{kind:Color.Blue, amount:1},{kind:Color.None, amount:1}],
+        cost: [{kind:Color.Blue, amount:2}],
         kind: Permanents.Sorcery,
         gold:6,
         ability: {
