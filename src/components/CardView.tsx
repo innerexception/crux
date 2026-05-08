@@ -94,7 +94,7 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.searchSorceryForTop && <div>Search your codex for a sorceryand place it on top.</div>}
         {effect.searchCardForTop && <div>Search your codex for a card and put it on top</div>}
         {effect.searchCreatureForTop && <div>Search your codex for a creature and put it on top</div>}
-        {effect.searchForLand && <div>Put a {effect.searchForLand} into play</div>}
+        {effect.searchForLand && <div>Put a {effect.searchForLand} into an empty land space.</div>}
         {effect.shuffle && <div>Shuffle your codex</div>}
         {effect.snare && <div>Target creature cannot move</div>}
         {effect.tauntPlayer && <div>Opponent's non-defender creatures must move to an open lane.</div>}

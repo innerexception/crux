@@ -72,7 +72,7 @@ export default class CreatureSprite extends GameObjects.Image {
                 }        
                 return this.returnToHand()
             }
-            const target = store.getState().saveFile.currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
+            let target = store.getState().saveFile.currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
             if(target){
                 if(target.ownerId !== thisCreature.ownerId){
                     const destroyTarget = thisCreature.attributes.includes(Modifier.Toxic) && target.def <=3
@@ -111,6 +111,10 @@ export default class CreatureSprite extends GameObjects.Image {
                     }
 
                     this.fight(target)
+
+                    target = store.getState().saveFile.currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
+                    if(!target) this.tryMoveNext()
+
                 }
                 return
             }
@@ -182,7 +186,8 @@ export default class CreatureSprite extends GameObjects.Image {
         this.scene.flashIcon(myTile.pixelX, myTile.pixelY, IconIndex.Sword)
         
         if(!thisCard.tapped){
-            if(this.hasProtectionFrom(target, thisCard)){
+            //attacking
+            if(this.hasProtectionFrom(thisCard, target)){
                 console.log('noop')
             }
             else {
@@ -200,7 +205,8 @@ export default class CreatureSprite extends GameObjects.Image {
             }
         }
         if(!target.tapped){
-            if(this.hasProtectionFrom(thisCard, target)){
+            //defending
+            if(this.hasProtectionFrom(target, thisCard)){
                 console.log('noop')
             }
             else {
@@ -219,20 +225,20 @@ export default class CreatureSprite extends GameObjects.Image {
         }
     }
 
-    hasProtectionFrom(c:Card, cc:Card) {
-        if(cc.attributes.includes(Modifier.ProtectionFromBlack) && getCardData(c.kind).color === Color.Black){
+    hasProtectionFrom(attacker:Card, defender:Card) {
+        if(defender.attributes.includes(Modifier.ProtectionFromBlack) && getCardData(attacker.kind).color === Color.Black){
             return true
         }
-        if(cc.attributes.includes(Modifier.ProtectionFromBlue) && getCardData(c.kind).color === Color.Blue){
+        if(defender.attributes.includes(Modifier.ProtectionFromBlue) && getCardData(attacker.kind).color === Color.Blue){
             return true
         }
-        if(cc.attributes.includes(Modifier.ProtectionFromGreen) && getCardData(c.kind).color === Color.Green){
+        if(defender.attributes.includes(Modifier.ProtectionFromGreen) && getCardData(attacker.kind).color === Color.Green){
             return true
         }
-        if(cc.attributes.includes(Modifier.ProtectionFromRed) && getCardData(c.kind).color === Color.Red){
+        if(defender.attributes.includes(Modifier.ProtectionFromRed) && getCardData(attacker.kind).color === Color.Red){
             return true
         }
-        if(cc.attributes.includes(Modifier.ProtectionFromWhite) && getCardData(c.kind).color === Color.White){
+        if(defender.attributes.includes(Modifier.ProtectionFromWhite) && getCardData(attacker.kind).color === Color.White){
             return true
         }
         return false

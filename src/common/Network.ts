@@ -173,7 +173,7 @@ export const net_triggerCardAbility = (props:{card:Card, entityId:string, discar
     const dat = getCardData(card.kind)
     const targets = dat.ability.targets
     
-    let creatures = getValidCreatureTargets(dat.ability, card, props.entityId)
+    let creatures = getValidCreatureTargets(card, props.entityId)
     
     if(targets === Target.AllCreaturesAndPlayers){
         scene.applyGlobalEffect(card, creatures)

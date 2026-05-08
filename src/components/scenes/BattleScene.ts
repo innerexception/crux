@@ -121,7 +121,7 @@ export default class BattleScene extends Scene {
                 (getCardData(c.kind).ability.effect.dmg || getCardData(c.kind).ability.effect.destroy)) //TODO: include other debilitating effects
             if(sorcery){
                 const target = enemies.find(e=>{
-                        const targets = getValidCreatureTargets(getCardData(sorcery.kind).ability, sorcery, e.id) 
+                        const targets = getValidCreatureTargets(sorcery, e.id) 
                         return targets.find(t=>t.id === e.id)
                     })
                 if(target) 
@@ -197,7 +197,7 @@ export default class BattleScene extends Scene {
         const creatures = state.board.filter(c=>c.ownerId === p.id && !c.tapped && getCardData(c.kind).kind === Permanents.Creature && getCardData(c.kind).ability)
         creatures.forEach(c=>{
             const abil = getCardData(c.kind).ability
-            const targets = getValidCreatureTargets(abil, c, '')
+            const targets = getValidCreatureTargets(c, '')
             if(targets[0]){
                 net_triggerCardAbility({card: c, entityId: targets[0].id, discard:false})
             }
@@ -575,7 +575,7 @@ export default class BattleScene extends Scene {
             return tiles.forEach(t=>drawMarchingDashedRect(this.g,t.getBounds() as Geom.Rectangle))
         }
         
-        let creatures = getValidCreatureTargets(ability, boardCard, boardCard.id)
+        let creatures = getValidCreatureTargets(boardCard, boardCard.id)
         tiles = creatures.map(c=>this.map.getTileAt(c.tileX, c.tileY, false, Layers.Earth))
         if(ability.targets === Target.CreatureOrPlayer || ability.targets === Target.AllCreaturesAndPlayers){
             tiles = tiles.concat(this.map.getTileAtWorldXY(this.playerNorth.x, this.playerNorth.y, false, undefined, Layers.Earth))
@@ -840,7 +840,9 @@ export default class BattleScene extends Scene {
                     onUpdateBoard(state.currentMatch.board.concat({...forest, ownerId: targetPlayer.id, tileX:t.x, tileY:t.y}))
                     onUpdateLands(store.getState().saveFile.currentMatch.lands.filter(l=>l.id !== forest.id))
                 }
+                else addLogEntry({ kind: Log.Message, card, message: 'No empty space was available!' })
             }
+            else addLogEntry({ kind: Log.Message, card, message: 'No land available in pool!' })
         }
     }
 

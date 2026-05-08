@@ -1,5 +1,5 @@
 import { GameObjects, Geom, Scene } from "phaser"
-import { CardType, Color, CreatureSpriteIndex, Direction, Layers, Modal, Permanents, SceneNames } from "../../enum"
+import { CardType, Color, CreatureSpriteIndex, Direction, Layers, Modal, Permanents, PLAYER_HP, SceneNames } from "../../enum"
 import BattleScene from "../components/scenes/BattleScene"
 import { AIPlayers, getCardData, getFreshLands, getLoot } from "./CardUtils"
 import { SAVE_NAMES } from "./UIReducer"
@@ -54,7 +54,7 @@ export const getNewCampaignMatch = (s:SaveFile, opponent:PlayerState, startingPl
         players: [
             {
                 id:s.myId,
-                hp:20,
+                hp:PLAYER_HP,
                 dir:startingPlayerId === s.myId ? Direction.SOUTH : Direction.NORTH,
                 hand,
                 deck,
@@ -87,7 +87,7 @@ export const getNewMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:s
         players: [
             {
                 id:s.myId,
-                hp:20,
+                hp:PLAYER_HP,
                 dir:startingPlayerId === s.myId ? Direction.SOUTH : Direction.NORTH,
                 hand,
                 deck,

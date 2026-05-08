@@ -20,8 +20,14 @@ export const getLandAtEndOfLane = (d:Direction, tileX:number, tileY:number) => {
     return store.getState().saveFile.currentMatch.board.find(c=>c.tileX === t.x && c.tileY === t.y)
 }
 
-export const getValidCreatureTargets = (ability:CardAbility, card:Card, targetEntityId:string) => {
+const landTargetingAbility = (ability:CardAbility):boolean =>{
+    return ability.targets === Target.Land || ability.targets === Target.LandYouControl || ability.targets === Target.AllLands || ability.targets === Target.OpponentLand
+}
+
+export const getValidCreatureTargets = (card:Card, targetEntityId:string):Card[] => {
     const state = store.getState()
+    const ability = getCardData(card.kind).ability
+    if(landTargetingAbility(ability)) return []
     let creatures = state.saveFile.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Creature && !c.attributes.includes(Modifier.Vigilant))
     if(ability.def3orLess) creatures = creatures.filter(c=>c.def<=3)
     if(ability.withoutColor) creatures = creatures.filter(c=>getCardData(c.kind).color !== ability.withoutColor)
@@ -31,7 +37,6 @@ export const getValidCreatureTargets = (ability:CardAbility, card:Card, targetEn
     if(ability.withoutAttribute) creatures = creatures.filter(c=>!c.attributes.includes(ability.withoutAttribute))
     if(ability.withCategory) creatures = creatures.filter(c=>getCardData(c.kind).category===ability.withCategory)
 
-    if(ability.targets === Target.Land || ability.targets === Target.LandYouControl || ability.targets === Target.AllLands || ability.targets === Target.OpponentLand) return []
     if(ability.targets === Target.TappedCreatures || ability.targets === Target.TappedCreature) creatures = creatures.filter(c=>c.tapped)
     if(ability.targets === Target.ThisCreature) creatures = creatures.filter(c=>c.id === targetEntityId)
     if(ability.targets === Target.AllOtherCreatures) creatures = creatures.filter(c=>c.id !== targetEntityId)
@@ -81,17 +86,19 @@ export const getValidLandTargets = (card:Card) => {
     let lands = store.getState().saveFile.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Land)
     const ability = getCardData(card.kind).ability
 
-    if(ability.withColor){
-        lands = lands.filter(l=>getCardData(l.kind).color === ability.withColor)
+    if(landTargetingAbility(ability)){
+        if(ability.withColor){
+            lands = lands.filter(l=>getCardData(l.kind).color === ability.withColor)
+        }
+        if(ability.targets === Target.LandYouControl){
+            lands = lands.filter(l=>l.ownerId === card.ownerId)
+        }
+        if(ability.targets === Target.OpponentLand){
+            lands = lands.filter(l=>l.ownerId !== card.ownerId)
+        }
+        return lands
     }
-    if(ability.targets === Target.LandYouControl){
-        lands = lands.filter(l=>l.ownerId === card.ownerId)
-    }
-    if(ability.targets === Target.OpponentLand){
-        lands = lands.filter(l=>l.ownerId !== card.ownerId)
-    }
-    
-    return lands
+    return []
 }
 
 export const validStartTile = (t:Tilemaps.Tile, dir:Direction, land:boolean) => {

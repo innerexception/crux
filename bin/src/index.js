@@ -4,7 +4,7 @@ const { app, BrowserWindow, ipcMain, screen } = require('electron');
 const steamworks = require('steamworks.js')
 
 const PLAYTEST_ID = -1
-const LIVE_ID=2376370
+const LIVE_ID=-1
 
 let sw
 try{

@@ -15,7 +15,7 @@ export default () => {
     const me = useSelector((s:RState)=>s.saveFile)
     const selectedDeck = useSelector((s:RState)=>s.saveFile.decks.find(d=>d.id === s.saveFile.currentDeckId))
     const [selectedColor, setSelectedColor] = React.useState(Color.Red)
-    const [cards, setCards] = React.useState(getAllCards(me.myId))
+    const cards=getAllCards(me.myId)
 
     const addCardToDeck = (c:Card) => {
         onUpdateSave({...me, decks: me.decks.map(d=>d.id === selectedDeck.id ? 
@@ -39,8 +39,8 @@ export default () => {
                 <Button style={{marginLeft:'1em'}} text="Add New+" enabled={true} handler={()=>onUpdateSave({...me, decks: me.decks.concat({id:v4(), name:'new set', cards: []})})} />
             </div>
             <div style={{marginTop:'1em'}}>{selectedDeck ? 'Editing Set':''}</div>
+            <div style={{width:'100%', textAlign:'center'}}>{selectedDeck.cards.length} cards</div>
             {selectedDeck && <div style={{display:'flex', flexWrap:'wrap', height:'200px', overflow:'auto', border:'1px solid', padding:'5px'}}>
-                {selectedDeck.cards.length === 0 && <div style={{width:'100%', textAlign:'center'}}>--No Cards--</div>}
                 {selectedDeck.cards.map(c=><div onClick={()=>removeCardFromDeck(c)}><CardView card={c}/></div>)}
             </div>}
             {selectedDeck &&

@@ -1346,7 +1346,7 @@ export const Portal:Record<CardType, CardMeta> = {
         gold:3,
         sprite: CreatureSpriteIndex.FireImp,
         ability:{
-            targets: Target.Creature,
+            targets: Target.CreaturesInLane,
             effect: {
                 dmg: 2,
                 sprite: IconIndex.Damage
@@ -2342,7 +2342,7 @@ export const Portal:Record<CardType, CardMeta> = {
         defaultAtk:3,
         defaultDef:3,
         
-        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount:2}],
+        cost: [{kind:Color.White, amount:1},{kind:Color.None, amount:2}],
         kind: Permanents.Creature,
         gold:7,
         sprite: CreatureSpriteIndex.SavannaLion,
@@ -2522,7 +2522,7 @@ export const Portal:Record<CardType, CardMeta> = {
         gold:11,
         sprite: CreatureSpriteIndex.SandElemental,
         ability: {
-            targets: Target.Land,
+            targets: Target.OpponentLand,
             trigger: Triggers.OnDeath,
             effect: {
                 destroy: true,

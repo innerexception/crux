@@ -26,6 +26,8 @@ export enum UIReducerActions {
     FINISH_MATCH='FINISH_MATCH'
 }
 
+export const PLAYER_HP = 15
+
 export enum Modal {
     NewGame='ng',SelectSave='SelectSave',Options='Options',SelectLoad='SelectLoad',
     Deckbuilder='Deckbuilder',AnyGraveyard='AnyGraveyard',

@@ -49,6 +49,7 @@ export const onUpdateBoardCard = (cd:Card) => {
     const d = store.getState().saveFile.currentMatch.board.map(c=>c.id === cd.id ? cd : c)
     const spr = store.getState().scene.creatures.find(c=>c.id === cd.id)
     if(cd.tapped) spr.tap()
+    else spr.untap()
     onUpdateBoard(d)
 }
 
