@@ -31,7 +31,7 @@ export default class CreatureSprite extends GameObjects.Image {
         this.icon = null
     }
 
-    tryMoveNext = async () => {
+    tryMoveNext = async (moves:number) => {
         let state = store.getState().saveFile.currentMatch
         let thisCreature = state.board.find(c=>c.id === this.id)
         if(!thisCreature) return
@@ -43,9 +43,8 @@ export default class CreatureSprite extends GameObjects.Image {
             return
         }
         let owner = state.players.find(p=>p.id === thisCreature.ownerId)
-        let haste = thisCreature.attributes.includes(Modifier.Haste)
         if(thisCreature.tapped) return //Tapped creatures don't move
-        for(let i=0;i<(haste?2:1);i++){
+        for(let i=0;i<(moves);i++){
             state = store.getState().saveFile.currentMatch
             thisCreature = state.board.find(c=>c.id === this.id)
             if(!thisCreature) return
@@ -113,7 +112,7 @@ export default class CreatureSprite extends GameObjects.Image {
                     this.fight(target)
 
                     target = store.getState().saveFile.currentMatch.board.find(c=>c.tileX === next.x && c.tileY === next.y)
-                    if(!target) this.tryMoveNext()
+                    if(!target) this.tryMoveNext(1)
 
                 }
                 return

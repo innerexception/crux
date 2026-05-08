@@ -255,7 +255,8 @@ export const net_endTurn = async (match:MatchState) => {
     const mine = scene.creatures.filter(c=>match.board.find(cr=>getCardData(cr.kind).kind === Permanents.Creature && cr.id===c.id && cr.ownerId === current.id))
     try{
         for(let i=0;i<mine.length;i++){
-            await mine[i].tryMoveNext()
+            let thisCreature = match.board.find(c=>c.id === mine[i].id)
+            await mine[i].tryMoveNext(thisCreature.attributes.includes(Modifier.Haste)?2:1)
         }
     
         match = store.getState().saveFile.currentMatch
