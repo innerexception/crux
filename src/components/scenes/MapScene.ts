@@ -58,12 +58,24 @@ export default class MapScene extends Scene {
         this.input.keyboard.removeAllKeys(true)
         this.input.keyboard.removeAllListeners()
         this.keys = this.input.keyboard.addKeys(keys) as any
+        this.input.on('pointermove', (event, gameObjects:Array<Phaser.GameObjects.GameObject>) => {
+            const state = store.getState()
+            let tile = this.map?.getTileAtWorldXY(this.input.activePointer.worldX, this.input.activePointer.worldY, false, undefined, Layers.Earth)
+            if(tile){
+                const cre = save.campaignCreatures.find(c=>c.tileX === tile.x && c.tileY === tile.y)
+                if(cre){
+                    onSelectNPC(cre)
+                }
+                else if(state.selectedNPC) onSelectNPC(null)
+            }
+        })
     }
 
     onTransitionIn = () => {
         
     }
 
+    
 
     resolveMove (unit:GameObjects.Image, tileX:number, tileY:number) {
         const current = this.map.getTileAtWorldXY(unit.x, unit.y, false, undefined, Layers.Earth)
