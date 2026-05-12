@@ -113,7 +113,12 @@ export default class MapScene extends Scene {
                             let dir = {x: 0, y: this.playerSprite.y>=this.currentCenter.y?1:-1}
                             this.currentCenter = {x:this.currentCenter.x+(DEAD_ZONE*TILE_DIM*dir.x), y:this.currentCenter.y+(DEAD_ZONE*TILE_DIM*dir.y)}
                         }
-                        this.cameras.main.pan(this.currentCenter.x, this.currentCenter.y, 500, )
+                        this.cameras.main.pan(this.currentCenter.x, this.currentCenter.y, 500, (t) => {
+                            // t goes from 0 → 1
+                            const steps = 6;
+                            // quantize the easing progress
+                            return Math.floor(t * steps) / steps;
+                        })
                     } 
                 }
             })

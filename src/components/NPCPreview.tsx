@@ -31,8 +31,8 @@ export default () => {
     }
 
     return (
-        <div style={{padding:'5px', background:'black', border:'2px inset white', width:'200px', height:'50px'}}>
-            {selectedNPC && <div style={{color: getDeckThreatColor()}}>{getNPCName()}</div>}
+        <div style={{padding:'5px', fontSize:'16px', background:'black', border:'2px inset white', width:'200px', height:'40px'}}>
+            {selectedNPC ? <div style={{color: getDeckThreatColor()}}>{getNPCName()}</div>:<div>---</div>}
         </div>
     )
 }
