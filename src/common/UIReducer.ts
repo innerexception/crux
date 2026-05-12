@@ -66,6 +66,7 @@ const getInitialState = () => {
         currentMatch: null,
         scene: null,
         selectedCardId: null,
+        selectedNPC: null,
         inspectCard:null,
         currentDeckId:'',
         lobbyId:'',

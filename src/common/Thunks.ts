@@ -6,6 +6,10 @@ import { net_cancelPendingAction, net_endTurn, sendCancelAction, sendEndTurn, se
 import { getNewCampaignMatch, getNewMatch, transitionIn, transitionOut, trySaveFile } from "./Utils"
 import MapScene from "../components/scenes/MapScene"
 
+export const onSelectNPC = (x,y) => {
+    store.dispatch({ type: UIReducerActions.NPC, data:{x,y} })
+}
+
 export const addLogEntry = (data:LogEntry) => {
     store.dispatch({ type: UIReducerActions.ADD_LOG, data })
 }

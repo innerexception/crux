@@ -167,6 +167,7 @@ interface RState {
     selectedSaveName: string
     inspectCard: Card
     selectedCardId: string
+    selectedNPC: {x:number, y:number}
     scene: import('./src/components/scenes/BattleScene').default
 }
 

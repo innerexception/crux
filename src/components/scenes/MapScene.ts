@@ -2,7 +2,7 @@ import { GameObjects, Input, Scene, Tilemaps } from "phaser";
 import { DEFAULT_KEYS, LayerStack, Layers, Maps, Modal, CreatureSpriteIndex } from "../../../enum";
 import { TILE_DIM } from "./BattleScene";
 import { store } from "../../..";
-import { onShowModal, onStartCampaignMatch, onUpdateSave } from "../../common/Thunks";
+import { onSelectNPC, onShowModal, onStartCampaignMatch, onUpdateSave } from "../../common/Thunks";
 import { getAIPlayer } from "../../common/Utils";
 import { MapFeatures } from "../../assets/data/Map";
 
@@ -20,6 +20,7 @@ export default class MapScene extends Scene {
         inventory: Input.Keyboard.Key
     }
     moveCooldown:boolean
+    currentCenter:{x:number,y:number}
 
     create = () =>
     {
@@ -51,7 +52,9 @@ export default class MapScene extends Scene {
             this.playerSprite = this.add.image(save.worldX, save.worldY, 'creatures', save.playerSprite)
             save.campaignCreatures.filter(c=>!c.alive).forEach(c=>this.map.removeTileAt(c.tileX, c.tileY, false, false, Layers.Creature))
         } 
-        this.cameras.main.startFollow(this.playerSprite)
+        this.cameras.main.centerOn(this.playerSprite.x, this.playerSprite.y)
+        this.currentCenter = {x:this.cameras.main.midPoint.x,y:this.cameras.main.midPoint.y}
+
         const keys = DEFAULT_KEYS
         this.input.keyboard.enabled = true
         this.input.keyboard.clearCaptures()
@@ -96,6 +99,7 @@ export default class MapScene extends Scene {
                     onUpdateSave({...store.getState().saveFile, worldX: this.playerSprite.x, worldY:this.playerSprite.y})
                     const creature = this.map.getTileAt(t.x, t.y, false, Layers.Creature)
                     if(creature) this.triggerNPCEvent(creature.index-1)
+                    if() //TODO: if distance from currentCenter > 8 tiles pan camera over 8 tiles
                 }
             })
         }

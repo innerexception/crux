@@ -23,6 +23,7 @@ import CampaignDeckbuilder from './components/CampaignDeckbuilder';
 import MapUI from './components/MapUI';
 import Logs from './components/Logs';
 import Speech from './components/modals/Speech';
+import NPCPreview from './components/NPCPreview';
 
 export default () => {
 
@@ -65,6 +66,7 @@ export default () => {
         {showMapUI && <MapUI/>}
         {showUI && <div style={{position:'absolute', top:'33%',opacity:0.8, right:10, background:'black', width:'200px', height:'300px'}}>{state.inspectCard && <CardDetailView card={state.inspectCard}/>}</div>}
         {state.previewAbility && <div style={{position:'absolute', top:'50%', left:10}}><AbilityPreview ability={state.previewAbility}/></div>}
+        {state.selectedNPC && <div style={{position:'absolute', left:0,right:0,bottom:0,top:0, margin:'auto'}}><NPCPreview/></div>}
       </div>
     </div>
   )
