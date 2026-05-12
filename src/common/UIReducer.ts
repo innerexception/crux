@@ -49,6 +49,8 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
             return { ...state, repeatCount: action.data }
         case UIReducerActions.ADD_LOG:
             return { ...state, saveFile: {...state.saveFile, currentMatch: {...state.saveFile.currentMatch, logs: state.saveFile.currentMatch.logs.concat(action.data) }}}
+        case UIReducerActions.NPC:
+            return { ...state, selectedNPC: action.data }
         default:
             return state
     }

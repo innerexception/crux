@@ -23,7 +23,8 @@ export enum UIReducerActions {
     SET_NET_ACK='SET_NET_ACK',
     SET_REPEAT='SET_REPEAT',
     ADD_LOG='ADD_LOG',
-    FINISH_MATCH='FINISH_MATCH'
+    FINISH_MATCH='FINISH_MATCH',
+    NPC='NPC'
 }
 
 export const PLAYER_HP = 15

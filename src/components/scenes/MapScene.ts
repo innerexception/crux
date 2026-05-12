@@ -6,6 +6,8 @@ import { onSelectNPC, onShowModal, onStartCampaignMatch, onUpdateSave } from "..
 import { getAIPlayer } from "../../common/Utils";
 import { MapFeatures } from "../../assets/data/Map";
 
+const DEAD_ZONE = 10
+
 export default class MapScene extends Scene {
 
     sounds: any
@@ -67,7 +69,7 @@ export default class MapScene extends Scene {
             if(tile){
                 const cre = save.campaignCreatures.find(c=>c.tileX === tile.x && c.tileY === tile.y)
                 if(cre){
-                    onSelectNPC(cre)
+                    onSelectNPC({x:cre.tileX, y:cre.tileY})
                 }
                 else if(state.selectedNPC) onSelectNPC(null)
             }
@@ -99,7 +101,20 @@ export default class MapScene extends Scene {
                     onUpdateSave({...store.getState().saveFile, worldX: this.playerSprite.x, worldY:this.playerSprite.y})
                     const creature = this.map.getTileAt(t.x, t.y, false, Layers.Creature)
                     if(creature) this.triggerNPCEvent(creature.index-1)
-                    if() //TODO: if distance from currentCenter > 8 tiles pan camera over 8 tiles
+                    const d = Phaser.Math.Distance.Between(this.currentCenter.x, this.currentCenter.y, this.playerSprite.x, this.playerSprite.y)
+                    if(d > DEAD_ZONE*TILE_DIM){
+                        let xDif = Math.abs(this.playerSprite.x - this.currentCenter.x)
+                        let yDif = Math.abs(this.playerSprite.y - this.currentCenter.y)
+                        if(xDif > yDif){
+                            let dir = {x: this.playerSprite.x >= this.currentCenter.x?1:-1, y: 0}
+                            this.currentCenter = {x:this.currentCenter.x+(DEAD_ZONE*TILE_DIM*dir.x), y:this.currentCenter.y+(DEAD_ZONE*TILE_DIM*dir.y)}
+                        }
+                        else {
+                            let dir = {x: 0, y: this.playerSprite.y>=this.currentCenter.y?1:-1}
+                            this.currentCenter = {x:this.currentCenter.x+(DEAD_ZONE*TILE_DIM*dir.x), y:this.currentCenter.y+(DEAD_ZONE*TILE_DIM*dir.y)}
+                        }
+                        this.cameras.main.pan(this.currentCenter.x, this.currentCenter.y, 500, )
+                    } 
                 }
             })
         }

@@ -218,62 +218,72 @@ export const getFreshLands = () => {
     ])
 }
 
-export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Card[], sprite:CreatureSpriteIndex, hp:number, loot:CardType[]}>> = {
+export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Card[], sprite:CreatureSpriteIndex, hp:number, loot:CardType[], name:string}>> = {
     [CreatureSpriteIndex.ForestMoth]: {
+        name: 'Moth Spirit',
         sprite: CreatureSpriteIndex.ForestMoth,
         deck: PrebuiltDecks.birds,
         hp:5,
         loot:[CardType.ForestJackal]
     },
     [CreatureSpriteIndex.GoblinMage]: {
+        name: 'Gob Mage',
         sprite: CreatureSpriteIndex.GoblinMage,
         deck: PrebuiltDecks.goblinSmall,
         hp:5,
         loot:[CardType.DustDevil]
     },
     [CreatureSpriteIndex.Goblin]: {
+        name: 'Gob',
         sprite: CreatureSpriteIndex.Goblin,
         deck: PrebuiltDecks.goblinSmall,
         hp:5,
         loot:[CardType.GoblinScrounger]
     },
     [CreatureSpriteIndex.Goblin3]: {
+        name: 'Hob',
         sprite: CreatureSpriteIndex.Goblin3,
         deck: PrebuiltDecks.beasts,
         hp:5,
         loot:[CardType.WerewolfRaider]
     },
     [CreatureSpriteIndex.CityMage]: {
+        name: 'Necro',
         sprite: CreatureSpriteIndex.CityMage,
         deck: PrebuiltDecks.blackSmall,
         hp:10,
         loot:[CardType.Pollution]
     },
     [CreatureSpriteIndex.Bruiser]: {
-        sprite: CreatureSpriteIndex.CityMage,
-        deck: PrebuiltDecks.goblinHordes,
+        name: 'Tough',
+        sprite: CreatureSpriteIndex.Bruiser,
+        deck: PrebuiltDecks.nomads,
         hp:20,
         loot:[CardType.Hobgoblin]
     },
     [CreatureSpriteIndex.Mummy]: {
+        name: 'Mummy',
         sprite: CreatureSpriteIndex.Mummy,
         deck: PrebuiltDecks.vermin,
         hp:10,
         loot:[CardType.Necromancy]
     },
     [CreatureSpriteIndex.MasterMummy]: {
+        name: 'Lord Mummy',
         sprite: CreatureSpriteIndex.MasterMummy,
         deck: PrebuiltDecks.blackSmall,
         hp:20,
         loot:[CardType.TheFear]
     },
     [CreatureSpriteIndex.FireLizard]: {
+        name: 'Fire Lizard',
         sprite: CreatureSpriteIndex.FireLizard,
         deck: PrebuiltDecks.nomads,
         hp:10,
         loot:[CardType.LizardMage]
     },
     [CreatureSpriteIndex.Goblinchief]: {
+        name: 'Gob Chief',
         sprite: CreatureSpriteIndex.Goblinchief,
         deck: PrebuiltDecks.goblinHordes,
         hp:20,
