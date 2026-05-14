@@ -29,34 +29,9 @@ export default class MapScene extends Scene {
         this.sounds = {}
         //this.add.tileSprite(0,0,this.cameras.main.displayWidth,this.cameras.main.displayHeight*2, 'bg').setOrigin(0,0).setScale(1)
         this.input.mouse.disableContextMenu()
-        this.map?.destroy()
-        this.map = this.add.tilemap(Maps.Overworld)
-        let grass = this.map.addTilesetImage('tiles', 'tiles', TILE_DIM,TILE_DIM)
-        LayerStack.forEach(l=>this.map.createLayer(l, grass))
-        this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
         const save = store.getState().saveFile
-        this.playerSprite?.destroy()
-        this.map.setLayer(Layers.Doodad)
-        if(!save.worldX){
-            const spawn = this.map.findByIndex(729)
-            this.playerSprite = this.add.image(spawn.pixelX, spawn.pixelY, 'creatures', save.playerSprite)
-            this.map.setLayer(Layers.Creature)
-            let creatures = new Array<CreatureState>()
-            this.map.forEachTile(t=>{
-                if(t.index != -1){
-                    creatures.push({ kind: t.index-1, tileX: t.x, tileY:t.y, alive:true })
-                }
-            })
-            onUpdateSave({...save, campaignCreatures:creatures})
-            onShowModal(Modal.CampaignDeckbuilder)
-        }
-        else{
-            this.playerSprite = this.add.image(save.worldX, save.worldY, 'creatures', save.playerSprite)
-            save.campaignCreatures.filter(c=>!c.alive).forEach(c=>this.map.removeTileAt(c.tileX, c.tileY, false, false, Layers.Creature))
-        } 
-        this.cameras.main.centerOn(this.playerSprite.x, this.playerSprite.y)
-        this.currentCenter = {x:this.cameras.main.midPoint.x,y:this.cameras.main.midPoint.y}
-
+        this.redrawMap(save.currentMap, 'spawn' as any)
+        
         const keys = DEFAULT_KEYS
         this.input.keyboard.enabled = true
         this.input.keyboard.clearCaptures()
@@ -67,19 +42,49 @@ export default class MapScene extends Scene {
             const state = store.getState()
             let tile = this.map?.getTileAtWorldXY(this.input.activePointer.worldX, this.input.activePointer.worldY, false, undefined, Layers.Earth)
             if(tile){
-                const cre = save.campaignCreatures.find(c=>c.tileX === tile.x && c.tileY === tile.y)
+                const cre = state.saveFile.campaignCreatures.find(c=>c.tileX === tile.x && c.tileY === tile.y)
                 if(cre){
                     onSelectNPC({x:cre.tileX, y:cre.tileY})
                 }
                 else if(state.selectedNPC) onSelectNPC(null)
             }
         })
+        if(save.campaignDeck.length === 0) 
+            onShowModal(Modal.CampaignDeckbuilder)
     }
 
     onTransitionIn = () => {
         
     }
 
+    redrawMap(map:Maps, previousMap:Maps) {
+        this.map?.destroy()
+        this.map = this.add.tilemap(map)
+        let grass = this.map.addTilesetImage('tiles', 'tiles', TILE_DIM,TILE_DIM)
+        LayerStack.forEach(l=>this.map.createLayer(l, grass))
+        this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
+        const save = store.getState().saveFile
+        this.playerSprite?.destroy()
+        this.map.setLayer(Layers.Doodad)
+        if(!save.maps[map]){
+            const stairs = this.map.getObjectLayer('stairs').objects.find(s=>s.name === previousMap)
+            this.playerSprite = this.add.image(stairs.x+16, stairs.y+16, 'creatures', save.playerSprite)
+            this.map.setLayer(Layers.Creature)
+            let creatures = new Array<CreatureState>()
+            this.map.forEachTile(t=>{
+                if(t.index != -1){
+                    creatures.push({ kind: t.index-1, tileX: t.x, tileY:t.y, alive:true, map })
+                }
+            })
+            onUpdateSave({...save, campaignCreatures:creatures})
+        }
+        else{
+            this.playerSprite = this.add.image(save.maps[map].worldX, save.maps[map].worldY, 'creatures', save.playerSprite)
+            save.campaignCreatures.filter(c=>c.map === map && !c.alive).forEach(c=>this.map.removeTileAt(c.tileX, c.tileY, false, false, Layers.Creature))
+        } 
+        this.cameras.main.centerOn(this.playerSprite.x, this.playerSprite.y)
+        this.currentCenter = {x:this.cameras.main.midPoint.x,y:this.cameras.main.midPoint.y}
+    }
     
 
     resolveMove (unit:GameObjects.Image, tileX:number, tileY:number) {
@@ -98,7 +103,14 @@ export default class MapScene extends Scene {
                 duration: 300,
                 onComplete: ()=>{
                     this.moveCooldown = false
-                    onUpdateSave({...store.getState().saveFile, worldX: this.playerSprite.x, worldY:this.playerSprite.y})
+                    const current = this.map.getTileAtWorldXY(unit.x, unit.y, false, undefined, Layers.Earth)
+                    let save = store.getState().saveFile
+                    save.maps[save.currentMap] = {...save.maps[save.currentMap], worldX: this.playerSprite.x, worldY: this.playerSprite.y}
+                    onUpdateSave({...save})
+                    const stairs = this.map.getObjectLayer('stairs').objects.find(s=>s.x === current.pixelX && s.y === current.pixelY && s.name !== 'spawn')
+                    if(stairs){
+                        return this.redrawMap(stairs.name as Maps, save.currentMap)
+                    }
                     const creature = this.map.getTileAt(t.x, t.y, false, Layers.Creature)
                     if(creature) this.triggerNPCEvent(creature.index-1)
                     const d = Phaser.Math.Distance.Between(this.currentCenter.x, this.currentCenter.y, this.playerSprite.x, this.playerSprite.y)

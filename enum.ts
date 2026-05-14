@@ -69,7 +69,7 @@ export enum Layers {
 export const LayerStack = [Layers.Earth,Layers.Doodad,Layers.Blockers,Layers.Creature,]
 
 export enum Maps {
-    Tutorial='tutorial',Overworld='overworld'
+    Tutorial='tutorial',Overworld='overworld',DesertTower1='deserttower1'
 }
 
 export enum CreatureSpriteIndex {

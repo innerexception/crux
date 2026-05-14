@@ -201,6 +201,7 @@ interface CreatureState {
     tileY:number
     kind: import('./enum').CreatureSpriteIndex
     alive:boolean
+    map: import('./enum').Maps
 }
 
 interface SaveFile {
@@ -212,8 +213,8 @@ interface SaveFile {
     cards:Card[]
     campaignDeck:Card[]
     currentMatch:MatchState
-    worldX:number
-    worldY:number
+    currentMap: import('./enum').Maps
+    maps: Record<import('./enum').Maps, {worldX:number, worldY:number}>
     gold:number
     campaignCreatures:CreatureState[]
 }

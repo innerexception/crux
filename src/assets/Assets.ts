@@ -24,4 +24,5 @@ export const resources:Array<PhaserResource> = [
     //{ key: SoundEffect.Birds, resource: require('./audio/birds.mp3'), type:'audio'},
     { key: Maps.Tutorial, resource: require('./maps/dcsstutorial.json'), type: 'tilemapTiledJSON'},
     { key: Maps.Overworld, resource: require('./maps/overworld.json'), type: 'tilemapTiledJSON'},
+    { key: Maps.DesertTower1, resource: require('./maps/deserttower1.json'), type: 'tilemapTiledJSON'},
 ]
