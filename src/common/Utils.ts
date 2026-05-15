@@ -19,8 +19,14 @@ export const emptyMana = {
 export const checkWinConditions = (deadPlayer:PlayerState) => {
     const myid = store.getState().saveFile.myId
     if(deadPlayer.id !== myid){
-        onFinishBattle(getLoot(deadPlayer.playerSprite, myid))
-        onShowModal(Modal.Winner, {cards: getLoot(deadPlayer.playerSprite, myid), targetPlayerId: ''})
+        const networkActive = store.getState().saveFile.currentMatch.players.find(p=>p.isAI) ? false : true
+        if(networkActive){
+            onShowModal(Modal.Winner)
+        }
+        else {
+            onFinishBattle(getLoot(deadPlayer.playerSprite, myid))
+            onShowModal(Modal.CampaignWinner, {cards: getLoot(deadPlayer.playerSprite, myid), targetPlayerId: ''})
+        }
     }
     else {
         onShowModal(Modal.GameOver)

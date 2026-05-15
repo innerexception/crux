@@ -76,12 +76,13 @@ export default class MapScene extends Scene {
                     creatures.push({ kind: t.index-1, tileX: t.x, tileY:t.y, alive:true, map })
                 }
             })
-            onUpdateSave({...save, campaignCreatures:creatures})
+            onUpdateSave({...save, campaignCreatures:save.campaignCreatures.concat(creatures)})
         }
         else{
             this.playerSprite = this.add.image(save.maps[map].worldX, save.maps[map].worldY, 'creatures', save.playerSprite)
             save.campaignCreatures.filter(c=>c.map === map && !c.alive).forEach(c=>this.map.removeTileAt(c.tileX, c.tileY, false, false, Layers.Creature))
         } 
+        onUpdateSave({...store.getState().saveFile, currentMap: map})
         this.cameras.main.centerOn(this.playerSprite.x, this.playerSprite.y)
         this.currentCenter = {x:this.cameras.main.midPoint.x,y:this.cameras.main.midPoint.y}
     }
@@ -103,16 +104,19 @@ export default class MapScene extends Scene {
                 duration: 300,
                 onComplete: ()=>{
                     this.moveCooldown = false
-                    const current = this.map.getTileAtWorldXY(unit.x, unit.y, false, undefined, Layers.Earth)
                     let save = store.getState().saveFile
                     save.maps[save.currentMap] = {...save.maps[save.currentMap], worldX: this.playerSprite.x, worldY: this.playerSprite.y}
                     onUpdateSave({...save})
+                    //Check encounter
+                    const creature = this.map.getTileAt(t.x, t.y, false, Layers.Creature)
+                    if(creature) return this.triggerNPCEvent(creature.index-1)
+                    //Check stairs
+                    const current = this.map.getTileAtWorldXY(unit.x, unit.y, false, undefined, Layers.Earth)
                     const stairs = this.map.getObjectLayer('stairs').objects.find(s=>s.x === current.pixelX && s.y === current.pixelY && s.name !== 'spawn')
                     if(stairs){
                         return this.redrawMap(stairs.name as Maps, save.currentMap)
                     }
-                    const creature = this.map.getTileAt(t.x, t.y, false, Layers.Creature)
-                    if(creature) this.triggerNPCEvent(creature.index-1)
+                    //Move camera
                     const d = Phaser.Math.Distance.Between(this.currentCenter.x, this.currentCenter.y, this.playerSprite.x, this.playerSprite.y)
                     if(d > DEAD_ZONE*TILE_DIM){
                         let xDif = Math.abs(this.playerSprite.x - this.currentCenter.x)

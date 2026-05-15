@@ -33,9 +33,10 @@ export enum Modal {
     NewGame='ng',SelectSave='SelectSave',Options='Options',SelectLoad='SelectLoad',
     Deckbuilder='Deckbuilder',AnyGraveyard='AnyGraveyard',
     ChooseFromGY='ChooseFromGY',ChooseDiscard='ChooseDiscard',PickNextCard='PickNextSorcery',
-    GameOver='GameOver',Winner='Winner',ShowLandChoices='ShowLandChoices',Lobby='Lobby',
+    GameOver='GameOver',CampaignWinner='CampaignWinner',ShowLandChoices='ShowLandChoices',Lobby='Lobby',
     ViewCards='ViewCards',SelectCreatureForTop='SelectCreatureForTop',DiscardAndDraw='DiscardAndDraw',
-    ViewGY='ViewGY',TradeSpells='TradeSpells',CampaignDeckbuilder='CampaignDeckbuilder',Speech='Speech'
+    ViewGY='ViewGY',TradeSpells='TradeSpells',CampaignDeckbuilder='CampaignDeckbuilder',Speech='Speech',
+    Winner='Winner'
 }
 
 export enum Direction {

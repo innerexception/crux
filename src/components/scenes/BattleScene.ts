@@ -118,7 +118,7 @@ export default class BattleScene extends Scene {
             const sorcery = p.hand.find(c=>
                 getCardData(c.kind).kind === Permanents.Sorcery &&
                 canAfford(p.manaPool,c) &&
-                (getCardData(c.kind).ability.effect.dmg || getCardData(c.kind).ability.effect.destroy)) //TODO: include other debilitating effects
+                (getCardData(c.kind).ability.effect.dmg || getCardData(c.kind).ability.effect.destroy)) //TODO: ai should consider other debilitating effects
             if(sorcery){
                 const target = enemies.find(e=>{
                         const targets = getValidCreatureTargets(sorcery, e.id) 
@@ -420,7 +420,7 @@ export default class BattleScene extends Scene {
                             const meta = getCardData(card.kind)
                             if(meta.ability?.effect.addMana && card.ownerId === me.id){
                                 if(networkActive) sendLandTappedEffect(card)
-                                else net_tapLand(card) //TODO: can't tap land placed right after land was destroyed in same space
+                                else net_tapLand(card)
                             }
                             if(meta.ability?.trigger === Triggers.AtWill || 
                                 card.attributes.includes(Modifier.Nimble) || 
@@ -837,7 +837,7 @@ export default class BattleScene extends Scene {
                 const t = this.getEmptyStartTile({dir: targetPlayer.dir, land:true})
                 if(t){
                     this.creatures.push(new CreatureSprite(this, t.pixelX,t.pixelY, getCardData(forest.kind).sprite, forest.id, targetPlayer.dir))
-                    onUpdateBoard(state.currentMatch.board.concat({...forest, ownerId: targetPlayer.id, tileX:t.x, tileY:t.y}))
+                    onUpdateBoard(state.currentMatch.board.concat({...forest, ownerId: targetPlayer.id, tileX:t.x, tileY:t.y, tapped: false}))
                     onUpdateLands(store.getState().saveFile.currentMatch.lands.filter(l=>l.id !== forest.id))
                 }
                 else addLogEntry({ kind: Log.Message, card, message: 'No empty space was available!' })

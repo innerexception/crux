@@ -17,9 +17,10 @@ export default () => {
     const match = useSelector((state:RState)=>state.saveFile.currentMatch)
 
     const canCancel = () => {
+        if(activeAbility?.required) return false
+        if(activeAbility) return true
         if(!myTurn) return false
         if(!selectedCardId) return false
-        if(activeAbility?.required) return false
         return true
     }
 

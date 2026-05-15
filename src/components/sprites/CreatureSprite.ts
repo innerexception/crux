@@ -246,7 +246,7 @@ export default class CreatureSprite extends GameObjects.Image {
     destroy(){
         const i = this.scene?.creatures.findIndex(s=>s.id === this.id)
         this.scene?.creatures.splice(i,1)
-        super.destroy()
         this.icon?.destroy()
+        super.destroy()
     }
 }

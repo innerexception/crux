@@ -15,7 +15,7 @@ import AbilityPreview from './components/AbilityPreview';
 import LookAtCards from './components/modals/LookAtCards';
 import PickNextCard from './components/modals/PickNextCard';
 import DiscardAndDraw from './components/modals/DiscardAndDraw';
-import Winner from './components/modals/Winner';
+import CampaignWinner from './components/modals/CampaignWinner';
 import Loser from './components/modals/Loser';
 import ViewGY from './components/modals/ViewGY';
 import TradeSpells from './components/modals/TradeSpells';
@@ -23,7 +23,7 @@ import CampaignDeckbuilder from './components/CampaignDeckbuilder';
 import MapUI from './components/MapUI';
 import Logs from './components/Logs';
 import Speech from './components/modals/Speech';
-import NPCPreview from './components/NPCPreview';
+import Winner from './components/modals/Winner';
 
 export default () => {
 
@@ -41,6 +41,7 @@ export default () => {
       case Modal.ViewGY: return <ViewGY/>
       case Modal.PickNextCard: return <PickNextCard/>
       case Modal.DiscardAndDraw: return <DiscardAndDraw/>
+      case Modal.CampaignWinner: return <CampaignWinner/>
       case Modal.Winner: return <Winner/>
       case Modal.GameOver: return <Loser/>
       case Modal.TradeSpells: return <TradeSpells/>
