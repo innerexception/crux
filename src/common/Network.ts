@@ -1,5 +1,5 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
-import { IconIndex, Layers, Log, Modal, Modifier, NetworkEvent, Permanents, Target } from '../../enum'
+import { IconIndex, Layers, Log, Modal, Modifier, NetworkEvent, Permanents, PLAYER_HP, Target } from '../../enum'
 import { addLogEntry, onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSelectCard, onSetActionAcknowledge, onSetLobby, onSetRepeatingCardAbility, onShowAbilityPreview, onShowModal, onStartMatch, onTurnProcessing, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCard, onUpdateLands, onUpdatePlayer, onUpdateSave } from './Thunks'
 import { store } from '../..'
 import { checkWinConditions, emptyMana, payCost, shuffle } from './Utils'
@@ -113,7 +113,7 @@ const getMyPlayer = ():PlayerState => {
     const hand = deck.cards.splice(0,5)
     return {
         id:s.myId,
-        hp:20,
+        hp:PLAYER_HP,
         dir:null,
         hand,
         deck,

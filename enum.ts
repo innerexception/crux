@@ -312,7 +312,8 @@ export enum CardType {
     BallistaCorps='BallistaCorps', ObsidianGargoyle='ObsidianGargoyle', Escaton='Escaton',
     FeralSpirit='FeralSpirit', FireHydra='FireHydra', KnowledgeAssimilator='KnowledgeAssimilator',ChaosServant='ChaosServant',
     VexingRiddle='VexingRiddle',Fog='Fog',Erosion='Erosion',DivineReach='DivineReach',Stylite='Stylite',LizardMage='LizardMage',
-    LavaBeam='LavaBeam',Contemplation='Contemplation',HiddenOasis='HiddenOasis',StingingWinds='StingingWinds'
+    LavaBeam='LavaBeam',Contemplation='Contemplation',HiddenOasis='HiddenOasis',StingingWinds='StingingWinds',
+    Purify='Purify',AngelicWarning='AngelicWarning'
 }
 
 export const DEFAULT_KEYS = {

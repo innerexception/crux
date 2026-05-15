@@ -1,6 +1,6 @@
 import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
 import { store } from "../../..";
-import { CardType, Color, Direction, IconIndex, Layers, LayerStack, Log, Maps, Modal, Modifier, Permanents, SceneNames, Target, Triggers } from "../../../enum";
+import { CardType, Color, Direction, IconIndex, Layers, LayerStack, Log, Maps, Modal, Modifier, Permanents, PLAYER_HP, SceneNames, Target, Triggers } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { addLogEntry, onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateBoard, onUpdateBoardCard, onUpdateLands, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";
 import CreatureSprite from "../sprites/CreatureSprite";
@@ -749,7 +749,7 @@ export default class BattleScene extends Scene {
             return
         }
         if(effect.casterHpUp){
-            caster.hp=Math.min(20,caster.hp+effect.casterHpUp)
+            caster.hp=Math.min(PLAYER_HP,caster.hp+effect.casterHpUp)
             onUpdatePlayer({...caster})
         }
         if(effect.damageReflect){
@@ -764,7 +764,7 @@ export default class BattleScene extends Scene {
          } 
         if(effect.hp3perBlackCreature){
             const blacks = state.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Creature && getCardData(c.kind).color === Color.Black)
-            targetPlayer.hp=Math.min(20,targetPlayer.hp+(blacks.length*3))
+            targetPlayer.hp=Math.min(PLAYER_HP,targetPlayer.hp+(blacks.length*3))
         }
         if(effect.playExtraLand){
             targetPlayer.hasPlayedLand = false
@@ -786,7 +786,7 @@ export default class BattleScene extends Scene {
             targetPlayer.hp-=deserts.length
         }
         if(effect.hpUp){
-            targetPlayer.hp=Math.min(20,targetPlayer.hp+effect.hpUp)
+            targetPlayer.hp=Math.min(PLAYER_HP,targetPlayer.hp+effect.hpUp)
         }
         if(effect.drawX){
             const x = getColorlessRemain(caster.manaPool, card)
@@ -797,11 +797,11 @@ export default class BattleScene extends Scene {
         }
         if(effect.hpPerLand){
             const forests = state.currentMatch.board.filter(c=>c.kind === effect.hpPerLand)
-            targetPlayer.hp=Math.min(20,targetPlayer.hp+(forests.length*effect.hpUp))
+            targetPlayer.hp=Math.min(PLAYER_HP,targetPlayer.hp+(forests.length*effect.hpUp))
         }
         if(effect.hpPerAttacker){
             const enemies = state.currentMatch.board.filter(c=>getCardData(c.kind).kind === Permanents.Creature && c.ownerId !== targetPlayer.id)
-            targetPlayer.hp=Math.min(20,targetPlayer.hp+enemies.length)
+            targetPlayer.hp=Math.min(PLAYER_HP,targetPlayer.hp+enemies.length)
         }
         if(targetPlayer.hp <= 0){
             checkWinConditions(targetPlayer)
@@ -904,9 +904,13 @@ export default class BattleScene extends Scene {
             return this.creatures.find(c=>c.id === creature.id).returnToHand()
         }
 
+        if(effect.removeAllAttributes){
+            creature.attributes = []
+        }
+
         if(effect.hpToOwner){
             let owner = state.saveFile.currentMatch.players.find(p=>p.id === creature.ownerId)
-            onUpdatePlayer({...owner, hp: Math.min(20,owner.hp+effect.hpToOwner)})
+            onUpdatePlayer({...owner, hp: Math.min(PLAYER_HP,owner.hp+effect.hpToOwner)})
         }
 
         if(effect.returnToBattle){
@@ -1010,7 +1014,7 @@ export default class BattleScene extends Scene {
         const p = state.saveFile.currentMatch.players.find(p=>p.id === card.ownerId)
         //3. death effects
         if(card.attributes.includes(Modifier.Consecrate)){
-            p.hp=Math.min(20,p.hp+3)
+            p.hp=Math.min(PLAYER_HP,p.hp+3)
             if(p.dir === Direction.NORTH){
                 this.floatResource(this.playerNorth.x, this.playerNorth.y, IconIndex.Buff)
             }

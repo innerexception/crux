@@ -1,12 +1,11 @@
 import { GameObjects, Geom, Scene } from "phaser"
-import { CardType, Color, CreatureSpriteIndex, Direction, Layers, Modal, Permanents, PLAYER_HP, SceneNames } from "../../enum"
+import { CardType, Color, CreatureSpriteIndex, Direction, Layers, Modal, Permanents, PLAYER_HP } from "../../enum"
 import BattleScene from "../components/scenes/BattleScene"
 import { AIPlayers, getCardData, getFreshLands, getLoot } from "./CardUtils"
 import { SAVE_NAMES } from "./UIReducer"
 import{ v4 } from 'uuid'
 import { store } from "../.."
-import { onFinishBattle, onQuit, onShowModal, onUpdateSave } from "./Thunks"
-import MapScene from "../components/scenes/MapScene"
+import { onFinishBattle, onShowModal } from "./Thunks"
 
 export const emptyMana = {
     [Color.Black]:0,
@@ -22,7 +21,7 @@ export const checkWinConditions = (deadPlayer:PlayerState) => {
     if(deadPlayer.id !== myid){
         onFinishBattle(getLoot(deadPlayer.playerSprite, myid))
         onShowModal(Modal.Winner, {cards: getLoot(deadPlayer.playerSprite, myid), targetPlayerId: ''})
-    } 
+    }
     else {
         onShowModal(Modal.GameOver)
     }

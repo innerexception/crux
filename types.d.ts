@@ -122,6 +122,7 @@ interface CardEffect {
     hp3perBlackCreature?:boolean
     lightningSpecial?:boolean
     transformInto?: import('./enum').CardType
+    removeAllAttributes?:boolean
 }
 
 interface Deck {

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux';
-import { Color, ColorIcons, IconIndex } from '../../enum';
+import { Color, ColorIcons, IconIndex, PLAYER_HP } from '../../enum';
 import { Button, CssIcon, ProgressBar } from '../common/Shared';
 import { onQuit, onSave } from '../common/Thunks';
 import { colors } from '../styles/AppStyles';
@@ -19,11 +19,11 @@ export default () => {
             <div style={{display:'flex'}}>
                 <div style={{display:'flex', alignItems:'center', marginRight:'1em'}}>
                     <CssIcon spriteIndex={me.playerSprite}/>
-                    <ProgressBar value={me.hp} max={20} bg={colors.white}/>
+                    <ProgressBar value={me.hp} max={PLAYER_HP} bg={colors.white}/>
                 </div>
                 <div style={{display:'flex', alignItems:'center'}}>
                     <CssIcon spriteIndex={cpu.playerSprite}/>
-                    <ProgressBar value={cpu.hp} max={20} bg={colors.white}/>
+                    <ProgressBar value={cpu.hp} max={PLAYER_HP} bg={colors.white}/>
                 </div>
             </div>
         </div>

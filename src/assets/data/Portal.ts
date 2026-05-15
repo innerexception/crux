@@ -2992,6 +2992,34 @@ export const Portal:Record<CardType, CardMeta> = {
             }
         }
     },
+    [CardType.Purify]:{
+        color:Color.Green,
+        cost: [{kind:Color.Green, amount:1},{kind:Color.None, amount: 1}],
+        kind: Permanents.Sorcery,
+        gold:5,
+        ability: {
+            targets: Target.Creature,
+            effect: {
+                removeAllAttributes: true,
+                sprite: IconIndex.Debuff,
+            }
+        },
+        sprite: CreatureSpriteIndex.Purify
+    },
+    [CardType.AngelicWarning]:{
+        color:Color.White,
+        cost: [{kind:Color.White, amount:1}],
+        kind: Permanents.Sorcery,
+        gold:5,
+        ability: {
+            targets: Target.CreatureYouControl,
+            effect: {
+                returnToHand: true,
+                sprite: IconIndex.Buff,
+            }
+        },
+        sprite: CreatureSpriteIndex.AngelicWarning
+    },
     [CardType.LizardMage]: {
         color:Color.Red,
         defaultAtk:3,
