@@ -420,7 +420,7 @@ export default class BattleScene extends Scene {
                             const meta = getCardData(card.kind)
                             if(meta.ability?.effect.addMana && card.ownerId === me.id){
                                 if(networkActive) sendLandTappedEffect(card)
-                                else net_tapLand(card)
+                                else net_tapLand(card) //TODO: can't tap land placed right after land was destroyed in same space
                             }
                             if(meta.ability?.trigger === Triggers.AtWill || 
                                 card.attributes.includes(Modifier.Nimble) || 
@@ -488,7 +488,7 @@ export default class BattleScene extends Scene {
                             if(tile.y===card.tileY && (tile.x === card.tileX-1||tile.x===card.tileX+1)){
                                 if(this.canPlaceCreatureHere(card, tile)){
                                     //If valid target proceed
-                                    const props = { card, tileX:tile.x, tileY:tile.y }
+                                    const props = { card, tileX:tile.x, tileY:tile.y, tap: true }
                                     if(networkActive) sendMoveCard(props)
                                     else net_moveCard(props)
                                     onShowAbilityPreview(null)
@@ -881,7 +881,7 @@ export default class BattleScene extends Scene {
                 })
                 if(open){
                     //If exists, move creature there and tap
-                    net_moveCard({card:creature, tileX:creature.tileX+open, tileY:creature.tileY})
+                    net_moveCard({card:creature, tileX:creature.tileX+open, tileY:creature.tileY, tap: false})
                 }
                 else {
                     //Otherwise, return this creature to owners hand

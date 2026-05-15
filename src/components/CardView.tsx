@@ -56,7 +56,6 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.creatureToHandFromGY && <div>Return target creature to your hand from your graveyard</div>}
         {effect.cardToHandFromGY && <div>Return target card to your hand from your graveyard</div>}
         {effect.creatureToHandFromCodex && <div>Choose a creature from your codex and add it to your hand</div>}
-        {effect.discardAtRandom && <div>Discard a card at random.</div>}
         {effect.damageReflect && <div>Damage dealt to you this round is also dealt to opponent</div>}
         {effect.discard && <div>Choose and discard a card.</div>}
         {effect.discardAtRandom && <div>Target player discards a card at random.</div>}
@@ -97,10 +96,9 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.searchForLand && <div>Put a {effect.searchForLand} into an empty land space.</div>}
         {effect.shuffle && <div>Shuffle your codex</div>}
         {effect.snare && <div>Target creature cannot move</div>}
-        {effect.tauntPlayer && <div>Opponent's non-defender creatures must move to an open lane.</div>}
+        {effect.tauntPlayer && <div>Opponent's non-defender creatures must move to an open lane. If no lane is available they are returned to owner's hand.</div>}
         {effect.tap && <div>Tap target creature</div>}
-        {effect.tauntPlayer && <div>Targets must move to an open lane if able. If no lane is available they are returned to owner's hand</div>}
         {effect.transformInto && <div>Target land becomes a {effect.transformInto}</div>}
         {effect.untap && <div>Untap target.</div>}
-        {/* //TODO */}
+        {effect.removeAllAttributes && <div>Remove all modifiers from target creature.</div>}
     </div>

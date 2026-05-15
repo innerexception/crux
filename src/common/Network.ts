@@ -140,14 +140,14 @@ export const net_damageCard = (props:{target:Card, attacker:Card}) => {
     else onUpdateBoardCard({...props.target})
 }
 
-export const net_moveCard = (props:{card:Card, tileX:number, tileY:number}) => {
+export const net_moveCard = (props:{card:Card, tileX:number, tileY:number, tap:boolean}) => {
     const scene = store.getState().scene
     const tile = scene.map.getTileAt(props.tileX, props.tileY, false, Layers.Earth)
     const spr = scene.creatures.find(c=>c.id === props.card.id)
     spr.setPosition(tile.pixelX, tile.pixelY)
     spr.icon?.destroy()
     let attributes = getLaneAttributes(props.card, props.tileX)
-    onUpdateBoardCard({...props.card, attributes, tileX: props.tileX, tileY: props.tileY, tapped: true})
+    onUpdateBoardCard({...props.card, attributes, tileX: props.tileX, tileY: props.tileY, tapped: props.tap})
     addLogEntry({card:props.card, kind: Log.NimbleActivation })
 }
 
@@ -320,7 +320,6 @@ export const net_tapLand = (card:Card) => {
     tapLand(card, me)
     const sprite = scene.creatures.find(c=>c.id === card.id)
     scene.floatResource(sprite.x, sprite.y, IconIndex.Mana)
-    //TODO add exausted icon to card
 }
 
 export const net_addCard = (props:{cardId:string, worldX:number,worldY:number, fromGY?:boolean}) => {

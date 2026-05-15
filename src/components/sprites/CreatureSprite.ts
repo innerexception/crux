@@ -87,8 +87,8 @@ export default class CreatureSprite extends GameObjects.Image {
                     if(destroyTarget || destroyThis) return
 
                     if(this.shouldSwap(thisCreature, this.dir) || this.shouldSwap(target, this.dir*-1)){
-                        net_moveCard({card: target, tileX: myTile.x, tileY: myTile.y})
-                        net_moveCard({card: thisCreature, tileX: target.tileX, tileY: target.tileY})
+                        net_moveCard({card: target, tileX: myTile.x, tileY: myTile.y, tap:false})
+                        net_moveCard({card: thisCreature, tileX: target.tileX, tileY: target.tileY, tap:false})
                         return
                     }
 
