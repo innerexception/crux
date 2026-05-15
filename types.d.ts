@@ -215,7 +215,7 @@ interface SaveFile {
     campaignDeck:Card[]
     currentMatch:MatchState
     currentMap: import('./enum').Maps
-    maps: Record<import('./enum').Maps, {worldX:number, worldY:number}>
+    maps: Partial<Record<import('./enum').Maps, {worldX:number, worldY:number}>>
     gold:number
     campaignCreatures:CreatureState[]
 }

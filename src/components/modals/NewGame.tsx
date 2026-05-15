@@ -37,12 +37,8 @@ export default () => {
             campaignCreatures:[],
             currentMatch:null,
             gold:5,
-            maps: {
-                [Maps.Overworld]: null,
-                [Maps.DesertTower1]:null,
-                [Maps.Tutorial]:null
-            },
-            currentMap: Maps.DesertTower1
+            maps: {},
+            currentMap: Maps.DesertTower3
         }
         trySaveFile(JSON.stringify(newSave))
         onUpdateSave(newSave)

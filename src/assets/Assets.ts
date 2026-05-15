@@ -25,4 +25,6 @@ export const resources:Array<PhaserResource> = [
     { key: Maps.Tutorial, resource: require('./maps/dcsstutorial.json'), type: 'tilemapTiledJSON'},
     { key: Maps.Overworld, resource: require('./maps/overworld.json'), type: 'tilemapTiledJSON'},
     { key: Maps.DesertTower1, resource: require('./maps/deserttower1.json'), type: 'tilemapTiledJSON'},
+    { key: Maps.DesertTower2, resource: require('./maps/deserttower2.json'), type: 'tilemapTiledJSON'},
+    { key: Maps.DesertTower3, resource: require('./maps/deserttower3.json'), type: 'tilemapTiledJSON'},
 ]

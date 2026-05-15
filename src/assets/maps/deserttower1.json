@@ -49,6 +49,17 @@
                  "width":32,
                  "x":32,
                  "y":32
+                }, 
+                {
+                 "height":32,
+                 "id":3,
+                 "name":"deserttower2",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":96,
+                 "y":32
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -89,7 +100,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":3,
+ "nextobjectid":4,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",
