@@ -61,7 +61,7 @@ export const renderEffect = (effect:CardEffect) =>
         {effect.discardAtRandom && <div>Target player discards a card at random.</div>}
         {effect.discardAllAndDraw && <div>Discard all cards and draw that many cards.</div>}
         {effect.discardToDraw && <div>Discard X cards and draw X cards</div>}
-        {effect.draw && <div>Draw a card.</div>}
+        {effect.draw && <div>Draw {effect.draw} cards</div>}
         {effect.drawX && <div>Draw X cards.</div>}
         {effect.drawForDeserts && <div>Draw cards equal to deserts in play</div>}
         {effect.drawForTappedOpponent && <div>Draw cards equal to the number of tapped creatures</div>}
