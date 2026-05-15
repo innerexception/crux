@@ -1235,12 +1235,12 @@ export const Portal:Record<CardType, CardMeta> = {
         color:Color.Black,
         cost: [{kind:Color.Black, amount:3}],
         kind: Permanents.Sorcery,
-        gold:10,
+        gold:8,
         ability: {
             targets: Target.Self,
             effect: {
                 draw: 4,
-                dmg: 8,
+                dmg: 6,
                 sprite: IconIndex.Debuff,
             }
         },
