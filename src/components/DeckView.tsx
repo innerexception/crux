@@ -11,15 +11,15 @@ import { sendUpdate } from '../common/Network';
 export default () => {
 
     const me = useSelector((state:RState)=>state.saveFile.currentMatch.players.find(p=>p.id === state.saveFile.myId))
-    const myTurn = useSelector((state:RState)=>state.saveFile.currentMatch.activePlayerId === state.saveFile.myId && !state.turnProcessing && !state.previewAbility && !state.activeModal)
+    const myTurn = useSelector((state:RState)=>state.saveFile.currentMatch.activePlayerId === state.saveFile.myId && !state.turnProcessing && !state.activeModal)
     const selectedCardId = useSelector((state:RState)=>state.selectedCardId)
     const activeAbility = useSelector((state:RState)=>state.previewAbility)
     const match = useSelector((state:RState)=>state.saveFile.currentMatch)
 
     const canCancel = () => {
+        if(!myTurn) return false
         if(activeAbility?.required) return false
         if(activeAbility) return true
-        if(!myTurn) return false
         if(!selectedCardId) return false
         return true
     }
