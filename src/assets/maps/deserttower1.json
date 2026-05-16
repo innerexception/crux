@@ -85,8 +85,8 @@
         }, 
         {
          "data":[0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0,
+            0, 0, 3842, 0, 0,
+            0, 3842, 0, 0, 0,
             0, 0, 0, 0, 0,
             0, 0, 0, 0, 0],
          "height":5,
@@ -103,7 +103,7 @@
  "nextobjectid":4,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.11.2",
+ "tiledversion":"1.10.2",
  "tileheight":32,
  "tilesets":[
         {
