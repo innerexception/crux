@@ -147,12 +147,12 @@ interface PlayerState {
 }
 
 interface MatchState {
-    previousLobbyId:string
     activePlayerId:string
     players: PlayerState[]
     board:Card[]
     lands:Card[]
     logs:LogEntry[]
+    zone:import('./enum').BattleMaps
 }
 
 interface RState {

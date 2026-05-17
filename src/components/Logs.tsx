@@ -20,7 +20,7 @@ export default () => {
     }, [match.logs]);
 
     return (
-        <div ref={bottomRef} style={{width:'200px', opacity:0.8, position:'absolute', top:'33%', left:10, height:'300px', overflow:'auto', background:'black', padding:'5px', fontSize:'16px'}}>
+        <div ref={bottomRef} style={{width:'200px', opacity:1, position:'absolute', top:'33%', left:10, height:'300px', overflow:'auto', background:'black', padding:'5px', fontSize:'16px'}}>
             {match.logs.map(l=>getLogEl(l, match))}
         </div>
     )

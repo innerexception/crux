@@ -73,6 +73,10 @@ export enum Maps {
     Tutorial='tutorial',Overworld='overworld',DesertTower1='deserttower1',DesertTower2='deserttower2',DesertTower3='deserttower3'
 }
 
+export enum BattleMaps {
+    City='City',Tower='Tower',Forest='Forest',Temple='Temple',Desert='Desert'
+}
+
 export enum CreatureSpriteIndex {
     City=816, Desert=73, Forest=845, Tower=60, Meadow=218, Skypirate=4869,FireCloak=5392,FeatherCloak=5386,
     Sandstorm=1505,Earthquake=1900,PeaceTreaty=2138,HeroicSoldier=4893,FertileSoil=4355,Hurricane=4377,Goblin=3841,GoblinMage=3964,Goblinchief=3963,

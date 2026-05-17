@@ -1,5 +1,5 @@
 import { GameObjects, Geom, Scene } from "phaser"
-import { CardType, Color, CreatureSpriteIndex, Direction, Layers, Modal, Permanents, PLAYER_HP } from "../../enum"
+import { BattleMaps, CardType, Color, CreatureSpriteIndex, Direction, Layers, Modal, Permanents, PLAYER_HP } from "../../enum"
 import BattleScene from "../components/scenes/BattleScene"
 import { AIPlayers, getCardData, getFreshLands, getLoot } from "./CardUtils"
 import { SAVE_NAMES } from "./UIReducer"
@@ -42,7 +42,7 @@ export const canAct = () => {
     return state.saveFile.currentMatch.activePlayerId === state.saveFile.myId
 }
 
-export const getNewCampaignMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:string):MatchState => {
+export const getNewCampaignMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:string, zone:BattleMaps):MatchState => {
     const theDeck = s.campaignDeck
     const deck:Deck = {
         id:v4(),
@@ -51,7 +51,7 @@ export const getNewCampaignMatch = (s:SaveFile, opponent:PlayerState, startingPl
     }
     const hand = deck.cards.splice(0,5)
     return {
-        previousLobbyId:'',
+        zone,
         activePlayerId: startingPlayerId,
         board:[],
         logs:[],
@@ -75,7 +75,7 @@ export const getNewCampaignMatch = (s:SaveFile, opponent:PlayerState, startingPl
     }
 }
 
-export const getNewMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:string):MatchState => {
+export const getNewMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:string, zone:BattleMaps):MatchState => {
     const theDeck = s.decks.find(d=>d.id === s.currentDeckId)
     const deck:Deck = {
         id:v4(),
@@ -84,7 +84,7 @@ export const getNewMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:s
     }
     const hand = deck.cards.splice(0,5)
     return {
-        previousLobbyId:'',
+        zone,
         activePlayerId: startingPlayerId,
         board:[],
         logs:[],

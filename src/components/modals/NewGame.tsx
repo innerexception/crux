@@ -6,7 +6,7 @@ import AppStyles from '../../styles/AppStyles';
 import{ v4 } from 'uuid'
 import { useSelector } from 'react-redux';
 import { getStartingCards } from '../../common/CardUtils';
-import { CreatureSpriteIndex, Maps, Modal, PlayerAvatars } from '../../../enum';
+import { BattleMaps, CreatureSpriteIndex, Maps, Modal, PlayerAvatars } from '../../../enum';
 // import { ipcRenderer } from 'electron';
 
 export default () => {

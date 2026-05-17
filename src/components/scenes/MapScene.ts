@@ -5,6 +5,7 @@ import { store } from "../../..";
 import { onSelectNPC, onShowModal, onStartCampaignMatch, onUpdateSave } from "../../common/Thunks";
 import { getAIPlayer } from "../../common/Utils";
 import { MapFeatures } from "../../assets/data/Map";
+import { AIPlayers } from "../../common/CardUtils";
 
 const DEAD_ZONE = 10
 
@@ -149,7 +150,7 @@ export default class MapScene extends Scene {
             }
             else if(dat.opponent) {
                 const saveFile = store.getState().saveFile
-                return onStartCampaignMatch(saveFile, getAIPlayer(dat.opponent), saveFile.myId)
+                return onStartCampaignMatch(saveFile, getAIPlayer(dat.opponent), saveFile.myId, AIPlayers[dat.opponent].zone)
             }
             else if(dat.shopInventory){
                 onShowModal(Modal.TradeSpells, { cards: dat.shopInventory })

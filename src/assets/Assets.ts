@@ -1,4 +1,4 @@
-import { Maps } from "../../enum"
+import { BattleMaps, Maps } from "../../enum"
 
 export const FONT_DEFAULT = {
     fontFamily: 'Body', 
@@ -27,4 +27,9 @@ export const resources:Array<PhaserResource> = [
     { key: Maps.DesertTower1, resource: require('./maps/deserttower1.json'), type: 'tilemapTiledJSON'},
     { key: Maps.DesertTower2, resource: require('./maps/deserttower2.json'), type: 'tilemapTiledJSON'},
     { key: Maps.DesertTower3, resource: require('./maps/deserttower3.json'), type: 'tilemapTiledJSON'},
+    { key: BattleMaps.City, resource: require('./maps/citybattle.json'), type: 'tilemapTiledJSON'},
+    { key: BattleMaps.Desert, resource: require('./maps/desertbattle.json'), type: 'tilemapTiledJSON'},
+    { key: BattleMaps.Forest, resource: require('./maps/forestbattle.json'), type: 'tilemapTiledJSON'},
+    { key: BattleMaps.Temple, resource: require('./maps/templebattle.json'), type: 'tilemapTiledJSON'},
+    { key: BattleMaps.Tower, resource: require('./maps/towerbattle.json'), type: 'tilemapTiledJSON'},
 ]

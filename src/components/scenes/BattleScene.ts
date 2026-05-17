@@ -56,7 +56,7 @@ export default class BattleScene extends Scene {
         
         const match= store.getState().saveFile.currentMatch
         this.map?.destroy()
-        this.map = this.add.tilemap(Maps.Tutorial)
+        this.map = this.add.tilemap(match.zone)
         let grass = this.map.addTilesetImage('tiles', 'tiles', TILE_DIM,TILE_DIM)
         LayerStack.forEach(l=>this.map.createLayer(l, grass))
         this.map.setLayer(Layers.Earth)

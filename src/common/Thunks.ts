@@ -1,5 +1,5 @@
 import { store } from "../.."
-import { Modal, SceneNames, UIReducerActions } from "../../enum"
+import { BattleMaps, Modal, SceneNames, UIReducerActions } from "../../enum"
 import IntroScene from "../components/scenes/IntroScene"
 import BattleScene from "../components/scenes/BattleScene"
 import { net_cancelPendingAction, net_endTurn, sendCancelAction, sendEndTurn, sendLandDeck } from "./Network"
@@ -126,7 +126,7 @@ export const onShowCampaign = () => {
 }
 
 export const onStartMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:string) => {
-    if(!s.currentMatch) s.currentMatch = getNewMatch(s, opponent, startingPlayerId)
+    if(!s.currentMatch) s.currentMatch = getNewMatch(s, opponent, startingPlayerId, BattleMaps.Forest)
     store.dispatch({ type: UIReducerActions.START_NEW_MATCH, data:s.currentMatch })
     const intro = store.getState().scene.scene.get(SceneNames.Intro) as IntroScene
     transitionOut(intro, SceneNames.Main, ()=>transitionIn(store.getState().scene))
@@ -135,8 +135,8 @@ export const onStartMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:
     }
 }
 
-export const onStartCampaignMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:string) => {
-    s.currentMatch = getNewCampaignMatch(s, opponent, startingPlayerId)
+export const onStartCampaignMatch = (s:SaveFile, opponent:PlayerState, startingPlayerId:string, zone:BattleMaps) => {
+    s.currentMatch = getNewCampaignMatch(s, opponent, startingPlayerId, zone)
     store.dispatch({ type: UIReducerActions.START_NEW_MATCH, data:s.currentMatch })
     const intro = store.getState().scene.scene.get(SceneNames.Map) as MapScene
     const btl = store.getState().scene.scene.get(SceneNames.Main) as BattleScene

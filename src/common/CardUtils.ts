@@ -1,4 +1,4 @@
-import { CardType, Color, CreatureSpriteIndex, Direction, Layers, Modifier, Permanents, Target } from "../../enum";
+import { BattleMaps, CardType, Color, CreatureSpriteIndex, Direction, Layers, Modifier, Permanents, Target } from "../../enum";
 import{ v4 } from 'uuid'
 import { Portal } from "../assets/data/Portal";
 import { onUpdateBoardCard, onUpdatePlayer } from "./Thunks";
@@ -218,75 +218,85 @@ export const getFreshLands = () => {
     ])
 }
 
-export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Card[], sprite:CreatureSpriteIndex, hp:number, loot:CardType[], name:string}>> = {
+export const AIPlayers:Partial<Record<CreatureSpriteIndex,{deck:(id:string)=>Card[], sprite:CreatureSpriteIndex, hp:number, loot:CardType[], name:string, zone:BattleMaps}>> = {
     [CreatureSpriteIndex.ForestMoth]: {
         name: 'Moth Spirit',
         sprite: CreatureSpriteIndex.ForestMoth,
         deck: PrebuiltDecks.birds,
         hp:5,
-        loot:[CardType.ForestJackal]
+        loot:[CardType.ForestJackal],
+        zone: BattleMaps.Forest
     },
     [CreatureSpriteIndex.GoblinMage]: {
         name: 'Gob Mage',
         sprite: CreatureSpriteIndex.GoblinMage,
         deck: PrebuiltDecks.goblinSmall,
         hp:5,
-        loot:[CardType.DustDevil]
+        loot:[CardType.DustDevil],
+        zone: BattleMaps.Desert
     },
     [CreatureSpriteIndex.Goblin]: {
         name: 'Gob',
         sprite: CreatureSpriteIndex.Goblin,
         deck: PrebuiltDecks.goblinSmall,
         hp:5,
-        loot:[CardType.GoblinScrounger]
+        loot:[CardType.GoblinScrounger],
+        zone: BattleMaps.Desert
     },
     [CreatureSpriteIndex.Goblin3]: {
         name: 'Hob',
         sprite: CreatureSpriteIndex.Goblin3,
         deck: PrebuiltDecks.beasts,
         hp:5,
-        loot:[CardType.WerewolfRaider]
+        loot:[CardType.WerewolfRaider],
+        zone: BattleMaps.Desert
     },
     [CreatureSpriteIndex.CityMage]: {
         name: 'Necro',
         sprite: CreatureSpriteIndex.CityMage,
         deck: PrebuiltDecks.blackSmall,
         hp:10,
-        loot:[CardType.Pollution]
+        loot:[CardType.Pollution],
+        zone: BattleMaps.City
     },
     [CreatureSpriteIndex.Bruiser]: {
         name: 'Tough',
         sprite: CreatureSpriteIndex.Bruiser,
         deck: PrebuiltDecks.nomads,
         hp:20,
-        loot:[CardType.Hobgoblin]
+        loot:[CardType.Hobgoblin],
+        zone: BattleMaps.Desert
     },
     [CreatureSpriteIndex.Mummy]: {
         name: 'Mummy',
         sprite: CreatureSpriteIndex.Mummy,
         deck: PrebuiltDecks.vermin,
         hp:10,
-        loot:[CardType.Necromancy]
+        loot:[CardType.Necromancy],
+        zone: BattleMaps.Desert
     },
     [CreatureSpriteIndex.MasterMummy]: {
         name: 'Lord Mummy',
         sprite: CreatureSpriteIndex.MasterMummy,
         deck: PrebuiltDecks.blackSmall,
         hp:20,
-        loot:[CardType.TheFear]
+        loot:[CardType.TheFear],
+        zone: BattleMaps.Desert
     },
     [CreatureSpriteIndex.FireLizard]: {
         name: 'Fire Lizard',
         sprite: CreatureSpriteIndex.FireLizard,
         deck: PrebuiltDecks.nomads,
         hp:10,
-        loot:[CardType.LizardMage]
+        loot:[CardType.LizardMage],
+        zone: BattleMaps.Desert
     },
     [CreatureSpriteIndex.Goblinchief]: {
         name: 'Gob Chief',
         sprite: CreatureSpriteIndex.Goblinchief,
         deck: PrebuiltDecks.goblinHordes,
         hp:20,
-        loot:[CardType.GoblinSargeant]
+        loot:[CardType.GoblinSargeant],
+        zone: BattleMaps.Desert
     },
 }

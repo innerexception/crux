@@ -65,7 +65,7 @@ export default () => {
         <Viewport/>
         {showUI && <DeckView/>}
         {showMapUI && <MapUI/>}
-        {showUI && <div style={{position:'absolute', top:'33%',opacity:0.8, right:10, background:'black', width:'200px', height:'300px'}}>{state.inspectCard && <CardDetailView card={state.inspectCard}/>}</div>}
+        {showUI && <div style={{position:'absolute', top:'33%',opacity:1, right:10, background:'black', width:'200px', height:'300px'}}>{state.inspectCard && <CardDetailView card={state.inspectCard}/>}</div>}
         {state.previewAbility && <div style={{position:'absolute', top:'50%', left:10}}><AbilityPreview ability={state.previewAbility}/></div>}
       </div>
     </div>
