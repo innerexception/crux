@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { onCancelAction, onEndTurn, onSelectCard, onShowModal, onUpdatePlayer, onInspectCreature } from '../common/Thunks';
 import { canAfford } from '../common/Utils';
 import { Button, CssIcon } from '../common/Shared';
-import { IconIndex, Log, Modal, Permanents } from '../../enum';
+import { IconIndex, Modal } from '../../enum';
 import { getCardData } from '../common/CardUtils';
 import { colors } from '../styles/AppStyles';
 import { sendUpdate } from '../common/Network';
