@@ -6,11 +6,12 @@ import { colors } from '../styles/AppStyles'
 export default () => {
 
     const selectedNPC = useSelector((state:RState)=>state.selectedNPC)
+    const map = useSelector((state:RState)=>state.saveFile.currentMap)
     const creatures = useSelector((state:RState)=>state.saveFile.campaignCreatures)
     const me = useSelector((state:RState)=>state.saveFile.campaignDeck)
     
     const getNPCName = () => {
-        let cre = creatures.find(c=>c.tileX === selectedNPC.x && c.tileY === selectedNPC.y)
+        let cre = creatures.find(c=>c.tileX === selectedNPC.x && c.tileY === selectedNPC.y && c.map === map)
         if(AIPlayers[cre.kind]){
             return AIPlayers[cre.kind].name
         }
@@ -19,7 +20,7 @@ export default () => {
 
     const getDeckThreatColor = () => {
         const value = me.map(c=>getCardData(c.kind).gold).reduce((sum,next)=>sum+next, 0)
-        const cre = creatures.find(c=>c.tileX === selectedNPC.x && c.tileY === selectedNPC.y)
+        const cre = creatures.find(c=>c.tileX === selectedNPC.x && c.tileY === selectedNPC.y && c.map === map)
         if(!AIPlayers[cre.kind]) return 'white'
         const cvalue = AIPlayers[cre.kind].deck('-1').map(c=>getCardData(c.kind).gold).reduce((sum,next)=>sum+next, 0)
         const diff = Math.abs(value-cvalue)

@@ -13,7 +13,7 @@ export default () => {
     
     const me = useSelector((s:RState)=>s.saveFile)
     const selectedDeck = useSelector((s:RState)=>s.saveFile.campaignDeck)
-    const [selectedColor, setSelectedColor] = React.useState(Color.Blue)
+    const [selectedColor, setSelectedColor] = React.useState('')
     const cards = useSelector((s:RState)=>s.saveFile.cards)
 
     const addCardToDeck = (c:Card) => {
@@ -34,15 +34,15 @@ export default () => {
             <div>
                 <div style={{marginTop:'1em'}}>All Workings</div>
                 <div style={{display:'flex'}}>
+                    <Button enabled={selectedColor?true:false} text="All" handler={()=>setSelectedColor('')}/>
                     <Button enabled={selectedColor!==Color.Red} text="Red" handler={()=>setSelectedColor(Color.Red)}/>
                     <Button enabled={selectedColor!==Color.Green} text="Green" handler={()=>setSelectedColor(Color.Green)}/>
                     <Button enabled={selectedColor!==Color.Blue} text="Blue" handler={()=>setSelectedColor(Color.Blue)}/>
                     <Button enabled={selectedColor!==Color.White} text="White" handler={()=>setSelectedColor(Color.White)}/>
                     <Button enabled={selectedColor!==Color.Black} text="Black" handler={()=>setSelectedColor(Color.Black)}/>
-                    <Button enabled={selectedColor!==Color.None} text="None" handler={()=>setSelectedColor(Color.None)}/>
                 </div>
                 <div style={{display:'flex', flexWrap:'wrap', height:'200px', overflow:'auto', border:'1px solid', padding:'5px'}}>
-                    {cards.filter(c=>getCardData(c.kind).color === selectedColor && !selectedDeck.find(cc=>cc.id===c.id))
+                    {cards.filter(c=>(selectedColor ? getCardData(c.kind).color === selectedColor : true) && !selectedDeck.find(cc=>cc.id===c.id))
                         .map(c=><div onClick={()=>addCardToDeck(c)}><Tooltip placement='bottom' mouseEnterDelay={0.5} overlay={<CardDetailView card={c}/>}><div><CardView card={c}/></div></Tooltip></div>)}
                 </div>
             </div>

@@ -14,7 +14,7 @@ export default () => {
     
     const me = useSelector((s:RState)=>s.saveFile)
     const selectedDeck = useSelector((s:RState)=>s.saveFile.decks.find(d=>d.id === s.saveFile.currentDeckId))
-    const [selectedColor, setSelectedColor] = React.useState(Color.Red)
+    const [selectedColor, setSelectedColor] = React.useState('')
     const cards=getAllCards(me.myId)
 
     const addCardToDeck = (c:Card) => {
@@ -47,12 +47,12 @@ export default () => {
             <div>
                 <div style={{marginTop:'1em'}}>All Workings</div>
                 <div style={{display:'flex'}}>
+                    <Button enabled={selectedColor?true:false} text="All" handler={()=>setSelectedColor('')}/>
                     <Button enabled={selectedColor!==Color.Red} text="Red" handler={()=>setSelectedColor(Color.Red)}/>
                     <Button enabled={selectedColor!==Color.Green} text="Green" handler={()=>setSelectedColor(Color.Green)}/>
                     <Button enabled={selectedColor!==Color.Blue} text="Blue" handler={()=>setSelectedColor(Color.Blue)}/>
                     <Button enabled={selectedColor!==Color.White} text="White" handler={()=>setSelectedColor(Color.White)}/>
                     <Button enabled={selectedColor!==Color.Black} text="Black" handler={()=>setSelectedColor(Color.Black)}/>
-                    <Button enabled={selectedColor!==Color.None} text="None" handler={()=>setSelectedColor(Color.None)}/>
                 </div>
                 <div style={{display:'flex', flexWrap:'wrap', height:'200px', overflow:'auto', border:'1px solid', padding:'5px'}}>
                     {cards.filter(c=>getCardData(c.kind).color === selectedColor && getCardData(c.kind).kind !== Permanents.Land && selectedDeck.cards.filter(cc=>c.kind === cc.kind).length<3)

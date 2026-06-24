@@ -43,7 +43,7 @@ export default class MapScene extends Scene {
             const state = store.getState()
             let tile = this.map?.getTileAtWorldXY(this.input.activePointer.worldX, this.input.activePointer.worldY, false, undefined, Layers.Earth)
             if(tile){
-                const cre = state.saveFile.campaignCreatures.find(c=>c.tileX === tile.x && c.tileY === tile.y)
+                const cre = state.saveFile.campaignCreatures.find(c=>c.map === state.saveFile.currentMap && c.tileX === tile.x && c.tileY === tile.y)
                 if(cre){
                     onSelectNPC({x:cre.tileX, y:cre.tileY})
                 }
