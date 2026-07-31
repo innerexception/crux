@@ -68,7 +68,10 @@ export default class MapScene extends Scene {
         this.playerSprite?.destroy()
         this.map.setLayer(Layers.Doodad)
         if(!save.maps[map]){
-            const stairs = this.map.getObjectLayer('stairs').objects.find(s=>s.name === previousMap)
+            let stairs = this.map.getObjectLayer('stairs').objects.find(s=>s.name === previousMap)
+            if(!stairs){
+                stairs = this.map.getObjectLayer('stairs').objects[0]
+            }
             this.playerSprite = this.add.image(stairs.x+16, stairs.y+16, 'creatures', save.playerSprite)
             this.map.setLayer(Layers.Creature)
             let creatures = new Array<CreatureState>()

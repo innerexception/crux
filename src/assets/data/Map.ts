@@ -24,6 +24,10 @@ export const MapFeatures:Partial<Record<CreatureSpriteIndex, FeatureData>> = {
         kind: MapFeature.Duel,
         opponent: CreatureSpriteIndex.Goblin
     },
+    [CreatureSpriteIndex.GoblinLeader]: {
+        kind: MapFeature.Duel,
+        opponent: CreatureSpriteIndex.Goblinchief
+    },
     [CreatureSpriteIndex.Goblin3]: {
         kind: MapFeature.Duel,
         opponent: CreatureSpriteIndex.Goblin3

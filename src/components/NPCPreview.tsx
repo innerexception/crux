@@ -21,7 +21,7 @@ export default () => {
     const getDeckThreatColor = () => {
         const value = me.map(c=>getCardData(c.kind).gold).reduce((sum,next)=>sum+next, 0)
         const cre = creatures.find(c=>c.tileX === selectedNPC.x && c.tileY === selectedNPC.y && c.map === map)
-        if(!AIPlayers[cre.kind]) return 'white'
+        if(!cre || !AIPlayers[cre.kind]) return 'white'
         const cvalue = AIPlayers[cre.kind].deck('-1').map(c=>getCardData(c.kind).gold).reduce((sum,next)=>sum+next, 0)
         const diff = Math.abs(value-cvalue)
 
