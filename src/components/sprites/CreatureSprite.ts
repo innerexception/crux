@@ -1,5 +1,5 @@
 import { GameObjects } from "phaser"
-import { store } from "../../.."
+import { store } from "../../common/store"
 import { CardType, Color, CreatureSpriteIndex, Direction, IconIndex, Layers, Modal, Modifier, Permanents, Target, Triggers } from "../../../enum"
 import { getCardData, getLandAtEndOfLane, getLoot, resetCard, validEndTile } from "../../common/CardUtils"
 import { onShowModal, onUpdateBoard, onUpdateBoardCard, onUpdatePlayer } from "../../common/Thunks"

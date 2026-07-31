@@ -1,5 +1,5 @@
 import { Scene, GameObjects, Tilemaps, Time, Geom } from "phaser";
-import { store } from "../../..";
+import { store } from "../../common/store";
 import { CardType, Color, Direction, IconIndex, Layers, LayerStack, Log, Maps, Modal, Modifier, Permanents, PLAYER_HP, SceneNames, Target, Triggers } from "../../../enum";
 import { defaultCursor, FONT_DEFAULT } from "../../assets/Assets";
 import { addLogEntry, onInspectCreature, onSelectBoardCard, onSelectCard, onSetScene, onShowAbilityPreview, onShowModal, onUpdateBoard, onUpdateBoardCard, onUpdateLands, onUpdatePlayer, onUpdateSave } from "../../common/Thunks";

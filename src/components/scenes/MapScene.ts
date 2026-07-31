@@ -1,7 +1,7 @@
 import { GameObjects, Input, Scene, Tilemaps } from "phaser";
 import { DEFAULT_KEYS, LayerStack, Layers, Maps, Modal, CreatureSpriteIndex } from "../../../enum";
 import { TILE_DIM } from "./BattleScene";
-import { store } from "../../..";
+import { store } from "../../common/store";
 import { onSelectNPC, onShowModal, onStartCampaignMatch, onUpdateSave } from "../../common/Thunks";
 import { getAIPlayer } from "../../common/Utils";
 import { MapFeatures } from "../../assets/data/Map";
