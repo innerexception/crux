@@ -70,7 +70,8 @@ export enum Layers {
 export const LayerStack = [Layers.Earth,Layers.Doodad,Layers.Blockers,Layers.Creature,]
 
 export enum Maps {
-    Tutorial='tutorial',Overworld='overworld',DesertTower1='deserttower1',DesertTower2='deserttower2',DesertTower3='deserttower3'
+   Overworld='overworld',DesertTower1='deserttower1',DesertTower2='deserttower2',DesertTower3='deserttower3',
+   Arena='arena'
 }
 
 export enum BattleMaps {

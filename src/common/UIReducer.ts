@@ -16,7 +16,7 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
         case UIReducerActions.START_NEW_MATCH:
             return { ...state, saveFile: {...state.saveFile, currentMatch: action.data}, activeModal:null }
         case UIReducerActions.FINISH_MATCH:
-            return { ...state, saveFile: {...state.saveFile, currentMatch: null, cards: state.saveFile.cards.concat(action.data)}, activeModal:null }
+            return { ...state, saveFile: {...state.saveFile, currentMatch: null, campaignCards: state.saveFile.campaignCards.concat(action.data)}, activeModal:null }
         case UIReducerActions.SAVE:
             return { ...state, selectedSaveName: action.data, activeModal: null }
         case UIReducerActions.INSPECT_CARD:

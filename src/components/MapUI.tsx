@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { onShowModal,onQuit } from '../common/Thunks';
-import { canAfford } from '../common/Utils';
-import { Button, CssIcon } from '../common/Shared';
-import { CreatureSpriteIndex, IconIndex, Log, Modal, Permanents } from '../../enum';
+import { Button } from '../common/Shared';
+import { IconIndex, Modal } from '../../enum';
 import NPCPreview from './NPCPreview';
 
 export default () => {

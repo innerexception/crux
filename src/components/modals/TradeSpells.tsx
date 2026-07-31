@@ -13,7 +13,7 @@ export default () => {
 
     const sellCard = (c:Card) => {
         onUpdateSave({...save, 
-            cards: save.cards.filter(cc=>cc.id !== c.id),
+            campaignCards: save.campaignCards.filter(cc=>cc.id !== c.id),
             campaignDeck: save.campaignDeck.filter(cc=>cc.id !== c.id), 
             gold: save.gold+getSellPrice(c) 
         })
@@ -21,7 +21,7 @@ export default () => {
 
     const purchaseCard = (c:Card) => {
         onUpdateSave({...save, 
-            cards: save.cards.concat({...c, ownerId: save.myId}), 
+            campaignCards: save.campaignCards.concat({...c, ownerId: save.myId}), 
             gold: save.gold-getCardData(c.kind).gold 
         })
     }
@@ -30,15 +30,15 @@ export default () => {
         <div style={{...AppStyles.modal, width:'100%', margin:'auto'}}>
             <div style={{textAlign:'center', marginBottom:'0.5em'}}>WHAT YA BUYIN, STRANGER?</div>
             <div style={{display:'flex', flexWrap:'wrap'}}>
-                {inventory.map(c=><div style={{opacity: save.gold >= getCardData(c.kind).gold && !save.cards.find(cc=>cc.kind === c.kind)? 1 : 0.5}} 
-                                       onClick={save.gold >= getCardData(c.kind).gold && !save.cards.find(cc=>cc.kind === c.kind) ? ()=>purchaseCard(c):null}>
+                {inventory.map(c=><div style={{opacity: save.gold >= getCardData(c.kind).gold && !save.campaignCards.find(cc=>cc.kind === c.kind)? 1 : 0.5}} 
+                                       onClick={save.gold >= getCardData(c.kind).gold && !save.campaignCards.find(cc=>cc.kind === c.kind) ? ()=>purchaseCard(c):null}>
                     <CardView card={c}/>
                     <div><CssIcon spriteIndex={IconIndex.Gold} />{getCardData(c.kind).gold}</div>
                 </div>)}
             </div>
             <div style={{textAlign:'center', marginBottom:'0.5em', marginTop:'1em'}}>WHAT'R YA SELLIN, STRANGER?</div>
             <div style={{display:'flex', flexWrap:'wrap'}}>
-                {save.cards.map(c=><div onClick={()=>sellCard(c)}>
+                {save.campaignCards.map(c=><div onClick={()=>sellCard(c)}>
                     <CardView card={c}/>
                     <div><CssIcon spriteIndex={IconIndex.Gold} />{getSellPrice(c)}</div>
                 </div>)}

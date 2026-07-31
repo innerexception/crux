@@ -14,7 +14,7 @@ export default () => {
     const me = useSelector((s:RState)=>s.saveFile)
     const selectedDeck = useSelector((s:RState)=>s.saveFile.campaignDeck)
     const [selectedColor, setSelectedColor] = React.useState('')
-    const cards = useSelector((s:RState)=>s.saveFile.cards)
+    const cards = useSelector((s:RState)=>s.saveFile.campaignCards)
 
     const addCardToDeck = (c:Card) => {
         onUpdateSave({...me, campaignDeck: selectedDeck.concat(c)})

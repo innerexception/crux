@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es6",
         "allowJs": false,
         "outDir": "./src/build/",
         "removeComments": true,
@@ -12,6 +12,9 @@
         "strictNullChecks": false,
         "allowSyntheticDefaultImports": false,
         "experimentalDecorators": true,
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "types": ["node"],
         "lib": [
             "dom",
             "es7"

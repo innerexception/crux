@@ -30,15 +30,15 @@ export default () => {
             myId,
             name:'new player',
             playerSprite: CreatureSpriteIndex.Player1, 
-            currentDeckId:newDeckId,
+            currentDeckId: newDeckId,
             decks:[{id:newDeckId, name: 'new codex', cards:[]}], 
-            cards: getStartingCards(myId), 
+            campaignCards: [],
             campaignDeck:[],
             campaignCreatures:[],
             currentMatch:null,
-            gold:5,
+            gold:15,
             maps: {},
-            currentMap: Maps.DesertTower3
+            currentMap: Maps.Arena
         }
         trySaveFile(JSON.stringify(newSave))
         onUpdateSave(newSave)

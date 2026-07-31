@@ -211,7 +211,7 @@ interface SaveFile {
     name:string
     decks:Deck[]
     currentDeckId: string
-    cards:Card[]
+    campaignCards:Card[]
     campaignDeck:Card[]
     currentMatch:MatchState
     currentMap: import('./enum').Maps
