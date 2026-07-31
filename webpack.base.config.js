@@ -25,22 +25,13 @@ module.exports = {
             ]
         },
         {
-            test: /sw.(j|t)s$/,
-            use: [{
-                loader: 'file-loader',
-            }]
+          test: /\.(png|jpg|gif|jpeg|wav|mp3)$/,
+          type: 'asset/resource'
         },
-        {
-            test: /\.(png|jpg|gif|jpeg|wav|mp3)$/,
-            use: [{
-                loader: 'file-loader',
-                options: {
-                  outputPath: './',
-                  esModule:false
-                },
-              }]
-        },
-        { test: /\.(eot|ttf|woff|otf)$/, use: ['url-loader?limit=1000000'] },
+        { 
+          test: /\.(eot|ttf|woff|otf)$/, 
+          type: 'asset'
+        }
     ]
   },
   plugins: [
