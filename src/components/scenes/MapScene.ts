@@ -1,13 +1,20 @@
 import { GameObjects, Input, Scene, Tilemaps } from "phaser";
-import { DEFAULT_KEYS, LayerStack, Layers, Maps, Modal, CreatureSpriteIndex } from "../../../enum";
+import { DEFAULT_KEYS, LayerStack, Layers, Maps, Modal, CreatureSpriteIndex, MapFeature, CardType } from "../../../enum";
+import { FONT_DEFAULT } from "../../assets/Assets";
 import { TILE_DIM } from "./BattleScene";
 import { store } from "../../common/store";
 import { onSelectNPC, onShowModal, onStartCampaignMatch, onUpdateSave } from "../../common/Thunks";
 import { getAIPlayer } from "../../common/Utils";
 import { MapFeatures } from "../../assets/data/Map";
-import { AIPlayers } from "../../common/CardUtils";
+import { AIPlayers, getCard } from "../../common/CardUtils";
 
-const DEAD_ZONE = 10
+// const DEAD_ZONE = 10
+
+const getRandomInventory = (): Card[] => {
+    const cardTypes = Object.values(CardType) as CardType[]
+    const shuffledTypes = [...cardTypes].sort(() => Math.random() - 0.5)
+    return shuffledTypes.slice(0, 6).map(kind => getCard('', kind))
+}
 
 export default class MapScene extends Scene {
 
@@ -23,7 +30,8 @@ export default class MapScene extends Scene {
         inventory: Input.Keyboard.Key
     }
     moveCooldown:boolean
-    currentCenter:{x:number,y:number}
+    speechBubbleTarget?: {x:number, y:number}
+    //currentCenter:{x:number,y:number}
 
     create = () =>
     {
@@ -39,6 +47,8 @@ export default class MapScene extends Scene {
         this.input.keyboard.removeAllKeys(true)
         this.input.keyboard.removeAllListeners()
         this.keys = this.input.keyboard.addKeys(keys) as any
+        // this.cameras.main.setZoom(2)
+        this.cameras.main.startFollow(this.playerSprite)
         this.input.on('pointermove', (event, gameObjects:Array<Phaser.GameObjects.GameObject>) => {
             const state = store.getState()
             let tile = this.map?.getTileAtWorldXY(this.input.activePointer.worldX, this.input.activePointer.worldY, false, undefined, Layers.Earth)
@@ -50,12 +60,72 @@ export default class MapScene extends Scene {
                 else if(state.selectedNPC) onSelectNPC(null)
             }
         })
-        if(save.campaignDeck.length === 0) 
-            onShowModal(Modal.CampaignDeckbuilder)
+        if(save.campaignDeck.length === 0) {
+            //onShowModal(Modal.CampaignDeckbuilder)
+            this.showSpeechBubble('Psst! Over here')
+        }
     }
 
     onTransitionIn = () => {
         
+    }
+
+    showSpeechBubble = (text:string) => {
+        const target = this.children.getByName('speechTarget') as GameObjects.Container | null
+        if(target) {
+            target.destroy()
+        }
+
+        this.speechBubbleTarget = undefined
+        this.map.setLayer(Layers.Creature)
+        const creatureTile = this.map?.filterTiles((tile:Tilemaps.Tile) => tile.index - 1 === CreatureSpriteIndex.RedMerchant)[0]
+        if(creatureTile) {
+            this.speechBubbleTarget = { x: creatureTile.getCenterX(), y: creatureTile.getCenterY() }
+        }
+
+        const bubble = this.add.container(0, 0)
+        const box = this.add.graphics()
+        const label = this.add.text(0, 0, text, {
+            ...FONT_DEFAULT,
+            fontFamily: 'Arial',
+            fontSize: '16px',
+            color: '#ffffff'
+        }).setOrigin(0.5).setResolution(2)
+
+        const paddingX = 20
+        const paddingY = 12
+        const width = label.width + paddingX * 2
+        const height = label.height + paddingY * 2
+
+        box.fillStyle(0x111111, 0.9)
+        box.lineStyle(2, 0xffffff, 1)
+        box.fillRoundedRect(-width / 2, -height / 2, width, height, 8)
+        box.strokeRoundedRect(-width / 2, -height / 2, width, height, 8)
+        box.setDepth(20)
+        label.setDepth(21)
+
+        bubble.add([box, label])
+        bubble.setName('speechTarget')
+        bubble.setDepth(20)
+
+        if(creatureTile) {
+            bubble.setPosition(creatureTile.getCenterX(), creatureTile.getCenterY() - 32)
+        }
+        else {
+            bubble.setPosition(this.cameras.main.centerX, this.cameras.main.centerY - 60)
+        }
+    }
+
+    checkSpeechBubbleReached = () => {
+        const bubble = this.children.getByName('speechTarget') as GameObjects.Container | null
+        if(!bubble || !this.speechBubbleTarget || !this.playerSprite || !this.map) return
+
+        const dx = this.playerSprite.x - this.speechBubbleTarget.x
+        const dy = this.playerSprite.y - this.speechBubbleTarget.y
+        if(Math.abs(dx) < 24 && Math.abs(dy) < 24) {
+            bubble.destroy()
+            this.speechBubbleTarget = undefined
+        }
     }
 
     redrawMap(map:Maps, previousMap:Maps) {
@@ -73,6 +143,13 @@ export default class MapScene extends Scene {
                 stairs = this.map.getObjectLayer('stairs').objects[0]
             }
             this.playerSprite = this.add.image(stairs.x+16, stairs.y+16, 'creatures', save.playerSprite)
+
+            const spawners = this.map.filterTiles((t:Tilemaps.Tile)=>t.index-1===835)
+            this.map.setLayer(Layers.Creature)
+            spawners.forEach(s=>{
+                //this.map.putTileAt(getNextFairEnemy(save.gold), s.x, s.y)
+            })
+
             this.map.setLayer(Layers.Creature)
             let creatures = new Array<CreatureState>()
             this.map.forEachTile(t=>{
@@ -87,8 +164,8 @@ export default class MapScene extends Scene {
             save.campaignCreatures.filter(c=>c.map === map && !c.alive).forEach(c=>this.map.removeTileAt(c.tileX, c.tileY, false, false, Layers.Creature))
         } 
         onUpdateSave({...store.getState().saveFile, currentMap: map})
-        this.cameras.main.centerOn(this.playerSprite.x, this.playerSprite.y)
-        this.currentCenter = {x:this.cameras.main.midPoint.x,y:this.cameras.main.midPoint.y}
+        //this.cameras.main.centerOn(this.playerSprite.x, this.playerSprite.y)
+        //this.currentCenter = {x:this.cameras.main.midPoint.x,y:this.cameras.main.midPoint.y}
     }
     
 
@@ -108,6 +185,7 @@ export default class MapScene extends Scene {
                 duration: 300,
                 onComplete: ()=>{
                     this.moveCooldown = false
+                    this.checkSpeechBubbleReached()
                     let save = store.getState().saveFile
                     save.maps[save.currentMap] = {...save.maps[save.currentMap], worldX: this.playerSprite.x, worldY: this.playerSprite.y}
                     onUpdateSave({...save})
@@ -121,25 +199,25 @@ export default class MapScene extends Scene {
                         return this.redrawMap(stairs.name as Maps, save.currentMap)
                     }
                     //Move camera
-                    const d = Phaser.Math.Distance.Between(this.currentCenter.x, this.currentCenter.y, this.playerSprite.x, this.playerSprite.y)
-                    if(d > DEAD_ZONE*TILE_DIM){
-                        let xDif = Math.abs(this.playerSprite.x - this.currentCenter.x)
-                        let yDif = Math.abs(this.playerSprite.y - this.currentCenter.y)
-                        if(xDif > yDif){
-                            let dir = {x: this.playerSprite.x >= this.currentCenter.x?1:-1, y: 0}
-                            this.currentCenter = {x:this.currentCenter.x+(DEAD_ZONE*TILE_DIM*dir.x), y:this.currentCenter.y+(DEAD_ZONE*TILE_DIM*dir.y)}
-                        }
-                        else {
-                            let dir = {x: 0, y: this.playerSprite.y>=this.currentCenter.y?1:-1}
-                            this.currentCenter = {x:this.currentCenter.x+(DEAD_ZONE*TILE_DIM*dir.x), y:this.currentCenter.y+(DEAD_ZONE*TILE_DIM*dir.y)}
-                        }
-                        this.cameras.main.pan(this.currentCenter.x, this.currentCenter.y, 500, (t) => {
-                            // t goes from 0 → 1
-                            const steps = 6;
-                            // quantize the easing progress
-                            return Math.floor(t * steps) / steps;
-                        })
-                    } 
+                    // const d = Phaser.Math.Distance.Between(this.currentCenter.x, this.currentCenter.y, this.playerSprite.x, this.playerSprite.y)
+                    // if(d > DEAD_ZONE*TILE_DIM){
+                    //     let xDif = Math.abs(this.playerSprite.x - this.currentCenter.x)
+                    //     let yDif = Math.abs(this.playerSprite.y - this.currentCenter.y)
+                    //     if(xDif > yDif){
+                    //         let dir = {x: this.playerSprite.x >= this.currentCenter.x?1:-1, y: 0}
+                    //         this.currentCenter = {x:this.currentCenter.x+(DEAD_ZONE*TILE_DIM*dir.x), y:this.currentCenter.y+(DEAD_ZONE*TILE_DIM*dir.y)}
+                    //     }
+                    //     else {
+                    //         let dir = {x: 0, y: this.playerSprite.y>=this.currentCenter.y?1:-1}
+                    //         this.currentCenter = {x:this.currentCenter.x+(DEAD_ZONE*TILE_DIM*dir.x), y:this.currentCenter.y+(DEAD_ZONE*TILE_DIM*dir.y)}
+                    //     }
+                    //     this.cameras.main.pan(this.currentCenter.x, this.currentCenter.y, 500, (t) => {
+                    //         // t goes from 0 → 1
+                    //         const steps = 6;
+                    //         // quantize the easing progress
+                    //         return Math.floor(t * steps) / steps;
+                    //     })
+                    // } 
                 }
             })
         }
@@ -155,14 +233,18 @@ export default class MapScene extends Scene {
                 const saveFile = store.getState().saveFile
                 return onStartCampaignMatch(saveFile, getAIPlayer(dat.opponent), saveFile.myId, AIPlayers[dat.opponent].zone)
             }
-            else if(dat.shopInventory){
-                onShowModal(Modal.TradeSpells, { cards: dat.shopInventory })
+            else if(dat.kind === MapFeature.Shop){
+                if(dat.shopInventory)
+                    onShowModal(Modal.TradeSpells, { cards: dat.shopInventory })
+                else 
+                    onShowModal(Modal.TradeSpells, { cards: getRandomInventory() })
             }
         }
     }
 
     update(){
-        if(!this.keys || this.moveCooldown) return
+        if(!this.keys) return
+        if(this.moveCooldown) return
         if(this.keys.inventory.isDown) onShowModal(Modal.CampaignDeckbuilder)
         if(this.keys.left.isDown){
             this.playerSprite.flipX = false

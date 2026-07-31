@@ -13,12 +13,6 @@ export const MapFeatures:Partial<Record<CreatureSpriteIndex, FeatureData>> = {
     },
     [CreatureSpriteIndex.RedMerchant]: {
         kind: MapFeature.Shop,
-        shopInventory: [
-            getCard('', CardType.BallLightning),
-            getCard('', CardType.Cougar),
-            getCard('', CardType.FireImp),
-            getCard('', CardType.FlashFlood),
-        ]
     },
     [CreatureSpriteIndex.Goblin]: {
         kind: MapFeature.Duel,
