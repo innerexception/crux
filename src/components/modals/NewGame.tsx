@@ -36,7 +36,7 @@ export default () => {
             campaignDeck:[],
             campaignCreatures:[],
             currentMatch:null,
-            gold:15,
+            gold:20,
             maps: {},
             currentMap: Maps.Arena
         }

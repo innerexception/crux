@@ -6,9 +6,31 @@ import { store } from "../../common/store";
 import { onSelectNPC, onShowModal, onStartCampaignMatch, onUpdateSave } from "../../common/Thunks";
 import { getAIPlayer } from "../../common/Utils";
 import { MapFeatures } from "../../assets/data/Map";
-import { AIPlayers, getCard } from "../../common/CardUtils";
+import { AIPlayers, getCard, getCardData } from "../../common/CardUtils";
 
 // const DEAD_ZONE = 10
+
+const getNextFairEnemy = (playerGold:number):number => {
+    const aiEntries = Object.values(AIPlayers).filter((entry): entry is NonNullable<typeof entry> => Boolean(entry))
+
+    const affordable = aiEntries.filter(entry => {
+        const deckValue = entry.deck('-1').reduce((sum, card) => sum + (getCardData(card.kind)?.gold ?? 0), 0)
+        return deckValue <= playerGold
+    })
+
+    if(affordable.length > 0) {
+        const chosen = affordable[Math.floor(Math.random() * affordable.length)]
+        return chosen.sprite + 1
+    }
+
+    const cheapest = aiEntries.reduce((best, entry) => {
+        const deckValue = entry.deck('-1').reduce((sum, card) => sum + (getCardData(card.kind)?.gold ?? 0), 0)
+        const bestValue = best ? best.deck('-1').reduce((sum, card) => sum + (getCardData(card.kind)?.gold ?? 0), 0) : Number.POSITIVE_INFINITY
+        return deckValue < bestValue ? entry : best
+    }, undefined as typeof aiEntries[number] | undefined)
+
+    return (cheapest?.sprite ?? CreatureSpriteIndex.ForestMoth) + 1
+}
 
 const getRandomInventory = (): Card[] => {
     const cardTypes = Object.values(CardType) as CardType[]
@@ -61,8 +83,8 @@ export default class MapScene extends Scene {
             }
         })
         if(save.campaignDeck.length === 0) {
-            //onShowModal(Modal.CampaignDeckbuilder)
-            this.showSpeechBubble('Psst! Over here')
+            const taskmaster = this.map?.filterTiles((tile:Tilemaps.Tile) => tile.index - 1 === CreatureSpriteIndex.RedMerchant)[0]
+            this.showSpeechBubble('Psst! Over here', taskmaster)
         }
     }
 
@@ -70,7 +92,8 @@ export default class MapScene extends Scene {
         
     }
 
-    showSpeechBubble = (text:string) => {
+    showSpeechBubble = (text:string, creatureTile:Tilemaps.Tile) => {
+        if(!creatureTile) return
         const target = this.children.getByName('speechTarget') as GameObjects.Container | null
         if(target) {
             target.destroy()
@@ -78,10 +101,7 @@ export default class MapScene extends Scene {
 
         this.speechBubbleTarget = undefined
         this.map.setLayer(Layers.Creature)
-        const creatureTile = this.map?.filterTiles((tile:Tilemaps.Tile) => tile.index - 1 === CreatureSpriteIndex.RedMerchant)[0]
-        if(creatureTile) {
-            this.speechBubbleTarget = { x: creatureTile.getCenterX(), y: creatureTile.getCenterY() }
-        }
+        this.speechBubbleTarget = { x: creatureTile.getCenterX(), y: creatureTile.getCenterY() }
 
         const bubble = this.add.container(0, 0)
         const box = this.add.graphics()
@@ -108,12 +128,7 @@ export default class MapScene extends Scene {
         bubble.setName('speechTarget')
         bubble.setDepth(20)
 
-        if(creatureTile) {
-            bubble.setPosition(creatureTile.getCenterX(), creatureTile.getCenterY() - 32)
-        }
-        else {
-            bubble.setPosition(this.cameras.main.centerX, this.cameras.main.centerY - 60)
-        }
+        bubble.setPosition(creatureTile.getCenterX(), creatureTile.getCenterY() - 42)
     }
 
     checkSpeechBubbleReached = () => {
@@ -147,7 +162,7 @@ export default class MapScene extends Scene {
             const spawners = this.map.filterTiles((t:Tilemaps.Tile)=>t.index-1===835)
             this.map.setLayer(Layers.Creature)
             spawners.forEach(s=>{
-                //this.map.putTileAt(getNextFairEnemy(save.gold), s.x, s.y)
+                this.map.putTileAt(getNextFairEnemy(save.gold), s.x, s.y)
             })
 
             this.map.setLayer(Layers.Creature)
