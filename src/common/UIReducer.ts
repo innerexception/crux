@@ -56,7 +56,7 @@ const appReducer = (state:RState = getInitialState(), action: DispatchAction): R
     }
 };
 
-const getInitialState = () => {
+export const getInitialState = () => {
     return {
         repeatCount: null,
         previewAbility: null,

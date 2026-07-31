@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useSelector } from 'react-redux';
+import { useSelector } from '../common/store';
 import { Color, ColorIcons, IconIndex, PLAYER_HP } from '../../enum';
 import { Button, CssIcon, ProgressBar } from '../common/Shared';
 import { onQuit, onSave } from '../common/Thunks';

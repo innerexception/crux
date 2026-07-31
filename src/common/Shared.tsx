@@ -13,7 +13,7 @@ import { CardType, CreatureSpriteIndex, IconIndex, Modifier, ModifierDesc } from
 //     </div>
 
 interface ButtonProps {
-    enabled:boolean, handler:Function, text:JSX.Element | string, style?:object, icon?: IconIndex
+    enabled:boolean, handler:Function, text:React.ReactElement | string, style?:object, icon?: IconIndex
 }
 
 export const Button = (props:ButtonProps) => 
@@ -42,7 +42,7 @@ export const Button = (props:ButtonProps) =>
 //         <div style={{width:'64px', backgroundImage: 'url('+modalRightCap+')', backgroundSize:'64px'}}/>
 //     </div>
 
-export const ToggleButton = (state:boolean, handler:any, text:JSX.Element | string) => 
+export const ToggleButton = (state:boolean, handler:any, text:React.ReactElement | string) => 
     <div style={{...AppStyles.buttonOuter, color:state ? 'white' : 'black', background:state?'black':'white'}} 
         onClick={handler}>
         <div style={{...AppStyles.buttonInner}}>{text}</div>

@@ -4,7 +4,7 @@ import { onShowCampaign, onShowModal, onUpdateSave } from '../../common/Thunks';
 import { tryLoadFile, trySaveFile } from '../../common/Utils';
 import AppStyles from '../../styles/AppStyles';
 import{ v4 } from 'uuid'
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../common/store';
 import { getStartingCards } from '../../common/CardUtils';
 import { BattleMaps, CreatureSpriteIndex, Maps, Modal, PlayerAvatars } from '../../../enum';
 // import { ipcRenderer } from 'electron';

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import AppStyles from '../../styles/AppStyles';
 import { onSelectCard, onShowModal } from '../../common/Thunks';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../common/store';
 import CardView from '../CardView';
 
 export default () => {

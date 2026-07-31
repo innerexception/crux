@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useSelector } from 'react-redux';
+import { useSelector } from '../common/store';
 import { CssIcon } from '../common/Shared';
 import { IconIndex, Log } from '../../enum';
 import { getCardData } from '../common/CardUtils';

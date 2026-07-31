@@ -1,7 +1,7 @@
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
 import { IconIndex, Layers, Log, Modal, Modifier, NetworkEvent, Permanents, PLAYER_HP, Target } from '../../enum'
 import { addLogEntry, onRecieveMessage, onRecievePlayer, onSelectBoardCard, onSelectCard, onSetActionAcknowledge, onSetLobby, onSetRepeatingCardAbility, onShowAbilityPreview, onShowModal, onStartMatch, onTurnProcessing, onUpdateActivePlayer, onUpdateBoard, onUpdateBoardCard, onUpdateLands, onUpdatePlayer, onUpdateSave } from './Thunks'
-import { store } from '../..'
+import { store } from './store'
 import { checkWinConditions, emptyMana, payCost, shuffle } from './Utils'
 import{ v4 } from 'uuid'
 import { getCardData, getLaneAttributes, getLoot, getValidCreatureTargets, getValidLandTargets, tapLand } from './CardUtils'

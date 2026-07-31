@@ -4,7 +4,7 @@ import { Button, CssIcon, getModifierEl } from '../common/Shared';
 import { getCardData } from '../common/CardUtils';
 import { IconIndex, TargetsDesc, ModifierDesc, ColorIcons, TriggerNames, Permanents, Modifier } from '../../enum';
 import { renderCost, renderEffect } from './CardView';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../common/store';
 
 export default (props:{card:Card}) => {
     

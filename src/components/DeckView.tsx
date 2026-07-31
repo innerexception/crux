@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useSelector } from 'react-redux';
+import { useSelector } from '../common/store';
 import { onCancelAction, onEndTurn, onSelectCard, onShowModal, onUpdatePlayer, onInspectCreature } from '../common/Thunks';
 import { canAfford } from '../common/Utils';
 import { Button, CssIcon } from '../common/Shared';

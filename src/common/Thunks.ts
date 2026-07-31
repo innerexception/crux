@@ -1,4 +1,4 @@
-import { store } from "../.."
+import { store } from "./store"
 import { BattleMaps, Modal, SceneNames, UIReducerActions } from "../../enum"
 import IntroScene from "../components/scenes/IntroScene"
 import BattleScene from "../components/scenes/BattleScene"

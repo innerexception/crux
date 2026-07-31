@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useSelector } from 'react-redux';
+import { useSelector } from '../common/store';
 import { Button } from '../common/Shared';
 import { onSave, onShowModal, onUpdateSave } from '../common/Thunks';
 import AppStyles from '../styles/AppStyles';

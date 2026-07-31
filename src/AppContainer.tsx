@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useSelector } from 'react-redux';
+import { useSelector } from './common/store';
 import { Modal } from '../enum';
 import Viewport from './components/Viewport';
 import NewGame from './components/modals/NewGame';

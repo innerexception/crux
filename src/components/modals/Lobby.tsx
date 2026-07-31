@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Button, CssIcon } from '../../common/Shared';
 import { onSetLobby, onShowModal } from '../../common/Thunks';
 import AppStyles from '../../styles/AppStyles';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../common/store';
 import { createOrJoinLobby, sendJoin, sendStartMatch } from '../../common/Network';
 import { Modal } from '../../../enum';
 

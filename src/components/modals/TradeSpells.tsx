@@ -3,7 +3,7 @@ import AppStyles from '../../styles/AppStyles';
 import { Button, CssIcon } from '../../common/Shared';
 import { onShowModal, onUpdateSave } from '../../common/Thunks';
 import CardView from '../CardView';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../common/store';
 import { getCardData } from '../../common/CardUtils';
 import { IconIndex } from '../../../enum';
 

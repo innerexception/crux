@@ -2,7 +2,7 @@ import * as React from 'react'
 import AppStyles from '../../styles/AppStyles';
 import { Button } from '../../common/Shared';
 import { onShowModal } from '../../common/Thunks';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../common/store';
 
 export default () => {
     

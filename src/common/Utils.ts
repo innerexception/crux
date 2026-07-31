@@ -4,7 +4,7 @@ import BattleScene from "../components/scenes/BattleScene"
 import { AIPlayers, getCardData, getFreshLands, getLoot } from "./CardUtils"
 import { SAVE_NAMES } from "./UIReducer"
 import{ v4 } from 'uuid'
-import { store } from "../.."
+import { store } from "./store"
 import { onFinishBattle, onShowModal } from "./Thunks"
 
 export const emptyMana = {

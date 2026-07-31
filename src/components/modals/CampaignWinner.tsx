@@ -2,7 +2,7 @@ import * as React from 'react'
 import AppStyles from '../../styles/AppStyles';
 import { Button } from '../../common/Shared';
 import { onQuit, onShowModal, onUpdateSave } from '../../common/Thunks';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../common/store';
 import CardView from '../CardView';
 import { Layers, SceneNames } from '../../../enum';
 import MapScene from '../scenes/MapScene';

@@ -3,18 +3,11 @@ import * as ReactDOM from 'react-dom'
 
 import './src/styles/app.css'
 
-import { createStore, applyMiddleware } from 'redux'
-import { Provider } from 'react-redux'
-import appReducer from './src/common/UIReducer'
-import thunk from 'redux-thunk'
 import AppContainer from './src/AppContainer'
+import { store } from './src/common/store'
 
-export const store = createStore(appReducer, applyMiddleware(
-    thunk // lets us dispatch() functions
-))
+export { store }
 
 ReactDOM.render((
-  <Provider store={store}>
-        <AppContainer/>
-  </Provider>
+  <AppContainer/>
 ), document.getElementById('appRoot'))

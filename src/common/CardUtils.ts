@@ -3,7 +3,7 @@ import{ v4 } from 'uuid'
 import { Portal } from "../assets/data/Portal";
 import { onUpdateBoardCard, onUpdatePlayer } from "./Thunks";
 import { shuffle } from "./Utils";
-import { store } from "../..";
+import { store } from "./store";
 import { Tilemaps } from "phaser";
 import { PrebuiltDecks } from "../assets/data/Decks";
 
