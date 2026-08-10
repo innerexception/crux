@@ -6,37 +6,9 @@ import { store } from "../../common/store";
 import { onSelectNPC, onShowModal, onStartCampaignMatch, onUpdateSave } from "../../common/Thunks";
 import { getAIPlayer } from "../../common/Utils";
 import { MapFeatures } from "../../assets/data/Map";
-import { AIPlayers, getCard, getCardData } from "../../common/CardUtils";
+import { AIPlayers, getCard, getCardData, getNextFairEnemy, getRandomInventory } from "../../common/CardUtils";
 
 // const DEAD_ZONE = 10
-
-const getNextFairEnemy = (playerGold:number):number => {
-    const aiEntries = Object.values(AIPlayers).filter((entry): entry is NonNullable<typeof entry> => Boolean(entry))
-
-    const affordable = aiEntries.filter(entry => {
-        const deckValue = entry.deck('-1').reduce((sum, card) => sum + (getCardData(card.kind)?.gold ?? 0), 0)
-        return deckValue <= playerGold
-    })
-
-    if(affordable.length > 0) {
-        const chosen = affordable[Math.floor(Math.random() * affordable.length)]
-        return chosen.sprite + 1
-    }
-
-    const cheapest = aiEntries.reduce((best, entry) => {
-        const deckValue = entry.deck('-1').reduce((sum, card) => sum + (getCardData(card.kind)?.gold ?? 0), 0)
-        const bestValue = best ? best.deck('-1').reduce((sum, card) => sum + (getCardData(card.kind)?.gold ?? 0), 0) : Number.POSITIVE_INFINITY
-        return deckValue < bestValue ? entry : best
-    }, undefined as typeof aiEntries[number] | undefined)
-
-    return (cheapest?.sprite ?? CreatureSpriteIndex.ForestMoth) + 1
-}
-
-const getRandomInventory = (): Card[] => {
-    const cardTypes = Object.values(CardType) as CardType[]
-    const shuffledTypes = [...cardTypes].sort(() => Math.random() - 0.5)
-    return shuffledTypes.slice(0, 6).map(kind => getCard('', kind))
-}
 
 export default class MapScene extends Scene {
 
@@ -85,6 +57,7 @@ export default class MapScene extends Scene {
         if(save.campaignDeck.length === 0) {
             const taskmaster = this.map?.filterTiles((tile:Tilemaps.Tile) => tile.index - 1 === CreatureSpriteIndex.RedMerchant)[0]
             this.showSpeechBubble('Psst! Over here', taskmaster)
+            onShowModal(Modal.Intro)
         }
     }
 

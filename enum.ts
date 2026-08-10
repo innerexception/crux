@@ -36,7 +36,7 @@ export enum Modal {
     GameOver='GameOver',CampaignWinner='CampaignWinner',ShowLandChoices='ShowLandChoices',Lobby='Lobby',
     ViewCards='ViewCards',SelectCreatureForTop='SelectCreatureForTop',DiscardAndDraw='DiscardAndDraw',
     ViewGY='ViewGY',TradeSpells='TradeSpells',CampaignDeckbuilder='CampaignDeckbuilder',Speech='Speech',
-    Winner='Winner'
+    Winner='Winner',Intro='Intro'
 }
 
 export enum Direction {

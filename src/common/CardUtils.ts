@@ -7,6 +7,36 @@ import { store } from "./store";
 import { Tilemaps } from "phaser";
 import { PrebuiltDecks } from "../assets/data/Decks";
 
+
+export const getNextFairEnemy = (playerGold:number):number => {
+    const aiEntries = Object.values(AIPlayers).filter((entry): entry is NonNullable<typeof entry> => Boolean(entry))
+
+    const affordable = aiEntries.filter(entry => {
+        const deckValue = entry.deck('-1').reduce((sum, card) => sum + (getCardData(card.kind)?.gold ?? 0), 0)
+        return deckValue <= playerGold
+    })
+
+    if(affordable.length > 0) {
+        const chosen = affordable[Math.floor(Math.random() * affordable.length)]
+        return chosen.sprite + 1
+    }
+
+    const cheapest = aiEntries.reduce((best, entry) => {
+        const deckValue = entry.deck('-1').reduce((sum, card) => sum + (getCardData(card.kind)?.gold ?? 0), 0)
+        const bestValue = best ? best.deck('-1').reduce((sum, card) => sum + (getCardData(card.kind)?.gold ?? 0), 0) : Number.POSITIVE_INFINITY
+        return deckValue < bestValue ? entry : best
+    }, undefined as typeof aiEntries[number] | undefined)
+
+    return (cheapest?.sprite ?? CreatureSpriteIndex.ForestMoth) + 1
+}
+
+export const getRandomInventory = (): Card[] => {
+    const cardTypes = Object.values(CardType) as CardType[]
+    const shuffledTypes = [...cardTypes].sort(() => Math.random() - 0.5)
+    return shuffledTypes.slice(0, 6).map(kind => getCard('', kind))
+}
+
+
 export const getLoot = (sprite:CreatureSpriteIndex, myId:string) => {
     return AIPlayers[sprite].loot.map(l=>getCard(myId, l))
 }

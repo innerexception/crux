@@ -20,10 +20,8 @@ const useAppStoreBase = create<AppStoreState>()((set) => ({
 
 export const useAppStore = useAppStoreBase
 
-export const useAppSelector = <T,>(selector: (state: AppStoreState) => T) =>
+export const useSelector = <T,>(selector: (state: AppStoreState) => T) =>
   useAppStoreBase((state) => selector(state))
-
-export const useSelector = useAppSelector
 
 export const store = {
   getState: () => useAppStoreBase.getState(),

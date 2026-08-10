@@ -24,6 +24,7 @@ import MapUI from './components/MapUI';
 import Logs from './components/Logs';
 import Speech from './components/modals/Speech';
 import Winner from './components/modals/Winner';
+import Intro from './components/modals/Intro';
 
 export default () => {
 
@@ -47,6 +48,7 @@ export default () => {
       case Modal.TradeSpells: return <TradeSpells/>
       case Modal.CampaignDeckbuilder: return <CampaignDeckbuilder/>
       case Modal.Speech: return <Speech/>
+      case Modal.Intro: return <Intro/>
       default: return <span/>
     }
   }
