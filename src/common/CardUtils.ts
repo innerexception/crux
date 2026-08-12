@@ -177,6 +177,10 @@ export const getAllCards = (playerId:string):Card[] => {
     return Object.keys(Portal).map((c:CardType)=>getCard(playerId,c))
 }
 
+export const getDraftCards = (playerId:string, maxValue:number):Card[] => {
+    return Object.keys(Portal).map((c:CardType)=>getCard(playerId,c)).filter(c=>getCardData(c.kind).kind !== Permanents.Land && getCardData(c.kind).gold <= maxValue)
+}
+
 export const getStartingCards = (playerId:string):Card[] => {
     return [
         getCard(playerId, CardType.ForestJackal),

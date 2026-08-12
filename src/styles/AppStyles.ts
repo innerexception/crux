@@ -58,7 +58,6 @@ export default {
     modal: {
         background:'url('+dialogBg+')',
         border:'1px solid white',
-        width: '275px',
         zIndex:2,
         padding:'16px'
     },

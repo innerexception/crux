@@ -6,14 +6,18 @@ import { Color, Modal } from '../../../enum';
 import Tooltip from 'rc-tooltip';
 import CardDetailView from '../CardDetailView';
 import CardView from '../CardView';
-import { getAllCards, getCardData } from '../../common/CardUtils';
+import { getCardData, getDraftCards } from '../../common/CardUtils';
 import { useSelector } from '../../common/store';
 
 export default () => {
     const [selectedColor, setSelectedColor] = React.useState('')
     const me = useSelector((s:RState)=>s.saveFile)
     const selectedDeck = useSelector((s:RState)=>s.saveFile.campaignDeck)
-    const cards = getDraftCards(me.myId)
+    const [cards, setCards] = React.useState([])
+
+    React.useEffect(()=>{
+        setCards(getDraftCards(me.myId, 5))
+    },[])
     
     const addCardToDeck = (c:Card) => {
         onUpdateSave({...me, campaignDeck: selectedDeck.concat(c)})
@@ -24,12 +28,11 @@ export default () => {
     }
 
     return (
-        <div style={{...AppStyles.modal, margin:'auto'}}>
+        <div style={{...AppStyles.modal, width:'600px', margin:'auto'}}>
             <div style={{textAlign:'center', marginBottom:'0.5em'}}>BWAHAHA! WELCOME CREATURE!</div>
             <div>Welcome, creature from a far off realm, you have been sampled for today's tournament!</div>
             <div>To return, defeat the other specmines displayed here. You best prepare yourself!</div>
             <div>
-                <div>PREPARE CODEX</div>
                 <div style={{display:'flex', flexWrap:'wrap', height:'200px', overflow:'auto', border:'1px solid', padding:'5px'}}>
                     {selectedDeck.length === 0 && <div>Add spells from below</div>}
                     {selectedDeck.map(c=><Tooltip placement='bottom' mouseEnterDelay={0.5} overlay={<CardDetailView card={c}/>}><div onClick={()=>removeCardFromDeck(c)}><CardView card={c}/></div></Tooltip>)}
@@ -46,7 +49,7 @@ export default () => {
                     </div>
                     <div style={{display:'flex', flexWrap:'wrap', height:'200px', overflow:'auto', border:'1px solid', padding:'5px'}}>
                         {cards.filter(c=>(selectedColor ? getCardData(c.kind).color === selectedColor : true) && !selectedDeck.find(cc=>cc.id===c.id))
-                            .map(c=><div onClick={()=>addCardToDeck(c)}><Tooltip placement='bottom' mouseEnterDelay={0.5} overlay={<CardDetailView card={c}/>}><div><CardView card={c}/></div></Tooltip></div>)}
+                            .map(c=><div onClick={()=>addCardToDeck(c)}><Tooltip placement='bottom' mouseEnterDelay={1} overlay={<CardDetailView card={c}/>}><div><CardView card={c}/></div></Tooltip></div>)}
                     </div>
                 </div>
                 <div style={{display:'flex', justifyContent:'flex-end'}}>
